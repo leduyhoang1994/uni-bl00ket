@@ -1,0 +1,7 @@
+.game_container {
+  font-family: var(--font-geist-sans);
+  width: 1200px;
+  max-width: 1900px;
+  aspect-ratio: 16/9;
+  margin: auto;
+}
