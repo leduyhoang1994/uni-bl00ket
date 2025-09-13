@@ -3,7 +3,7 @@
 import { useApplication, useExtend } from "@pixi/react";
 import { Assets, Container, Sprite, Texture, TilingSprite } from "pixi.js";
 import ButtonScreen from "@/games/cafe-game/components/button-screen/button-screen";
-import QuizStore from "@/games/stores/quiz-store/quiz-store";
+import QuizStore from "@/stores/quiz-store/quiz-store";
 import { useRef } from "react";
 import CafeGameStore from "@/games/stores/cafe-game-store/cafe-game-store";
 import PlateComponent from "./plate-component";

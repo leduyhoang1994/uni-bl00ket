@@ -2,7 +2,7 @@ import gsap from "gsap";
 import { Graphics, TextStyle } from "pixi.js";
 import { useEffect, useRef, useState } from "react";
 import { darken } from "@/games/cafe-game/helpers/color";
-import QuizStore from "@/games/stores/quiz-store/quiz-store";
+import QuizStore from "@/stores/quiz-store/quiz-store";
 
 export default function AnswerBtn({
   i,

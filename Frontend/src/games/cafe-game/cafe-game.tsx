@@ -3,7 +3,7 @@ import QuestionScreen from "../components/question-screen/question-screen";
 import UpgradesScreen from "./screens/shop/upgrade-screen";
 import CafeGameStore from "@/games/stores/cafe-game-store/cafe-game-store";
 import { useEffect } from "react";
-import QuizStore from "@/games/stores/quiz-store/quiz-store";
+import QuizStore from "@/stores/quiz-store/quiz-store";
 import CustomerDesk from "./screens/customer-desk/customer-desk";
 
 export default function CafeGame() {

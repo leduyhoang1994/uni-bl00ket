@@ -1,5 +1,5 @@
 import CongraEffect from "@/games/effects/congra";
-import QuizStore from "@/games/stores/quiz-store/quiz-store";
+import QuizStore from "@/stores/quiz-store/quiz-store";
 import { useApplication, useExtend } from "@pixi/react";
 import gsap from "gsap";
 import { Graphics, TextStyle, Text, Container, Texture, Sprite } from "pixi.js";

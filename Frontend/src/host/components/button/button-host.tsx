@@ -1,12 +1,5 @@
-export default function ButtonHost({ textBtn = '1 More', hasPlayer = false }) {
+export default function ButtonHost({ textBtn = '1 More', hasPlayer = false, doClickBtn = () => { } }) {
 
-  const doClickBtn = () => {
-    if (!hasPlayer) {
-      return;
-    }
-    console.log('doClickBtn');
-
-  }
 
   return (
     <button
