@@ -1,0 +1,24 @@
+.show-total-money {
+  position: absolute;
+  top: 80%;
+  left: 45vw;
+  box-shadow: 0 -0.8vh var(--blue-dark) inset;
+  border: 0.5vh solid #0e6b71;
+  border-radius: var(--button-radius);
+  background-color: var(--blue-dark-background);
+  padding: 1vh 2vw 1.8vh 2vw;
+  width: 50vw;
+  height: 15%;
+  color: var(--white);
+  font-weight: 700;
+  font-family: var(--font-nunito);
+  text-align: center;
+  text-shadow: 0 0.3vw rgba(0, 0, 0, 0.2);
+
+  &__content {
+    display: inline-block;
+    white-space: nowrap;
+    font-size: 4.8cqw;
+    opacity: 1;
+  }
+}

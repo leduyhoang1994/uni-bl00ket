@@ -1,0 +1,43 @@
+.waiting-player-board {
+  position: absolute;
+  top: 7.5%;
+  left: 42.5vw;
+  box-shadow: 0 -0.8vh var(--blue-dark) inset;
+  border: 0.5vh solid #0e6b71;
+  border-radius: var(--button-radius);
+  background-color: var(--blue-dark-background);
+  padding: 1vh 0.5vw 1.8vh 0.5vw;
+  width: 55vw;
+  height: 65%;
+  overflow-y: auto;
+  color: var(--white);
+  text-shadow: 0 0.1vw rgba(0, 0, 0, 0.2);
+
+  &__no-record {
+    display: flex;
+    flex-direction: column;
+    align-content: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+    text-align: center;
+    text-shadow: 0 0.3vw rgba(0, 0, 0, 0.2);
+
+    > :first-child {
+      filter: drop-shadow(0 0.3vw rgba(0, 0, 0, 0.2));
+      margin: 1.7dvh auto 2vh;
+      font-size: 8vw;
+
+      svg {
+        height: 1em;
+        width: 1em;
+      }
+    }
+
+    > :nth-child(2) {
+      font-weight: 700;
+      font-size: 3vw;
+      font-family: var(--font-nunito);
+    }
+  }
+}
