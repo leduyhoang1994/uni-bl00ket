@@ -115,6 +115,10 @@ export default class HostController {
   }
 
   public async getHostInfo(hostId: string): Promise<HostInfo | null> {
+    if (!this.httpClient) {
+      await this.initHttp();
+    }
+
     const result = await this.httpClient?.post(HttpRoute.GetHostInfo, JSON.stringify({ hostId }));
 
     return result ? result.data.hostInfo : null;

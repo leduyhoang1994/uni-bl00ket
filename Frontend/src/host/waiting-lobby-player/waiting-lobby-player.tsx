@@ -23,6 +23,8 @@ function WaitingLobbyPlayer() {
       const controller = await HostController.getInstance();
       const hostInfo = await controller.getHostInfo(hostId);
 
+      console.log(hostInfo);      
+
       if (hostInfo?.started) {
         navigate(GenUrl(`/play/${hostId}`));
         return;
