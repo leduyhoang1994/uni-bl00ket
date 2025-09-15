@@ -1,0 +1,40 @@
+@use "./host.scss";
+
+.final-standings {
+  @extend .host-creator;
+
+  &__header {
+    @extend .host-creator__header;
+    height: 65px;
+    padding: 0 20px 6px;
+    box-shadow: 0 -6px #0003 inset;
+    justify-content: space-between;
+  }
+
+  > div,
+  a {
+    font-family: var(--font-titan);
+    -webkit-user-select: none;
+    user-select: none;
+  }
+
+  &__header-first {
+    font-size: 34px;
+  }
+
+  &__header-second {
+    font-size: 38px;
+  }
+
+  &__header-third {
+    cursor: pointer;
+    outline: none;
+    font-weight: 700;
+    font-size: 24px;
+    font-family: var(--font-nunito) !important;
+    -webkit-user-select: none;
+    user-select: none;
+    text-align: right;
+    text-decoration: underline;
+  }
+}

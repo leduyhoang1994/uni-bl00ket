@@ -10,7 +10,6 @@ import { useLayoutEffect } from "react";
 import HostController from "./host/controllers/host.controller";
 import AccessDenied from "./host/components/access-denied";
 import Leaderboard from "./games/cafe-game/screens/leaderboard/leaderboard";
-import WaitingActionCreator from "./host/waiting-action-creator/waiting-action-creator";
 
 function App() {
   useLayoutEffect(() => {
