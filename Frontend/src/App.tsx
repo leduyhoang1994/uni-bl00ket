@@ -9,6 +9,7 @@ import CreateCafeHost from "./games/cafe-game/screens/host/host";
 import { useLayoutEffect } from "react";
 import HostController from "./host/controllers/host.controller";
 import AccessDenied from "./host/components/access-denied";
+import Leaderboard from "./games/cafe-game/screens/leaderboard/leaderboard";
 
 function App() {
   useLayoutEffect(() => {
@@ -40,6 +41,7 @@ function App() {
         <Route path="/cafe">
           {/* Creator Lobby */}
           <Route path="create" element={<CreateCafeHost />} />
+          <Route path="leaderboard" element={<Leaderboard />} />
         </Route>
 
         <Route path="/access-denied" element={<AccessDenied />} />
