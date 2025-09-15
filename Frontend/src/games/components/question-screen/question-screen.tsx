@@ -5,7 +5,7 @@ import gsap from "gsap";
 import { Graphics, TextStyle, Text, Container, Texture, Sprite } from "pixi.js";
 import { useEffect, useMemo, useRef, useState } from "react";
 import AnswerBtn from "./answer-btn";
-import { getCafeControllerInstance } from "@/games/cafe-game/cafeController.singleton";
+import { getCafeControllerInstance } from "@/games/cafe-game/cafe-controller.singleton";
 import CafeGameStore from "@/games/stores/cafe-game-store/cafe-game-store";
 import RenderIf from "@/utils/condition-render";
 
@@ -23,7 +23,6 @@ export default function QuestionScreen() {
   const { loadCafeStocks } = CafeGameStore();
   const { setIsCorrect, setAnsweredId } = QuizStore();
   const { app } = useApplication();
-  const cafeController = getCafeControllerInstance();
   const question = currentQuestion?.text;
   const answers = currentQuestion?.answers;
   const appWidth = app.screen.width;
@@ -82,6 +81,7 @@ export default function QuestionScreen() {
 
   const doClickAnswser = (answerId: any) => {
     setAnswerQuiz(true);
+    const cafeController = getCafeControllerInstance();
     const userAnswer = cafeController.answerQuestion(answerId);
     setAnsweredId(answerId);
     setIsCorrect(userAnswer.correct);

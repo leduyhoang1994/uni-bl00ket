@@ -1,30 +1,55 @@
 import RenderIf from "@/utils/condition-render";
 import ButtonSubmit from "../components/button/button-submit";
 import FormSubmit from "../components/form-submit/form-submit";
-import { ChangeEvent } from "react";
+import { ChangeEvent, useLayoutEffect, useState } from "react";
+import { useNavigate, useParams } from "react-router";
+import HostController from "../controllers/host.controller";
 
 export default function HostPlayer() {
+  const { hostId } = useParams();
+  const hasIdGame = hostId ? true : false;
+  const [hostIdValue, setHostIdValue] = useState("");
+  const [username, setUsername] = useState("");
+  const navigate = useNavigate();
 
-  const hasIdGame = true;
+  useLayoutEffect(() => {
+    (async () => {
+      if (!hostId) {
+        return;
+      }
+
+      const accessToken = await HostController.getAccessToken();
+      if (accessToken) {
+        navigate(`/join/${hostId}/lobby`);
+      }
+    })();
+  });
 
   const gameIdValue = (e: ChangeEvent<HTMLInputElement>) => {
-    console.log(e.target.value);
+    setHostIdValue(e.target.value);
+  };
 
-  }
-
-  const doClickSendValueGameId = () => {
-    console.log('doClickSendValueGameId');
-
-  }
+  const chooseHost = async () => {
+    navigate(`/join/${hostIdValue}`);
+  };
 
   const nickNameValue = (e: ChangeEvent<HTMLInputElement>) => {
+    setUsername(e.target.value);
+  };
 
-  }
+  const joinHost = async () => {
+    if (!hostId) {
+      navigate(`/join`);
+      return;
+    }
 
-  const doClickSendNickName = () => {
-    console.log('doClickSendNickName');
+    const controller = await HostController.getInstance();
+    await controller.initHttp();
+    const guestToken = await controller.createGuest(username, hostId);
+    await HostController.saveAccessToken(guestToken);
 
-  }
+    navigate(`/join/${hostId}/lobby`);
+  };
 
   return (
     <div className="host-player">
@@ -43,19 +68,21 @@ export default function HostPlayer() {
           <RenderIf condition={!hasIdGame}>
             <FormSubmit
               onChangeInputValue={gameIdValue}
-              btnOnclick={doClickSendValueGameId} />
+              btnOnclick={chooseHost}
+            />
           </RenderIf>
           <RenderIf condition={hasIdGame}>
             <FormSubmit
               textTitle="Enter Nickname"
               placeholderText="Nickname"
-              inputClass='host-player__body-main-cover-input-nick-name'
+              inputClass="host-player__body-main-cover-input-nick-name"
               maxLength={15}
               onChangeInputValue={nickNameValue}
-              btnOnclick={doClickSendNickName} />
+              btnOnclick={joinHost}
+            />
           </RenderIf>
         </div>
       </div>
     </div>
-  )
+  );
 }

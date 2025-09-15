@@ -1,0 +1,73 @@
+import { HostInfo, Player } from "@Common/types/host.type";
+import { AuthenticatedUser } from "../types/type";
+import { createClient, RedisClientType } from "redis";
+import logger from "../utils/logger";
+import RedisHostKey from "./model/host.key";
+
+export default class HostModel {
+  private started: boolean = false;
+  private palyers: Player[] = [];
+  private redisClient: RedisClientType<any> | null = null;
+
+  async getClient() {
+    if (this.redisClient) {
+      return this.redisClient;
+    }
+
+    const client: RedisClientType<any> = await createClient({
+      url: process.env.REDIS_CONNECTION_URL || "redis://localhost:6379",
+    });
+
+    client.on("error", (err) => logger.info(`Redis Error: ${err}`));
+    client.on("connect", () => logger.info("Redis connected"));
+    client.on("reconnecting", () => logger.info("Redis reconnecting"));
+    client.on("ready", () => {
+      logger.info("Redis ready!");
+    });
+
+    await client.connect();
+    this.redisClient = client;
+
+    return this.redisClient;
+  }
+
+  async start() {
+    this.started = true;
+  }
+
+  async addPlayer(authUser: AuthenticatedUser) {
+    this.palyers.push({
+      id: authUser.id,
+      username: authUser.username,
+      avatar: authUser.avatar,
+      socketId: authUser.socketId,
+    });
+  }
+
+  async getInfo(): Promise<HostInfo> {
+    return {
+      started: this.started,
+    };
+  }
+
+  async getPlayers(hostId: string) {
+    const client = await this.getClient();
+    const players = await client.hGetAll(RedisHostKey.getPlayersKey(hostId));
+    
+    return players;
+  }
+
+  async removePlayer(hostId: string,id: string) {
+    const client = await this.getClient();
+    await client.hDel(RedisHostKey.getPlayersKey(hostId), id);
+  }
+
+  private static instance: HostModel | null = null;
+
+  public static getInstance(): HostModel {
+    if (!HostModel.instance) {
+      HostModel.instance = new HostModel();
+    }
+    return HostModel.instance;
+  }
+}

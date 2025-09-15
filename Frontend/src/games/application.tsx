@@ -4,25 +4,57 @@ import "@pixi/layout/devtools";
 import { extend, useApplication } from "@pixi/react";
 import { Assets, Container, Text, TextStyle } from "pixi.js";
 import CafeGame from "./cafe-game/cafe-game";
-import ASSET_BUNDLE from "@/games/cafe-game/helpers/bundle";
-import { useState, useEffect } from "react";
+import CAFE_ASSET_BUNDLE from "@/games/cafe-game/helpers/bundle";
+import { useState, useEffect, useLayoutEffect } from "react";
 import RenderIf from "@/utils/condition-render";
+import { useParams } from "react-router";
+import HostController from "@/host/controllers/host.controller";
+import { GameMode } from "@common/constants/host.constant";
 
 extend({
   Container,
-  Text
+  Text,
 });
 
 export default function GameContainer() {
   const [progress, setProgress] = useState(0);
   const [loaded, setLoaded] = useState(false);
+  const [gameMode, setGameMode] = useState<GameMode | null>(null);
+  const { hostId } = useParams();
 
   const { app } = useApplication();
   (globalThis as any).__PIXI_APP__ = app;
 
+  useLayoutEffect(() => {
+    (async () => {
+      if (!hostId) {
+        return;
+      }
+
+      const hostController = await HostController.getInstance();
+      await hostController.initHttp();
+
+      const hostInfo = await hostController.getHostInfo(hostId);
+
+      if (!hostInfo || !hostInfo.started) {
+        return;
+      }
+
+      setGameMode(hostInfo.gameMode);
+    })();
+  }, []);
+
   useEffect(() => {
     const loadAssets = async () => {
-      Assets.addBundle("game", ASSET_BUNDLE);
+      if (!gameMode) {
+        return;
+      }
+
+      switch (gameMode) {
+        case GameMode.Cafe:
+          Assets.addBundle("game", CAFE_ASSET_BUNDLE);
+          break;
+      }
 
       // Lắng nghe tiến trình load
       Assets.backgroundLoadBundle("game");
@@ -34,7 +66,7 @@ export default function GameContainer() {
     };
 
     loadAssets();
-  }, []);
+  }, [gameMode]);
 
   return (
     <pixiContainer label="Game Container">
@@ -53,7 +85,7 @@ export default function GameContainer() {
           />
         </pixiContainer>
       </RenderIf>
-      <RenderIf condition={loaded}>
+      <RenderIf condition={loaded && gameMode === GameMode.Cafe}>
         <CafeGame />
       </RenderIf>
     </pixiContainer>

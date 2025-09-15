@@ -1,10 +1,7 @@
 import { Socket } from "socket.io";
+import { AuthenticatedUser } from "@Common/types/socket.type";
 
 interface AuthenticatedSocket extends Socket {
-  user?: {
-    id: string;
-    username: string;
-    hostId: string;
-    role: "host" | "player";
-  }; // Define your user object structure
+  user?: AuthenticatedUser;
 }
+

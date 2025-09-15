@@ -1,26 +1,23 @@
-import '@pixi/layout/react';
-import '@pixi/layout';
-import { LayoutContainer } from '@pixi/layout/components';
-import { useExtend } from '@pixi/react';
-import { Assets, Graphics, Sprite, Texture } from 'pixi.js';
-import RenderIf from '@/utils/condition-render';
-import React, { useCallback } from 'react';
-import { getCafeControllerInstance } from '@/games/cafe-game/cafeController.singleton';
-import CafeGameStore from '@/games/stores/cafe-game-store/cafe-game-store';
-
+import "@pixi/layout/react";
+import "@pixi/layout";
+import { LayoutContainer } from "@pixi/layout/components";
+import { useExtend } from "@pixi/react";
+import { Assets, Graphics, Sprite, Texture } from "pixi.js";
+import RenderIf from "@/utils/condition-render";
+import React, { useCallback } from "react";
+import { getCafeControllerInstance } from "@/games/cafe-game/cafe-controller.singleton";
+import CafeGameStore from "@/games/stores/cafe-game-store/cafe-game-store";
 
 export enum ItemType {
-  SHOP = 'SHOP',
-  ABILITIES = 'ABILITIES'
+  SHOP = "SHOP",
+  ABILITIES = "ABILITIES",
 }
-
-const cafeController = getCafeControllerInstance();
 
 const ItemScreen = ({
   name = "Toast",
   priceSell = 0,
-  description = '',
-  image = '',
+  description = "",
+  image = "",
   disablePlate = false,
   itemWidth = 250,
   itemHeight = 120,
@@ -28,10 +25,15 @@ const ItemScreen = ({
   enabled = false,
   id = 0,
   type = ItemType.SHOP,
-  currentIndexLevel = 0
+  currentIndexLevel = 0,
 }) => {
   useExtend({ LayoutContainer, Sprite, Graphics });
-  const { loadCafeBalance, loadCafeAbilities, loadCafeShopItems, loadCafeStocks } = CafeGameStore();
+  const {
+    loadCafeBalance,
+    loadCafeAbilities,
+    loadCafeShopItems,
+    loadCafeStocks,
+  } = CafeGameStore();
 
   const plateLevelArr = [
     Assets.get("plate-active"),
@@ -40,12 +42,12 @@ const ItemScreen = ({
     Assets.get("plate-level-4"),
     Assets.get("plate-level-5"),
     Assets.get("plate-level-5"),
-  ]
+  ];
   const textureItem = Assets.get(image);
-  const borderColor = enabled ? '#0e6b71' : '#4d4d4d';
-  const shadowColor = enabled ? '#118891' : '#5a5a5a';
-  const mainColor = enabled ? '#099faa' : '#757575';
-  const textColor = enabled ? 'white' : '#3a3a3a';
+  const borderColor = enabled ? "#0e6b71" : "#4d4d4d";
+  const shadowColor = enabled ? "#118891" : "#5a5a5a";
+  const mainColor = enabled ? "#099faa" : "#757575";
+  const textColor = enabled ? "white" : "#3a3a3a";
   const borderWidth = 4;
 
   const itemRadius = 10;
@@ -56,8 +58,8 @@ const ItemScreen = ({
     interactive: true,
     eventMode: "static",
     cursor: "pointer",
-    onClick: () => doClickBuyItem()
-  }
+    onClick: () => doClickBuyItem(),
+  };
 
   const activeObj = enabled ? defaultActive : {};
 
@@ -95,6 +97,7 @@ const ItemScreen = ({
   );
 
   const doClickBuyItem = () => {
+    const cafeController = getCafeControllerInstance();
     if (type == ItemType.SHOP) {
       cafeController.buyShopItem(String(id));
       loadCafeShopItems();
@@ -105,11 +108,16 @@ const ItemScreen = ({
     }
     loadCafeStocks();
     loadCafeBalance();
-  }
+  };
 
   return (
     <>
-      <RenderIf condition={plateLevelArr[currentIndexLevel] != Texture.EMPTY && textureItem != Texture.EMPTY}>
+      <RenderIf
+        condition={
+          plateLevelArr[currentIndexLevel] != Texture.EMPTY &&
+          textureItem != Texture.EMPTY
+        }
+      >
         <layoutContainer
           layout={{
             width: itemWidth,
@@ -119,15 +127,15 @@ const ItemScreen = ({
         >
           <layoutContainer
             layout={{
-              width: '100%',
-              height: '100%'
+              width: "100%",
+              height: "100%",
             }}
           >
             <pixiGraphics draw={drawItem} />
           </layoutContainer>
           <layoutContainer
             layout={{
-              flexDirection: 'column',
+              flexDirection: "column",
               alignItems: "flex-end",
               justifyContent: "flex-start",
               width: itemWidth / 2,
@@ -150,8 +158,8 @@ const ItemScreen = ({
               text={description}
               layout={{
                 marginTop: 0,
-                objectFit: 'contain',
-                objectPosition: 'right',
+                objectFit: "contain",
+                objectPosition: "right",
                 width: 200,
               }}
               style={{
@@ -168,7 +176,7 @@ const ItemScreen = ({
             <pixiText
               text={`$${priceSell}`}
               layout={{
-                marginTop: 10
+                marginTop: 10,
               }}
               style={{
                 fontSize: 30,
@@ -179,43 +187,52 @@ const ItemScreen = ({
               resolution={2}
             />
           </layoutContainer>
-          <layoutContainer layout={{
-            position: "absolute",
-            width: widthPlate,
-            height: heightPlate,
-            left: -20,
-            top: (itemHeight - heightPlate) / 2,
-            justifyContent: 'center',
-            alignItems: 'center'
-          }}>
+          <layoutContainer
+            layout={{
+              position: "absolute",
+              width: widthPlate,
+              height: heightPlate,
+              left: -20,
+              top: (itemHeight - heightPlate) / 2,
+              justifyContent: "center",
+              alignItems: "center",
+            }}
+          >
             <RenderIf condition={!disablePlate}>
-              <pixiSprite texture={plateLevelArr[currentIndexLevel]}
+              <pixiSprite
+                texture={plateLevelArr[currentIndexLevel]}
                 layout={{
                   width: "100%",
-                  height: "100%"
-                }} />
+                  height: "100%",
+                }}
+              />
             </RenderIf>
-            <pixiSprite texture={textureItem}
+            <pixiSprite
+              texture={textureItem}
               rotation={rotation ? -0.25 : 0}
               layout={{
                 width: !disablePlate ? "65%" : "90%",
-                height: !disablePlate ? "70%" : '90%',
+                height: !disablePlate ? "70%" : "90%",
                 position: "absolute",
                 marginBottom: 5,
-                marginLeft: rotation ? 10 : 0
-              }} />
+                marginLeft: rotation ? 10 : 0,
+              }}
+            />
           </layoutContainer>
           <pixiGraphics
             draw={(g) => {
               g.clear();
-              g.roundRect(0, 0, itemWidth, itemHeight).fill({ color: "0x000000", alpha: 0 });
+              g.roundRect(0, 0, itemWidth, itemHeight).fill({
+                color: "0x000000",
+                alpha: 0,
+              });
             }}
             {...activeObj}
           />
         </layoutContainer>
       </RenderIf>
     </>
-  )
-}
+  );
+};
 
-export default React.memo(ItemScreen)
+export default React.memo(ItemScreen);

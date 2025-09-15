@@ -1,4 +1,7 @@
-import { getRandomFloat, randomFromArray } from "@/games/cafe-game/helpers/random";
+import {
+  getRandomFloat,
+  randomFromArray,
+} from "@/games/cafe-game/helpers/random";
 import {
   Ability,
   Customer,
@@ -10,6 +13,10 @@ import {
   QUESTIONS,
   ABILITIES,
 } from "@/model/model";
+import GameController from "./game.controller";
+import initHttp from "@/utils/http.util";
+import HostController from "@/host/controllers/host.controller";
+import { HttpRoute } from "@common/constants/http.constant";
 const MAX_CUSTOMER_CAN_SERVE = 3; // sô khách hàng tối đa có thể phục vụ
 const DEFAULT_REWARD_PRICE_TOAST = 2; // sô khách hàng tối đa có thể phục vụ
 const INDEX_MAX_LEVEL = 5; // max level
@@ -43,17 +50,22 @@ export interface CafeControllerInterface {
   buyAbilityItem(abilityId: number): { success: boolean; message: string };
 }
 
-export default class CafeController implements CafeControllerInterface {
+export default class CafeController
+  extends GameController
+  implements CafeControllerInterface
+{
   private stocks: Stock[] = [];
   private shopItems: ShopItem[] = [];
   private customers: Customer[] = [];
-  private balance: number = 10000000;
+  private balance: number = 0;
   private questions: Question[] = [];
   private currentQuestion: Question | null = null;
-  private abilities: Ability[];
+  private abilities: Ability[] = [];
   private doubleRewardCount: number = 0; //  số khách còn lại được x2 tiền
 
-  constructor() {
+  constructor(hostId: string) {
+    super(hostId);
+    // Init Stocks
     this.stocks = STOCKS;
     // Init ShopItems
     this.shopItems = this.stocks.map((s, idx) => ({
@@ -66,6 +78,34 @@ export default class CafeController implements CafeControllerInterface {
     this.questions = QUESTIONS;
 
     this.abilities = ABILITIES;
+  }
+
+  public getSaveData() {
+    return {
+      stocks: this.stocks,
+      shopItems: this.shopItems,
+      customers: this.customers,
+      balance: this.balance,
+      questions: this.questions,
+      currentQuestion: this.currentQuestion,
+      abilities: this.abilities,
+      doubleRewardCount: this.doubleRewardCount,
+    };
+  }
+
+  public async initData() {
+    const accessToken = await HostController.getAccessToken();
+    if (!accessToken) {
+      return;
+    }
+
+    const client = await initHttp(accessToken);
+    const gameData = await client.post(
+      HttpRoute.GetGameData,
+      JSON.stringify({ hostId: this.hostId })
+    );
+
+    Object.assign(this, gameData.data.gameData);
   }
 
   // Lấy số tiền
@@ -110,6 +150,7 @@ export default class CafeController implements CafeControllerInterface {
     });
 
     this.currentQuestion = null;
+    this.saveGame();
     return { correct: true, message: "OK" };
   }
 
@@ -145,7 +186,7 @@ export default class CafeController implements CafeControllerInterface {
       return { success: false, message: "Not enough money" };
     }
 
-    this.balance -= priceToSell;
+    this.updateBalance(this.balance - priceToSell);
 
     let levelUp = stock.currentIndexLevel + 1;
 
@@ -158,6 +199,8 @@ export default class CafeController implements CafeControllerInterface {
       enabled: true,
       currentIndexLevel: levelUp,
     };
+
+    this.saveGame();
 
     return {
       success: true,
@@ -209,13 +252,12 @@ export default class CafeController implements CafeControllerInterface {
       firstLoad: false,
     };
     this.customers.push(customerNew);
+    this.saveGame();
 
     return customerNew;
   }
 
   setFirstLoad(id: string | undefined, firstLoad: boolean): void {
-    console.log(id, firstLoad);
-
     if (!id) return;
     const customer = this.customers.find((c) => c.id === id);
     if (customer) {
@@ -229,7 +271,6 @@ export default class CafeController implements CafeControllerInterface {
     }
 
     console.log(this.customers);
-
 
     return this.customers;
   }
@@ -293,7 +334,7 @@ export default class CafeController implements CafeControllerInterface {
       totalEarned += priceToReward * item.quantity;
     });
 
-    this.balance += totalEarned;
+    this.updateBalance(this.balance + totalEarned);
 
     // Giảm số khách còn x2
     if (this.doubleRewardCount > 0) this.doubleRewardCount -= 1;
@@ -325,7 +366,7 @@ export default class CafeController implements CafeControllerInterface {
       return { success: false, message: "Not enough money" };
 
     // Trừ tiền
-    this.balance -= ability.price;
+    this.updateBalance(this.balance - ability.price);
     ability.purchased = true;
 
     // Xử lý logic theo từng loại item
@@ -348,6 +389,7 @@ export default class CafeController implements CafeControllerInterface {
         });
         break;
     }
+    this.saveGame();
 
     return { success: true, message: `${ability.name} purchased!` };
   }
@@ -365,5 +407,12 @@ export default class CafeController implements CafeControllerInterface {
     if (customerIndex !== -1) {
       this.customers.splice(customerIndex, 1);
     }
+    this.saveGame();
+  }
+
+  async updateBalance(balance: number) {
+    this.balance = balance;
+
+    await this.onScoreUpdate(this.balance);
   }
 }

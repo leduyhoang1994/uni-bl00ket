@@ -9,7 +9,7 @@ import { LayoutContainer } from "@pixi/layout/components";
 import gsap from "gsap";
 import RenderIf from "@/utils/condition-render";
 import CafeGameStore from "@/games/stores/cafe-game-store/cafe-game-store";
-import { getCafeControllerInstance } from "@/games/cafe-game/cafeController.singleton";
+import { getCafeControllerInstance } from "@/games/cafe-game/cafe-controller.singleton";
 
 const CUSTOMER_AVATARS = [
   "alpaca",
@@ -94,7 +94,7 @@ export default function Customer({ position, x, y }: any) {
 
   const appWidth = app?.screen?.width;
 
-  const customerTexture = Assets.get(`cust-${customer?.avatar}`);
+  const customerTexture = customer ? Assets.get(`cust-${customer?.avatar}`) : null;
   const foodCount = customer?.orders.length || 2;
   const [served, setServed] = useState(false);
 

@@ -1,4 +1,4 @@
-import { getCafeControllerInstance } from "@/games/cafe-game/cafeController.singleton";
+import { getCafeControllerInstance } from "@/games/cafe-game/cafe-controller.singleton";
 import { Question } from "@/model/model";
 import { create } from "zustand";
 

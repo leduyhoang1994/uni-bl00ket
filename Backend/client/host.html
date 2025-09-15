@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Phòng chờ</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #f0f2f5;
+            color: #333;
+        }
+
+        .lobby-container {
+            width: 90%;
+            max-width: 400px;
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            padding: 2rem;
+            text-align: center;
+        }
+
+        h1 {
+            color: #1c1e21;
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+        }
+
+        p {
+            color: #606770;
+            margin-bottom: 2rem;
+        }
+
+        #user-list {
+            list-style-type: none;
+            padding: 0;
+            margin-top: 1.5rem;
+            text-align: left;
+        }
+
+        #user-list li {
+            background-color: #e7f3ff;
+            border: 1px solid #cfe2f3;
+            border-radius: 5px;
+            padding: 0.8rem 1rem;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+        }
+
+        #user-list li::before {
+            content: '👤';
+            margin-right: 0.8rem;
+            font-size: 1.2rem;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="lobby-container">
+        <h1>Phòng chờ lobby</h1>
+        <p>Vui lòng chờ những người khác tham gia...</p>
+        <hr>
+        <button onclick="startGame(this)">Khởi động Game</button>
+        <hr>
+        <ul id="user-list">
+        </ul>
+    </div>
+
+    <script src="https://cdn.socket.io/4.8.1/socket.io.min.js"
+        integrity="sha384-mkQ3/7FUtcGyoppY6bz/PORYoGqOl7/aSUMn2ymDOJcapfS6PHqxhRTMh1RR0Q6+"
+        crossorigin="anonymous"></script>
+
+    <script>
+        // Kết nối tới server Socket.io
+        // Hãy thay 'http://localhost:3000' bằng địa chỉ server của bạn nếu cần
+        const socket = io('http://localhost:3000', {
+            auth: {
+                token: "Host.host"
+            }
+        });
+
+        const onLobbyUpdated = (users) => {
+            console.log('Cập nhật danh sách người dùng:', users);
+
+            // Xóa danh sách cũ
+            userList.innerHTML = '';
+
+            // Cập nhật danh sách mới
+            users.forEach(user => {
+                const li = document.createElement('li');
+                // Hiển thị ID của người dùng, bạn có thể thay bằng tên người dùng nếu có
+                li.textContent = `Người dùng: ${user.id}`;
+                const kickBtn = document.createElement('button');
+                kickBtn.onclick = (e) => {
+                    kickUser(e.target);
+                };
+                kickBtn.setAttribute('data-user-id', user.id);
+                kickBtn.textContent = 'Kick';
+                li.appendChild(kickBtn);
+                userList.appendChild(li);
+            });
+        }
+
+        const userList = document.getElementById('user-list');
+
+        // Lắng nghe sự kiện 'connect' khi kết nối thành công
+        socket.on('connect', () => {
+            console.log('Đã kết nối tới server với ID:', socket.id);
+
+            socket.onAny((event, ...args) => {
+                console.log(`Nhận được sự kiện: ${event}`, ...args);
+
+                if (event === 'host:lobby-updated') {
+                    onLobbyUpdated(...args);
+                }
+            });
+        });
+
+        // Lắng nghe sự kiện 'disconnect' khi mất kết nối
+        socket.on('disconnect', () => {
+            console.log('Đã mất kết nối với server.');
+            socket.removeAllListeners();
+        });
+
+        function startGame(e) {
+            e.setAttribute('disabled', true);
+            socket.emit('host:lobby-start');
+        }
+
+        function kickUser(e) {
+            const userId = e.getAttribute('data-user-id');
+            socket.emit('host:kick', userId);
+        }
+    </script>
+
+</body>
+
+</html>

@@ -1,4 +1,4 @@
-import { getCafeControllerInstance } from "@/games/cafe-game/cafeController.singleton";
+import { getCafeControllerInstance } from "@/games/cafe-game/cafe-controller.singleton";
 import { Customer } from "@/model/model";
 import { create } from "zustand";
 
@@ -58,47 +58,69 @@ const initialState: Omit<
   serveAnimates: [],
 };
 
-const cafeController = getCafeControllerInstance();
+const CafeGameStore = create<CafeGameState>((set, get) => {
+  return {
+    ...initialState,
+    setToggleVisitShop: (value) => set({ toggleVisitShop: value }),
+    setToggleAbilitiShop: (value) => set({ toggleAbilitiShop: value }),
+    setCafeBalance: (value) => set({ cafeBalance: value }),
+    setCafeStocks: (value) => set({ cafeStocks: value }),
+    setCafeShopItems: (value) => set({ cafeShopItems: value }),
+    setCafeAbilitiesItems: (value) => set({ cafeAbilitiesItems: value }),
+    loadCafeBalance: () => {
+      try {
+        const cafeController = getCafeControllerInstance();
+        get().setCafeBalance(cafeController.getBalance());
+      } catch (error) {}
+    },
+    loadCafeShopItems: () => {
+      try {
+        const cafeController = getCafeControllerInstance();
+        get().setCafeShopItems(cafeController.getShop());
+      } catch (error) {}
+    },
+    loadCafeStocks: () => {
+      try {
+        const cafeController = getCafeControllerInstance();
+        get().setCafeStocks(cafeController.getStocks());
+      } catch (error) {}
+    },
+    loadCafeAbilities: () => {
+      try {
+        const cafeController = getCafeControllerInstance();
+        get().setCafeAbilitiesItems(cafeController.getAbilities());
+      } catch (error) {}
+    },
+    loadCafeData: () => {
+      const store = get();
+      store.loadCafeBalance();
+      store.loadCafeStocks();
+      store.loadCafeShopItems();
+      store.loadCafeAbilities();
+    },
+    setCustomers: (customers) => set({ customers }),
+    loadCustomers: () => {
+      try {
+        const cafeController = getCafeControllerInstance();
+        const { setCustomers } = get();
+        const cs = cafeController.getCustomers();
+        setCustomers(cs);
+      } catch (error) {}
+    },
+    getCustomerByPosition: (position) => {
+      const { customers } = get();
+      return customers.find((customer) => customer.position == position);
+    },
+    pushServeAnimates: (animates) => {
+      const { serveAnimates } = get();
+      set({ serveAnimates: [...serveAnimates, ...animates] });
+    },
+    removeServeAnimatesByIndex: (index) => {
+      const { serveAnimates } = get();
 
-const CafeGameStore = create<CafeGameState>((set, get) => ({
-  ...initialState,
-  setToggleVisitShop: (value) => set({ toggleVisitShop: value }),
-  setToggleAbilitiShop: (value) => set({ toggleAbilitiShop: value }),
-  setCafeBalance: (value) => set({ cafeBalance: value }),
-  setCafeStocks: (value) => set({ cafeStocks: value }),
-  setCafeShopItems: (value) => set({ cafeShopItems: value }),
-  setCafeAbilitiesItems: (value) => set({ cafeAbilitiesItems: value }),
-  loadCafeBalance: () => get().setCafeBalance(cafeController.getBalance()),
-  loadCafeShopItems: () => get().setCafeShopItems(cafeController.getShop()),
-  loadCafeStocks: () => get().setCafeStocks(cafeController.getStocks()),
-  loadCafeAbilities: () =>
-    get().setCafeAbilitiesItems(cafeController.getAbilities()),
-  loadCafeData: () => {
-    const store = get();
-    store.loadCafeBalance();
-    store.loadCafeStocks();
-    store.loadCafeShopItems();
-    store.loadCafeAbilities();
-  },
-  setCustomers: (customers) => set({ customers }),
-  loadCustomers: () => {
-    const { setCustomers } = get();
-    const cs = cafeController.getCustomers();
-    setCustomers(cs);
-  },
-  getCustomerByPosition: (position) => {
-    const { customers } = get();
-    return customers.find((customer) => customer.position == position);
-  },
-  pushServeAnimates: (animates) => {
-    const { serveAnimates } = get();
-    set({ serveAnimates: [...serveAnimates, ...animates] });
-  },
-  removeServeAnimatesByIndex: (index) => {
-    const { serveAnimates } = get();
-
-    set({ serveAnimates: serveAnimates.filter((_, i) => i != index) });
-  },
-}));
+      set({ serveAnimates: serveAnimates.filter((_, i) => i != index) });
+    },
+  };
+});
 
 export default CafeGameStore;
