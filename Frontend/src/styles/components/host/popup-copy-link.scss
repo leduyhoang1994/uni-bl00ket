@@ -1,0 +1,30 @@
+.popup-copy-link {
+  position: absolute;
+  top: 0;
+  height: 100dvh;
+  width: 100dvw;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 1;
+  overflow: hidden;
+  cursor: pointer;
+
+  &__container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: inherit;
+    height: inherit;
+  }
+
+  &__container-content {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 300px;
+    height: 150px;
+    background-color: white;
+    border-radius: 20px;
+    padding: 20px;
+    font-size: 40px;
+  }
+}
