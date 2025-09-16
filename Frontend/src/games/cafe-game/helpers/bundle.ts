@@ -1,4 +1,5 @@
 const CAFE_ASSET_BUNDLE = {
+  "leader-board": "/images/cafe-game/leader-board.svg",
   "abilites-health": "/images/cafe-game/abilites-health.svg",
   "abilites-supply": "/images/cafe-game/abilites-supply.svg",
   "abilites-taxes": "/images/cafe-game/abilites-taxes.svg",

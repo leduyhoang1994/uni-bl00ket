@@ -1,9 +1,11 @@
 
+import CafeGameStore from "@/games/stores/cafe-game-store/cafe-game-store";
 import { useExtend } from "@pixi/react";
 import { Graphics, Text } from "pixi.js";
+import { useLayoutEffect } from "react";
 
 type TagScreenProps = {
-  value: number;
+  value: number | string;
   paddingX?: number;
   paddingY?: number;
   height?: number;
@@ -11,6 +13,7 @@ type TagScreenProps = {
   borderWidth?: number;
   backgroundColor?: number;
   borderColor?: number;
+  hasUserName?: boolean;
 };
 
 export default function TagScreen({
@@ -22,10 +25,11 @@ export default function TagScreen({
   borderWidth = 4,
   backgroundColor = 0x0174bb,
   borderColor = 0x023b6a,
+  hasUserName = false
 }: TagScreenProps) {
   useExtend({ Graphics, Text });
-
-  const text = `$${value}`;
+  const { setTagMoneyWidth } = CafeGameStore();
+  const text = hasUserName ? `${value}` : `$${value}`;
   const fontSize = 30;
 
   // Ước lượng width text theo độ dài chuỗi
@@ -53,9 +57,13 @@ export default function TagScreen({
       cap: 'butt',
     });
   };
+  useLayoutEffect(() => {
+    console.log('boxWidth', boxWidth);
 
+    setTagMoneyWidth(boxWidth);
+  }, [boxWidth])
   return (
-    <pixiContainer label="MoneyBox">
+    <pixiContainer label="Tag">
       <pixiGraphics draw={drawBackground} />
       <pixiText
         text={text}
