@@ -1,8 +1,18 @@
 import GameController from "@/bases/controllers/game.controller";
-import { io } from "socket.io-client";
+import { io, Socket } from "socket.io-client";
 
-export default function initSocketClient(hostId: string, accessToken: string, controller: GameController) {
-  const socketClient = io("http://localhost:3000", {
+let socketClient: Socket | null = null;
+
+export default function initSocketClient(
+  hostId: string,
+  accessToken: string,
+  controller?: GameController
+) {
+  if (socketClient) {
+    return socketClient;
+  }
+  
+  socketClient = io("http://localhost:3000", {
     auth: {
       token: accessToken,
       hostId: hostId,
@@ -17,10 +27,12 @@ export default function initSocketClient(hostId: string, accessToken: string, co
     console.log("Disconnected from server");
   });
 
-  socketClient.onAny((eventName, ...args) => {
-    controller.socketEventHandler(eventName, ...args);
-  });
-  controller.setSocketClient(socketClient);
+  if (controller) {
+    socketClient.onAny((eventName, ...args) => {
+      controller.socketEventHandler(eventName, ...args);
+    });
+    controller.setSocketClient(socketClient);
+  }
 
   socketClient.connect();
 

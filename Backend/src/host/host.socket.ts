@@ -1,7 +1,6 @@
-import { Socket } from "socket.io";
 import { AuthenticatedSocket } from "../types/socket";
 import logger from "../utils/logger";
-import { HostLeaderboard, Player } from "@Common/types/host.type";
+import { ActivityBoardItem, HostLeaderboard, Player } from "@Common/types/host.type";
 import { AuthenticatedUser } from "../../../Common/types/socket.type";
 import { HostEvent } from "@Common/constants/event.constant";
 
@@ -23,13 +22,15 @@ export default class HostSocket {
     if (!user) {
       logger.debug("User not found");
       return null;
-    }  
+    }
 
     return user.role;
   }
 
   public async kick(socketId: string) {
-    logger.debug(`Socket exist: ${this.socket.nsp.server.sockets.sockets.has(socketId)}`);
+    logger.debug(
+      `Socket exist: ${this.socket.nsp.server.sockets.sockets.has(socketId)}`
+    );
     this.socket.nsp.server.sockets.sockets.get(socketId)?.disconnect(true);
   }
 
@@ -38,7 +39,7 @@ export default class HostSocket {
   }
 
   public async emitLobbyUpdated(palyers: Player[]) {
-    this.emitRoom(HostEvent.LobbyUpdated, palyers);
+    this.emitHost(HostEvent.LobbyUpdated, palyers);
   }
 
   public async emitUserInfo() {
@@ -53,7 +54,27 @@ export default class HostSocket {
     this.emitRoom(HostEvent.GameEnded);
   }
 
+  public async emitActivitySaved(activity: ActivityBoardItem) {
+    this.emitHost(HostEvent.ActivitySaved, activity);
+  }
+
+  protected async emitHost(eventName: string, arg: any = null) {
+    this.socket.nsp.server
+      .to(HostSocket.privateRoom(this.hostId))
+      .emit(eventName, arg);
+  }
+
   protected async emitRoom(eventName: string, arg: any = null) {
-    this.socket.nsp.server.to(this.hostId).emit(eventName, arg);
+    this.socket.nsp.server
+      .to(HostSocket.publicRoom(this.hostId))
+      .emit(eventName, arg);
+  }
+
+  public static publicRoom(hostId: string) {
+    return "public-" + hostId;
+  }
+
+  public static privateRoom(hostId: string) {
+    return "private-" + hostId;
   }
 }

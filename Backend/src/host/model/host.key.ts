@@ -18,4 +18,8 @@ export default class RedisHostKey {
   static getHostLeaderboardKey(hostId: string): string {
     return this.fullKey(`host:${hostId}:leaderboard`);
   }
+
+  static getPlayerActivitiesKey(hostId: string): string {
+    return this.fullKey(`host:${hostId}:activities`);
+  }
 }

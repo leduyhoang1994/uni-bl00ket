@@ -1,10 +1,9 @@
 import HostStore from "@/stores/host-store/host-store";
 import ButtonPlayer from "../components/button/button-player";
 import ShowTotalMoney from "../components/show-total-money/show-total-money";
-import WatchPlayerBoard from "../components/watch-player-board/watch-player-board";
 import { HostLeaderboardItem } from "@common/types/host.type";
 import { useNavigate, useParams } from "react-router";
-import { useCallback } from "react";
+import { useCallback, useLayoutEffect } from "react";
 import HostController from "../controllers/host.controller";
 import { HostState } from "@common/constants/host.constant";
 import { UrlGenerator } from "@/utils/utils";
@@ -20,20 +19,34 @@ export default function HostLeaderboardScreen() {
     }
 
     const hostController = await HostController.getInstance();
-    await hostController.initHttp();
-    const hostInfo = await hostController.getHostInfo(hostId);
-
-    if (hostInfo?.state === HostState.Ended) {
-      await navigate(UrlGenerator.HostFinalStandingUrl(hostId));
-      return;
-    }
-
-    hostController.onGameEnded = async () => {
-      await navigate(UrlGenerator.HostFinalStandingUrl(hostId));
-    };
-    await hostController.initSocket();
+    await hostController.initSocket(hostId);
     await hostController.endGame();
   }, [hostId]);
+
+  useLayoutEffect(() => {
+    (async () => {
+      if (!hostId) {
+        return;
+      }
+
+      console.log("????");
+
+      const hostController = await HostController.getInstance();
+      await hostController.initHttp();
+      const hostInfo = await hostController.getHostInfo(hostId, {
+        activitiesBoard: true,
+      });
+
+      if (hostInfo?.state === HostState.Ended) {
+        await navigate(UrlGenerator.HostFinalStandingUrl(hostId));
+        return;
+      }
+      await hostController.initSocket(hostId);
+
+      
+
+    })();
+  }, []);
 
   return (
     <div className="waiting-action-creator">
@@ -73,7 +86,7 @@ export default function HostLeaderboardScreen() {
         </div>
         <div>
           <div>
-            <WatchPlayerBoard />
+            {/* <WatchPlayerBoard /> */}
           </div>
           <div>
             <ShowTotalMoney />

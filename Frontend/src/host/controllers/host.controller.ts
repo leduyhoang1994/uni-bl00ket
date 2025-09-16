@@ -1,7 +1,14 @@
 import initHttp from "@/utils/http.util";
+import initSocketClient from "@/utils/socket-client.util";
 import { HostEvent } from "@common/constants/event.constant";
 import { HttpRoute } from "@common/constants/http.constant";
-import { HostInfo, HostLeaderboard, Player } from "@common/types/host.type";
+import {
+  ActivityBoardItem,
+  GetHostInfoOpts,
+  HostInfo,
+  HostLeaderboard,
+  Player,
+} from "@common/types/host.type";
 import { AuthenticatedUser } from "@common/types/socket.type";
 import { Axios } from "axios";
 import { io, Socket } from "socket.io-client";
@@ -21,6 +28,7 @@ export default class HostController {
   public onLeaderBoardUpdated: (leaderBoard: HostLeaderboard) => Promise<void> =
     async () => {};
   public onGameEnded: () => Promise<void> = async () => {};
+  public onActivitySaved: (activity: ActivityBoardItem) => Promise<void> = async () => {};
 
   public async initHttp() {
     const token = await HostController.getAccessToken();
@@ -32,17 +40,24 @@ export default class HostController {
     this.httpClient = await initHttp(token);
   }
 
-  public async initSocket(hostId?: string) {
+  public async initSocket(hostId: string) {    
     if (this.socketClient) {
       return this.socketClient;
     }
 
-    this.socketClient = io("http://localhost:3000", {
-      auth: {
-        token: (await HostController.getAccessToken()) || "Host.host",
-        hostId: hostId,
-      },
-    });
+    const accessToken = await HostController.getAccessToken();
+
+    if (!accessToken) {
+      console.log("Không có token");
+      return;
+    }
+
+    if (!hostId) {
+      console.log("Không có hostId");
+      return;
+    }
+
+    this.socketClient = initSocketClient(hostId, accessToken);
 
     this.socketClient.on("connect", async () => {
       if (!this.socketClient) {
@@ -94,6 +109,10 @@ export default class HostController {
       if (event === HostEvent.GameEnded) {
         await this.onGameEnded();
       }
+
+      if (event === HostEvent.ActivitySaved) {
+        await this.onActivitySaved(args[0]);
+      }
     });
   }
 
@@ -123,14 +142,17 @@ export default class HostController {
     return createResult;
   }
 
-  public async getHostInfo(hostId: string): Promise<HostInfo | null> {
+  public async getHostInfo(
+    hostId: string,
+    options?: GetHostInfoOpts
+  ): Promise<HostInfo | null> {
     if (!this.httpClient) {
       await this.initHttp();
     }
 
     const result = await this.httpClient?.post(
       HttpRoute.GetHostInfo,
-      JSON.stringify({ hostId })
+      JSON.stringify({ hostId, options })
     );
 
     return result ? result.data.hostInfo : null;

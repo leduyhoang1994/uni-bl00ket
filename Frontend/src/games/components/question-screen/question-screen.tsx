@@ -177,7 +177,7 @@ export default function QuestionScreen() {
             <AnswerBtn
               answerId={answerId}
               text={text}
-              key={i}
+              key={`${i}-answer-${answerId}`}
               i={i}
               x={x}
               y={y}

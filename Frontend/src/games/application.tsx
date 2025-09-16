@@ -51,7 +51,7 @@ export default function GameContainer() {
         navigate(UrlGenerator.PlayerFinalStandingUrl(hostId));
         return;
       };
-      await hostController.initSocket();
+      await hostController.initSocket(hostId);
 
       console.log(hostInfo.state);
 

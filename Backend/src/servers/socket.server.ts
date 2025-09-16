@@ -3,10 +3,15 @@ import HostController from "../host/host.controller";
 import { AuthenticatedSocket } from "../types/socket";
 import logger from "../utils/logger";
 import { getPayloadFromAuth as getPayloadFromAuth } from "../utils/token";
+import HostSocket from "../host/host.socket";
 
 async function userConnectedHandler(socket: AuthenticatedSocket) {
   const hostId = socket.user?.hostId || "";
-  socket.join(hostId);
+  socket.join(HostSocket.publicRoom(hostId));
+
+  if (socket.user?.role === "host") {
+    socket.join(HostSocket.privateRoom(hostId));
+  }
 
   const controller = new HostController(hostId, socket);
 

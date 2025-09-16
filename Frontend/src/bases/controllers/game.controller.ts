@@ -33,5 +33,13 @@ export default class GameController {
     this.socketClient?.emit(HostEvent.ScoreUpdated, score);
   };
 
+  protected async saveActivity(activity: any) {
+    if (!this.socketClient) {
+      return;
+    }
+
+    this.socketClient.emit(HostEvent.SaveActivity, activity);
+  }
+
   public socketEventHandler(eventName: string, ...args: any) {}
 }

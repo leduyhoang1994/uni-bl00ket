@@ -50,6 +50,10 @@ export interface CafeControllerInterface {
   buyAbilityItem(abilityId: number): { success: boolean; message: string };
 }
 
+enum CafeActivity {
+  BuyShopItem = "buy-shop-item",
+}
+
 export default class CafeController
   extends GameController
   implements CafeControllerInterface
@@ -128,7 +132,9 @@ export default class CafeController
 
   getQuestion(): Question {
     const idx = Math.floor(Math.random() * this.questions.length);
-    this.currentQuestion = this.questions[idx];
+    this.currentQuestion = JSON.parse(
+      JSON.stringify(this.questions[idx])
+    ) as Question;
     //shuffle answers
     this.currentQuestion.answers.sort(() => Math.random() - 0.5);
 
@@ -162,8 +168,6 @@ export default class CafeController
       // @ts-expect-error
       const stock: Stock = this.stocks.find((s) => s.id === item.stockId);
 
-      console.log(stock.name, stock.currentIndexLevel, stock.enabled);
-      
       const priceToSell = stock.enabled
         ? stock.sellPrices[stock.currentIndexLevel + 1]
         : stock.sellPrices[0]; // giá cần có dể mua được
@@ -209,6 +213,13 @@ export default class CafeController
       currentIndexLevel: levelUp,
     };
 
+    this.saveActivity({
+      action: CafeActivity.BuyShopItem,
+      data: {
+        level: levelUp + 1,
+        stockId: stock.id,
+      },
+    });
     this.saveGame();
 
     return {
@@ -255,6 +266,7 @@ export default class CafeController
       id: cIndex.toString(),
       name: "Customer " + cIndex,
       orders,
+      originalOrders: JSON.parse(JSON.stringify(orders)),
       avatar: AVATARS_CUSTOMER[avatarId],
       avatarId: avatarId,
       position: parseInt(slot as any),
@@ -278,8 +290,6 @@ export default class CafeController
     while (this.customers.length < MAX_CUSTOMER_CAN_SERVE) {
       this.getNextCustomer();
     }
-
-    console.log(this.customers);
 
     return this.customers;
   }
@@ -333,7 +343,7 @@ export default class CafeController
     // Nếu đủ phục vụ toàn bộ order của khách → cộng tiền
     let totalEarned = 0;
 
-    servedItems.forEach((item) => {
+    customer.originalOrders.forEach((item) => {
       const stock = this.stocks.find((s) => s.id === item.stockId)!;
 
       let priceToReward = stock.rewardPrices[stock.currentIndexLevel]; // số tiền nhận đc khi phuc vụ xong 1 món
@@ -423,5 +433,16 @@ export default class CafeController
     this.balance = balance;
 
     await this.onScoreUpdate(this.balance);
+  }
+
+  public static decodeActivity(activity: any) {
+    const action = activity.action;
+    const data = activity.data;
+
+    switch (action) {
+      case CafeActivity.BuyShopItem:
+        const foodName = STOCKS.find((s) => s.id === data.stockId)?.name;
+        return `has updated ${foodName} to level ${data.level}`;
+    }
   }
 }

@@ -24,8 +24,6 @@ export default function FinalStandings() {
       const hostInfo = await hostController.getHostInfo(hostId);
 
       setFinalStandings(hostInfo?.finalStandings || []);
-      console.log(hostInfo?.finalStandings);
-      
     })();
   }, []);
 
@@ -34,14 +32,15 @@ export default function FinalStandings() {
       <div className="final-standings__header">
         <div className="final-standings__header-first">Blooket</div>
         <div className="final-standings__header-second">Final Standings</div>
-        <Link
+        <div></div>
+        {/* <Link
           to={{
             pathname: "/",
           }}
           className="final-standings__header-third"
         >
           View Report
-        </Link>
+        </Link> */}
       </div>
       <div className="final-standings__body">
         <div className="final-standings__body-background"></div>

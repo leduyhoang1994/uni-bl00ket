@@ -1,4 +1,9 @@
-import { HostInfo, HostLeaderboard, Player } from "@Common/types/host.type";
+import {
+  HostInfo,
+  HostLeaderboard,
+  PersonalResult,
+  Player,
+} from "@Common/types/host.type";
 import { AuthenticatedUser } from "../../../Common/types/socket.type";
 import logger from "../utils/logger";
 import RedisHostKey from "./model/host.key";
@@ -145,7 +150,10 @@ export default class HostRepository {
     });
   }
 
-  public async getLeaderboard(hostId: string, max: number = 20): Promise<HostLeaderboard> {
+  public async getLeaderboard(
+    hostId: string,
+    max: number = 20
+  ): Promise<HostLeaderboard> {
     const client = await RedisClient.getClient();
 
     const leaderboard = await client.zRangeByScoreWithScores(
@@ -168,7 +176,75 @@ export default class HostRepository {
 
   public async endGame(hostId: string) {
     const client = await RedisClient.getClient();
-    await client.hSet(RedisHostKey.getHostKey(hostId), "state", HostState.Ended);
+    await client.hSet(
+      RedisHostKey.getHostKey(hostId),
+      "state",
+      HostState.Ended
+    );
+  }
+
+  public async getUserResult(
+    hostId: string,
+    playerId: string
+  ): Promise<PersonalResult> {
+    const result: PersonalResult = {
+      score: 0,
+      rank: 0,
+      accuracy: {
+        corrects: 0,
+        percent: 0,
+        total: 0,
+      },
+    };
+
+    const client = await RedisClient.getClient();
+    const userRank = await client.zRevRank(
+      RedisHostKey.getHostLeaderboardKey(hostId),
+      playerId
+    );
+    const userScore = await client.zScore(
+      RedisHostKey.getHostLeaderboardKey(hostId),
+      playerId
+    );
+
+    result.rank = (userRank || 0) + 1;
+    result.score = userScore || 0;
+
+    return result;
+  }
+
+  public async saveActivity(hostId: string, playerId: string, activity: any) {
+    const client = await RedisClient.getClient();
+    client.lPush(
+      RedisHostKey.getPlayerActivitiesKey(hostId),
+      JSON.stringify({
+        playerId,
+        activity,
+      })
+    );
+  }
+
+  public async getActivitiesBoard(hostId: string) {
+    const client = await RedisClient.getClient();
+
+    const activitiesBoard = await client.lRange(
+      RedisHostKey.getPlayerActivitiesKey(hostId),
+      0,
+      -1
+    );
+
+    const players = await this.getPlayers();
+
+    return activitiesBoard.map((item) => {
+      const activity = JSON.parse(item);
+      const player = players.find((p) => p.id === activity.playerId);
+
+      return {
+        username: player?.username,
+        avatar: player?.avatar,
+        ...JSON.parse(item),
+      };
+    });
   }
 
   public static async create(hostInfo: HostInfo) {

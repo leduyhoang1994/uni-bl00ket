@@ -13,6 +13,25 @@ export type HostInfo = {
   state?: HostState;
   gameMode: GameMode;
   finalStandings?: Array<HostLeaderboardItem>;
+  personalResult?: PersonalResult;
+  activitiesBoard?: Array<ActivityBoardItem>;
+};
+
+export type ActivityBoardItem = {
+  playerId: string;
+  username: string;
+  avatar: string;
+  activity: any;
+};
+
+export type PersonalResult = {
+  score: number;
+  rank: number;
+  accuracy: {
+    corrects: number;
+    total: number;
+    percent: number;
+  };
 };
 
 export type HostLeaderboardItem = {
@@ -20,6 +39,12 @@ export type HostLeaderboardItem = {
   score: number;
   username?: string;
   avatar?: string;
+};
+
+export type GetHostInfoOpts = {
+  fullLeaderboard?: boolean;
+  personalResult?: boolean;
+  activitiesBoard?: boolean;
 };
 
 export type HostLeaderboard = HostLeaderboardItem[];

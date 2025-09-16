@@ -30,8 +30,8 @@ export default function HostPlayer() {
     setHostIdValue(e.target.value);
   };
 
-  const chooseHost = async () => {    
-    navigate(UrlGenerator.PlayerJoinUrl(hostId));
+  const chooseHost = async () => {
+    navigate(UrlGenerator.PlayerJoinUrl(hostIdValue));
   };
 
   const nickNameValue = (e: ChangeEvent<HTMLInputElement>) => {
@@ -40,7 +40,7 @@ export default function HostPlayer() {
 
   const joinHost = async () => {
     if (!hostId) {
-    navigate(UrlGenerator.PlayerJoinUrl());
+      navigate(UrlGenerator.PlayerJoinUrl());
       return;
     }
 

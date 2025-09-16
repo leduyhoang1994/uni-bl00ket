@@ -12,7 +12,7 @@ export class UrlGenerator {
   public static PlayerFinalStandingUrl(hostId: string) {
     return GenUrl(`/player-final/${hostId}`);
   }
-  
+
   public static HostFinalStandingUrl(hostId: string) {
     return GenUrl(`/host-final/${hostId}`);
   }
@@ -22,7 +22,7 @@ export class UrlGenerator {
   }
 
   public static PlayerJoinUrl(hostId: string = "") {
-    return GenUrl(`/join/${hostId}`).replace(/\/+$/, '');
+    return GenUrl(`/join/${hostId}`).replace(/\/+$/, "");
   }
 
   public static PlayerPlayUrl(hostId: string) {
@@ -44,4 +44,20 @@ export class UrlGenerator {
   public static LeaderBoardUrl(gameMode: GameMode, hostId: string) {
     return GenUrl(`/${gameMode}/${hostId}/leaderboard`);
   }
+}
+
+export function numberToOrder(numb: number): { numb: number; text: string } {
+  const suffixes: { [key: number]: string } = {
+    1: "st",
+    2: "nd",
+    3: "rd",
+  };
+
+  const mod100 = numb % 100;
+  let suffix = "th";
+  if (mod100 < 11 || mod100 > 13) {
+    suffix = suffixes[numb % 10] || "th";
+  }
+
+  return { numb, text: suffix };
 }

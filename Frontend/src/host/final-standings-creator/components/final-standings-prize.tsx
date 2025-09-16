@@ -52,7 +52,7 @@ export default function FinalStandingsPrize({
     <div className={`final-standings-prize ${rankInfo.columnClass}`}>
       <div className={`final-standings-prize__ground`}></div>
       <div className="final-standings-prize__avatar">
-        <img src="/images/avatar/blook-penguin.svg" alt={`${userName}'s avatar`} />
+        <img src={leaderboardItem.avatar} alt={`${userName}'s avatar`} />
       </div>
       <div className={`final-standings-prize__ribbon ${rankInfo.ribbonClass}`}>
         <div className="final-standings-prize__ribbon-content">

@@ -5,7 +5,7 @@ import { HttpRoute } from "@Common/constants/http.constant";
 import helmet from "helmet";
 import cors from "cors";
 import { GameMode } from "@Common/constants/host.constant";
-import { HostInfo } from "@Common/types/host.type";
+import { GetHostInfoOpts, HostInfo } from "@Common/types/host.type";
 import { AuthenticatedRequest } from "../types/http.type";
 import { getPayloadFromAuth } from "../utils/token";
 import { AuthenticatedUser } from "@Common/types/socket.type";
@@ -55,12 +55,17 @@ app.post(HttpRoute.CreateHost, async (req, res) => {
   res.send(JsonResponse({ hostId }));
 });
 
-app.post(HttpRoute.GetHostInfo, authenticateUser, async (req, res) => {
+app.post(HttpRoute.GetHostInfo, authenticateUser, async (req: AuthenticatedRequest, res) => {
   const hostId = req.body.hostId;
   const hostRepo = new HostRepository(hostId);
 
   const hostInfo = await hostRepo.getHostInfo(hostId);
-  let finalStadings = await hostRepo.getLeaderboard(hostId, 3);
+  const options: GetHostInfoOpts = req.body.options || {};
+  const userId = req.user?.id;
+
+  const leaderboardCount = options.fullLeaderboard ? undefined : 3;
+
+  let finalStadings = await hostRepo.getLeaderboard(hostId, leaderboardCount);
 
   const players = await hostRepo.getPlayers();  
 
@@ -74,6 +79,18 @@ app.post(HttpRoute.GetHostInfo, authenticateUser, async (req, res) => {
   });
 
   hostInfo.finalStandings = finalStadings;
+
+  if (options.personalResult && userId) {
+    const personalResult = await hostRepo.getUserResult(hostId, userId);
+
+    hostInfo.personalResult = personalResult;
+  }
+
+  if (options.activitiesBoard) {
+    const activitiesBoard = await hostRepo.getActivitiesBoard(hostId);
+
+    hostInfo.activitiesBoard = activitiesBoard;
+  }
 
   res.send(JsonResponse({ hostInfo }));
 });

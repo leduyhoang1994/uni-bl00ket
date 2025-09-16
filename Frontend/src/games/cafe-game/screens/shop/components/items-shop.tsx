@@ -21,28 +21,28 @@ export default function ItemsShop() {
     >
       {cafeStocks.map((dataStock, i) => {
         const enabled = cafeShopItems[i].enabled;
-        console.log(dataStock);
 
-        const currentReward =
-          dataStock.rewardPrices[dataStock.currentIndexLevel] || 0;
-        const nextReward =
-          dataStock.rewardPrices[dataStock.currentIndexLevel + 1] || null;
+        const currentReward = dataStock.enabled
+          ? dataStock.rewardPrices[dataStock.currentIndexLevel]
+          : 0;
+        const nextReward = dataStock.enabled
+          ? dataStock.rewardPrices[dataStock.currentIndexLevel + 1]
+          : dataStock.rewardPrices[dataStock.currentIndexLevel];
 
-        const description = `$${currentReward} ${nextReward ? "→" : ""} ${"$" + nextReward
-          }`;
+        const description = `$${currentReward} ${nextReward ? "→" : ""} ${
+          "$" + nextReward
+        }`;
         const max =
           dataStock.currentIndexLevel === dataStock.rewardPrices.length - 1;
-        console.log('dataStock', dataStock);
+        const price = dataStock.enabled
+          ? dataStock.sellPrices[dataStock.currentIndexLevel + 1]
+          : dataStock.sellPrices[dataStock.currentIndexLevel];
 
         return (
           <ItemScreen
             key={i}
             {...dataStock}
-            priceSell={
-              max
-                ? "MAX"
-                : dataStock.sellPrices[dataStock.currentIndexLevel + 1]
-            }
+            priceSell={max ? "MAX" : price}
             enabled={enabled}
             type={ItemType.SHOP}
             description={max ? `$${currentReward}` : description}
@@ -50,5 +50,5 @@ export default function ItemsShop() {
         );
       })}
     </layoutContainer>
-  )
+  );
 }

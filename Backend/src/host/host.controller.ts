@@ -53,8 +53,10 @@ export default class HostController {
       return;
     }
 
-    this.hostSocket.emitLobbyUpdated(await this.hostRepo.getPlayers());
-    console.log("emit user info");
+    const hostState = await this.hostRepo.getHostInfo(this.hostId);
+    if (hostState.state === HostState.Lobby) {
+      this.hostSocket.emitLobbyUpdated(await this.hostRepo.getPlayers());
+    }
 
     this.hostSocket.emitUserInfo();
   }
@@ -178,6 +180,31 @@ export default class HostController {
     await this.hostSocket?.emitGameEnded();
   }
 
+  public async saveActivity(payload: any) {
+    const user = this.hostSocket?.getUser();
+    if (!user) {
+      logger.debug("User not found");
+      return;
+    }
+
+    await this.hostRepo.saveActivity(this.hostId, user.id, payload);
+    await this.onActivitySaved(user.id, payload);
+  }
+  private async onActivitySaved(playerId: any, payload: any) {
+    const player = await this.hostRepo.getPlayerById(playerId);
+    if (!player) {
+      logger.debug("User not found");
+      return;
+    }
+
+    this.hostSocket?.emitActivitySaved({
+      playerId: playerId,
+      username: player.username,
+      avatar: player.avatar,
+      activity: payload,
+    });
+  }
+
   public async eventHandler(eventName: HostEvent, ...args: any) {
     if (!this.hostSocket) {
       logger.debug("Host socket not found");
@@ -204,9 +231,17 @@ export default class HostController {
         break;
       case HostEvent.ScoreUpdated:
         await this.updateLeaderboard(args[0]);
+        const score = args[0];
+        logger.debug(`Score updated: ${score}`);
+        if (score > 10) {
+          await this.endGame();
+        }
         break;
       case HostEvent.EndGame:
         await this.endGame();
+        break;
+      case HostEvent.SaveActivity:
+        await this.saveActivity(args[0]);
         break;
     }
   }

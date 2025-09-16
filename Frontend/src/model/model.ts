@@ -35,6 +35,7 @@ export interface Customer {
   avatar: string;
   avatarId: number;
   orders: OrderItem[];
+  originalOrders: OrderItem[];
   position: number;
   firstLoad: boolean;
 }
