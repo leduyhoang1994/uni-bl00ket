@@ -420,6 +420,29 @@ export default class CafeController
     return { success: true, message: `${ability.name} purchased!` };
   }
 
+  // Abilities Func
+  async onPayCheckBonus(){
+    await this.updateBalance(this.balance * 1.25)
+  }
+  async onTrashTheFood(){
+    const numTrash = 3;
+
+    if(!this.stocks.length) return
+
+    this.stocks.forEach((s) => {
+      if (s.enabled) {
+        s.quantity = Math.max(0, s.quantity - numTrash);
+      }
+    });
+  }
+  async onTaxes(){
+    await this.updateBalance(this.balance * 0.75)
+  }
+  async onHealthInspection(){
+    //
+  }
+  // End Abilities Func
+
   genAvatarId(): any {
     const avatarID = Math.floor(Math.random() * AVATARS_CUSTOMER.length);
     const avatarExist = this.customers.find((c) => c.avatarId == avatarID);
