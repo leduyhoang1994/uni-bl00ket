@@ -1,0 +1,36 @@
+services:
+  uni_class_game_frontend:
+    build:
+      context: .
+      dockerfile: Frontend/Dockerfile
+    container_name: uni_class_game_frontend
+    ports:
+      - "5173:80"
+    depends_on:
+      - uni_class_game_backend
+    networks:
+      - app-network
+
+  uni_class_game_backend:
+    build:
+      context: .
+      dockerfile: Backend/Dockerfile
+    container_name: uni_class_game_backend
+    depends_on:
+      - redis
+    ports:
+      - "3000:3000"
+    networks:
+      - app-network
+
+  redis:
+    image: redis:7-alpine
+    container_name: redis_server
+    volumes:
+      - ./redis_data:/data
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    driver: bridge

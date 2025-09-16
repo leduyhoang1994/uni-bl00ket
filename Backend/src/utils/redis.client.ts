@@ -10,7 +10,7 @@ export default class RedisClient {
     }
 
     const client: RedisClientType<any> = createClient({
-      url: process.env.REDIS_CONNECTION_URL || "redis://localhost:6379",
+      url: process.env.REDIS_CONNECTION_URL || "redis://redis_server:6379",
     });
 
     client.on("error", (err) => logger.info(`Redis Error: ${err}`));
