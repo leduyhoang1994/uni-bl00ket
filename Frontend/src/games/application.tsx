@@ -1,8 +1,8 @@
 "use client";
 
 import "@pixi/layout/devtools";
-import { extend, useApplication } from "@pixi/react";
-import { Assets, Container, Text, TextStyle } from "pixi.js";
+import { extend, useApplication, useExtend } from "@pixi/react";
+import { Assets, Container, Graphics, Text, TextStyle } from "pixi.js";
 import CafeGame from "./cafe-game/cafe-game";
 import CAFE_ASSET_BUNDLE from "@/games/cafe-game/helpers/bundle";
 import { useState, useEffect, useLayoutEffect } from "react";
@@ -18,6 +18,7 @@ extend({
 });
 
 export default function GameContainer() {
+  useExtend({ Graphics });
   const [progress, setProgress] = useState(0);
   const [loaded, setLoaded] = useState(false);
   const [gameMode, setGameMode] = useState<GameMode | null>(null);
@@ -84,9 +85,14 @@ export default function GameContainer() {
   }, [gameMode]);
 
   return (
-    <pixiContainer label="Game Container">
+    <pixiContainer label="Game Container" width={app.screen.width} height={app.screen.height}>
       <RenderIf condition={!loaded}>
-        <pixiContainer x={400} y={300} anchor={0.5}>
+        <pixiGraphics draw={(g: Graphics) => {
+          g.roundRect(0, 0, app.screen.width, app.screen.height, 0).fill({
+            color: '#118891',
+          });
+        }} />
+        <pixiContainer x={app.screen.width / 2} y={app.screen.height / 2} anchor={0.5}>
           <pixiText
             text={`Loading... ${progress}%`}
             anchor={0.5}
