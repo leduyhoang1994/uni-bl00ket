@@ -15,6 +15,7 @@ export type HostInfo = {
   finalStandings?: Array<HostLeaderboardItem>;
   personalResult?: PersonalResult;
   activitiesBoard?: Array<ActivityBoardItem>;
+  userInfo?: Player;
 };
 
 export type ActivityBoardItem = {
@@ -45,6 +46,7 @@ export type GetHostInfoOpts = {
   fullLeaderboard?: boolean;
   personalResult?: boolean;
   activitiesBoard?: boolean;
+  userInfo?: boolean;
 };
 
 export type HostLeaderboard = HostLeaderboardItem[];

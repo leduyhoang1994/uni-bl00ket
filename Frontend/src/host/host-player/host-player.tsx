@@ -1,5 +1,4 @@
 import RenderIf from "@/utils/condition-render";
-import ButtonSubmit from "../components/button/button-submit";
 import FormSubmit from "../components/form-submit/form-submit";
 import { ChangeEvent, useLayoutEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router";
@@ -47,6 +46,7 @@ export default function HostPlayer() {
     const controller = await HostController.getInstance();
     await controller.initHttp();
     const guestToken = await controller.createGuest(username, hostId);
+    
     await HostController.saveAccessToken(guestToken);
 
     navigate(UrlGenerator.PlayerJoinLobbyUrl(hostId));
@@ -56,7 +56,7 @@ export default function HostPlayer() {
     <div className="host-player">
       <div className="host-player__header">
         <div className="host-player__header-first">
-          <a href="">Blooket</a>
+          <a href="">UniClass</a>
         </div>
         <div className="host-player__header-second">Join a Game</div>
         <div className="host-player__header-third">

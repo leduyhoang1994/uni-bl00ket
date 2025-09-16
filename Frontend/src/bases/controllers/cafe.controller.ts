@@ -89,13 +89,14 @@ export default class CafeController
   public getSaveData() {
     return {
       stocks: this.stocks,
-      shopItems: this.shopItems,
       customers: this.customers,
       balance: this.balance,
       questions: this.questions,
       currentQuestion: this.currentQuestion,
       abilities: this.abilities,
       doubleRewardCount: this.doubleRewardCount,
+      totalCorrectAnswers: this.totalCorrectAnswers,
+      totalQuestions: this.totalQuestions,
     };
   }
 
@@ -137,6 +138,12 @@ export default class CafeController
     ) as Question;
     //shuffle answers
     this.currentQuestion.answers.sort(() => Math.random() - 0.5);
+    this.totalQuestions += 1;
+
+    console.log("get question");
+    
+    
+    this.saveGame();
 
     return this.currentQuestion;
   }
@@ -156,8 +163,8 @@ export default class CafeController
     this.stocks.forEach((s) => {
       if (s.enabled) s.quantity += 1;
     });
-
-    this.currentQuestion = null;
+    
+    this.totalCorrectAnswers += 1;
     this.saveGame();
     return { correct: true, message: "OK" };
   }

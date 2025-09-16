@@ -24,6 +24,7 @@ function WaitingLobbyPlayer() {
 
       const controller = await HostController.getInstance();
       const hostInfo = await controller.getHostInfo(hostId);
+      
 
       if (!hostInfo) {
         navigate(UrlGenerator.AccessDeniedUrl());
@@ -53,7 +54,7 @@ function WaitingLobbyPlayer() {
     <>
       <div className="waiting-lobby-player">
         <div className="waiting-lobby-player__header">
-          <div className="waiting-lobby-player__header-first">{player?.id}</div>
+          <div className="waiting-lobby-player__header-first">{player?.username}</div>
           <div className="waiting-lobby-player__header-second">
             <RenderIf condition={isJoining}>
               <div>Joining Game . . .</div>
@@ -65,9 +66,9 @@ function WaitingLobbyPlayer() {
           <div className="waiting-lobby-player__body-background"></div>
           <RenderIf condition={isJoined}>
             <div className="waiting-lobby-player__body-content">
-              <div>{player?.id}</div>
+              <div>{player?.username}</div>
               <div className="waiting-lobby-player__body-content-avatar">
-                <img src="/images/avatar/brown-dog.svg" alt="" />
+                <img src={player?.avatar} alt="" />
               </div>
               <div className="waiting-lobby-player__body-content-footer">
                 <button>

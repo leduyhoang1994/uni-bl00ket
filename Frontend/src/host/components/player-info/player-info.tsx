@@ -8,7 +8,7 @@ export default function PlayerInfo({ player }: { player: Player }) {
           player.avatar && <img src={player.avatar} alt="" />
         }
       </div>
-      <div className="player-infor__content">{player.id}</div>
+      <div className="player-infor__content">{player.username}</div>
     </button>
   );
 }

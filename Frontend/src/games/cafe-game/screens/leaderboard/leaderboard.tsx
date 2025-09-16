@@ -104,6 +104,7 @@ export default function Leaderboard() {
                   userNumber={userNumber}
                   score={value.score}
                   name={value.username}
+                  avatar={value.avatar}
                 />
               </div>
             );

@@ -4,13 +4,15 @@ import JsonResponse from "../utils/response";
 import { HttpRoute } from "@Common/constants/http.constant";
 import helmet from "helmet";
 import cors from "cors";
-import { GameMode } from "@Common/constants/host.constant";
-import { GetHostInfoOpts, HostInfo } from "@Common/types/host.type";
+import { GetHostInfoOpts, HostInfo, Player } from "@Common/types/host.type";
 import { AuthenticatedRequest } from "../types/http.type";
 import { getPayloadFromAuth } from "../utils/token";
 import { AuthenticatedUser } from "@Common/types/socket.type";
+import jwt from "jsonwebtoken";
+import { randomUUID } from "crypto";
 
 const app = express();
+export const JWT_SECRET = "secretKey";
 
 app.use(helmet());
 // Configure CORS
@@ -55,44 +57,71 @@ app.post(HttpRoute.CreateHost, async (req, res) => {
   res.send(JsonResponse({ hostId }));
 });
 
-app.post(HttpRoute.GetHostInfo, authenticateUser, async (req: AuthenticatedRequest, res) => {
-  const hostId = req.body.hostId;
-  const hostRepo = new HostRepository(hostId);
+app.post(
+  HttpRoute.GetHostInfo,
+  authenticateUser,
+  async (req: AuthenticatedRequest, res) => {
+    const hostId = req.body.hostId;
+    const hostRepo = new HostRepository(hostId);
 
-  const hostInfo = await hostRepo.getHostInfo(hostId);
-  const options: GetHostInfoOpts = req.body.options || {};
-  const userId = req.user?.id;
+    const hostInfo = await hostRepo.getHostInfo(hostId);
+    const options: GetHostInfoOpts = req.body.options || {};
+    const userId = req.user?.id;
 
-  const leaderboardCount = options.fullLeaderboard ? undefined : 3;
+    const leaderboardCount = options.fullLeaderboard ? undefined : 3;
 
-  let finalStadings = await hostRepo.getLeaderboard(hostId, leaderboardCount);
+    let finalStadings = await hostRepo.getLeaderboard(hostId, leaderboardCount);
 
-  const players = await hostRepo.getPlayers();  
+    const players = await hostRepo.getPlayers();
 
-  finalStadings = finalStadings.map((item) => {
-    const player = players.find((p) => p.id === item.playerId);
-    return {
-      ...item,
-      username: player?.username,
-      avatar: player?.avatar,
-    };
-  });
+    finalStadings = finalStadings.map((item) => {
+      const player = players.find((p) => p.id === item.playerId);
+      return {
+        ...item,
+        username: player?.username,
+        avatar: player?.avatar,
+      };
+    });
 
-  hostInfo.finalStandings = finalStadings;
+    hostInfo.finalStandings = finalStadings;
 
-  if (options.personalResult && userId) {
-    const personalResult = await hostRepo.getUserResult(hostId, userId);
+    if (options.personalResult && userId) {
+      const personalResult = await hostRepo.getUserResult(hostId, userId);
 
-    hostInfo.personalResult = personalResult;
+      hostInfo.personalResult = personalResult;
+    }
+
+    if (options.activitiesBoard) {
+      const activitiesBoard = await hostRepo.getActivitiesBoard(hostId);
+
+      hostInfo.activitiesBoard = activitiesBoard;
+    }
+
+    if (options.userInfo) {
+      const player = players.find((p) => p.id === userId);
+
+      hostInfo.userInfo = player;
+    }
+
+    res.send(JsonResponse({ hostInfo }));
   }
+);
 
-  if (options.activitiesBoard) {
-    const activitiesBoard = await hostRepo.getActivitiesBoard(hostId);
+app.post(HttpRoute.GenToken, async (req, res) => {
+  const userId = randomUUID();
+  const username = req.body.username;
+  const avatar = req.body.avatar;
 
-    hostInfo.activitiesBoard = activitiesBoard;
-  }
+  const token = jwt.sign(
+    {
+      id: userId,
+      username,
+      avatar,
+    } as Player,
+    JWT_SECRET
+  );
 
-  res.send(JsonResponse({ hostInfo }));
+  res.send(JsonResponse({ token }));
 });
 
 app.post(

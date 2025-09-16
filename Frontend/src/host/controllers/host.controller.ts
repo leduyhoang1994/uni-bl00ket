@@ -28,19 +28,21 @@ export default class HostController {
   public onLeaderBoardUpdated: (leaderBoard: HostLeaderboard) => Promise<void> =
     async () => {};
   public onGameEnded: () => Promise<void> = async () => {};
-  public onActivitySaved: (activity: ActivityBoardItem) => Promise<void> = async () => {};
+  public onActivitySaved: (activity: ActivityBoardItem) => Promise<void> =
+    async () => {};
 
   public async initHttp() {
     const token = await HostController.getAccessToken();
 
     if (!token) {
+      console.log("Không có token");
       return;
     }
 
     this.httpClient = await initHttp(token);
   }
 
-  public async initSocket(hostId: string) {    
+  public async initSocket(hostId: string) {
     if (this.socketClient) {
       return this.socketClient;
     }
@@ -124,7 +126,18 @@ export default class HostController {
   }
 
   public async createGuest(username: string, hostId: string) {
-    return `${username}.player.${hostId}`;
+    const client = await initHttp(null);
+
+    const createResult = await client.post(
+      HttpRoute.GenToken,
+      JSON.stringify({
+        username,
+        avatar: "http://localhost:5173/images/avatar/brown-dog.svg",
+        hostId,
+      })
+    );
+
+    return createResult?.data.token;
   }
 
   public async createHost(hostInfo: HostInfo) {

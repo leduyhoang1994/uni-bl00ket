@@ -5,11 +5,13 @@ import { Graphics, Sprite, Texture, TilingSprite, Text, Assets } from "pixi.js";
 import TagScreen from "@/games/cafe-game/components/tag-screen/tag-screen";
 import CafeGameStore from "@/games/stores/cafe-game-store/cafe-game-store";
 import LeaderBoardScreenIcon from "@/games/cafe-game/components/leader-board-screen-icon/leader-board-screen-icon";
+import HostStore from "@/stores/host-store/host-store";
 
 export default function WallContainer() {
   useExtend({ Sprite, TilingSprite, Graphics, Text });
   const { app } = useApplication();
   const { cafeBalance } = CafeGameStore();
+  const { userInfo } = HostStore();
   const appHeight = app.screen.height;
   const appWidth = app.screen.width;
   const currentWallHeight = appHeight / 2;
@@ -70,7 +72,7 @@ export default function WallContainer() {
         )}
       </pixiContainer>
       <pixiContainer label="Username cafe-game" x={10}>
-        <TagScreen value={'aaaa'} hasUserName={true} />
+        <TagScreen value={userInfo?.username || ""} hasUserName={true} />
       </pixiContainer>
       <pixiContainer label="Money cafe-game" x={appWidth / 1.3}>
         <TagScreen value={cafeBalance} />

@@ -206,9 +206,20 @@ export default class HostRepository {
       RedisHostKey.getHostLeaderboardKey(hostId),
       playerId
     );
+    let gameDataJson = await client.hGet(
+      RedisHostKey.getPlayerGameDataKey(hostId),
+      playerId
+    );
+
+    const gameData = JSON.parse(gameDataJson || "{}");
 
     result.rank = (userRank || 0) + 1;
     result.score = userScore || 0;
+    const total = gameData?.totalQuestions ?? 0;
+    const corrects = gameData?.totalCorrectAnswers ?? 0;
+    const percent = total > 0 ? + Math.round((corrects / total) * 100) : 0;
+
+    result.accuracy = { total, corrects, percent };
 
     return result;
   }

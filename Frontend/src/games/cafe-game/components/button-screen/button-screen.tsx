@@ -12,7 +12,7 @@ export default function ButtonScreen({
   btnText = "Visit Shop",
   btnContainerX = 0,
   btnContainerY = 0,
-  doClickBtn = () => { },
+  doClickBtn = () => {},
 }) {
   useExtend({ Graphics, Text });
 
@@ -89,7 +89,20 @@ export default function ButtonScreen({
       interactive={true}
       eventMode="static"
       cursor="pointer"
-      onPointerDown={doClickBtn}
+      onPointerUp={() => {
+        if (!btn.current) {
+          return;
+        }
+
+        btn.current.interactive = false;
+        doClickBtn();
+        setTimeout(() => {
+          if (!btn.current) {
+            return;
+          }
+          btn.current.interactive = true;
+        }, 200);
+      }}
     >
       <pixiGraphics draw={draw} eventMode="static" cursor="pointer" />
       <pixiText

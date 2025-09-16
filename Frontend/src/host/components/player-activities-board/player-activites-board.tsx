@@ -15,7 +15,7 @@ export default function PlayerActivitiesBoard({
           return (
             <div className="waiting-player-board__user-action" key={index}>
               <div>
-                <img src="/images/avatar/blook-penguin.svg" alt="" />
+                <img src={value.avatar} alt="" />
               </div>
               <span>{`${value.username} ${CafeController.decodeActivity(value.activity)}`}</span>
             </div>

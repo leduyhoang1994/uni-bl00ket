@@ -86,6 +86,8 @@ export default function QuestionScreen() {
     setAnsweredId(answerId);
     setIsCorrect(userAnswer.correct);
 
+    console.log(userAnswer.correct);    
+
     if (!userAnswer.correct) {
       setAllowCloseBlock(false);
       setTimeout(() => {

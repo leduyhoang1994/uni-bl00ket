@@ -4,6 +4,8 @@ import { Socket } from "socket.io-client";
 export default class GameController {
   private socketClient: Socket | null = null;
   protected hostId: string;
+  protected totalQuestions: number = 0;
+  protected totalCorrectAnswers: number = 0;
 
   constructor(hostId: string) {
     this.hostId = hostId;

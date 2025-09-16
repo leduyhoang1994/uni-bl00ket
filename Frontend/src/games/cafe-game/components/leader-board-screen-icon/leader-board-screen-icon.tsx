@@ -6,12 +6,13 @@ const LEADER_BOARD_SIZE = 45;
 
 export default function LeaderBoardScreenIcon() {
   useExtend({ Sprite });
-  const { tagMoneyWidth, toggleLeaderBoard, setToggleLeaderBoard } = CafeGameStore();
+  const { tagMoneyWidth, toggleLeaderBoard, setToggleLeaderBoard } =
+    CafeGameStore();
   const textureLeaderBoard = Assets.get("leader-board");
 
   const doClickLeaderBoard = () => {
     setToggleLeaderBoard(!toggleLeaderBoard);
-  }
+  };
 
   return (
     <pixiContainer
@@ -29,6 +30,6 @@ export default function LeaderBoardScreenIcon() {
           height={LEADER_BOARD_SIZE}
         />
       )}
-    </pixiContainer >
-  )
+    </pixiContainer>
+  );
 }

@@ -233,7 +233,7 @@ export default class HostController {
         await this.updateLeaderboard(args[0]);
         const score = args[0];
         logger.debug(`Score updated: ${score}`);
-        if (score > 10) {
+        if (score > 100000) {
           await this.endGame();
         }
         break;
