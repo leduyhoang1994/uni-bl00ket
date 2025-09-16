@@ -40,4 +40,24 @@
       font-family: var(--font-nunito);
     }
   }
+
+  &__user-action {
+    display: flex;
+    position: relative;
+    flex-direction: row;
+    margin: 3px 1vw;
+    padding: 0;
+    width: calc(100% - 3vw);
+    font-size: 1.8vw;
+    line-height: 2.45vw;
+    font-family: var(--font-nunito);
+
+    > :first-child {
+      display: inline-block;
+      margin-right: 0.5vw;
+      width: 2.1vw;
+      height: 2.415vw;
+      user-select: none;
+    }
+  }
 }

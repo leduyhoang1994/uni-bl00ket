@@ -1,9 +1,22 @@
 import RenderIf from "@/utils/condition-render";
 
 export default function WatchPlayerBoard() {
-  const hasRecordPlayer = false;
+  const hasRecordPlayer = true;
   return (
     <div className="waiting-player-board">
+      <RenderIf condition={hasRecordPlayer}>
+        {[1, 2, 3, 4].map((value, index: number) => {
+          return (
+            <div className="waiting-player-board__user-action" key={index}>
+              <div>
+                <img src="/images/avatar/blook-penguin.svg" alt="" />
+              </div>
+              <span>a upgraded Cereal to Level 1</span>
+            </div>
+          )
+        })}
+
+      </RenderIf>
       <RenderIf condition={!hasRecordPlayer}>
         <div className="waiting-player-board__no-record">
           <div>
