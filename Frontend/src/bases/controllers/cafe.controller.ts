@@ -146,6 +146,8 @@ export default class CafeController
   }
 
   answerQuestion(answerId: string): { correct: boolean; message: string } {
+    console.log('answer');
+    
     if (!this.currentQuestion) {
       return { correct: false, message: "No question has been asked yet" };
     }

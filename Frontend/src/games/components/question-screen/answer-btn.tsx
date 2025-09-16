@@ -115,7 +115,7 @@ export default function AnswerBtn({
           doClickAnswser(answerId);
         });
     });
-  });
+  }, []);
 
   return (
     <pixiContainer x={x} y={y}>
