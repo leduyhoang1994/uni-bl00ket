@@ -58,8 +58,6 @@ export default function TagScreen({
     });
   };
   useLayoutEffect(() => {
-    console.log('boxWidth', boxWidth);
-
     setTagMoneyWidth(boxWidth);
   }, [boxWidth])
   return (

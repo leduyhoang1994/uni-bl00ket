@@ -140,9 +140,6 @@ export default class CafeController
     this.currentQuestion.answers.sort(() => Math.random() - 0.5);
     this.totalQuestions += 1;
 
-    console.log("get question");
-    
-    
     this.saveGame();
 
     return this.currentQuestion;
@@ -155,7 +152,6 @@ export default class CafeController
 
     const isCorrect = this.currentQuestion.correctAnswerId === answerId;
     if (!isCorrect) {
-      this.currentQuestion = null;
       return { correct: false, message: "Wrong answer." };
     }
 

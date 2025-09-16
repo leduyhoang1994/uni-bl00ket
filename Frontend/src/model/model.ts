@@ -155,6 +155,17 @@ export const QUESTIONS = [
     ],
     correctAnswerId: "a2",
   },
+  {
+    id: "q2",
+    text: "5 * 6 = ?",
+    answers: [
+      { id: "a1", text: "30" },
+      { id: "a2", text: "40" },
+      { id: "a3", text: "50" },
+      { id: "a4", text: "60" },
+    ],
+    correctAnswerId: "a1",
+  },
 ];
 
 export const ABILITIES = [
