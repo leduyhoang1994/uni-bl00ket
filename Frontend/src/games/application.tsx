@@ -92,7 +92,7 @@ export default function GameContainer() {
             color: '#118891',
           });
         }} />
-        <pixiContainer x={400} y={300} anchor={0.5}>
+        <pixiContainer x={app.screen.width / 2} y={app.screen.height / 2} anchor={0.5}>
           <pixiText
             text={`Loading... ${progress}%`}
             anchor={0.5}
