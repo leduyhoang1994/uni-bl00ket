@@ -28,3 +28,12 @@
   border-radius: 1rem;
   border: 4px solid rgba(255, 255, 255, 0.3); /* tạo khoảng hở, cùng màu track */
 }
+
+.change-to-period {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 1;
+  line-clamp: 1;
+  text-overflow: ellipsis;
+  overflow: hidden;
+}

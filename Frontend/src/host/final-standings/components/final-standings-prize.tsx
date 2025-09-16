@@ -1,0 +1,69 @@
+import React from 'react';
+
+export enum FinalStandingsPrizeRank {
+  FIRST = 'FIRST',
+  SECOND = 'SECOND',
+  THIRD = 'THIRD'
+}
+
+type RankDetails = {
+  columnClass: string;
+  ribbonClass: string;
+  textSuffix: string;
+  rankNumber: number;
+};
+
+const RANK_CONFIG: Record<FinalStandingsPrizeRank, RankDetails> = {
+  [FinalStandingsPrizeRank.FIRST]: {
+    columnClass: 'final-standings-prize__first-prize',
+    ribbonClass: 'final-standings-prize__first-prize-ribbon',
+    textSuffix: 'st',
+    rankNumber: 1,
+  },
+  [FinalStandingsPrizeRank.SECOND]: {
+    columnClass: 'final-standings-prize__second-prize',
+    ribbonClass: 'final-standings-prize__second-prize-ribbon',
+    textSuffix: 'nd',
+    rankNumber: 2,
+  },
+  [FinalStandingsPrizeRank.THIRD]: {
+    columnClass: 'final-standings-prize__third-prize',
+    ribbonClass: 'final-standings-prize__third-prize-ribbon',
+    textSuffix: 'rd',
+    rankNumber: 3,
+  },
+};
+
+interface FinalStandingsPrizeProps {
+  useRank?: FinalStandingsPrizeRank;
+  userName?: string;
+  score?: number;
+}
+
+export default function FinalStandingsPrize({
+  useRank = FinalStandingsPrizeRank.FIRST,
+  userName = 'Anonymous',
+  score = 0
+}: FinalStandingsPrizeProps) {
+  const rankInfo = RANK_CONFIG[useRank];
+
+  return (
+    <div className={`final-standings-prize ${rankInfo.columnClass}`}>
+      <div className={`final-standings-prize__ground`}></div>
+      <div className="final-standings-prize__avatar">
+        <img src="/images/avatar/blook-penguin.svg" alt={`${userName}'s avatar`} />
+      </div>
+      <div className={`final-standings-prize__ribbon ${rankInfo.ribbonClass}`}>
+        <div className="final-standings-prize__ribbon-content">
+          <div className="change-to-period">{userName}</div>
+        </div>
+      </div>
+      <div className="final-standings-prize__score">
+        <div className="change-to-period">Score: {score}</div>
+      </div>
+      <div className="final-standings-prize__rank">
+        {rankInfo.rankNumber} <span>{rankInfo.textSuffix}</span>
+      </div>
+    </div>
+  );
+}

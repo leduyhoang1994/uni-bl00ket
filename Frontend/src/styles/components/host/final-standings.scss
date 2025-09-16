@@ -37,4 +37,244 @@
     text-align: right;
     text-decoration: underline;
   }
+
+  &__body {
+    @extend .host-creator__body;
+    background: linear-gradient(rgb(11, 194, 207), rgb(52, 154, 239));
+  }
+
+  &__body-background {
+    @extend.host-creator__body-background;
+  }
+
+  &__body-cover-prize {
+    position: relative;
+    flex: 1;
+  }
+
+  &__body-prize {
+    position: absolute;
+    top: 0;
+    animation: _slideIn1st_1q1ok_1 0.5s linear 6s forwards;
+    height: 100%;
+    -webkit-user-select: none;
+    user-select: none;
+  }
+
+  &__body-prize-first {
+    left: 32.5vw;
+    width: 35vw;
+  }
+
+  &__body-prize-second {
+    right: 70vw;
+    width: 25vw;
+  }
+
+  &__body-prize-third {
+    left: 70vw;
+    width: 25vw;
+  }
+}
+
+.final-standings-prize {
+  position: absolute;
+  bottom: 0;
+  border-top-right-radius: 1vw;
+  border-top-left-radius: 1vw;
+
+  &__ground {
+    position: absolute;
+    top: 0;
+    left: 0;
+    border-radius: 1vw;
+    background-color: #fff6;
+    width: 100%;
+    height: 5vh;
+  }
+
+  &__avatar {
+    position: absolute;
+    bottom: calc(100% - 2vh);
+    left: 22.5%;
+    filter: drop-shadow(0 1vh rgba(0, 0, 0, 0.2));
+    width: 55%;
+
+    img {
+      object-fit: contain;
+      width: 100%;
+      height: 100%;
+    }
+  }
+
+  &__ribbon {
+    position: absolute;
+    top: 7vh;
+    left: -5.5vw;
+    background-position: center center;
+    background-size: 100%;
+    background-repeat: no-repeat;
+    width: 38vw;
+    height: 20vh;
+  }
+
+  &__first-prize {
+    width: 27vw;
+    left: 4vw;
+    height: 60%;
+    background-color: rgb(254, 103, 34);
+  }
+
+  &__first-prize-ribbon {
+    background-image: url("/images/host/first-standings-ribbon.svg");
+  }
+
+  &__second-prize {
+    width: 20vw;
+    left: 2.5vw;
+    height: 50%;
+    background-color: rgb(154, 73, 170);
+
+    .final-standings-prize__ground {
+      height: 4vh;
+    }
+
+    .final-standings-prize__score {
+      top: 19.5vh;
+      left: 50%;
+      transform: translate(-50%);
+      height: 2.3vw;
+    }
+
+    .final-standings-prize__rank {
+      top: 26vh;
+      font-size: 6.5vw;
+      span {
+        font-size: 2.2vw;
+      }
+    }
+
+    .change-to-period {
+      font-size: 1.8cqw;
+    }
+  }
+
+  &__third-prize {
+    width: 20vw;
+    left: 2.5vw;
+    height: 50%;
+    transform: translate(0px, 34.76px);
+    background-color: rgb(154, 73, 170);
+
+    .final-standings-prize__ground {
+      height: 4vh;
+    }
+
+    .final-standings-prize__score {
+      top: 19.5vh;
+      left: 50%;
+      transform: translate(-50%);
+      height: 2.3vw;
+    }
+
+    .final-standings-prize__rank {
+      top: 26vh;
+      font-size: 6.5vw;
+      span {
+        font-size: 2.2vw;
+      }
+    }
+
+    .change-to-period {
+      font-size: 1.8cqw;
+    }
+  }
+
+  &__second-prize-ribbon {
+    left: -3.5vw;
+    width: 27vw;
+    height: 15vh;
+    background-image: url("/images/host/second-standings-ribbon.svg");
+
+    .final-standings-prize__ribbon-content {
+      height: 5vw;
+    }
+
+    .change-to-period {
+      font-size: 3.8cqw;
+    }
+  }
+
+  &__third-prize-ribbon {
+    left: -3.5vw;
+    width: 27vw;
+    height: 15vh;
+    background-image: url("/images/host/third-standings-ribbon.svg");
+
+    .final-standings-prize__ribbon-content {
+      height: 5vw;
+    }
+
+    .change-to-period {
+      font-size: 3.8cqw;
+    }
+  }
+
+  &__ribbon-content {
+    display: flex;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    justify-content: center;
+    align-items: center;
+    transform: translate(-50%, -67.5%);
+    width: 70%;
+    height: 7vw;
+    color: #fff;
+    text-align: center;
+    text-shadow: 0.2vw 0.2vw rgba(0, 0, 0, 0.2);
+
+    div {
+      display: inline-block;
+      white-space: nowrap;
+      font-size: 6.2cqw;
+      opacity: 1;
+    }
+  }
+
+  &__score {
+    display: flex;
+    position: absolute;
+    top: 24vh;
+    left: 50%;
+    transform: translate(-50%);
+    height: 2.7vw;
+    font-weight: 700;
+    font-family: var(--font-nunito);
+    text-shadow: none;
+    color: #fff;
+
+    div {
+      display: inline-block;
+      white-space: nowrap;
+      font-size: 2.1cqw;
+      opacity: 1;
+    }
+  }
+
+  &__rank {
+    display: flex;
+    position: absolute;
+    top: 29vh;
+    left: 50%;
+    justify-content: center;
+    align-items: flex-start;
+    transform: translate(-50%);
+    color: #fff;
+    font-size: 8vw;
+    span {
+      padding-top: 0.7vw;
+      font-size: 3.2vw;
+    }
+  }
 }
