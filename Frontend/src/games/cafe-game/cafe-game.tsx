@@ -19,7 +19,7 @@ export default function CafeGame() {
   useEffect(() => {
     (async () => {
       const token = await HostController.getAccessToken();
-      
+
       if (!hostId || !token) {
         return;
       }

@@ -4,6 +4,7 @@ import { useApplication, useExtend } from "@pixi/react";
 import { Graphics, Sprite, Texture, TilingSprite, Text, Assets } from "pixi.js";
 import TagScreen from "@/games/cafe-game/components/tag-screen/tag-screen";
 import CafeGameStore from "@/games/stores/cafe-game-store/cafe-game-store";
+import LeaderBoardScreenIcon from "@/games/cafe-game/components/leader-board-screen-icon/leader-board-screen-icon";
 
 export default function WallContainer() {
   useExtend({ Sprite, TilingSprite, Graphics, Text });
@@ -68,8 +69,12 @@ export default function WallContainer() {
           />
         )}
       </pixiContainer>
-      <pixiContainer label="Money cafe-game" x={appWidth / 1.2}>
+      <pixiContainer label="Username cafe-game" x={10}>
+        <TagScreen value={'aaaa'} hasUserName={true} />
+      </pixiContainer>
+      <pixiContainer label="Money cafe-game" x={appWidth / 1.3}>
         <TagScreen value={cafeBalance} />
+        <LeaderBoardScreenIcon />
       </pixiContainer>
     </pixiContainer>
   );
