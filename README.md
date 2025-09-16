@@ -2,20 +2,6 @@
 
 ## Cài đặt
 
-Build Backend
-
-```
-docker build -f Backend/Dockerfile -t uni-class-game-backend .
-```
-
-Build Frontend
-
-```
-docker build -f Frontend/Dockerfile -t uni-class-game-backend .
-```
-
-Build hole project
-
 ```
 docker-compose up -d
 ```
@@ -27,3 +13,8 @@ docker-compose up -d
 3. Ấn chọn "Copy Join Link" ở góc phải
 4. Mở tab mới và paste URL đã copy (Mỗi người chơi là một tab)
 5. Quay về tab Host ban đầu ấn "Start"
+
+Game sẽ kết thúc nếu thỏa mãn 1 trong 2 điều kiện sau:
+
+* Ấn hình chiếc cờ ở màn Host
+* Khi có người chơi đạt được > 100,000 $
