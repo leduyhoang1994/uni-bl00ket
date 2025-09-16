@@ -1,4 +1,5 @@
 @use "../../variable-reponsive" as *;
+
 .host-creator {
   display: flex;
   flex-direction: column;
@@ -96,6 +97,7 @@
   &__body-content-player {
     display: flex;
     gap: 1dvw;
+
     > :first-child {
       color: #fff;
       font-size: 2.5dvw;
@@ -185,6 +187,7 @@
     left: 0;
     transform: translateY(-57.5%) rotate(-10deg);
     width: 21%;
+
     img {
       width: 100%;
       height: 100%;
@@ -260,7 +263,7 @@
     display: flex;
     justify-content: center;
 
-    > div {
+    >div {
       display: flex;
       flex-direction: column;
       justify-content: center;

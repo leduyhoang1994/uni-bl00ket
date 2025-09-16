@@ -14,4 +14,8 @@ export default class RedisHostKey {
   static getPlayerGameDataKey(hostId: string): string {
     return this.fullKey(`host:${hostId}:gameData`);
   }
+
+  static getHostLeaderboardKey(hostId: string): string {
+    return this.fullKey(`host:${hostId}:leaderboard`);
+  }
 }

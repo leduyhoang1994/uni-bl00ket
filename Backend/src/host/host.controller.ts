@@ -3,6 +3,7 @@ import HostSocket from "./host.socket";
 import { AuthenticatedSocket } from "../types/socket";
 import logger from "../utils/logger";
 import { HOST_COMMANDS, HostEvent } from "@Common/constants/event.constant";
+import { HostState } from "@Common/constants/host.constant";
 
 export default class HostController {
   private hostId: string;
@@ -38,7 +39,8 @@ export default class HostController {
 
     if (user.role == "host") {
       logger.debug(`Host ${user.id} joined`);
-      this.hostSocket.emitLobbyUpdated(await this.hostRepo.getPlayers());
+      await this.hostSocket.emitLobbyUpdated(await this.hostRepo.getPlayers());
+      await this.onLeaderboardUpdated();
       return;
     }
 
@@ -69,7 +71,12 @@ export default class HostController {
       return;
     }
 
-    await this.hostRepo.leave(user);
+    const hostInfo = await this.hostRepo.getHostInfo(this.hostId);
+
+    if (hostInfo.state === HostState.Lobby) {
+      await this.hostRepo.leave(user);
+    }
+
     await this.onLeaved();
   }
   public async onLeaved() {
@@ -137,6 +144,40 @@ export default class HostController {
     );
   }
 
+  public async updateLeaderboard(score: number) {
+    const user = this.hostSocket?.getUser();
+    if (!user) {
+      logger.debug("User not found");
+      return;
+    }
+
+    await this.hostRepo.updateLeaderboard(this.hostId, user.id, score);
+    await this.onLeaderboardUpdated();
+  }
+  private async onLeaderboardUpdated() {
+    let leaderBoard = await this.hostRepo.getLeaderboard(this.hostId);
+    const players = await this.hostRepo.getPlayers();
+
+    leaderBoard = leaderBoard.map((item) => {
+      const player = players.find((p) => p.id === item.playerId);
+      return {
+        ...item,
+        username: player?.username,
+        avatar: player?.avatar,
+      };
+    });
+
+    await this.hostSocket?.emitLeaderBoardUpdated(leaderBoard);
+  }
+
+  public async endGame() {
+    await this.hostRepo.endGame(this.hostId);
+    await this.onGameEnded();
+  }
+  private async onGameEnded() {
+    await this.hostSocket?.emitGameEnded();
+  }
+
   public async eventHandler(eventName: HostEvent, ...args: any) {
     if (!this.hostSocket) {
       logger.debug("Host socket not found");
@@ -160,6 +201,12 @@ export default class HostController {
         break;
       case HostEvent.SaveGame:
         await this.saveGameData(args[0]);
+        break;
+      case HostEvent.ScoreUpdated:
+        await this.updateLeaderboard(args[0]);
+        break;
+      case HostEvent.EndGame:
+        await this.endGame();
         break;
     }
   }

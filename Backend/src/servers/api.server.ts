@@ -48,7 +48,7 @@ app.get("/", (req, res) => {
   res.send("MIIS");
 });
 
-app.post(HttpRoute.CreateHost, authenticateUser, async (req, res) => {
+app.post(HttpRoute.CreateHost, async (req, res) => {
   const hostInfo: HostInfo = req.body.hostInfo;
   const hostId = await HostRepository.create(hostInfo);
 
@@ -57,9 +57,23 @@ app.post(HttpRoute.CreateHost, authenticateUser, async (req, res) => {
 
 app.post(HttpRoute.GetHostInfo, authenticateUser, async (req, res) => {
   const hostId = req.body.hostId;
-  const controller = new HostRepository(hostId);
+  const hostRepo = new HostRepository(hostId);
 
-  const hostInfo = await controller.getHostInfo(hostId);
+  const hostInfo = await hostRepo.getHostInfo(hostId);
+  let finalStadings = await hostRepo.getLeaderboard(hostId, 3);
+
+  const players = await hostRepo.getPlayers();  
+
+  finalStadings = finalStadings.map((item) => {
+    const player = players.find((p) => p.id === item.playerId);
+    return {
+      ...item,
+      username: player?.username,
+      avatar: player?.avatar,
+    };
+  });
+
+  hostInfo.finalStandings = finalStadings;
 
   res.send(JsonResponse({ hostInfo }));
 });
@@ -71,7 +85,8 @@ app.post(
     if (!req.user) {
       res.status(401).send("Unauthorized");
       return;
-    }    const hostId = req.user?.hostId;
+    }
+    const hostId = req.user?.hostId;
 
     const controller = new HostRepository(hostId);
     const gameData = await controller.getGameData(hostId, req.user?.id);

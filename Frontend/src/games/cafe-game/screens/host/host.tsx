@@ -1,5 +1,6 @@
 import tokenRequire from "@/host/components/token-require.hoc";
 import HostController from "@/host/controllers/host.controller";
+import { UrlGenerator } from "@/utils/utils";
 import { GameMode } from "@common/constants/host.constant";
 import { useNavigate } from "react-router";
 
@@ -15,7 +16,7 @@ function CreateCafeHost() {
     });
     const hostId = createResult?.data?.hostId;
 
-    navigate(`/lobby/${hostId}`);
+    navigate(UrlGenerator.HostLobbbyUrl(hostId));
   }
   return (
     <>

@@ -1,6 +1,7 @@
 import { useEffect, useLayoutEffect, useState } from "react";
 import HostController from "../controllers/host.controller";
 import { useNavigate, useSearchParams } from "react-router";
+import { UrlGenerator } from "@/utils/utils";
 
 export default function tokenRequire<T extends React.ComponentType<any>>(
   Component: T
@@ -45,7 +46,7 @@ export default function tokenRequire<T extends React.ComponentType<any>>(
     }
 
     if (!hasAccessToken) {
-      navigate("/access-denied");
+      navigate(UrlGenerator.AccessDeniedUrl());
       return <div>Access Denied</div>;
     }
 

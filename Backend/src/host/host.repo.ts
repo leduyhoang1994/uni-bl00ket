@@ -1,9 +1,10 @@
-import { HostInfo, Player } from "@Common/types/host.type";
+import { HostInfo, HostLeaderboard, Player } from "@Common/types/host.type";
 import { AuthenticatedUser } from "../../../Common/types/socket.type";
 import logger from "../utils/logger";
 import RedisHostKey from "./model/host.key";
 import RedisClient from "../utils/redis.client";
 import { hexRnd } from "../utils/token";
+import { GameMode, HostState } from "@Common/constants/host.constant";
 
 export default class HostRepository {
   private hostId: string;
@@ -22,18 +23,18 @@ export default class HostRepository {
     const redisClient = await RedisClient.getClient();
     await redisClient.hSet(
       RedisHostKey.getHostKey(this.hostId),
-      "started",
-      "true"
+      "state",
+      HostState.InGame
     );
   }
 
   public async hasStarted() {
     const client = await RedisClient.getClient();
-    const started = await client.hGet(
+    const state = await client.hGet(
       RedisHostKey.getHostKey(this.hostId),
-      "started"
+      "state"
     );
-    return started === "true";
+    return state === HostState.InGame;
   }
 
   public async getPlayerById(id: string) {
@@ -104,8 +105,8 @@ export default class HostRepository {
     const redisHostInfo = await client.hGetAll(RedisHostKey.getHostKey(hostId));
 
     return {
-      started: redisHostInfo["started"] === "true",
-      gameMode: redisHostInfo["gameMode"],
+      state: redisHostInfo["state"] as HostState,
+      gameMode: redisHostInfo["gameMode"] as GameMode,
       hostId: hostId,
     };
   }
@@ -131,11 +132,54 @@ export default class HostRepository {
     );
   }
 
+  public async updateLeaderboard(
+    hostId: string,
+    userId: string,
+    score: number
+  ) {
+    const client = await RedisClient.getClient();
+
+    await client.zAdd(RedisHostKey.getHostLeaderboardKey(hostId), {
+      score: score,
+      value: userId,
+    });
+  }
+
+  public async getLeaderboard(hostId: string, max: number = 20): Promise<HostLeaderboard> {
+    const client = await RedisClient.getClient();
+
+    const leaderboard = await client.zRangeByScoreWithScores(
+      RedisHostKey.getHostLeaderboardKey(hostId),
+      "-inf",
+      "+inf",
+      {
+        LIMIT: {
+          offset: 0,
+          count: max,
+        },
+      }
+    );
+
+    return leaderboard.reverse().map((item) => ({
+      playerId: item.value,
+      score: item.score,
+    }));
+  }
+
+  public async endGame(hostId: string) {
+    const client = await RedisClient.getClient();
+    await client.hSet(RedisHostKey.getHostKey(hostId), "state", HostState.Ended);
+  }
+
   public static async create(hostInfo: HostInfo) {
     const client = await RedisClient.getClient();
     const hostId = hostInfo.hostId || hexRnd.rnd();
 
-    await client.hSet(RedisHostKey.getHostKey(hostId), "started", "false");
+    await client.hSet(
+      RedisHostKey.getHostKey(hostId),
+      "state",
+      HostState.Lobby
+    );
     await client.hSet(
       RedisHostKey.getHostKey(hostId),
       "gameMode",

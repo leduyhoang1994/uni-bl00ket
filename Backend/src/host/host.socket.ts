@@ -1,7 +1,7 @@
 import { Socket } from "socket.io";
 import { AuthenticatedSocket } from "../types/socket";
 import logger from "../utils/logger";
-import { Player } from "@Common/types/host.type";
+import { HostLeaderboard, Player } from "@Common/types/host.type";
 import { AuthenticatedUser } from "../../../Common/types/socket.type";
 import { HostEvent } from "@Common/constants/event.constant";
 
@@ -43,6 +43,14 @@ export default class HostSocket {
 
   public async emitUserInfo() {
     this.socket.emit(HostEvent.UserInfo, this.socket.user);
+  }
+
+  public async emitLeaderBoardUpdated(leaderboard: HostLeaderboard) {
+    this.emitRoom(HostEvent.LeaderBoardUpdated, leaderboard);
+  }
+
+  public async emitGameEnded() {
+    this.emitRoom(HostEvent.GameEnded);
   }
 
   protected async emitRoom(eventName: string, arg: any = null) {

@@ -4,6 +4,7 @@ import FormSubmit from "../components/form-submit/form-submit";
 import { ChangeEvent, useLayoutEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router";
 import HostController from "../controllers/host.controller";
+import { UrlGenerator } from "@/utils/utils";
 
 export default function HostPlayer() {
   const { hostId } = useParams();
@@ -20,7 +21,7 @@ export default function HostPlayer() {
 
       const accessToken = await HostController.getAccessToken();
       if (accessToken) {
-        navigate(`/join/${hostId}/lobby`);
+        navigate(UrlGenerator.PlayerJoinLobbyUrl(hostId));
       }
     })();
   });
@@ -29,8 +30,8 @@ export default function HostPlayer() {
     setHostIdValue(e.target.value);
   };
 
-  const chooseHost = async () => {
-    navigate(`/join/${hostIdValue}`);
+  const chooseHost = async () => {    
+    navigate(UrlGenerator.PlayerJoinUrl(hostId));
   };
 
   const nickNameValue = (e: ChangeEvent<HTMLInputElement>) => {
@@ -39,7 +40,7 @@ export default function HostPlayer() {
 
   const joinHost = async () => {
     if (!hostId) {
-      navigate(`/join`);
+    navigate(UrlGenerator.PlayerJoinUrl());
       return;
     }
 
@@ -48,7 +49,7 @@ export default function HostPlayer() {
     const guestToken = await controller.createGuest(username, hostId);
     await HostController.saveAccessToken(guestToken);
 
-    navigate(`/join/${hostId}/lobby`);
+    navigate(UrlGenerator.PlayerJoinLobbyUrl(hostId));
   };
 
   return (

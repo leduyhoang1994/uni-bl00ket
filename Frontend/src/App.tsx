@@ -10,6 +10,9 @@ import { useLayoutEffect } from "react";
 import HostController from "./host/controllers/host.controller";
 import AccessDenied from "./host/components/access-denied";
 import Leaderboard from "./games/cafe-game/screens/leaderboard/leaderboard";
+import Host from "./host/host/host";
+import FinalStandings from "./host/final-standings-creator/final-standings";
+import FinalStandingsPlayer from "./host/final-standings-player/final-standings-player";
 
 function App() {
   useLayoutEffect(() => {
@@ -32,16 +35,18 @@ function App() {
         <Route path="join/:hostId" element={<HostPlayer />} />
         <Route path="join/:hostId/lobby" element={<WaitingLobbyPlayer />} />
         {/* Creator Lobby */}
-        <Route path="lobby/:hostId" element={<HostCreator />} />
+        <Route path="host-lobby/:hostId" element={<HostCreator />} />
 
         {/* In Game */}
-        <Route path="play/:hostId" element={<GameApplication />} />
-        <Route path="host/:hostId" element={<GameApplication />} />
+        <Route path="player-play/:hostId" element={<GameApplication />} />
+        <Route path="player-final/:hostId" element={<FinalStandingsPlayer />} />
+        <Route path="host-play/:hostId" element={<Host />} />
+        <Route path="host-final/:hostId" element={<FinalStandings />} />
 
         <Route path="/cafe">
           {/* Creator Lobby */}
           <Route path="create" element={<CreateCafeHost />} />
-          <Route path="leaderboard" element={<Leaderboard />} />
+          <Route path=":hostId/leaderboard" element={<Leaderboard />} />
         </Route>
 
         <Route path="/access-denied" element={<AccessDenied />} />

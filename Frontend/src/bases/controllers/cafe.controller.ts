@@ -78,6 +78,8 @@ export default class CafeController
     this.questions = QUESTIONS;
 
     this.abilities = ABILITIES;
+
+    this.buyShopItem("s1");
   }
 
   public getSaveData() {
@@ -159,7 +161,12 @@ export default class CafeController
       // eslint-disable-next-line @typescript-eslint/ban-ts-comment
       // @ts-expect-error
       const stock: Stock = this.stocks.find((s) => s.id === item.stockId);
-      const priceToSell = stock.sellPrices[stock.currentIndexLevel + 1]; // giá cần có dể mua được
+
+      console.log(stock.name, stock.currentIndexLevel, stock.enabled);
+      
+      const priceToSell = stock.enabled
+        ? stock.sellPrices[stock.currentIndexLevel + 1]
+        : stock.sellPrices[0]; // giá cần có dể mua được
 
       const isMaxLevel = stock.currentIndexLevel == INDEX_MAX_LEVEL;
       return {
@@ -180,7 +187,9 @@ export default class CafeController
 
     const stock = this.stocks[stockIndex];
 
-    const priceToSell = stock.sellPrices[stock.currentIndexLevel + 1]; // giá cần có dể mua được
+    const priceToSell = stock.enabled
+      ? stock.sellPrices[stock.currentIndexLevel + 1]
+      : stock.sellPrices[0]; // giá cần có dể mua được
 
     if (this.balance < priceToSell) {
       return { success: false, message: "Not enough money" };
@@ -188,7 +197,7 @@ export default class CafeController
 
     this.updateBalance(this.balance - priceToSell);
 
-    let levelUp = stock.currentIndexLevel + 1;
+    let levelUp = stock.enabled ? stock.currentIndexLevel + 1 : 0;
 
     if (levelUp > INDEX_MAX_LEVEL) {
       levelUp = INDEX_MAX_LEVEL;

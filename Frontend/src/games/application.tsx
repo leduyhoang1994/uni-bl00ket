@@ -7,9 +7,10 @@ import CafeGame from "./cafe-game/cafe-game";
 import CAFE_ASSET_BUNDLE from "@/games/cafe-game/helpers/bundle";
 import { useState, useEffect, useLayoutEffect } from "react";
 import RenderIf from "@/utils/condition-render";
-import { useParams } from "react-router";
+import { useNavigate, useParams } from "react-router";
 import HostController from "@/host/controllers/host.controller";
-import { GameMode } from "@common/constants/host.constant";
+import { GameMode, HostState } from "@common/constants/host.constant";
+import { UrlGenerator } from "@/utils/utils";
 
 extend({
   Container,
@@ -21,6 +22,7 @@ export default function GameContainer() {
   const [loaded, setLoaded] = useState(false);
   const [gameMode, setGameMode] = useState<GameMode | null>(null);
   const { hostId } = useParams();
+  const navigate = useNavigate();
 
   const { app } = useApplication();
   (globalThis as any).__PIXI_APP__ = app;
@@ -36,9 +38,22 @@ export default function GameContainer() {
 
       const hostInfo = await hostController.getHostInfo(hostId);
 
-      if (!hostInfo || !hostInfo.started) {
+      if (!hostInfo) {
         return;
       }
+
+      if (hostInfo.state === HostState.Ended) {
+        navigate(UrlGenerator.PlayerFinalStandingUrl(hostId));
+        return;
+      }
+
+      hostController.onGameEnded = async () => {
+        navigate(UrlGenerator.PlayerFinalStandingUrl(hostId));
+        return;
+      };
+      await hostController.initSocket();
+
+      console.log(hostInfo.state);
 
       setGameMode(hostInfo.gameMode);
     })();

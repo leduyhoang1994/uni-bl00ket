@@ -14,7 +14,7 @@ export default class GameController {
   }
 
   protected async saveGame() {
-    if (!this.socketClient) {      
+    if (!this.socketClient) {
       return;
     }
 
@@ -30,8 +30,7 @@ export default class GameController {
   }
 
   public onScoreUpdate: (score: number) => Promise<void> = async (score) => {
-    console.log("Score updated:", score);
-    console.log(this.getSaveData());
+    this.socketClient?.emit(HostEvent.ScoreUpdated, score);
   };
 
   public socketEventHandler(eventName: string, ...args: any) {}

@@ -1,13 +1,44 @@
-import GameApplication from "@/games/page";
-import FinalStandings from "@/host/final-standings-creator/final-standings";
-import FinalStandingsPlayer from "@/host/final-standings-player/final-standings-player";
-import HostCreator from "@/host/host-creator/host-creator";
-import WaitingActionCreator from "@/host/waiting-action-creator/waiting-action-creator";
+import HostController from "@/host/controllers/host.controller";
+import HostLeaderboardScreen from "@/host/host-leaderboard/host-leaderboard";
+import HostStore from "@/stores/host-store/host-store";
+import { HostLeaderboard } from "@common/types/host.type";
+import { useLayoutEffect } from "react";
+import { useParams } from "react-router";
 
 export default function Leaderboard() {
+  const { hostId } = useParams();
+  const { setLeaderboard } = HostStore();
+
+  useLayoutEffect(() => {
+    (async () => {
+      if (!hostId) {
+        return;
+      }
+
+      const hostController = await HostController.getInstance();
+      await hostController.initHttp();
+      const hostInfo = await hostController.getHostInfo(hostId);
+
+      if (!hostInfo) {
+        return;
+      }
+
+      hostController.onLeaderBoardUpdated = async (
+        leaderboard: HostLeaderboard
+      ) => {
+        if (!leaderboard) {
+          return;
+        }
+
+        setLeaderboard(leaderboard);
+      };
+
+      await hostController.initSocket(hostId);
+    })();
+  }, []);
   return (
     <>
-      <FinalStandingsPlayer />
+      <HostLeaderboardScreen />
     </>
   );
 }

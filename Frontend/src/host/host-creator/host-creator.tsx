@@ -5,22 +5,29 @@ import PlayerInfo from "../components/player-info/player-info";
 import { HostInfo, Player } from "@common/types/host.type";
 import { useEffect } from "react";
 import HostController from "../controllers/host.controller";
-import { useParams, useSearchParams } from "react-router";
+import { useNavigate, useParams, useSearchParams } from "react-router";
 import tokenRequire from "../components/token-require.hoc";
-import { GenUrl } from "@/utils/utils";
+import { GenUrl, UrlGenerator } from "@/utils/utils";
 
 function HostCreator() {
   const { setCurrentState, setLobbyPlayers, lobbyPlayers } = HostStore();
   const hasPlayer = lobbyPlayers.length > 0;
   const textBtn = hasPlayer ? "Start" : "1 More";
   const { hostId } = useParams();
-  const [searchParams] = useSearchParams();
+  const navigate = useNavigate();
 
   useEffect(() => {
     (async () => {
+      if (!hostId) {
+        return;
+      }
+      
       const hostController = await HostController.getInstance();
       hostController.onLobbyUpdated = async (players: Player[]) => {
         setLobbyPlayers(players);
+      };
+      hostController.onGameStarted = async () => {
+        navigate(UrlGenerator.HostPlayUrl(hostId));
       };
       await hostController.initSocket(hostId);
     })();
@@ -36,7 +43,7 @@ function HostCreator() {
 
   const copyLink = async () => {
     const url = `/join/${hostId}`;
-    await navigator.clipboard.writeText(GenUrl(url));
+    await navigator.clipboard.writeText(GenUrl(url, true));
     alert("URL Copied");
   };
 
@@ -52,7 +59,7 @@ function HostCreator() {
         </div>
         <div className="host-creator__header-id">{hostId}</div>
         <div className="host-creator__header-copy-link">
-          <a href="javascript:void(0)" onClick={copyLink}>
+          <a href="#" onClick={copyLink}>
             Copy Join Link
           </a>
         </div>

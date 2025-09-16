@@ -1,3 +1,4 @@
+import { HostLeaderboardItem } from '@common/types/host.type';
 import React from 'react';
 
 export enum FinalStandingsPrizeRank {
@@ -36,16 +37,16 @@ const RANK_CONFIG: Record<FinalStandingsPrizeRank, RankDetails> = {
 
 interface FinalStandingsPrizeProps {
   useRank?: FinalStandingsPrizeRank;
-  userName?: string;
-  score?: number;
+  leaderboardItem: HostLeaderboardItem;
 }
 
 export default function FinalStandingsPrize({
+  leaderboardItem,
   useRank = FinalStandingsPrizeRank.FIRST,
-  userName = 'Anonymous',
-  score = 0
 }: FinalStandingsPrizeProps) {
   const rankInfo = RANK_CONFIG[useRank];
+  const userName = leaderboardItem.username;
+  const score = leaderboardItem.score;
 
   return (
     <div className={`final-standings-prize ${rankInfo.columnClass}`}>

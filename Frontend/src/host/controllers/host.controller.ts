@@ -1,11 +1,9 @@
 import initHttp from "@/utils/http.util";
 import { HostEvent } from "@common/constants/event.constant";
-import { GameMode } from "@common/constants/host.constant";
 import { HttpRoute } from "@common/constants/http.constant";
-import { HostInfo, Player } from "@common/types/host.type";
+import { HostInfo, HostLeaderboard, Player } from "@common/types/host.type";
 import { AuthenticatedUser } from "@common/types/socket.type";
 import { Axios } from "axios";
-import { SessionStorage } from "react-router";
 import { io, Socket } from "socket.io-client";
 
 export default class HostController {
@@ -20,6 +18,9 @@ export default class HostController {
   public onUserInfo: (user: AuthenticatedUser) => Promise<void> =
     async () => {};
   public onGameStarted: () => Promise<void> = async () => {};
+  public onLeaderBoardUpdated: (leaderBoard: HostLeaderboard) => Promise<void> =
+    async () => {};
+  public onGameEnded: () => Promise<void> = async () => {};
 
   public async initHttp() {
     const token = await HostController.getAccessToken();
@@ -85,6 +86,14 @@ export default class HostController {
       if (event === HostEvent.LobbyStarted) {
         await this.onGameStarted();
       }
+
+      if (event === HostEvent.LeaderBoardUpdated) {
+        await this.onLeaderBoardUpdated(args[0]);
+      }
+
+      if (event === HostEvent.GameEnded) {
+        await this.onGameEnded();
+      }
     });
   }
 
@@ -119,9 +128,20 @@ export default class HostController {
       await this.initHttp();
     }
 
-    const result = await this.httpClient?.post(HttpRoute.GetHostInfo, JSON.stringify({ hostId }));
+    const result = await this.httpClient?.post(
+      HttpRoute.GetHostInfo,
+      JSON.stringify({ hostId })
+    );
 
     return result ? result.data.hostInfo : null;
+  }
+
+  public async endGame() {
+    if (!this.socketClient) {
+      return;
+    }
+
+    this.socketClient.emit(HostEvent.EndGame);
   }
 
   public static async saveAccessToken(token: string | null) {

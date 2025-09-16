@@ -4,7 +4,9 @@ import RenderIf from "@/utils/condition-render";
 import { AuthenticatedUser } from "@common/types/socket.type";
 import { useNavigate, useParams } from "react-router";
 import tokenRequire from "../components/token-require.hoc";
-import { GenUrl } from "@/utils/utils";
+import { GenUrl, UrlGenerator } from "@/utils/utils";
+import { HostInfo } from "../../../../Common/types/host.type";
+import { HostState } from "@common/constants/host.constant";
 
 function WaitingLobbyPlayer() {
   const [isJoining, setIsJoining] = useState(true);
@@ -16,17 +18,20 @@ function WaitingLobbyPlayer() {
   useLayoutEffect(() => {
     (async () => {
       if (!hostId) {
-        navigate("/access-denied");
+        navigate(UrlGenerator.AccessDeniedUrl());
         return;
       }
 
       const controller = await HostController.getInstance();
       const hostInfo = await controller.getHostInfo(hostId);
 
-      console.log(hostInfo);      
+      if (!hostInfo) {
+        navigate(UrlGenerator.AccessDeniedUrl());
+        return;
+      }
 
-      if (hostInfo?.started) {
-        navigate(GenUrl(`/play/${hostId}`));
+      if (hostInfo.state === HostState.InGame) {
+        navigate(UrlGenerator.PlayerPlayUrl(hostId));
         return;
       }
 
@@ -38,7 +43,7 @@ function WaitingLobbyPlayer() {
         setPlayer(player);
       };
       controller.onGameStarted = async () => {
-        navigate(GenUrl(`/play/${hostId}`));
+        navigate(UrlGenerator.PlayerPlayUrl(hostId));
       };
       await controller.initSocket(hostId);
     })();

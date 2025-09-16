@@ -63,7 +63,7 @@
     align-items: center;
     gap: 1rem;
 
-    > button {
+    >button {
       position: relative;
       transition: filter 0.25s;
       cursor: pointer;
@@ -176,6 +176,15 @@
     color: #fff;
     font-family: var(--font-titan);
     user-select: none;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+
+    .end-now-btn {
+      cursor: pointer;
+    }
   }
 
   &__header-first {

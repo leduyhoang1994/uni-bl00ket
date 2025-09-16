@@ -1,13 +1,13 @@
-export default function ButtonPlayer({ userNumber = 1 }) {
-  let numberText = 'st';
+export default function ButtonPlayer({ userNumber = 1, score = 0, name = "" }) {
+  let numberText = "st";
   if (userNumber == 2) {
-    numberText = 'nd';
+    numberText = "nd";
   }
   if (userNumber == 3) {
-    numberText = 'rd'
+    numberText = "rd";
   }
   if (userNumber > 3) {
-    numberText = 'th';
+    numberText = "th";
   }
   return (
     <div className="button-player__cover">
@@ -19,9 +19,9 @@ export default function ButtonPlayer({ userNumber = 1 }) {
         <div className="button-player__user-avatar">
           <img src="/images/avatar/blook-penguin.svg" alt="" />
         </div>
-        <div className="button-player__user-name">hoang haong hoa</div>
-        <div className="button-player__user-money">$0</div>
+        <div className="button-player__user-name">{name}</div>
+        <div className="button-player__user-money">${score}</div>
       </button>
     </div>
-  )
+  );
 }
