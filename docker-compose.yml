@@ -1,5 +1,7 @@
 services:
   uni_class_game_frontend:
+    env_file:
+      - .env
     build:
       context: .
       dockerfile: Frontend/Dockerfile
@@ -7,14 +9,18 @@ services:
         - VITE_UNI_CLASS_BACKEND_HOST=${VITE_UNI_CLASS_BACKEND_HOST}
     container_name: uni_class_game_frontend
     ports:
-      - "3000:80"
+      #- "3000:80"
       # - "5173:80"
+      - "5173:80"
+        #- "5173:80"
     depends_on:
       - uni_class_game_backend
     networks:
       - app-network
 
   uni_class_game_backend:
+    env_file:
+      - .env
     build:
       context: .
       dockerfile: Backend/Dockerfile
@@ -23,7 +29,8 @@ services:
       - redis_server
     ports:
       # - "3000:3000"
-      - "5173:3000"
+      #- "5173:3000"
+      - "3000:3000"
     networks:
       - app-network
     environment:
@@ -31,9 +38,18 @@ services:
 
   redis_server:
     image: redis:7-alpine
+    # Không đặt container_name để tránh xung đột tên giữa nhiều stack
     container_name: redis_server
+    restart: unless-stopped
+    ports:
+      - "6369:6379"
     volumes:
       - ./redis_data:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 3s
+      retries: 5
     networks:
       - app-network
 
