@@ -1,8 +1,9 @@
 import { Axios } from "axios";
 
 async function initHttp(token: string | null) {
+  const host = import.meta.env.VITE_UNI_CLASS_BACKEND_HOST;
   const client = new Axios({
-    baseURL: "http://localhost:3000",
+    baseURL: host,
     responseType: "json",
     headers: {
       "Content-Type": "application/json",

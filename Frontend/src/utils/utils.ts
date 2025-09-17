@@ -1,7 +1,7 @@
 import { GameMode } from "@common/constants/host.constant";
 
 export function getHost() {
-  return "http://localhost:5173";
+  return window.location.origin;
 }
 
 export function GenUrl(path: string, withHost?: boolean) {

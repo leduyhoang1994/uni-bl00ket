@@ -11,8 +11,8 @@ export default function initSocketClient(
   if (socketClient) {
     return socketClient;
   }
-  
-  socketClient = io("http://localhost:3000", {
+  const host = import.meta.env.VITE_UNI_CLASS_BACKEND_HOST;
+  socketClient = io(host, {
     auth: {
       token: accessToken,
       hostId: hostId,

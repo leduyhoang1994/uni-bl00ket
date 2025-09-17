@@ -10,6 +10,8 @@ services:
       - uni_class_game_backend
     networks:
       - app-network
+    environment:
+      - VITE_UNI_CLASS_BACKEND_HOST=${VITE_UNI_CLASS_BACKEND_HOST}
 
   uni_class_game_backend:
     build:
@@ -17,13 +19,15 @@ services:
       dockerfile: Backend/Dockerfile
     container_name: uni_class_game_backend
     depends_on:
-      - redis
+      - redis_server
     ports:
       - "3000:3000"
     networks:
       - app-network
+    environment:
+      - REDIS_CONNECTION_URL=${REDIS_CONNECTION_URL}
 
-  redis:
+  redis_server:
     image: redis:7-alpine
     container_name: redis_server
     volumes:
