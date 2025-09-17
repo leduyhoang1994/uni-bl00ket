@@ -132,7 +132,7 @@ export default class HostController {
       HttpRoute.GenToken,
       JSON.stringify({
         username,
-        avatar: "http://localhost:5173/images/avatar/brown-dog.svg",
+        avatar: "https://game.uniclass.vn/images/avatar/brown-dog.svg",
         hostId,
       })
     );
