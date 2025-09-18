@@ -11,6 +11,7 @@ import initSocketClient from "@/utils/socket-client.util";
 import HostController from "@/host/controllers/host.controller";
 import { ABILITY_ID } from "@/model/model";
 import { Player } from "@common/types/host.type";
+import ChoosePlayerTarget from "./screens/choose-player-target/choose-player-target";
 
 export default function CafeGame() {
   const { toggleVisitShop, loadCafeData, loadCafeStocks, loadCafeBalance } =
@@ -70,6 +71,7 @@ export default function CafeGame() {
       <RenderIf condition={toggleVisitShop}>
         <UpgradesScreen />
       </RenderIf>
+      <ChoosePlayerTarget />
     </RenderIf>
   );
 }

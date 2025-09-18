@@ -53,7 +53,7 @@ export default class GameController {
     this.socketClient.emit(HostEvent.GameEvent, event);
   }
 
-  public async handleGameEvent(event: GameEvent) {}
+  public async handleGameEvent(event: GameEvent) { }
 
   public socketEventHandler(eventName: HostEvent, ...args: any) {
     switch (eventName) {
