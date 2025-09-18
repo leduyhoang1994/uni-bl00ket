@@ -1,4 +1,6 @@
 import { HostEvent } from "@common/constants/event.constant";
+import { GameEventType } from "@common/constants/host.constant";
+import { GameEvent } from "@common/types/host.type";
 import { Socket } from "socket.io-client";
 
 export default class GameController {
@@ -43,5 +45,21 @@ export default class GameController {
     this.socketClient.emit(HostEvent.SaveActivity, activity);
   }
 
-  public socketEventHandler(eventName: string, ...args: any) {}
+  protected async emitGameEvent(event: GameEvent) {
+    if (!this.socketClient) {
+      return;
+    }
+
+    this.socketClient.emit(HostEvent.GameEvent, event);
+  }
+
+  public async handleGameEvent(event: GameEvent) {}
+
+  public socketEventHandler(eventName: HostEvent, ...args: any) {
+    switch (eventName) {
+      case HostEvent.GameEvent:
+        this.handleGameEvent(args[0]);
+        break;
+    }
+  }
 }

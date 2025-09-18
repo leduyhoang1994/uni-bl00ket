@@ -8,24 +8,23 @@ export default function initSocketClient(
   accessToken: string,
   controller?: GameController
 ) {
-  if (socketClient) {
-    return socketClient;
+  if (!socketClient) {
+    const host = import.meta.env.VITE_UNI_CLASS_BACKEND_HOST;
+    socketClient = io(host, {
+      auth: {
+        token: accessToken,
+        hostId: hostId,
+      },
+    });
+
+    socketClient.on("connect", () => {
+      console.log("Connected to server");
+    });
+
+    socketClient.on("disconnect", () => {
+      console.log("Disconnected from server");
+    });
   }
-  const host = import.meta.env.VITE_UNI_CLASS_BACKEND_HOST;
-  socketClient = io(host, {
-    auth: {
-      token: accessToken,
-      hostId: hostId,
-    },
-  });
-
-  socketClient.on("connect", () => {
-    console.log("Connected to server");
-  });
-
-  socketClient.on("disconnect", () => {
-    console.log("Disconnected from server");
-  });
 
   if (controller) {
     socketClient.onAny((eventName, ...args) => {

@@ -25,6 +25,22 @@ export default function CafeGame() {
       }
 
       const controller = getCafeControllerInstance(hostId);
+      controller.onActivePayCheckBonus = (player) => {
+
+      };
+
+      controller.onActiveTrashTheFood = (player) => {
+
+      };
+
+      controller.onActiveTaxes = (player) => {
+
+      };
+
+      controller.onActiveHealthInspection = (player) => {
+
+      };
+
       const socket = initSocketClient(hostId, token, controller);
       controller.setSocketClient(socket);
       await controller.initData();

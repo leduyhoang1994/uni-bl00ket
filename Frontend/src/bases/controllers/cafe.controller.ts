@@ -17,6 +17,9 @@ import GameController from "./game.controller";
 import initHttp from "@/utils/http.util";
 import HostController from "@/host/controllers/host.controller";
 import { HttpRoute } from "@common/constants/http.constant";
+import { GameEvent, Player } from "@common/types/host.type";
+import { HostEvent } from "@common/constants/event.constant";
+import { GameEventType } from "@common/constants/host.constant";
 const MAX_CUSTOMER_CAN_SERVE = 3; // sô khách hàng tối đa có thể phục vụ
 const DEFAULT_REWARD_PRICE_TOAST = 2; // sô khách hàng tối đa có thể phục vụ
 const INDEX_MAX_LEVEL = 5; // max level
@@ -54,6 +57,13 @@ enum CafeActivity {
   BuyShopItem = "buy-shop-item",
 }
 
+enum CafeGameEvent {
+  PaycheckBonus = "paycheck-bonus",
+  TrashTheFood = "trash-the-food",
+  Taxes = "taxes",
+  HealthInspection = "health-inspection",
+}
+
 export default class CafeController
   extends GameController
   implements CafeControllerInterface
@@ -66,6 +76,11 @@ export default class CafeController
   private currentQuestion: Question | null = null;
   private abilities: Ability[] = [];
   private doubleRewardCount: number = 0; //  số khách còn lại được x2 tiền
+
+  public onActivePayCheckBonus: (player: Player) => void = () => {};
+  public onActiveTrashTheFood: (player: Player) => void = () => {};
+  public onActiveTaxes: (player: Player) => void = () => {};
+  public onActiveHealthInspection: (player: Player) => void = () => {};
 
   constructor(hostId: string) {
     super(hostId);
@@ -82,8 +97,6 @@ export default class CafeController
     this.questions = QUESTIONS;
 
     this.abilities = ABILITIES;
-
-    this.buyShopItem("s1");
   }
 
   public getSaveData() {
@@ -113,6 +126,11 @@ export default class CafeController
     );
 
     Object.assign(this, gameData.data.gameData);
+    const s1Stock = this.stocks.find((s: any) => s.id === "s1");
+
+    if (s1Stock && !s1Stock.enabled && s1Stock.currentIndexLevel === 0) {
+      this.buyShopItem("s1");
+    }
   }
 
   // Lấy số tiền
@@ -146,8 +164,6 @@ export default class CafeController
   }
 
   answerQuestion(answerId: string): { correct: boolean; message: string } {
-    console.log('answer');
-    
     if (!this.currentQuestion) {
       return { correct: false, message: "No question has been asked yet" };
     }
@@ -161,9 +177,10 @@ export default class CafeController
     this.stocks.forEach((s) => {
       if (s.enabled) s.quantity += 1;
     });
-    
+
     this.totalCorrectAnswers += 1;
     this.saveGame();
+    this.applyPayCheckBounus("");
     return { correct: true, message: "OK" };
   }
 
@@ -419,25 +436,40 @@ export default class CafeController
   }
 
   // Abilities Func
-  async onPayCheckBonus(){
-    await this.updateBalance(this.balance * 1.25)
+  async applyPayCheckBounus(playerId: string) {
+    await this.emitGameEvent({
+      type: GameEventType.All,
+      targetPlayerIds: [playerId],
+      payload: {
+        type: CafeGameEvent.PaycheckBonus,
+      },
+    });
   }
-  async onTrashTheFood(){
+
+  async onPayCheckBonus(player: Player) {
+    await this.updateBalance(this.getBalance() * 1.25);
+    this.onActivePayCheckBonus(player);
+  }
+  async onTrashTheFood(player: Player) {
     const numTrash = 3;
 
-    if(!this.stocks.length) return
+    if (!this.stocks.length) return;
 
     this.stocks.forEach((s) => {
       if (s.enabled) {
         s.quantity = Math.max(0, s.quantity - numTrash);
       }
     });
+
+    this.onActiveTrashTheFood(player);
   }
-  async onTaxes(){
-    await this.updateBalance(this.balance * 0.75)
+  async onTaxes(player: Player) {
+    await this.updateBalance(this.getBalance() * 0.75);
+    this.onActiveTaxes(player);
   }
-  async onHealthInspection(){
+  async onHealthInspection(player: Player) {
     //
+    this.onActiveHealthInspection(player);
   }
   // End Abilities Func
 
@@ -458,9 +490,10 @@ export default class CafeController
   }
 
   async updateBalance(balance: number) {
-    this.balance = balance;
+    this.balance = Math.round(balance);
 
     await this.onScoreUpdate(this.balance);
+    await this.saveGame();
   }
 
   public static decodeActivity(activity: any) {
@@ -471,6 +504,32 @@ export default class CafeController
       case CafeActivity.BuyShopItem:
         const foodName = STOCKS.find((s) => s.id === data.stockId)?.name;
         return `has updated ${foodName} to level ${data.level}`;
+    }
+  }
+
+  public async handleGameEvent(gameEvent: GameEvent) {
+    const cafeGameEvent = gameEvent.payload;
+    const player: Player = gameEvent.sourcePlayer || {
+      id: "",
+      avatar: "",
+      username: "",
+      socketId: "",
+    };
+    const cafeGameEventType: CafeGameEvent = cafeGameEvent.type;
+
+    switch (cafeGameEventType) {
+      case CafeGameEvent.PaycheckBonus:
+        await this.onPayCheckBonus(player);
+        break;
+      case CafeGameEvent.TrashTheFood:
+        await this.onTrashTheFood(player);
+        break;
+      case CafeGameEvent.Taxes:
+        await this.onTaxes(player);
+        break;
+      case CafeGameEvent.HealthInspection:
+        await this.onHealthInspection(player);
+        break;
     }
   }
 }
