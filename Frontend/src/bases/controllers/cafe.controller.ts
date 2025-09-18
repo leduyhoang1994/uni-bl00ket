@@ -180,7 +180,6 @@ export default class CafeController
 
     this.totalCorrectAnswers += 1;
     this.saveGame();
-    this.applyPayCheckBounus("");
     return { correct: true, message: "OK" };
   }
 
