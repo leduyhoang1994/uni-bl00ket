@@ -9,12 +9,21 @@ import { useParams } from "react-router";
 import { getCafeControllerInstance } from "./cafe-controller.singleton";
 import initSocketClient from "@/utils/socket-client.util";
 import HostController from "@/host/controllers/host.controller";
+import { ABILITY_ID } from "@/model/model";
+import { Player } from "@common/types/host.type";
 
 export default function CafeGame() {
-  const { toggleVisitShop, loadCafeData, loadCafeStocks, loadCafeBalance } = CafeGameStore();
+  const { toggleVisitShop, loadCafeData, loadCafeStocks, loadCafeBalance } =
+    CafeGameStore();
   const { toggleQuizContainer } = QuizStore();
   const [controllerLoaded, setControllerLoaded] = useState(false);
   const { hostId } = useParams();
+
+  function toggleAbilityPopup(abilityId: ABILITY_ID, player: Player) {
+  }
+
+  function toggleBlockingScreen(player: Player) {
+  }
 
   useEffect(() => {
     (async () => {
@@ -27,18 +36,21 @@ export default function CafeGame() {
       const controller = getCafeControllerInstance(hostId);
       controller.onActivePayCheckBonus = (player) => {
         loadCafeBalance();
+        toggleAbilityPopup(ABILITY_ID.PAYCHECK_BONUS, player);
       };
 
       controller.onActiveTrashTheFood = (player) => {
         loadCafeStocks();
+        toggleAbilityPopup(ABILITY_ID.TRASH_THE_FOOD, player);
       };
 
       controller.onActiveTaxes = (player) => {
         loadCafeBalance();
+        toggleAbilityPopup(ABILITY_ID.TAXES, player);
       };
 
       controller.onActiveHealthInspection = (player) => {
-
+        toggleBlockingScreen(player);
       };
 
       const socket = initSocketClient(hostId, token, controller);
