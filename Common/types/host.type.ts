@@ -1,4 +1,4 @@
-import { GameMode, HostState } from "../constants/host.constant";
+import { GameEventType, GameMode, HostState } from "../constants/host.constant";
 
 export type Player = {
   id: string;
@@ -50,3 +50,10 @@ export type GetHostInfoOpts = {
 };
 
 export type HostLeaderboard = HostLeaderboardItem[];
+
+export type GameEvent = {
+  type: GameEventType,
+  sourcePlayer?: Player | null,
+  targetPlayerIds?: Array<string>,
+  payload?: any
+}

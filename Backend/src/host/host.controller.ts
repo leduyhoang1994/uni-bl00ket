@@ -3,7 +3,8 @@ import HostSocket from "./host.socket";
 import { AuthenticatedSocket } from "../types/socket";
 import logger from "../utils/logger";
 import { HOST_COMMANDS, HostEvent } from "@Common/constants/event.constant";
-import { HostState } from "@Common/constants/host.constant";
+import { GameEventType, HostState } from "@Common/constants/host.constant";
+import { GameEvent } from "@Common/types/host.type";
 
 export default class HostController {
   private hostId: string;
@@ -205,6 +206,21 @@ export default class HostController {
     });
   }
 
+  public async handleGameEvent(gameEvent: GameEvent) {
+    let socketIds: "all" | Array<string> = "all";
+    const sourcePlayerId = (this.hostSocket?.getUser() as any).id;
+    gameEvent.sourcePlayer = await this.hostRepo.getPlayerById(sourcePlayerId);
+
+    if (gameEvent.type === GameEventType.Players) {
+      const players = await this.hostRepo.getPlayersByIds(
+        gameEvent.targetPlayerIds || []
+      );
+      socketIds = players.map((p) => p.socketId);
+    }
+
+    this.hostSocket?.emitGameEventToPlayers(socketIds, gameEvent);
+  }
+
   public async eventHandler(eventName: HostEvent, ...args: any) {
     if (!this.hostSocket) {
       logger.debug("Host socket not found");
@@ -232,7 +248,6 @@ export default class HostController {
       case HostEvent.ScoreUpdated:
         await this.updateLeaderboard(args[0]);
         const score = args[0];
-        logger.debug(`Score updated: ${score}`);
         if (score > 100000) {
           await this.endGame();
         }
@@ -242,6 +257,12 @@ export default class HostController {
         break;
       case HostEvent.SaveActivity:
         await this.saveActivity(args[0]);
+        break;
+      case HostEvent.SaveActivity:
+        await this.saveActivity(args[0]);
+        break;
+      case HostEvent.GameEvent:
+        await this.handleGameEvent(args[0]);
         break;
     }
   }

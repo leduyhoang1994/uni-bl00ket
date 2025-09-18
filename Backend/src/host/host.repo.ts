@@ -56,6 +56,16 @@ export default class HostRepository {
     return JSON.parse(player) as Player;
   }
 
+  public async getPlayersByIds(ids: Array<string>) {
+    const client = await RedisClient.getClient();
+    const players = await client.hmGet(
+      RedisHostKey.getPlayersKey(this.hostId),
+      ids
+    );
+
+    return players.map((player) => JSON.parse(player as string) as Player);
+  }
+
   public async join(user: AuthenticatedUser) {
     const client = await RedisClient.getClient();
 
@@ -217,7 +227,7 @@ export default class HostRepository {
     result.score = userScore || 0;
     const total = gameData?.totalQuestions ?? 0;
     const corrects = gameData?.totalCorrectAnswers ?? 0;
-    const percent = total > 0 ? + Math.round((corrects / total) * 100) : 0;
+    const percent = total > 0 ? +Math.round((corrects / total) * 100) : 0;
 
     result.accuracy = { total, corrects, percent };
 

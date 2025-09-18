@@ -7,3 +7,8 @@ export enum HostState {
   InGame = "in-game",
   Ended = "ended",
 }
+
+export enum GameEventType {
+  Players = "players",
+  All = "all"
+}

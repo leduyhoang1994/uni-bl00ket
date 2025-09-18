@@ -1,6 +1,10 @@
 import { AuthenticatedSocket } from "../types/socket";
 import logger from "../utils/logger";
-import { ActivityBoardItem, HostLeaderboard, Player } from "@Common/types/host.type";
+import {
+  ActivityBoardItem,
+  HostLeaderboard,
+  Player,
+} from "@Common/types/host.type";
 import { AuthenticatedUser } from "../../../Common/types/socket.type";
 import { HostEvent } from "@Common/constants/event.constant";
 
@@ -56,6 +60,22 @@ export default class HostSocket {
 
   public async emitActivitySaved(activity: ActivityBoardItem) {
     this.emitHost(HostEvent.ActivitySaved, activity);
+  }
+
+  public async emitGameEventToPlayers(playerSocketIds: string[] | "all", payload: any) {
+    if (playerSocketIds === "all") {
+      this.emitRoom(HostEvent.GameEvent, payload);
+    } else {
+      this.emitPlayers(playerSocketIds, HostEvent.GameEvent, payload);
+    }
+  }
+
+  protected async emitPlayers(playerSocketIds: string[], eventName: string, payload: any) {
+    this.socket.nsp.server;
+
+    playerSocketIds.forEach((socketId) => {
+      this.socket.nsp.server.to(socketId).emit(eventName, payload);
+    });
   }
 
   protected async emitHost(eventName: string, arg: any = null) {
