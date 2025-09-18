@@ -11,7 +11,7 @@ import initSocketClient from "@/utils/socket-client.util";
 import HostController from "@/host/controllers/host.controller";
 
 export default function CafeGame() {
-  const { toggleVisitShop, loadCafeData } = CafeGameStore();
+  const { toggleVisitShop, loadCafeData, loadCafeStocks, loadCafeBalance } = CafeGameStore();
   const { toggleQuizContainer } = QuizStore();
   const [controllerLoaded, setControllerLoaded] = useState(false);
   const { hostId } = useParams();
@@ -26,15 +26,15 @@ export default function CafeGame() {
 
       const controller = getCafeControllerInstance(hostId);
       controller.onActivePayCheckBonus = (player) => {
-
+        loadCafeBalance();
       };
 
       controller.onActiveTrashTheFood = (player) => {
-
+        loadCafeStocks();
       };
 
       controller.onActiveTaxes = (player) => {
-
+        loadCafeBalance();
       };
 
       controller.onActiveHealthInspection = (player) => {

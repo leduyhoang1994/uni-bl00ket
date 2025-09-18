@@ -168,19 +168,36 @@ export const QUESTIONS = [
   },
 ];
 
+export enum ABILITY_ID {
+  PAYCHECK_BONUS = 1,
+  SUPPLY_CRATE = 2,
+  HAPPY_CUSTOMER = 3,
+  TRASH_THE_FOOD = 4,
+  TAXES = 5,
+  HEALTH_INSPECTION = 6,
+  RUN_IT_BACK = 7,
+}
+
+export const REQUIRE_PLAYER_ABILITES = [
+  ABILITY_ID.PAYCHECK_BONUS,
+  ABILITY_ID.TRASH_THE_FOOD,
+  ABILITY_ID.TAXES,
+  ABILITY_ID.HEALTH_INSPECTION,
+];
+
 export const ABILITIES = [
-  // {
-  //   id: 1,
-  //   name: 'Paycheck Bonus',
-  //   description: 'Give a player +25% of their balance',
-  //   price: 500,
-  //   enabled: false,
-  //   purchased: false,
-  //   isActive: false,
-  //   image: 'abilities-paycheck'
-  // },
   {
-    id: 2,
+    id: ABILITY_ID.PAYCHECK_BONUS,
+    name: 'Paycheck Bonus',
+    description: 'Give a player +25% of their balance',
+    price: 500,
+    enabled: false,
+    purchased: false,
+    isActive: false,
+    image: 'abilities-paycheck'
+  },
+  {
+    id: ABILITY_ID.SUPPLY_CRATE,
     name: "Supply Crate",
     description: "+7 stock all of your foods",
     price: 1000,
@@ -190,7 +207,7 @@ export const ABILITIES = [
     image: "abilites-supply",
   },
   {
-    id: 3,
+    id: ABILITY_ID.HAPPY_CUSTOMER,
     name: "Happy Customer",
     description: "Your next 5 customers pay double",
     price: 2500,
@@ -199,38 +216,38 @@ export const ABILITIES = [
     isActive: true,
     image: "abilities-happy",
   },
-  // {
-  //   id: 4,
-  //   name: 'Trash the Food',
-  //   description: 'Lower a players food stocks by 3 each',
-  //   price: 5000,
-  //   enabled: false,
-  //   purchased: false,
-  //   isActive: false,
-  //   image: 'abilites-trash'
-  // },
-  // {
-  //   id: 5,
-  //   name: 'TAXES!',
-  //   description: 'Reduce a players balance by 25%',
-  //   price: 7500,
-  //   enabled: false,
-  //   purchased: false,
-  //   isActive: false,
-  //   image: 'abilites-taxes'
-  // },
-  // {
-  //   id: 6,
-  //   name: 'Health Inspection',
-  //   description: 'Force a player to get a 12s',
-  //   price: 10000,
-  //   enabled: false,
-  //   purchased: false,
-  //   isActive: false,
-  //   image: 'abilites-health'
-  // },
   {
-    id: 7,
+    id: ABILITY_ID.TRASH_THE_FOOD,
+    name: 'Trash the Food',
+    description: 'Lower a players food stocks by 3 each',
+    price: 5000,
+    enabled: false,
+    purchased: false,
+    isActive: false,
+    image: 'abilites-trash'
+  },
+  {
+    id: ABILITY_ID.TAXES,
+    name: 'TAXES!',
+    description: 'Reduce a players balance by 25%',
+    price: 7500,
+    enabled: false,
+    purchased: false,
+    isActive: false,
+    image: 'abilites-taxes'
+  },
+  {
+    id: ABILITY_ID.HEALTH_INSPECTION,
+    name: 'Health Inspection',
+    description: 'Force a player to get a 12s',
+    price: 10000,
+    enabled: false,
+    purchased: false,
+    isActive: false,
+    image: 'abilites-health'
+  },
+  {
+    id: ABILITY_ID.RUN_IT_BACK,
     name: "Run It Back",
     description: "Be able to buy all your abilities again",
     price: 150000,

@@ -12,6 +12,8 @@ import {
   STOCKS,
   QUESTIONS,
   ABILITIES,
+  ABILITY_ID,
+  REQUIRE_PLAYER_ABILITES,
 } from "@/model/model";
 import GameController from "./game.controller";
 import initHttp from "@/utils/http.util";
@@ -50,7 +52,10 @@ export interface CafeControllerInterface {
     servedAll: boolean;
   };
   getAbilities(): Ability[];
-  buyAbilityItem(abilityId: number): { success: boolean; message: string };
+  buyAbilityItem(
+    abilityId: number,
+    playerId?: string
+  ): { success: boolean; message: string };
 }
 
 enum CafeActivity {
@@ -71,7 +76,7 @@ export default class CafeController
   private stocks: Stock[] = [];
   private shopItems: ShopItem[] = [];
   private customers: Customer[] = [];
-  private balance: number = 0;
+  private balance: number = 90000;
   private questions: Question[] = [];
   private currentQuestion: Question | null = null;
   private abilities: Ability[] = [];
@@ -397,7 +402,10 @@ export default class CafeController
     }));
   }
 
-  buyAbilityItem(abilityId: number): { success: boolean; message: string } {
+  buyAbilityItem(
+    abilityId: ABILITY_ID,
+    playerId?: string
+  ): { success: boolean; message: string } {
     const ability = this.abilities.find((a) => a.id == abilityId);
     if (!ability) return { success: false, message: "Ability not found" };
     if (ability.purchased)
@@ -405,13 +413,17 @@ export default class CafeController
     if (this.balance < ability.price)
       return { success: false, message: "Not enough money" };
 
-    // Trừ tiền
-    this.updateBalance(this.balance - ability.price);
-    ability.purchased = true;
+    // if (REQUIRE_PLAYER_ABILITES.includes(abilityId) && !playerId) {
+    //   return { success: false, message: "Player should be provided" };
+    // }
 
     // Xử lý logic theo từng loại item
-    switch (String(ability.id)) {
-      case "2":
+    switch (ability.id) {
+      case ABILITY_ID.PAYCHECK_BONUS:
+        this.applyPayCheckBounus(playerId!);
+        break;
+
+      case ABILITY_ID.SUPPLY_CRATE:
         this.stocks.forEach((stock) => {
           if (stock.enabled) {
             stock.quantity += 7;
@@ -419,16 +431,33 @@ export default class CafeController
         });
         break;
 
-      case "3":
+      case ABILITY_ID.TAXES:
+        this.applyTaxes(playerId!);
+        break;
+
+      case ABILITY_ID.TRASH_THE_FOOD:
+        this.applyTrashTheFood(playerId!);
+        break;
+
+      case ABILITY_ID.HAPPY_CUSTOMER:
         this.doubleRewardCount = 5; // 5 khách tiếp theo sẽ x2
         break;
 
-      case "7":
+      case ABILITY_ID.HEALTH_INSPECTION:
+        this.applyHealthInspection(playerId!);
+        break;
+
+      case ABILITY_ID.RUN_IT_BACK:
         this.abilities.forEach((a) => {
           a.purchased = false;
         });
         break;
     }
+
+    // Trừ tiền
+    this.updateBalance(this.balance - ability.price);
+    ability.purchased = true;
+
     this.saveGame();
 
     return { success: true, message: `${ability.name} purchased!` };
@@ -445,8 +474,39 @@ export default class CafeController
     });
   }
 
+  async applyTrashTheFood(playerId: string) {
+    await this.emitGameEvent({
+      type: GameEventType.All,
+      targetPlayerIds: [playerId],
+      payload: {
+        type: CafeGameEvent.TrashTheFood,
+      },
+    });
+  }
+
+  async applyTaxes(playerId: string) {
+    await this.emitGameEvent({
+      type: GameEventType.All,
+      targetPlayerIds: [playerId],
+      payload: {
+        type: CafeGameEvent.Taxes,
+      },
+    });
+  }
+
+  async applyHealthInspection(playerId: string) {
+    await this.emitGameEvent({
+      type: GameEventType.All,
+      targetPlayerIds: [playerId],
+      payload: {
+        type: CafeGameEvent.HealthInspection,
+      },
+    });
+  }
+
   async onPayCheckBonus(player: Player) {
     await this.updateBalance(this.getBalance() * 1.25);
+    await this.saveGame();
     this.onActivePayCheckBonus(player);
   }
   async onTrashTheFood(player: Player) {
@@ -459,11 +519,13 @@ export default class CafeController
         s.quantity = Math.max(0, s.quantity - numTrash);
       }
     });
+    await this.saveGame();
 
     this.onActiveTrashTheFood(player);
   }
   async onTaxes(player: Player) {
     await this.updateBalance(this.getBalance() * 0.75);
+    await this.saveGame();
     this.onActiveTaxes(player);
   }
   async onHealthInspection(player: Player) {
@@ -492,7 +554,6 @@ export default class CafeController
     this.balance = Math.round(balance);
 
     await this.onScoreUpdate(this.balance);
-    await this.saveGame();
   }
 
   public static decodeActivity(activity: any) {
