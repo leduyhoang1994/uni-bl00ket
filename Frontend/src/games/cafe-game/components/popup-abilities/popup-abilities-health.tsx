@@ -1,25 +1,26 @@
-import PopupLayout from "@/games/components/popup-layout.tsx/popup-layout";
-import { LayoutContainer } from "@pixi/layout/components";
+import PopupLayout from "@/games/components/popup-layout/popup-layout";
+import { LayoutContainer, LayoutHTMLText } from "@pixi/layout/components";
 import { useApplication, useExtend } from "@pixi/react";
 import { Assets } from "pixi.js";
 import { useEffect, useState } from "react";
 
 interface PopupAbilitiesHealthProps {
-  toggleHealthPopupModal: {
+  healthPopupObj: {
     player: {
       username: string;
     };
   };
-  setToggleHealthPopupModal: (value: any) => void;
+  setHealthPopupObj: (value: any) => void;
 }
 
 export default function PopupAbilitiesHealth({
-  toggleHealthPopupModal = { player: { username: '' } },
-  setToggleHealthPopupModal = () => { },
+  healthPopupObj = { player: { username: '' } },
+  setHealthPopupObj = () => { },
 }: PopupAbilitiesHealthProps) {
-  useExtend({ LayoutContainer });
+  useExtend({ LayoutContainer, LayoutHTMLText });
   const { app } = useApplication();
   const healthTexture = Assets.get(`abilites-background-health`);
+  const username = healthPopupObj.player.username;
   const [countdown, setCountdown] = useState<number>(8);
 
   useEffect(() => {
@@ -29,7 +30,7 @@ export default function PopupAbilitiesHealth({
       setCountdown((prev) => {
         if (prev <= 1) {
           clearInterval(interval);
-          setToggleHealthPopupModal({})
+          setHealthPopupObj({})
           return 0;
         }
         return prev - 1;
@@ -74,8 +75,6 @@ export default function PopupAbilitiesHealth({
           <layoutContainer
             layout={{
               display: 'flex',
-              justifyContent: "center",
-              alignItems: "center",
               gap: 10,
             }}
           >
@@ -88,44 +87,22 @@ export default function PopupAbilitiesHealth({
               }}
               layout
               resolution={2}
+              x={60}
+              y={-3}
             />
-            <pixiText
-              text={`until you can resume.`}
+            <layoutHTMLText
+              text={`until you can resume. Targeted By <b>${username}</b>`}
               style={{
-                fontSize: 35,
+                fontSize: 32,
+                fill: "black",
+                wordWrap: true,
+                align: "center",
                 fontWeight: "500",
-                fill: "black",
               }}
-              layout
-              resolution={2}
-            />
-          </layoutContainer>
-          <layoutContainer
-            layout={{
-              display: 'flex',
-              justifyContent: "center",
-              alignItems: "center",
-              gap: 10,
-            }}
-          >
-            <pixiText
-              text={`Targeted By`}
-              style={{
-                fontSize: 35,
-                fontWeight: "500",
-                fill: "black",
+              layout={{
+                width: 420,
+                height: 'intrinsic',
               }}
-              layout
-              resolution={2}
-            />
-            <pixiText
-              text={`${toggleHealthPopupModal.player.username}`}
-              style={{
-                fontSize: 35,
-                fontWeight: "700",
-                fill: "black",
-              }}
-              layout
               resolution={2}
             />
           </layoutContainer>

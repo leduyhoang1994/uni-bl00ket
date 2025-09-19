@@ -1,26 +1,31 @@
-import PopupLayout from "@/games/components/popup-layout.tsx/popup-layout";
-import { LayoutContainer } from "@pixi/layout/components";
+import PopupLayout from "@/games/components/popup-layout/popup-layout";
+import { LayoutContainer, LayoutHTMLText, LayoutSprite } from "@pixi/layout/components";
 import { useExtend } from "@pixi/react"
 import { Assets } from "pixi.js";
 import ButtonLayout from "../button-screen/button-layout";
+import { usePixiTexture } from "@/games/hooks/use-pixi-texture";
+import { ABILITIES, ABILITY_ID } from "@/model/model";
 
 export default function PopupAbilities({
   abilitiesObj = {
-    abilitiesImg: '',
+    abilityId: ABILITY_ID.PAYCHECK_BONUS,
     player: {
       avatar: '',
       username: '',
     }
   },
-  setToggleAbilityPopupModal = (value: boolean) => { },
+  setAbilitiesObj = ({ }) => { },
 }) {
-  useExtend({ LayoutContainer });
-  const abilitiesTexture = Assets.get(`${abilitiesObj.abilitiesImg}`);
-  // const userAvatar = Assets.get(`${abilitiesObj.player.avatar}`);
-  const userTexture = Assets.get(`cust-alpaca`);
+  useExtend({ LayoutContainer, LayoutHTMLText, LayoutSprite });
+  const currentData = ABILITIES.find(item => item.id === abilitiesObj.abilityId);
+  const currentImg = currentData?.image;
+  const currentDescriptionEnemy = currentData?.descriptionEnemy;
+  const abilitiesTexture = Assets.get(`${currentImg}`);
+  const avatarTexture = usePixiTexture(`${abilitiesObj.player.avatar}`);
+  const username = abilitiesObj.player.username;
+
   const doClickBtnAccept = () => {
-    console.log('doClickBtnAccept');
-    setToggleAbilityPopupModal(false);
+    setAbilitiesObj({});
   }
 
   const renderTextBtn = () => {
@@ -66,7 +71,7 @@ export default function PopupAbilities({
         }}
       >
         <layoutContainer>
-          <pixiSprite
+          <layoutSprite
             layout={{
               width: 100,
               height: 100,
@@ -78,9 +83,6 @@ export default function PopupAbilities({
         <layoutContainer
           layout={{
             display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-            gap: 5,
             maxWidth: 480,
           }}
         >
@@ -90,31 +92,20 @@ export default function PopupAbilities({
               height: 35,
               objectFit: "contain",
             }}
-            texture={userTexture}
+            texture={avatarTexture}
           />
-          <pixiText
-            text={`${abilitiesObj.player.username}`}
+          <layoutHTMLText
+            text={`<b>${username}</b> ${currentDescriptionEnemy}`}
             style={{
-              fontSize: 24,
-              fontWeight: "700",
+              fontSize: 32,
               fill: "black",
-            }}
-            layout
-            resolution={2}
-          />
-          <pixiText
-            text={'just increased your balance by 25%'}
-            style={{
-              fontSize: 24,
-              fontWeight: "400",
-              fill: "black",
+              wordWrap: true,
+              align: "center",
             }}
             layout={{
-              display: "flex",
-              flexWrap: "wrap",
-
+              width: 420,
+              height: 'intrinsic',
             }}
-
             resolution={2}
           />
         </layoutContainer>

@@ -9,7 +9,7 @@ import { useParams } from "react-router";
 import { getCafeControllerInstance } from "./cafe-controller.singleton";
 import initSocketClient from "@/utils/socket-client.util";
 import HostController from "@/host/controllers/host.controller";
-import { ABILITIES, ABILITY_ID } from "@/model/model";
+import { ABILITY_ID } from "@/model/model";
 import { Player } from "@common/types/host.type";
 import ChoosePlayerTarget from "./screens/choose-player-target/choose-player-target";
 import PopupAbilities from "./components/popup-abilities/popup-abilities";
@@ -26,26 +26,26 @@ export default function CafeGame() {
   const { toggleQuizContainer } = QuizStore();
   const [controllerLoaded, setControllerLoaded] = useState(false);
   const { hostId } = useParams();
-  const [abilitiesObj, setAbilitiesObj] = useState({
-    abilitiesImg: '',
+  const [abilitiesObj, setAbilitiesObj] = useState<any>({
+    abilityId: ABILITY_ID.PAYCHECK_BONUS,
     player: {} as Player,
+    isOpen: false,
   });
-  const [toggleAbilityPopupModal, setToggleAbilityPopupModal] = useState(false);
-  const [toggleHealthPopupModal, setToggleHealthPopupModal] = useState({
+  const [healthPopupObj, setHealthPopupObj] = useState({
     player: {} as Player,
     isOpen: false,
   });
 
   function toggleAbilityPopup(abilityId: ABILITY_ID, player: Player) {
     setAbilitiesObj({
-      abilitiesImg: ABILITIES[abilityId - 1].image,
+      abilityId: abilityId,
       player: player,
+      isOpen: true,
     });
-    setToggleAbilityPopupModal(true);
   }
 
   function toggleBlockingScreen(player: Player) {
-    setToggleHealthPopupModal({
+    setHealthPopupObj({
       player: player,
       isOpen: true,
     })
@@ -99,11 +99,11 @@ export default function CafeGame() {
       <RenderIf condition={isChoosingAbilityTarget !== null}>
         <ChoosePlayerTarget abilityId={isChoosingAbilityTarget as ABILITY_ID} />
       </RenderIf>
-      <RenderIf condition={abilitiesObj.abilitiesImg !== '' && toggleAbilityPopupModal}>
-        <PopupAbilities abilitiesObj={abilitiesObj} setToggleAbilityPopupModal={setToggleAbilityPopupModal} />
+      <RenderIf condition={abilitiesObj.isOpen}>
+        <PopupAbilities abilitiesObj={abilitiesObj} setAbilitiesObj={setAbilitiesObj} />
       </RenderIf>
-      <RenderIf condition={toggleHealthPopupModal.isOpen}>
-        <PopupAbilitiesHealth setToggleHealthPopupModal={setToggleHealthPopupModal} toggleHealthPopupModal={toggleHealthPopupModal} />
+      <RenderIf condition={healthPopupObj.isOpen}>
+        <PopupAbilitiesHealth setHealthPopupObj={setHealthPopupObj} healthPopupObj={healthPopupObj} />
       </RenderIf>
     </RenderIf>
   );

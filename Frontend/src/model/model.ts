@@ -194,7 +194,8 @@ export const ABILITIES = [
     enabled: false,
     purchased: false,
     isActive: false,
-    image: 'abilities-paycheck'
+    image: 'abilities-paycheck',
+    descriptionEnemy: 'just increase your balance by 25%',
   },
   {
     id: ABILITY_ID.SUPPLY_CRATE,
@@ -224,7 +225,8 @@ export const ABILITIES = [
     enabled: false,
     purchased: false,
     isActive: false,
-    image: 'abilites-trash'
+    image: 'abilites-trash',
+    descriptionEnemy: 'just decreased your food stocks by 3',
   },
   {
     id: ABILITY_ID.TAXES,
@@ -234,7 +236,8 @@ export const ABILITIES = [
     enabled: false,
     purchased: false,
     isActive: false,
-    image: 'abilites-taxes'
+    image: 'abilites-taxes',
+    descriptionEnemy: 'just decreased your balance by 25%',
   },
   {
     id: ABILITY_ID.HEALTH_INSPECTION,
