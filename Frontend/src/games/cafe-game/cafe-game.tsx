@@ -14,17 +14,20 @@ import { Player } from "@common/types/host.type";
 import ChoosePlayerTarget from "./screens/choose-player-target/choose-player-target";
 
 export default function CafeGame() {
-  const { toggleVisitShop, loadCafeData, loadCafeStocks, loadCafeBalance } =
-    CafeGameStore();
+  const {
+    toggleVisitShop,
+    loadCafeData,
+    loadCafeStocks,
+    loadCafeBalance,
+    isChoosingAbilityTarget,
+  } = CafeGameStore();
   const { toggleQuizContainer } = QuizStore();
   const [controllerLoaded, setControllerLoaded] = useState(false);
   const { hostId } = useParams();
 
-  function toggleAbilityPopup(abilityId: ABILITY_ID, player: Player) {
-  }
+  function toggleAbilityPopup(abilityId: ABILITY_ID, player: Player) {}
 
-  function toggleBlockingScreen(player: Player) {
-  }
+  function toggleBlockingScreen(player: Player) {}
 
   useEffect(() => {
     (async () => {
@@ -71,7 +74,9 @@ export default function CafeGame() {
       <RenderIf condition={toggleVisitShop}>
         <UpgradesScreen />
       </RenderIf>
-      <ChoosePlayerTarget />
+      <RenderIf condition={isChoosingAbilityTarget !== null}>
+        <ChoosePlayerTarget abilityId={isChoosingAbilityTarget as ABILITY_ID} />
+      </RenderIf>
     </RenderIf>
   );
 }

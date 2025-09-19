@@ -76,7 +76,7 @@ export default class CafeController
   private stocks: Stock[] = [];
   private shopItems: ShopItem[] = [];
   private customers: Customer[] = [];
-  private balance: number = 90000;
+  private balance: number = 20000;
   private questions: Question[] = [];
   private currentQuestion: Question | null = null;
   private abilities: Ability[] = [];
@@ -466,7 +466,7 @@ export default class CafeController
   // Abilities Func
   async applyPayCheckBounus(playerId: string) {
     await this.emitGameEvent({
-      type: GameEventType.All,
+      type: GameEventType.Players,
       targetPlayerIds: [playerId],
       payload: {
         type: CafeGameEvent.PaycheckBonus,
@@ -476,7 +476,7 @@ export default class CafeController
 
   async applyTrashTheFood(playerId: string) {
     await this.emitGameEvent({
-      type: GameEventType.All,
+      type: GameEventType.Players,
       targetPlayerIds: [playerId],
       payload: {
         type: CafeGameEvent.TrashTheFood,
@@ -486,7 +486,7 @@ export default class CafeController
 
   async applyTaxes(playerId: string) {
     await this.emitGameEvent({
-      type: GameEventType.All,
+      type: GameEventType.Players,
       targetPlayerIds: [playerId],
       payload: {
         type: CafeGameEvent.Taxes,
@@ -496,7 +496,7 @@ export default class CafeController
 
   async applyHealthInspection(playerId: string) {
     await this.emitGameEvent({
-      type: GameEventType.All,
+      type: GameEventType.Players,
       targetPlayerIds: [playerId],
       payload: {
         type: CafeGameEvent.HealthInspection,

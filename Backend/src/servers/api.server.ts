@@ -141,4 +141,26 @@ app.post(
   }
 );
 
+app.post(
+  HttpRoute.GetPlayers,
+  authenticateUser,
+  async (req: AuthenticatedRequest, res) => {
+    if (!req.user) {
+      res.status(401).send("Unauthorized");
+      return;
+    }
+    const hostId = req.body.hostId;
+
+    const controller = new HostRepository(hostId);
+    const players = await controller.getPlayers();
+    const leaderBoard = await controller.getLeaderboard(hostId);
+    players.forEach((player) => {
+      const lbItem = leaderBoard.find((lb) => lb.playerId === player.id);
+      player.score = lbItem?.score || 0;
+    });
+
+    res.send(JsonResponse({ players }));
+  }
+);
+
 export default app;

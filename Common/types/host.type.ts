@@ -5,6 +5,7 @@ export type Player = {
   username: string;
   avatar: string;
   socketId: string;
+  score?: number;
 };
 
 export type HostInfo = {

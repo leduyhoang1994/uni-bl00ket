@@ -179,6 +179,19 @@ export default class HostController {
     this.socketClient.emit(HostEvent.EndGame);
   }
 
+  public async getPlayers(hostId: string): Promise<Player[]> {
+    if (!this.httpClient) {
+      await this.initHttp();
+    }
+
+    const result = await this.httpClient?.post(
+      HttpRoute.GetPlayers,
+      JSON.stringify({ hostId })
+    );
+
+    return result ? result.data.players : [];
+  }
+
   public static async saveAccessToken(token: string | null) {
     if (!token) {
       return;

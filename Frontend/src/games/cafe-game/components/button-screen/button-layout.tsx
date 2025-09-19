@@ -5,13 +5,12 @@ export default function ButtonLayout({
   layoutWidth = 300,
   layoutHeight = 100,
   chilren = <layoutContainer></layoutContainer>,
-  doClickBtn = () => { }
+  doClickBtn = () => {},
 }) {
   useExtend({ LayoutContainer });
+
   return (
-    <layoutContainer
-      cursor="pointer"
-    >
+    <layoutContainer>
       <layoutContainer
         layout={{
           position: "relative",
@@ -27,10 +26,14 @@ export default function ButtonLayout({
           justifyContent: "space-between",
           alignItems: "center",
         }}
+        cursor="pointer"
+        interactive={true}
+        eventMode="static"
+        onPointerUp={doClickBtn}
       >
         <layoutContainer
           layout={{
-            position: 'absolute',
+            position: "absolute",
             bottom: 0,
             left: 0,
             width: layoutWidth,
@@ -39,7 +42,7 @@ export default function ButtonLayout({
           }}
         />
         {chilren}
-      </layoutContainer >
+      </layoutContainer>
     </layoutContainer>
-  )
+  );
 }

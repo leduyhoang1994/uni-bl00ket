@@ -7,6 +7,7 @@ import RenderIf from "@/utils/condition-render";
 import React, { useCallback } from "react";
 import { getCafeControllerInstance } from "@/games/cafe-game/cafe-controller.singleton";
 import CafeGameStore from "@/games/stores/cafe-game-store/cafe-game-store";
+import { REQUIRE_PLAYER_ABILITES } from "@/model/model";
 
 export enum ItemType {
   SHOP = "SHOP",
@@ -33,6 +34,7 @@ const ItemScreen = ({
     loadCafeAbilities,
     loadCafeShopItems,
     loadCafeStocks,
+    setIsChoosingAbilityTarget,
   } = CafeGameStore();
 
   const plateLevelArr = [
@@ -103,8 +105,12 @@ const ItemScreen = ({
       loadCafeShopItems();
     }
     if (type == ItemType.ABILITIES) {
-      cafeController.buyAbilityItem(id);
-      loadCafeAbilities();
+      if (REQUIRE_PLAYER_ABILITES.includes(id)) {
+        setIsChoosingAbilityTarget(id);
+      } else {
+        cafeController.buyAbilityItem(id);
+        loadCafeAbilities();
+      }
     }
     loadCafeStocks();
     loadCafeBalance();
