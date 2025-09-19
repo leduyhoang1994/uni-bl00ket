@@ -71,21 +71,20 @@ enum CafeGameEvent {
 
 export default class CafeController
   extends GameController
-  implements CafeControllerInterface
-{
+  implements CafeControllerInterface {
   private stocks: Stock[] = [];
   private shopItems: ShopItem[] = [];
   private customers: Customer[] = [];
-  private balance: number = 0;
+  private balance: number = 80000;
   private questions: Question[] = [];
   private currentQuestion: Question | null = null;
   private abilities: Ability[] = [];
   private doubleRewardCount: number = 0; //  số khách còn lại được x2 tiền
 
-  public onActivePayCheckBonus: (player: Player) => void = () => {};
-  public onActiveTrashTheFood: (player: Player) => void = () => {};
-  public onActiveTaxes: (player: Player) => void = () => {};
-  public onActiveHealthInspection: (player: Player) => void = () => {};
+  public onActivePayCheckBonus: (player: Player) => void = () => { };
+  public onActiveTrashTheFood: (player: Player) => void = () => { };
+  public onActiveTaxes: (player: Player) => void = () => { };
+  public onActiveHealthInspection: (player: Player) => void = () => { };
 
   constructor(hostId: string) {
     super(hostId);

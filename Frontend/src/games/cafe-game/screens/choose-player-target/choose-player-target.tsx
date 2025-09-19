@@ -30,7 +30,7 @@ export default function ChoosePlayerTarget({
 
       const playerData = (await controller.getPlayers(hostId)).filter(
         (player) => player.id !== userInfo.id
-      );      
+      );
 
       setPlayers(playerData);
     })();
@@ -51,10 +51,10 @@ export default function ChoosePlayerTarget({
       background={
         textureWall !== Texture.EMPTY
           ? new TilingSprite({
-              texture: textureWall,
-              width: app.screen.width,
-              height: app.screen.height,
-            })
+            texture: textureWall,
+            width: app.screen.width,
+            height: app.screen.height,
+          })
           : new Sprite(Texture.WHITE)
       }
     >
@@ -100,15 +100,17 @@ export default function ChoosePlayerTarget({
             gap: 15,
           }}
         >
-          {players.map((player) => (
-            <TargetEnemy
-              key={player.id}
-              player={player}
-              abilityId={abilityId}
-            />
-          ))}
-        </layoutContainer>
-      </layoutContainer>
-    </layoutContainer>
+          {
+            players.map((player) => (
+              <TargetEnemy
+                key={player.id}
+                player={player}
+                abilityId={abilityId}
+              />
+            ))
+          }
+        </layoutContainer >
+      </layoutContainer >
+    </layoutContainer >
   );
 }

@@ -61,6 +61,7 @@ export default function TargetEnemy({
             flexDirection: "column",
             gap: 4,
           }}
+          eventMode="passive"
         >
           <pixiText
             text={player.username}
