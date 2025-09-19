@@ -1,5 +1,6 @@
 import initHttp from "@/utils/http.util";
 import initSocketClient from "@/utils/socket-client.util";
+import { getHost } from "@/utils/utils";
 import { HostEvent } from "@common/constants/event.constant";
 import { HttpRoute } from "@common/constants/http.constant";
 import {
@@ -132,7 +133,7 @@ export default class HostController {
       HttpRoute.GenToken,
       JSON.stringify({
         username,
-        avatar: "https://game.uniclass.vn/images/avatar/brown-dog.svg",
+        avatar: `${getHost()}/images/avatar/brown-dog.svg`,
         hostId,
       })
     );
