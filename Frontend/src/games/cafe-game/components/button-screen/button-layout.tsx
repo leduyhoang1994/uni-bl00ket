@@ -5,44 +5,44 @@ export default function ButtonLayout({
   layoutWidth = 300,
   layoutHeight = 100,
   chilren = <layoutContainer></layoutContainer>,
-  doClickBtn = () => {},
+  doClickBtn = () => { },
+  backgroundColor = "#099faa",
+  backgroundColorShadow = "#118891",
 }) {
   useExtend({ LayoutContainer });
 
   return (
-    <layoutContainer>
+    <layoutContainer
+      layout={{
+        position: "relative",
+        overflow: "hidden",
+        width: layoutWidth,
+        height: layoutHeight,
+        backgroundColor: backgroundColor,
+        borderRadius: 12,
+        borderColor: "#0e6b71",
+        borderWidth: 4,
+        padding: 10,
+        display: "flex",
+        justifyContent: "space-between",
+        alignItems: "center",
+      }}
+      eventMode="static"
+      cursor="pointer"
+      onPointerTap={doClickBtn}
+    >
       <layoutContainer
         layout={{
-          position: "relative",
-          overflow: "hidden",
+          position: 'absolute',
+          bottom: 0,
+          left: 0,
           width: layoutWidth,
-          height: layoutHeight,
-          backgroundColor: "#099faa",
-          borderRadius: 12,
-          borderColor: "#0e6b71",
-          borderWidth: 4,
-          padding: 10,
-          display: "flex",
-          justifyContent: "space-between",
-          alignItems: "center",
+          height: 10,
+          backgroundColor: backgroundColorShadow,
         }}
-        cursor="pointer"
-        interactive={true}
-        eventMode="static"
-        onPointerUp={doClickBtn}
-      >
-        <layoutContainer
-          layout={{
-            position: "absolute",
-            bottom: 0,
-            left: 0,
-            width: layoutWidth,
-            height: 10,
-            backgroundColor: "#118891", // màu bóng
-          }}
-        />
-        {chilren}
-      </layoutContainer>
-    </layoutContainer>
-  );
+        eventMode="passive"
+      />
+      {chilren}
+    </layoutContainer >
+  )
 }

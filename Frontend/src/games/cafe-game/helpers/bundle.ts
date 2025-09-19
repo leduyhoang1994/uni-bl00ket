@@ -19,6 +19,7 @@ const CAFE_ASSET_BUNDLE = {
   "blook-toast": "/images/cafe-game/blook-toast.svg",
   "blook-waffle": "/images/cafe-game/blook-waffle.svg",
   "blook-yogurt": "/images/cafe-game/blook-yogurt.svg",
+  "abilites-background-health": "/images/cafe-game/abilites-background-health.svg",
   clock: "/images/cafe-game/clock.svg",
   "curtain-abilities": "/images/cafe-game/curtain-abilities.svg",
   curtain: "/images/cafe-game/curtain.svg",
