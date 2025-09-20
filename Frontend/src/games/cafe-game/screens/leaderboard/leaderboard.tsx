@@ -11,6 +11,8 @@ import {
 } from "@common/types/host.type";
 import { useCallback, useLayoutEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router";
+import SettingLobbyIcon from "@/host/components/setting-lobby/setting-lobby-icon";
+import SettingLobbyScreen from "@/host/components/setting-lobby/setting-lobby-screen";
 
 export default function Leaderboard() {
   const { hostId } = useParams();
@@ -89,6 +91,7 @@ export default function Leaderboard() {
             onClick={endGame}
           />
         </div>
+        <SettingLobbyIcon />
       </div>
       <div className="waiting-action-creator__body">
         <div className="waiting-action-creator__body-cover-btn">
@@ -119,6 +122,7 @@ export default function Leaderboard() {
           </div>
         </div>
       </div>
+      <SettingLobbyScreen />
     </div>
   );
 }

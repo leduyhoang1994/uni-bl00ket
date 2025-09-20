@@ -63,7 +63,7 @@
     align-items: center;
     gap: 1rem;
 
-    >button {
+    > button {
       position: relative;
       transition: filter 0.25s;
       cursor: pointer;
@@ -146,6 +146,7 @@
   &__header {
     @extend .host-player__header;
     height: 65px;
+    padding-right: 60px;
   }
 
   &__body {
