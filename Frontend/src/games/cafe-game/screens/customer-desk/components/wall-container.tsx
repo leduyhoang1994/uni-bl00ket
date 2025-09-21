@@ -6,6 +6,7 @@ import TagScreen from "@/games/cafe-game/components/tag-screen/tag-screen";
 import CafeGameStore from "@/games/stores/cafe-game-store/cafe-game-store";
 import LeaderBoardScreenIcon from "@/games/cafe-game/components/leader-board-screen-icon/leader-board-screen-icon";
 import HostStore from "@/stores/host-store/host-store";
+import SettingGameIcon from "@/games/components/setting-game-screen/setting-game-icon";
 
 export default function WallContainer() {
   useExtend({ Sprite, TilingSprite, Graphics, Text });
@@ -77,6 +78,7 @@ export default function WallContainer() {
       <pixiContainer label="Money cafe-game" x={appWidth / 1.3}>
         <TagScreen value={cafeBalance} />
         <LeaderBoardScreenIcon />
+        {/* <SettingGameIcon /> */}
       </pixiContainer>
     </pixiContainer>
   );

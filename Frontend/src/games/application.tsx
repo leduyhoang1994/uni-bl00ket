@@ -5,6 +5,7 @@ import { extend, useApplication, useExtend } from "@pixi/react";
 import { Assets, Container, Graphics, Text, TextStyle } from "pixi.js";
 import CafeGame from "./cafe-game/cafe-game";
 import CAFE_ASSET_BUNDLE from "@/games/cafe-game/helpers/bundle";
+import SETTING_GAME_ASSET_BUNDLE from "./helper/bundle";
 import { useState, useEffect, useLayoutEffect } from "react";
 import RenderIf from "@/utils/condition-render";
 import { useNavigate, useParams } from "react-router";
@@ -91,13 +92,12 @@ export default function GameContainer() {
 
       switch (gameMode) {
         case GameMode.Cafe:
-          Assets.addBundle("game", CAFE_ASSET_BUNDLE);
+          Assets.addBundle("game", { ...SETTING_GAME_ASSET_BUNDLE, ...CAFE_ASSET_BUNDLE });
           break;
       }
-
       // Lắng nghe tiến trình load
       Assets.backgroundLoadBundle("game");
-      Assets.loadBundle("game", (progressValue: number) => {
+      await Assets.loadBundle("game", (progressValue: number) => {
         setProgress(Math.floor(progressValue * 100));
       }).then(() => {
         setLoaded(true);

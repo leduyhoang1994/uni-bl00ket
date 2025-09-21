@@ -70,17 +70,17 @@ export default function SettingLobbyScreen() {
       <div className="setting-lobby-screen" ref={boxRef} onClick={(e) => e.stopPropagation()}>
         <div className="setting-lobby-screen__header">
           <div>
-            <img src="/images/host/setting.svg" alt="" />
+            <img src="/images/icons/setting.svg" alt="" />
           </div>
           <div>Settings</div>
           <button onClick={doClickClose}>
-            <svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="times" className="svg-inline--fa fa-times fa-w-11 " role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 352 512"><path fill="currentColor" d="M242.72 256l100.07-100.07c12.28-12.28 12.28-32.19 0-44.48l-22.24-22.24c-12.28-12.28-32.19-12.28-44.48 0L176 189.28 75.93 89.21c-12.28-12.28-32.19-12.28-44.48 0L9.21 111.45c-12.28 12.28-12.28 32.19 0 44.48L109.28 256 9.21 356.07c-12.28 12.28-12.28 32.19 0 44.48l22.24 22.24c12.28 12.28 32.2 12.28 44.48 0L176 322.72l100.07 100.07c12.28 12.28 32.2 12.28 44.48 0l22.24-22.24c12.28-12.28 12.28-32.19 0-44.48L242.72 256z"></path></svg>
+            <img src="/images/icons/setting-close-icon.svg" alt="" width={16.5} height={40} />
           </button>
         </div>
         <div>
           <div className="settings-panel">
             <div className="row">
-              <img src="/images/host/audio-mute.svg" width={30} height={25} alt="" />
+              <img src="/images/icons/audio-mute.svg" width={30} height={25} alt="" />
               <span className="label"> Mute</span>
               <Switch.Root
                 className="switch"
@@ -92,10 +92,10 @@ export default function SettingLobbyScreen() {
             </div>
             <div className="row">
               <RenderIf condition={!muted}>
-                <img src="/images/host/audio-active.svg" width={30} height={25} alt="" />
+                <img src="/images/icons/audio-active.svg" width={30} height={25} alt="" />
               </RenderIf>
               <RenderIf condition={muted}>
-                <img src="/images/host/audio-mute.svg" width={30} height={25} alt="" />
+                <img src="/images/icons/audio-mute.svg" width={30} height={25} alt="" />
               </RenderIf>
               <span className="label-volum"> Volume</span>
               <Slider.Root
