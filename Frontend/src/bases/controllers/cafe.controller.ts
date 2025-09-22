@@ -137,6 +137,10 @@ export default class CafeController
     }
   }
 
+  public loadData(gameData: any) {
+    Object.assign(this, gameData.data.gameData);
+  }
+
   // Lấy số tiền
   getBalance(): number {
     return this.balance;

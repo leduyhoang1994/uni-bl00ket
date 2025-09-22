@@ -69,10 +69,11 @@ export default class HostController {
         return;
       }
       console.log("Đã kết nối tới server với ID:", this.socketClient.id);
-
-      await this.eventHandler(this.socketClient);
       await this.onConnected();
     });
+
+    await this.eventHandler(this.socketClient);
+    
     this.socketClient.on("disconnect", () => {
       console.log("Disconnected from server");
     });

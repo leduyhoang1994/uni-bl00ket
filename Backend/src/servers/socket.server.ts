@@ -4,6 +4,8 @@ import { AuthenticatedSocket } from "../types/socket";
 import logger from "../utils/logger";
 import { getPayloadFromAuth as getPayloadFromAuth } from "../utils/token";
 import HostSocket from "../host/host.socket";
+import { createAdapter } from "@socket.io/redis-adapter";
+import RedisClient from "../utils/redis.client";
 
 async function userConnectedHandler(socket: AuthenticatedSocket) {
   const hostId = socket.user?.hostId || "";
@@ -33,6 +35,13 @@ export async function createSocketServer(httpServer: any) {
       origin: "*",
     },
   });
+
+  const pubClient = await RedisClient.getClient();
+  const subClient = pubClient.duplicate();
+
+  await subClient.connect();
+  
+  socketServer.adapter(createAdapter(pubClient, subClient));
 
   socketServer.use(async (socket, next) => {
     const auth = socket.handshake.auth;

@@ -166,22 +166,24 @@ export default class HostRepository {
   ): Promise<HostLeaderboard> {
     const client = await RedisClient.getClient();
 
-    const leaderboard = await client.zRangeByScoreWithScores(
+    const leaderboard = (await client.sendCommand([
+      "zrevrange",
       RedisHostKey.getHostLeaderboardKey(hostId),
-      "-inf",
-      "+inf",
-      {
-        LIMIT: {
-          offset: 0,
-          count: max,
-        },
-      }
-    );
+      "0",
+      (max - 1).toString(),
+      "WITHSCORES",
+    ])) as Array<string>;
 
-    return leaderboard.reverse().map((item) => ({
-      playerId: item.value,
-      score: item.score,
-    }));
+    const result = [];
+
+    for (let i = 0; i < leaderboard.length; i += 2) {
+      result.push({
+        playerId: leaderboard[i],
+        score: Number(leaderboard[i + 1]),
+      });
+    }
+
+    return result;
   }
 
   public async endGame(hostId: string) {

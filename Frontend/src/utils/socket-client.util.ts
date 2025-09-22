@@ -11,6 +11,7 @@ export default function initSocketClient(
   if (!socketClient) {
     const host = import.meta.env.VITE_UNI_CLASS_BACKEND_HOST;
     socketClient = io(host, {
+      transports: ["websocket"],
       auth: {
         token: accessToken,
         hostId: hostId,

@@ -2,11 +2,13 @@ import { createServer } from "http";
 import app from "./servers/api.server";
 import { createSocketServer } from "./servers/socket.server";
 
+const port = 4000;
+
 // Tạo HTTP server từ app Express
 const httpServer = createServer(app);
 createSocketServer(httpServer);
 
 // Start cả API và Socket trên cùng 1 cổng
-httpServer.listen(3000, () => {
-  console.log("API + Socket server running . . .");
+httpServer.listen(port, () => {
+  console.log(`API + Socket server running on ${port} . . .`);
 });
