@@ -1,24 +1,25 @@
 import { LayoutContainer } from "@pixi/layout/components";
-import { useApplication, useExtend } from "@pixi/react"
-import { Assets } from "pixi.js";
+import { useExtend } from "@pixi/react"
 import AudioMuteScreen from "../audio-screen/audio-mute-screen";
 import SettingGameHeader from "./setting-game-header";
+import { DESIGN_VIEWPORT } from "@/games/application";
 
 export default function SettingGameScreen() {
   useExtend({ LayoutContainer });
-  const { app } = useApplication();
+  const settingWidth = DESIGN_VIEWPORT.width;
+  const settingHeight = DESIGN_VIEWPORT.height;
 
   return (
     <layoutContainer
       layout={{
-        height: app.screen.height,
-        width: app.screen.width,
+        width: settingWidth,
+        height: settingHeight,
         backgroundColor: "#0009",
       }}
     >
       <layoutContainer
         layout={{
-          height: app.screen.height,
+          height: settingHeight,
           width: 400,
           backgroundColor: '#f7f7f7',
           position: 'absolute',

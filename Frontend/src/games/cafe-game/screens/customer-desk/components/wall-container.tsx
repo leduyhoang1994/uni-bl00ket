@@ -1,20 +1,21 @@
 "use client";
 
-import { useApplication, useExtend } from "@pixi/react";
+import { useExtend } from "@pixi/react";
 import { Graphics, Sprite, Texture, TilingSprite, Text, Assets } from "pixi.js";
 import TagScreen from "@/games/cafe-game/components/tag-screen/tag-screen";
 import CafeGameStore from "@/games/stores/cafe-game-store/cafe-game-store";
 import LeaderBoardScreenIcon from "@/games/cafe-game/components/leader-board-screen-icon/leader-board-screen-icon";
 import HostStore from "@/stores/host-store/host-store";
 import SettingGameIcon from "@/games/components/setting-game-screen/setting-game-icon";
+import { DESIGN_VIEWPORT } from "@/games/application";
+
 
 export default function WallContainer() {
   useExtend({ Sprite, TilingSprite, Graphics, Text });
-  const { app } = useApplication();
   const { cafeBalance } = CafeGameStore();
   const { userInfo } = HostStore();
-  const appHeight = app.screen.height;
-  const appWidth = app.screen.width;
+  const appWidth = DESIGN_VIEWPORT.width;
+  const appHeight = DESIGN_VIEWPORT.height;
   const currentWallHeight = appHeight / 2;
   const itemsContainerWidth = appWidth * 0.9;
   const itemsContainerHeight = appHeight * 0.8 * 0.5;

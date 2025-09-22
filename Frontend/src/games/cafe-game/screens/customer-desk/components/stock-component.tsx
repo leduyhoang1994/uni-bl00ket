@@ -22,12 +22,6 @@ export default function StockComponent({
     Assets.get("plate-level-5"),
   ]
   const text = `${quantity}`;
-  const fontSize = 14;
-  const paddingX = 3;
-  const textWidth = text.length * (fontSize * 0.6);
-  const boxWidth = textWidth + paddingX * 2;
-  const boxHeight = 20;
-
   const defaultActive = {
     interactive: true,
     eventMode: "static",
@@ -36,25 +30,17 @@ export default function StockComponent({
 
   const activeObj = quantity > 0 ? defaultActive : {};
   const foodRef = useRef<Sprite>(null);
-
-  const draw = (g: Graphics) => {
-    g.clear();
-    g.roundRect(0, 0, boxWidth, boxHeight, 5).fill({
-      color: "#099faa",
-    });
-  };
-
   return (
     <>
       <layoutContainer
+        label="Plate active"
         layout={{
-          position: "absolute",
+          position: "relative",
           width: plateWidth,
           height: plateHeight,
-          left: -20,
-          top: (itemHeight - plateHeight) / 2,
           justifyContent: "center",
           alignItems: "center",
+          backgroundColor: "transparent"
         }}
       >
         <pixiSprite
@@ -73,26 +59,50 @@ export default function StockComponent({
               width: "65%",
               height: "70%",
               position: "absolute",
-              marginBottom: 5,
-              marginLeft: 0,
             }}
           />
         </RenderIf>
-        <pixiContainer x={100} y={90}>
-          <pixiGraphics draw={draw} />
-          <pixiText
-            text={text}
-            style={{
-              fontSize: 14,
-              fontWeight: "700",
-              fill: "white",
+        <layoutContainer
+          layout={{
+            width: 'auto',
+            height: "auto",
+            position: "absolute",
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            backgroundColor: 'transparent',
+            right: 20,
+            bottom: 0,
+          }}
+          zIndex={10}
+        >
+          <layoutContainer
+            layout={{
+              backgroundColor: "099faa",
+              width: 'auto',
+              height: 'auto',
+              borderRadius: 5,
+              display: 'flex',
+              justifyContent: 'center',
+              alignItems: 'center',
+              paddingTop: 2,
+              paddingBottom: 2,
+              paddingLeft: 5,
+              paddingRight: 5
             }}
-            anchor={0.5}
-            resolution={2}
-            x={boxWidth / 2}
-            y={boxHeight / 2}
-          />
-        </pixiContainer>
+          >
+            <pixiText
+              text={text}
+              style={{
+                fontSize: 28,
+                fontWeight: "700",
+                fill: "white",
+              }}
+              resolution={2}
+              layout
+            />
+          </layoutContainer>
+        </layoutContainer>
         <pixiGraphics
           draw={(g) => {
             g.clear();

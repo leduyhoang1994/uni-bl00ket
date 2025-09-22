@@ -26,7 +26,7 @@ export default function SettingGameIcon() {
         height={45}
         cursor="pointer"
         interactive
-        onClick={doClickSetting}
+        onPointerTap={doClickSetting}
       />}
     </>
   )

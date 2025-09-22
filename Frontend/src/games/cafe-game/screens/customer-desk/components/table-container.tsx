@@ -1,22 +1,22 @@
 "use client";
 
-import { useApplication, useExtend } from "@pixi/react";
+import { useExtend } from "@pixi/react";
 import { Assets, Container, Sprite, Texture, TilingSprite } from "pixi.js";
 import ButtonScreen from "@/games/cafe-game/components/button-screen/button-screen";
 import QuizStore from "@/stores/quiz-store/quiz-store";
 import { useRef } from "react";
 import CafeGameStore from "@/games/stores/cafe-game-store/cafe-game-store";
 import PlateComponent from "./plate-component";
+import { DESIGN_VIEWPORT } from "@/games/application";
 
 export default function TableContainer() {
   useExtend({ Sprite, TilingSprite });
   const { setToggleQuizContainer, loadNewQuestion } = QuizStore();
   const { setToggleVisitShop, cafeStocks, loadCafeShopItems } = CafeGameStore();
-  const { app } = useApplication();
   const plateContainer = useRef<Container>(new Container());
 
-  const appHeight = app.screen.height;
-  const appWidth = app.screen.width;
+  const appWidth = DESIGN_VIEWPORT.width;
+  const appHeight = DESIGN_VIEWPORT.height;
   const currentTableHeight = appHeight / 2;
   const textureTable = Assets.get("back-ground-table");
 

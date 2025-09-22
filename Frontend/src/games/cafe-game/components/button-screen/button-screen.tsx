@@ -12,7 +12,7 @@ export default function ButtonScreen({
   btnText = "Visit Shop",
   btnContainerX = 0,
   btnContainerY = 0,
-  doClickBtn = () => {},
+  doClickBtn = () => { },
 }) {
   useExtend({ Graphics, Text });
 
@@ -89,7 +89,7 @@ export default function ButtonScreen({
       interactive={true}
       eventMode="static"
       cursor="pointer"
-      onPointerUp={() => {
+      onPointerTap={() => {
         if (!btn.current) {
           return;
         }

@@ -19,7 +19,7 @@ export default function LeaderBoardScreenIcon() {
       interactive={true}
       eventMode="static"
       cursor="pointer"
-      onPointerDown={doClickLeaderBoard}
+      onPointerTap={doClickLeaderBoard}
     >
       {textureLeaderBoard !== Texture.EMPTY && (
         <pixiTilingSprite

@@ -60,7 +60,6 @@ const ItemScreen = ({
     interactive: true,
     eventMode: "static",
     cursor: "pointer",
-    onClick: () => doClickBuyItem(),
   };
 
   const activeObj = enabled ? defaultActive : {};
@@ -125,6 +124,7 @@ const ItemScreen = ({
         }
       >
         <layoutContainer
+          label="Item screen"
           layout={{
             width: itemWidth,
             height: itemHeight,
@@ -234,6 +234,7 @@ const ItemScreen = ({
               });
             }}
             {...activeObj}
+            onPointerTap={doClickBuyItem}
           />
         </layoutContainer>
       </RenderIf>

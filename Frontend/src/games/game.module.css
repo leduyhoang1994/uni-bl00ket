@@ -1,7 +1,8 @@
 .game_container {
   font-family: var(--font-geist-sans);
-  width: 1200px;
-  max-width: 1900px;
-  aspect-ratio: 16/9;
-  margin: auto;
+  width: 100vw; /* 100% chiều rộng của viewport */
+  height: 100vh; /* 100% chiều cao của viewport */
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }

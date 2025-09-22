@@ -20,6 +20,11 @@ extend({
   Text,
 });
 
+export const DESIGN_VIEWPORT = {
+  width: 1920,
+  height: 1080
+}
+
 export default function GameContainer() {
   useExtend({ Graphics });
   const [progress, setProgress] = useState(0);
@@ -28,6 +33,11 @@ export default function GameContainer() {
   const { hostId } = useParams();
   const navigate = useNavigate();
   const { setUserInfo, setLeaderboard } = HostStore();
+  const [transform, setTransform] = useState({
+    x: 0,
+    y: 0,
+    scale: 1,
+  });
 
   const { app } = useApplication();
   (globalThis as any).__PIXI_APP__ = app;
@@ -107,23 +117,68 @@ export default function GameContainer() {
     loadAssets();
   }, [gameMode]);
 
+  useEffect(() => {
+    const DESIGN_RATIO = DESIGN_VIEWPORT.width / DESIGN_VIEWPORT.height;
+
+    const handleResize = () => {
+      const screenW = app.screen.width;
+      const screenH = app.screen.height;
+      const screenRatio = screenW / screenH;
+
+      let targetW: number;
+      let targetH: number;
+
+      // Dựa trên yêu cầu của bạn
+      if (screenRatio >= DESIGN_RATIO) {
+        // Màn hình ngang hoặc vuông, fit theo chiều cao
+        targetH = screenH;
+        targetW = targetH * DESIGN_RATIO;
+      } else {
+        // Màn hình dọc, fit theo chiều ngang
+        targetW = screenW;
+        targetH = targetW / DESIGN_RATIO;
+      }
+
+      const scale = targetW / DESIGN_VIEWPORT.width;
+      const offsetX = (screenW - targetW) / 2;
+      const offsetY = (screenH - targetH) / 2;
+
+      // Cập nhật state
+      console.log('transform', transform);
+
+      setTransform({ scale, x: offsetX, y: offsetY });
+    };
+
+    // Gọi lần đầu khi component mount
+    handleResize();
+
+    // Thêm listener để theo dõi sự kiện resize
+    window.addEventListener('resize', handleResize);
+
+    // Dọn dẹp listener khi component unmount
+    return () => {
+      window.removeEventListener('resize', handleResize);
+    };
+  }, [app.screen]); // Phụ thuộc vào app.screen để chạy lại khi kích thước canvas thay đổi
+
   return (
     <pixiContainer
       label="Game Container"
-      width={app.screen.width}
-      height={app.screen.height}
+      x={transform.x}
+      y={transform.y}
+      scale={transform.scale}
     >
       <RenderIf condition={!loaded}>
         <pixiGraphics
           draw={(g: Graphics) => {
-            g.roundRect(0, 0, app.screen.width, app.screen.height, 0).fill({
+            g.roundRect(0, 0, DESIGN_VIEWPORT.width, DESIGN_VIEWPORT.height, 0).fill({
               color: "#118891",
             });
           }}
         />
         <pixiContainer
-          x={app.screen.width / 2}
-          y={app.screen.height / 2}
+          x={DESIGN_VIEWPORT.width / 2}
+          y={DESIGN_VIEWPORT.height / 2}
           anchor={0.5}
         >
           <pixiText

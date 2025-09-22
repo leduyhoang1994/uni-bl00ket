@@ -52,6 +52,13 @@ export default function CafeGame() {
     })
   }
 
+  const timeBlockEnd = () => {
+    setHealthPopupObj({
+      player: {} as Player,
+      isOpen: false
+    });
+  }
+
   useEffect(() => {
     (async () => {
       const token = await HostController.getAccessToken();
@@ -104,7 +111,7 @@ export default function CafeGame() {
         <PopupAbilities abilitiesObj={abilitiesObj} setAbilitiesObj={setAbilitiesObj} />
       </RenderIf>
       <RenderIf condition={healthPopupObj.isOpen}>
-        <PopupAbilitiesHealth setHealthPopupObj={setHealthPopupObj} healthPopupObj={healthPopupObj} />
+        <PopupAbilitiesHealth timeBlockEnd={timeBlockEnd} healthPopupObj={healthPopupObj} />
       </RenderIf>
       {/* <SettingGameScreen /> */}
     </RenderIf>

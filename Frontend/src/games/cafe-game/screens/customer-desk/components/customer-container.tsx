@@ -2,20 +2,20 @@
 
 import "@pixi/layout/react";
 import "@pixi/layout";
-import { useApplication, useExtend } from "@pixi/react";
+import { useExtend } from "@pixi/react";
 import Customer from "./customer";
 import { Sprite } from "pixi.js";
 import { LayoutContainer } from "@pixi/layout/components";
 import { useEffect } from "react";
 import CafeGameStore from "@/games/stores/cafe-game-store/cafe-game-store";
+import { DESIGN_VIEWPORT } from "@/games/application";
 
 export default function CustomerContainer() {
   useExtend({ LayoutContainer, Sprite });
   const { loadCustomers, customers } = CafeGameStore();
 
-  const { app } = useApplication();
-  const appWidth = app.screen.width;
-  const appHeight = app.screen.height;
+  const appWidth = DESIGN_VIEWPORT.width;
+  const appHeight = DESIGN_VIEWPORT.height;
 
   const containerHeight = appHeight * 0.5;
   const custWidth = appWidth / 3;
