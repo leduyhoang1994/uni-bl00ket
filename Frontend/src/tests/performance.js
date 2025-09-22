@@ -3,14 +3,14 @@
 import crypto from "crypto";
 import { io } from "socket.io-client";
 
-const hostId = "81eb7f";
+const hostId = "2ba024";
 
 async function genToken() {
   const userId = crypto.randomBytes(8).toString("hex");
   const avatar = `/images/avatar/brown-dog.svg`;
   const username = `testuser-${crypto.randomBytes(4).toString("hex")}`;
 
-  const result = await fetch("http://localhost:8300/host/gen-token", {
+  const result = await fetch("https://ws-game.uniclass.vn/host/gen-token", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -37,7 +37,7 @@ async function executeTest(token) {
   // let cafeController = new CafeController(hostId);
   // const httpClient = await initHttp(token);
 
-  const socketClient = io("http://localhost:8300", {
+  const socketClient = io("https://ws-game.uniclass.vn", {
     transports: ["websocket"],
     extraHeaders: {
       "X-User-ID": crypto.randomBytes(4).toString("hex"),
@@ -75,7 +75,7 @@ async function executeTest(token) {
 }
 
 async function main() {
-  const concurrency = 5000;
+  const concurrency = 300;
 
   for (let i = 0; i < concurrency; i++) {
     const token = await genToken();

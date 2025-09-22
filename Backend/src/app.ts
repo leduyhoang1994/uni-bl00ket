@@ -2,7 +2,7 @@ import { createServer } from "http";
 import app from "./servers/api.server";
 import { createSocketServer } from "./servers/socket.server";
 
-const port = 4000;
+const port = process.argv[2] || 4000;
 
 // Tạo HTTP server từ app Express
 const httpServer = createServer(app);
