@@ -1,24 +1,27 @@
 import { LayoutContainer } from "@pixi/layout/components";
-import { useApplication, useExtend } from "@pixi/react";
+import { useExtend } from "@pixi/react";
 import LeaderBoardScreenUser from "./components/leader-board-screen-user";
 import CafeGameStore from "@/games/stores/cafe-game-store/cafe-game-store";
 import HostStore from "@/stores/host-store/host-store";
 import { HostLeaderboardItem } from "@common/types/host.type";
+import { DESIGN_VIEWPORT } from "@/games/application";
 
 export default function LeaderboardScreen() {
   useExtend({ LayoutContainer });
   const { setToggleLeaderBoard } = CafeGameStore();
-  const { app } = useApplication();
   const { leaderboard, userInfo } = HostStore();
 
-  const leaderBoardWidth = app.screen.width * 0.85;
+  const layoutWidth = DESIGN_VIEWPORT.width;
+  const layoutHeight = DESIGN_VIEWPORT.height;
+  const leaderBoardWidth = DESIGN_VIEWPORT.width * 0.85;
   const paddingLayout = 15;
 
   return (
     <layoutContainer
+      label="Leader board screen"
       layout={{
-        width: app.screen.width,
-        height: app.screen.height,
+        width: layoutWidth,
+        height: layoutHeight,
         backgroundColor: "transparent",
         display: "flex",
         justifyContent: "center",
@@ -26,7 +29,8 @@ export default function LeaderboardScreen() {
         flexDirection: "column",
         alignItems: "center",
       }}
-      onClick={() => setToggleLeaderBoard(false)}
+
+      onPointerTap={() => setToggleLeaderBoard(false)}
       cursor="pointer"
     >
       <layoutContainer

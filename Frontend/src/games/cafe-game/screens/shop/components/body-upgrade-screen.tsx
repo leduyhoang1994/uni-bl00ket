@@ -17,6 +17,7 @@ const BodyUpgradeScreen = () => {
 
   return (
     <layoutContainer
+      label="Body upgrade"
       layout={{
         flex: 1,
         gap: 200,
@@ -25,6 +26,7 @@ const BodyUpgradeScreen = () => {
     >
       <RenderIf condition={textureWallShop !== Texture.EMPTY}>
         <layoutContainer
+          label="Left wall"
           layout={{
             width: "50%",
           }}
@@ -38,6 +40,7 @@ const BodyUpgradeScreen = () => {
           />
         </layoutContainer>
         <layoutContainer
+          label="Right wall"
           layout={{
             width: "50%",
           }}

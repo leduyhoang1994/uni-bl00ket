@@ -85,7 +85,7 @@ export default function PlateComponent({
         />
       </RenderIf>
       <RenderIf condition={enabled}>
-        <pixiContainer x={x} y={y}>
+        <pixiContainer label="Plate active" x={x} y={y}>
           <StockComponent
             quantity={quantity}
             plateWidth={plateWidth}

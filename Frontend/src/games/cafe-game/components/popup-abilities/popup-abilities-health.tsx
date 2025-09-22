@@ -1,6 +1,7 @@
+import { DESIGN_VIEWPORT } from "@/games/application";
 import PopupLayout from "@/games/components/popup-layout/popup-layout";
 import { LayoutContainer, LayoutHTMLText } from "@pixi/layout/components";
-import { useApplication, useExtend } from "@pixi/react";
+import { useExtend } from "@pixi/react";
 import { Assets } from "pixi.js";
 import { useEffect, useState } from "react";
 
@@ -10,15 +11,17 @@ interface PopupAbilitiesHealthProps {
       username: string;
     };
   };
-  setHealthPopupObj: (value: any) => void;
+  timeBlockEnd: () => void;
 }
 
 export default function PopupAbilitiesHealth({
   healthPopupObj = { player: { username: '' } },
-  setHealthPopupObj = () => { },
+  timeBlockEnd = () => { },
 }: PopupAbilitiesHealthProps) {
   useExtend({ LayoutContainer, LayoutHTMLText });
-  const { app } = useApplication();
+  const popupWidth = DESIGN_VIEWPORT.width;
+  const popupHeight = DESIGN_VIEWPORT.height;
+
   const healthTexture = Assets.get(`abilites-background-health`);
   const username = healthPopupObj.player.username;
   const [countdown, setCountdown] = useState<number>(8);
@@ -30,7 +33,6 @@ export default function PopupAbilitiesHealth({
       setCountdown((prev) => {
         if (prev <= 1) {
           clearInterval(interval);
-          setHealthPopupObj({})
           return 0;
         }
         return prev - 1;
@@ -38,7 +40,13 @@ export default function PopupAbilitiesHealth({
     }, 1000);
 
     return () => clearInterval(interval);
-  }, [countdown]);
+  }, []);
+
+  useEffect(() => {
+    if (countdown === 0) {
+      timeBlockEnd();
+    }
+  }, [countdown, timeBlockEnd]);
 
   const renderPopupAbilitieHealth = () => {
     return (
@@ -54,8 +62,8 @@ export default function PopupAbilitiesHealth({
       >
         <pixiSprite
           layout={{
-            width: app.screen.width * 0.9,
-            height: app.screen.height * 0.9,
+            width: popupWidth * 0.9,
+            height: popupHeight * 0.9,
             objectFit: "contain",
           }}
           texture={healthTexture}

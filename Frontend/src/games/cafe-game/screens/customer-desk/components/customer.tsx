@@ -10,6 +10,7 @@ import gsap from "gsap";
 import RenderIf from "@/utils/condition-render";
 import CafeGameStore from "@/games/stores/cafe-game-store/cafe-game-store";
 import { getCafeControllerInstance } from "@/games/cafe-game/cafe-controller.singleton";
+import { DESIGN_VIEWPORT } from "@/games/application";
 
 const CUSTOMER_AVATARS = [
   "alpaca",
@@ -92,7 +93,7 @@ export default function Customer({ position, x, y }: any) {
   const customer = customers.find((c) => c.position === position);
   const [earned, setEarned] = useState(0);
 
-  const appWidth = app?.screen?.width;
+  const appWidth = DESIGN_VIEWPORT.width;
 
   const customerTexture = customer ? Assets.get(`cust-${customer?.avatar}`) : null;
   const foodCount = customer?.orders.length || 2;

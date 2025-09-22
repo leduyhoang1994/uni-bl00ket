@@ -1,6 +1,7 @@
+import { DESIGN_VIEWPORT } from "@/games/application";
 import { HostLeaderboardItem } from "@common/types/host.type";
 import { LayoutContainer } from "@pixi/layout/components";
-import { useApplication, useExtend } from "@pixi/react";
+import { useExtend } from "@pixi/react";
 import { Assets } from "pixi.js";
 
 export default function LeaderBoardScreenUser({
@@ -11,8 +12,7 @@ export default function LeaderBoardScreenUser({
   item: HostLeaderboardItem;
 }) {
   useExtend({ LayoutContainer });
-  const { app } = useApplication();
-  const leaderBoardWidth = app.screen.width * 0.85;
+  const leaderBoardWidth = DESIGN_VIEWPORT.width * 0.85;
   const userTexture = Assets.get(`cust-alpaca`);
   const currentUserObj = hasCurrentUser
     ? { backGroundColor: "rgba(255, 255, 255, 0.5)", textColor: "black" }

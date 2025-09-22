@@ -15,6 +15,8 @@ type HostState = {
   setLeaderboard: (leaderboard: HostLeaderboard) => void;
   userInfo: Player | null;
   setUserInfo: (userInfo: Player | null) => void;
+  toggleSetting: boolean;
+  setToggleSetting: (toggleSetting: boolean) => void;
 };
 
 const initialDataHost = {
@@ -22,6 +24,7 @@ const initialDataHost = {
   lobbyPlayers: [],
   leaderboard: [],
   userInfo: null,
+  toggleSetting: false,
 };
 
 const HostStore = create<HostState>((set, get) => ({
@@ -30,6 +33,7 @@ const HostStore = create<HostState>((set, get) => ({
   setLobbyPlayers: (lobbyPlayers) => set({ lobbyPlayers }),
   setLeaderboard: (leaderboard) => set({ leaderboard }),
   setUserInfo: (userInfo) => set({ userInfo }),
+  setToggleSetting: (toggleSetting) => set({ toggleSetting }),
 }));
 
 export default HostStore;

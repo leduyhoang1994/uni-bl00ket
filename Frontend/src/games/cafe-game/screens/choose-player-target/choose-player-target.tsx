@@ -1,5 +1,5 @@
 import { LayoutContainer, TilingSprite } from "@pixi/layout/components";
-import { useApplication, useExtend } from "@pixi/react";
+import { useExtend } from "@pixi/react";
 import { Assets, Sprite, Texture } from "pixi.js";
 import TargetEnemy from "../../components/target-enemy/target-enemy";
 import { useLayoutEffect } from "react";
@@ -8,6 +8,7 @@ import { useParams } from "react-router";
 import CafeGameStore from "@/games/stores/cafe-game-store/cafe-game-store";
 import { ABILITY_ID } from "@/model/model";
 import HostStore from "@/stores/host-store/host-store";
+import { DESIGN_VIEWPORT } from "@/games/application";
 
 export default function ChoosePlayerTarget({
   abilityId,
@@ -15,7 +16,8 @@ export default function ChoosePlayerTarget({
   abilityId: ABILITY_ID;
 }) {
   useExtend({ LayoutContainer });
-  const { app } = useApplication();
+  const playerTargetWidth = DESIGN_VIEWPORT.width;
+  const playerTargetHeight = DESIGN_VIEWPORT.height;
   const textureWall = Assets.get("back-ground-row");
   const { hostId } = useParams();
   const { setPlayers, players } = CafeGameStore();
@@ -39,8 +41,8 @@ export default function ChoosePlayerTarget({
   return (
     <layoutContainer
       layout={{
-        width: app.screen.width,
-        height: app.screen.height,
+        width: playerTargetWidth,
+        height: playerTargetHeight,
         backgroundColor: "transparent",
         display: "flex",
         justifyContent: "center",
@@ -52,16 +54,16 @@ export default function ChoosePlayerTarget({
         textureWall !== Texture.EMPTY
           ? new TilingSprite({
             texture: textureWall,
-            width: app.screen.width,
-            height: app.screen.height,
+            width: playerTargetWidth,
+            height: playerTargetHeight,
           })
           : new Sprite(Texture.WHITE)
       }
     >
       <layoutContainer
         layout={{
-          width: app.screen.width,
-          height: app.screen.height,
+          width: playerTargetWidth,
+          height: playerTargetHeight,
           backgroundColor: "transparent",
           display: "flex",
           flexDirection: "column",
@@ -75,7 +77,7 @@ export default function ChoosePlayerTarget({
             display: "flex",
             flexDirection: "column",
             alignItems: "center",
-            width: app.screen.width,
+            width: playerTargetWidth,
             backgroundColor: "transparent",
           }}
         >

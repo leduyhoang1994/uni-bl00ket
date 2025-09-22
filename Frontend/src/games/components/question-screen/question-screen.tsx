@@ -8,6 +8,7 @@ import AnswerBtn from "./answer-btn";
 import { getCafeControllerInstance } from "@/games/cafe-game/cafe-controller.singleton";
 import CafeGameStore from "@/games/stores/cafe-game-store/cafe-game-store";
 import RenderIf from "@/utils/condition-render";
+import { DESIGN_VIEWPORT } from "@/games/application";
 
 export default function QuestionScreen() {
   useExtend({ Graphics, Text });
@@ -22,11 +23,11 @@ export default function QuestionScreen() {
   } = QuizStore();
   const { loadCafeStocks } = CafeGameStore();
   const { setIsCorrect, setAnsweredId } = QuizStore();
-  const { app } = useApplication();
+
   const question = currentQuestion?.text;
   const answers = currentQuestion?.answers;
-  const appWidth = app.screen.width;
-  const appHeight = app.screen.height;
+  const appWidth = DESIGN_VIEWPORT.width;
+  const appHeight = DESIGN_VIEWPORT.height;
   const quizContainer = useRef<Container>(null);
   const blockAnswer = useRef<Sprite>(new Sprite());
   const [allowCloseBlock, setAllowCloseBlock] = useState(false);

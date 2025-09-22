@@ -14,6 +14,7 @@ import { Player } from "@common/types/host.type";
 import ChoosePlayerTarget from "./screens/choose-player-target/choose-player-target";
 import PopupAbilities from "./components/popup-abilities/popup-abilities";
 import PopupAbilitiesHealth from "./components/popup-abilities/popup-abilities-health";
+import SettingGameScreen from "../components/setting-game-screen/setting-game-screen";
 
 export default function CafeGame() {
   const {
@@ -49,6 +50,13 @@ export default function CafeGame() {
       player: player,
       isOpen: true,
     })
+  }
+
+  const timeBlockEnd = () => {
+    setHealthPopupObj({
+      player: {} as Player,
+      isOpen: false
+    });
   }
 
   useEffect(() => {
@@ -103,8 +111,9 @@ export default function CafeGame() {
         <PopupAbilities abilitiesObj={abilitiesObj} setAbilitiesObj={setAbilitiesObj} />
       </RenderIf>
       <RenderIf condition={healthPopupObj.isOpen}>
-        <PopupAbilitiesHealth setHealthPopupObj={setHealthPopupObj} healthPopupObj={healthPopupObj} />
+        <PopupAbilitiesHealth timeBlockEnd={timeBlockEnd} healthPopupObj={healthPopupObj} />
       </RenderIf>
+      {/* <SettingGameScreen /> */}
     </RenderIf>
   );
 }

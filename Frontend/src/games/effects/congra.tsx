@@ -4,6 +4,7 @@ import { Container, Graphics, Sprite } from "pixi.js";
 import { useApplication, useExtend, useTick } from "@pixi/react";
 import { getRandomFloat, randomFromArray } from "@/games/cafe-game/helpers/random";
 import { WithCustomAttributes } from "../cafe-game/helpers/types";
+import { DESIGN_VIEWPORT } from "../application";
 
 const colors = [
   0xff0000, // Đỏ tươi
@@ -39,7 +40,7 @@ export default function CongraEffect() {
 
         maggot.y += maggot.fallSpeed;
 
-        if (maggot.y > app.screen.height) {
+        if (maggot.y > DESIGN_VIEWPORT.height) {
           maggot.y = -maggot.height;
         }
 
@@ -83,8 +84,8 @@ export default function CongraEffect() {
             .fill(randomFromArray(colors));
           const circleTexture = app.renderer.generateTexture(graphics);
           const setting = {
-            x: Math.random() * app.screen.width,
-            y: Math.random() * -app.screen.height,
+            x: Math.random() * DESIGN_VIEWPORT.width,
+            y: Math.random() * -DESIGN_VIEWPORT.height,
           };
           return (
             <pixiSprite

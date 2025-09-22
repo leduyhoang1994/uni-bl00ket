@@ -9,9 +9,11 @@ import { useNavigate, useParams, useSearchParams } from "react-router";
 import tokenRequire from "../components/token-require.hoc";
 import { GenUrl, UrlGenerator } from "@/utils/utils";
 import PopupCopyLink from "../components/popup/popup-copy-link";
+import SettingLobbyIcon from "../components/setting-lobby/setting-lobby-icon";
+import SettingLobbyScreen from "../components/setting-lobby/setting-lobby-screen";
 
 function HostCreator() {
-  const { setCurrentState, setLobbyPlayers, lobbyPlayers } = HostStore();
+  const { setLobbyPlayers, lobbyPlayers } = HostStore();
   const hasPlayer = lobbyPlayers.length > 0;
   const textBtn = hasPlayer ? "Start" : "1 More";
   const { hostId } = useParams();
@@ -66,6 +68,7 @@ function HostCreator() {
             Copy Join Link
           </a>
         </div>
+        <SettingLobbyIcon />
       </div>
       <div className="host-creator__body">
         <div className="host-creator__body-background"></div>
@@ -106,7 +109,7 @@ function HostCreator() {
       <RenderIf condition={togglePopup}>
         <PopupCopyLink setTogglePopup={setTogglePopup} />
       </RenderIf>
-
+      <SettingLobbyScreen />
     </div>
   );
 }
