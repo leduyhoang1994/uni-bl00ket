@@ -38,6 +38,7 @@ export default function GameContainer() {
     y: 0,
     scale: 1,
   });
+  const [mask, setMask] = useState<Graphics | null>(null);
 
   const { app } = useApplication();
   (globalThis as any).__PIXI_APP__ = app;
@@ -128,7 +129,6 @@ export default function GameContainer() {
       let targetW: number;
       let targetH: number;
 
-      // Dựa trên yêu cầu của bạn
       if (screenRatio >= DESIGN_RATIO) {
         // Màn hình ngang hoặc vuông, fit theo chiều cao
         targetH = screenH;
@@ -142,24 +142,14 @@ export default function GameContainer() {
       const scale = targetW / DESIGN_VIEWPORT.width;
       const offsetX = (screenW - targetW) / 2;
       const offsetY = (screenH - targetH) / 2;
-
-      // Cập nhật state
-      console.log('transform', transform);
-
       setTransform({ scale, x: offsetX, y: offsetY });
     };
-
-    // Gọi lần đầu khi component mount
     handleResize();
-
-    // Thêm listener để theo dõi sự kiện resize
     window.addEventListener('resize', handleResize);
-
-    // Dọn dẹp listener khi component unmount
     return () => {
       window.removeEventListener('resize', handleResize);
     };
-  }, [app.screen]); // Phụ thuộc vào app.screen để chạy lại khi kích thước canvas thay đổi
+  }, [app.screen, app.screen.width]);
 
   return (
     <pixiContainer
@@ -167,36 +157,47 @@ export default function GameContainer() {
       x={transform.x}
       y={transform.y}
       scale={transform.scale}
+      layout={{
+        overflow: "hidden"
+      }}
     >
-      <RenderIf condition={!loaded}>
+      <pixiContainer label="Game mask" mask={mask}>
         <pixiGraphics
+          ref={setMask}
           draw={(g: Graphics) => {
-            g.roundRect(0, 0, DESIGN_VIEWPORT.width, DESIGN_VIEWPORT.height, 0).fill({
-              color: "#118891",
-            });
+            g.rect(0, 0, DESIGN_VIEWPORT.width, DESIGN_VIEWPORT.height).fill(0xffffff);
           }}
         />
-        <pixiContainer
-          x={DESIGN_VIEWPORT.width / 2}
-          y={DESIGN_VIEWPORT.height / 2}
-          anchor={0.5}
-        >
-          <pixiText
-            text={`Loading... ${progress}%`}
-            anchor={0.5}
-            style={
-              new TextStyle({
-                fill: "#ffffff",
-                fontSize: 28,
-                fontWeight: "bold",
-              })
-            }
+        <RenderIf condition={!loaded}>
+          <pixiGraphics
+            draw={(g: Graphics) => {
+              g.roundRect(0, 0, DESIGN_VIEWPORT.width, DESIGN_VIEWPORT.height, 0).fill({
+                color: "#118891",
+              });
+            }}
           />
-        </pixiContainer>
-      </RenderIf>
-      <RenderIf condition={loaded && gameMode === GameMode.Cafe}>
-        <CafeGame />
-      </RenderIf>
+          <pixiContainer
+            x={DESIGN_VIEWPORT.width / 2}
+            y={DESIGN_VIEWPORT.height / 2}
+            anchor={0.5}
+          >
+            <pixiText
+              text={`Loading... ${progress}%`}
+              anchor={0.5}
+              style={
+                new TextStyle({
+                  fill: "#ffffff",
+                  fontSize: 28,
+                  fontWeight: "bold",
+                })
+              }
+            />
+          </pixiContainer>
+        </RenderIf>
+        <RenderIf condition={loaded && gameMode === GameMode.Cafe}>
+          <CafeGame />
+        </RenderIf>
+      </pixiContainer>
     </pixiContainer>
   );
 }
