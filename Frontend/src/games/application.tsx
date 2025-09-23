@@ -157,9 +157,6 @@ export default function GameContainer() {
       x={transform.x}
       y={transform.y}
       scale={transform.scale}
-      layout={{
-        overflow: "hidden"
-      }}
     >
       <pixiContainer label="Game mask" mask={mask}>
         <pixiGraphics
