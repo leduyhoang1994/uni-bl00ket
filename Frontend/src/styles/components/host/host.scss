@@ -11,17 +11,17 @@
   &__header {
     display: flex;
     align-items: center;
-    padding: 1rem 2rem;
-    gap: 3rem;
     color: #fff;
     background-color: #9a49aa;
     box-shadow:
       0 -10px #0003 inset,
       0 6px #0003;
-    padding: 0 2dvw 10px;
     width: 100dvw;
-    height: 20dvh;
+    height: 7rem;
     z-index: 1;
+    padding-left: 2rem;
+    padding-right: 4rem;
+    gap: 3rem;
   }
 
   &__header-QR {
@@ -34,8 +34,7 @@
   }
 
   &__header-infor {
-    font-size: 2.5dvw;
-    line-height: 3dvw;
+    font-size: 2rem;
     font-family: var(--font-nunito);
     text-align: center;
 
@@ -48,18 +47,17 @@
   }
 
   &__header-id {
-    font-size: 8dvw;
+    font-size: 5rem;
     font-family: var(--font-titan);
     text-align: center;
     text-shadow: 3px 3px rgba(0, 0, 0, 0.2);
-    width: 43dvw;
+    flex: 1;
   }
 
   &__header-copy-link {
     text-decoration: underline;
-    font-size: 1dvw;
-    line-height: 1.2dvw;
-    width: 5dvw;
+    font-size: 1rem;
+    width: fit-content;
     text-align: center;
   }
 
@@ -87,7 +85,7 @@
 
   &__body-content {
     margin: 3vh auto 0;
-    width: 90%;
+    width: 100%;
     display: flex;
     flex-direction: row;
     justify-content: space-evenly;
@@ -100,16 +98,15 @@
 
     > :first-child {
       color: #fff;
-      font-size: 2.5dvw;
+      font-size: 3rem;
       font-family: var(--font-titan);
       text-align: center;
       text-shadow: 3px 3px rgba(0, 0, 0, 0.2);
     }
 
     > :last-child {
-      width: 0.875em;
-      height: 1em;
-      font-size: 2.5dvw;
+      width: 3rem;
+      height: 3rem;
       color: #fff;
       filter: drop-shadow(3px 3px rgba(0, 0, 0, 0.2));
     }
@@ -117,7 +114,7 @@
 
   &__body-content-text {
     color: #fff;
-    font-size: 5vw;
+    font-size: 5rem;
     font-family: var(--font-titan);
     -webkit-user-select: none;
     user-select: none;
@@ -130,11 +127,60 @@
     flex-flow: row wrap;
     align-content: flex-start;
     justify-content: center;
-    gap: 1.6vw 2vw;
+    gap: 1.5rem;
     margin: 1vh auto 0;
     padding: 4vh 0 2vh;
     width: 100%;
     overflow: auto;
+  }
+
+  @media only screen and (max-width: $tabletW) {
+    &__header {
+      padding-left: 1rem;
+      gap: 1rem;
+    }
+
+    &__header-infor {
+      font-size: 1rem;
+    }
+  }
+
+  @media only screen and (max-width: $mobileW) {
+    &__header {
+      padding-right: 2rem;
+    }
+
+    &__header-QR {
+      display: none;
+    }
+
+    &__header-infor {
+      line-height: normal;
+    }
+
+    &__header-id {
+      font-size: 2rem;
+    }
+
+    &__body-content {
+      padding: 1rem;
+      padding-top: 2rem;
+      margin: 0;
+    }
+
+    &__body-content-player {
+      > :first-child {
+        font-size: 1rem;
+      }
+      > :last-child {
+        width: 1rem;
+        height: 1rem;
+      }
+    }
+
+    &__body-content-text {
+      font-size: 2rem;
+    }
   }
 }
 
@@ -144,7 +190,6 @@
   align-items: center;
   transition: 0.2s;
   cursor: pointer;
-  margin-top: 3vh;
   outline: none;
   box-shadow:
     0 -7px #0003 inset,
@@ -152,17 +197,21 @@
   border: none;
   border-radius: 10px;
   background-color: #fff;
-  padding-bottom: 7px;
-  width: 14vw;
-  height: 4.5vw;
+  padding: 0.2rem 1rem 0.7rem 1rem;
+
   color: #3a3a3a;
-  font-size: 2.5vw;
+  font-size: 2.5rem;
   font-family: var(--font-titan);
   -webkit-user-select: none;
   user-select: none;
   text-align: center;
   text-shadow: 2px 2px rgba(0, 0, 0, 0.2);
   z-index: 1;
+
+  @media only screen and (max-width: $mobileW) {
+    font-size: 1rem;
+    margin: 0;
+  }
 }
 
 .player-infor {
@@ -172,7 +221,7 @@
   align-items: center;
   will-change: transform;
   background-color: transparent;
-  --player-banner-width: 20vw;
+  --player-banner-width: 20rem;
   transition: 0.2s;
   aspect-ratio: 272 / 62;
   width: var(--player-banner-width);
@@ -208,7 +257,7 @@
     font-family: var(--font-nunito);
     text-align: center;
     white-space: nowrap;
-    font-size: 1.8dvw;
+    font-size: 2rem;
   }
 }
 
@@ -325,6 +374,20 @@
       display: none;
     }
   }
+
+  @media only screen and (max-width: $mobileW) {
+    &__body-main {
+      padding: 1rem;
+      h1 {
+        font-size: 2.5rem;
+      }
+    }
+
+    &__body-main-content {
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+  }
 }
 
 .button-submit {
@@ -364,6 +427,11 @@
     width: 100%;
     height: 100%;
     object-fit: contain;
+  }
+
+  @media only screen and (max-width: $mobileW) {
+    width: 1.25rem;
+    height: 1.25rem;
   }
 }
 

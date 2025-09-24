@@ -199,4 +199,228 @@
   &__header-third {
     font-size: 30px;
   }
+
+  @media screen and (max-width: $mobileW) {
+    &__header {
+      padding-right: 2rem;
+      padding-left: 0.5rem;
+    }
+
+    &__header-first {
+      font-size: 1rem;
+      text-align: center;
+    }
+
+    &__header-second,
+    &__header-third {
+      font-size: 1.5rem;
+      text-align: center;
+
+      img {
+        width: 40px;
+      }
+    }
+  }
+}
+
+.cafe-game {
+  width: 100dvw;
+  height: 100dvh;
+  --font-titan: "Titan One", sans-serif;
+  --font-nunito: "Nunito", sans-serif;
+  font-family: var(--font-nunito);
+
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+  }
+
+  &__wall-container {
+    width: 100dvw;
+    height: 50dvh;
+    background-image: url("/images/cafe-game/back-ground-row.svg");
+    background-position: left;
+
+    &--content {
+      display: flex;
+      justify-content: center;
+      padding: 2rem;
+      gap: 3rem;
+      height: 100%;
+
+      > :first-child,
+      > :last-child {
+        max-width: 15dvw;
+      }
+
+      > :nth-child(2) {
+        flex: 1;
+        max-width: 100%;
+      }
+    }
+  }
+
+  &__table-container {
+    width: 100dvw;
+    height: 50dvh;
+    background-image: url("/images/cafe-game/back-ground-table.svg");
+    background-position: left;
+    box-shadow: 0 -0.75vh 0.4vh #0003;
+    background-position: center;
+    background-size: auto 100%;
+  }
+
+  &__table-container-plate {
+    width: 100dvw;
+    height: 82%;
+    display: flex;
+    flex-flow: row wrap;
+    align-content: center;
+    justify-content: center;
+    gap: 0 2.5vw;
+    padding-top: 1vh;
+
+    > div {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      width: 18%;
+      height: 45%;
+    }
+  }
+
+  &__plate {
+    position: relative;
+    flex-grow: 1;
+    transform: scale(1.3);
+    aspect-ratio: 1;
+    max-width: 100%;
+    max-height: 100%;
+  }
+
+  &__plate-active {
+    filter: drop-shadow(0 0.6vw var(--gray-shadow));
+  }
+
+  &__plate-non-active {
+    filter: drop-shadow(0 0.6vw var(--gray-shadow)) brightness(50%) grayscale(100%);
+  }
+
+  &__plate-food-number {
+    position: absolute;
+    right: 0.5vw;
+    bottom: 0.5vw;
+    box-shadow: 0.25vw 0.25vw #0003;
+    border-radius: 5px;
+    background-color: var(--blue-dark-background);
+    padding: 0 0.5vw;
+    min-width: 15%;
+    color: var(--white);
+    font-weight: 700;
+    font-size: 1.3dvw;
+    text-align: center;
+  }
+
+  &__table-container-cover-btn {
+    display: flex;
+    position: absolute;
+    bottom: 1dvh;
+    left: 0;
+    justify-content: center;
+    gap: 10dvw;
+    margin: auto;
+    width: 100%;
+  }
+
+  &__button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 4;
+    min-width: 20dvw;
+    text-align: center;
+    position: relative;
+    flex-direction: column;
+    transition: 0.2s;
+    cursor: pointer;
+    outline: none;
+    box-shadow: 0 -0.8vh var(--blue-dark) inset;
+    border: 0.5vh solid #0e6b71;
+    border-radius: var(--button-radius);
+    background-color: var(--blue-dark-background);
+    padding: 1vh 0 1.8vh;
+    width: 20dvw;
+    color: var(--white);
+    font-weight: 700;
+    font-size: 2dvw;
+    user-select: none;
+  }
+
+  @media screen and (max-width: 1850px) {
+    &__plate {
+      transform: scale(1.2);
+    }
+  }
+
+  @media screen and (max-width: 1450px) {
+    &__plate-food-number {
+      font-size: 1.6vw;
+    }
+  }
+
+  @media screen and (max-width: $small-desktopW) {
+    &__plate {
+      transform: scale(1.2);
+    }
+
+    &__button {
+      min-width: 30dvw;
+      font-size: 3dvw;
+    }
+  }
+
+  @media screen and (max-width: $tabletW) {
+    &__plate {
+      transform: scale(0.9);
+    }
+  }
+
+  @media screen and (max-width: $mobileW) {
+    &__wall-container {
+      &--content {
+        > :first-child,
+        > :last-child {
+          display: none;
+        }
+      }
+    }
+
+    &__table-container-plate {
+      gap: 0.25rem;
+      > div {
+        width: 30%;
+        height: 33%;
+      }
+    }
+
+    &__plate-food-number {
+      right: 0.8rem;
+    }
+
+    &__plate {
+      transform: scale(1);
+    }
+
+    &__button {
+      min-width: 25dvw;
+      font-size: 3dvw;
+    }
+  }
+  @media screen and (max-width: $small-mobileW) {
+    &__button {
+      box-shadow: 0 -2px var(--blue-dark) inset;
+    }
+  }
 }
