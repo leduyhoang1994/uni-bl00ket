@@ -25,7 +25,7 @@ export default function Plate({
         src={`${plateLevelArr[plateLevel]}`}
         alt="plate"
         draggable="false" />
-      <RenderIf condition={true}>
+      <RenderIf condition={enabled}>
         <div className="cafe-game__plate-food-number">{text}</div>
       </RenderIf>
     </div>

@@ -37,7 +37,6 @@ function CreateCafeHost() {
         >
           <button
             className="button-host"
-            style={{ width: "400px" }}
             onClick={createHost}
           >
             Create Host

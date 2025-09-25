@@ -358,6 +358,79 @@
     user-select: none;
   }
 
+  &__shop {
+    width: 100dvw;
+    height: 100dvh;
+    background-image: url("/images/cafe-game/wall-shop.svg");
+  }
+
+  &__shop-header {
+    background-image: url("/images/cafe-game/curtain.svg");
+    background-size: auto 100%;
+    background-repeat: repeat-x;
+    height: 20%;
+    position: relative;
+  }
+
+  &__shop-header-setting {
+    display: flex;
+    justify-content: flex-end;
+    padding: 0.5rem;
+    gap: 0.5rem;
+    > div {
+      height: 40px;
+    }
+    img {
+      width: 40px;
+      height: 40px;
+      object-fit: contain;
+    }
+  }
+
+  &__shop-header-curtain {
+    display: flex;
+  }
+
+  &__shop-header-curtain-upgrades {
+    position: absolute;
+    background-image: url("/images/cafe-game/ribbon-upgrade.svg");
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-origin: content-box;
+    background-position-y: center;
+    width: 50%;
+    height: 70%;
+    top: 4dvh;
+    color: var(--white);
+    font-family: var(--font-titan);
+    text-shadow: 0.2dvw 0.2dvw var(--gray-shadow);
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    p {
+      position: relative;
+      left: 1dvw;
+      padding-bottom: 2.5dvw;
+      font-size: 3dvw;
+    }
+  }
+
+  &__shop-header-curtain-money {
+    @extend .cafe-game__shop-header-curtain-upgrades;
+    background-image: url("/images/cafe-game/ribbon-money.svg");
+    width: 25%;
+    right: 0;
+    text-align: right;
+    justify-content: flex-end;
+
+    p {
+      left: -1dvw;
+      position: relative;
+      padding-bottom: 0.2dvw;
+      font-size: 2.4dvw;
+    }
+  }
+
   @media screen and (max-width: 1850px) {
     &__plate {
       transform: scale(1.2);
@@ -384,6 +457,13 @@
   @media screen and (max-width: $tabletW) {
     &__plate {
       transform: scale(0.9);
+    }
+
+    &__shop-header-curtain-upgrades {
+      p {
+        padding-bottom: 3.5vw;
+        font-size: 4vw;
+      }
     }
   }
 
@@ -421,6 +501,13 @@
   @media screen and (max-width: $small-mobileW) {
     &__button {
       box-shadow: 0 -2px var(--blue-dark) inset;
+    }
+
+    &__shop-header-curtain-upgrades {
+      p {
+        padding-bottom: 4vw;
+        font-size: 5vw;
+      }
     }
   }
 }

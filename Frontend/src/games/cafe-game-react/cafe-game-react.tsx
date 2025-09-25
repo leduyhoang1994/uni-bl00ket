@@ -12,6 +12,8 @@ import { Player } from "@common/types/host.type";
 import ChoosePlayerTarget from "../cafe-game/screens/choose-player-target/choose-player-target";
 import PopupAbilities from "../cafe-game/components/popup-abilities/popup-abilities";
 import PopupAbilitiesHealth from "../cafe-game/components/popup-abilities/popup-abilities-health";
+import QuestionReact from "../components/question-react/question-react";
+import ShopContainer from "./screens/components/shop/shop-container";
 
 export default function CafeGameReact() {
   const {
@@ -94,8 +96,12 @@ export default function CafeGameReact() {
 
   return (
     <RenderIf condition={controllerLoaded}>
-      <RenderIf condition={!toggleQuizContainer}>
+      <RenderIf condition={!toggleQuizContainer && !toggleVisitShop}>
         <CustomerDesk />
+      </RenderIf>
+      <QuestionReact />
+      <RenderIf condition={toggleVisitShop}>
+        <ShopContainer />
       </RenderIf>
       {/* <RenderIf condition={!toggleQuizContainer}>
         <CustomerDesk />
