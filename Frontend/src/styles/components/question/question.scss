@@ -1,0 +1,114 @@
+@use "../../variable-reponsive" as *;
+@use "../host/host.scss";
+
+.question-react {
+  position: absolute;
+  z-index: 10;
+  width: 100dvw;
+  height: 100dvh;
+  top: 0;
+  left: 0;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+
+  &__header {
+    @extend .host-creator__header;
+    height: 55px;
+    box-shadow: 0 -6px #0003 inset;
+    justify-content: space-between;
+    padding: 0 1rem;
+  }
+
+  &__header-left {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    > div {
+      cursor: context-menu;
+    }
+    img {
+      width: 25px;
+      height: 28px;
+      object-fit: contain;
+      cursor: pointer;
+    }
+  }
+
+  &__header-right {
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+    img {
+      width: 40px;
+      height: 40px;
+      object-fit: contain;
+      cursor: pointer;
+    }
+  }
+
+  &__body {
+    flex: 1;
+    background-color: white;
+    padding: 0.5rem;
+    gap: 1rem;
+    display: flex;
+    flex-direction: column;
+  }
+
+  &__body-content {
+    display: flex;
+    height: 43%;
+    justify-content: center;
+    align-items: center;
+    font-size: 2.75rem;
+    font-family: var(--font-nunito);
+  }
+
+  &__body-content-answers {
+    flex: 1;
+    min-height: 0;
+    display: grid;
+    grid-template-rows: 1fr 1fr;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.5rem;
+    row-gap: 0.75rem;
+  }
+
+  &__answer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 8px;
+    font-size: 2rem;
+    color: white;
+    cursor: pointer;
+  }
+
+  &__answer-yellow {
+    background-color: rgb(255, 163, 30);
+    box-shadow: 0px 6px 0px rgb(204, 130, 24);
+  }
+
+  &__answer-blue {
+    background-color: rgb(51, 120, 255);
+    box-shadow: 0px 6px 0px rgb(41, 96, 204);
+  }
+
+  &__answer-green {
+    background-color: rgb(0, 207, 119);
+    box-shadow: 0px 6px 0px rgb(0, 165, 95);
+  }
+
+  &__answer-red {
+    background-color: rgb(255, 70, 43);
+    box-shadow: 0px 6px 0px rgb(204, 56, 34);
+  }
+
+  @media screen and (max-width: $mobileW) {
+    &__body-content-answers {
+      grid-template-columns: none;
+      grid-template-rows: 1fr 1fr 1fr 1fr;
+    }
+  }
+}
