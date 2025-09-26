@@ -63,7 +63,7 @@
     align-items: center;
     gap: 1rem;
 
-    >button {
+    > button {
       position: relative;
       transition: filter 0.25s;
       cursor: pointer;
@@ -264,82 +264,82 @@
 
   @keyframes Customer_blookEnter {
     0% {
-      transform: translateX(-100vw)
+      transform: translateX(-100vw);
     }
 
     to {
-      transform: translateX(0)
+      transform: translateX(0);
     }
   }
 
   @keyframes SpeechBubble_growIn {
     0% {
-      transform: scale(0)
+      transform: scale(0);
     }
 
     to {
-      transform: scale(1)
+      transform: scale(1);
     }
   }
 
   @keyframes SpeechBubble_growOut {
     0% {
-      transform: scale(1)
+      transform: scale(1);
     }
 
     35% {
-      transform: scale(1)
+      transform: scale(1);
     }
 
     100% {
-      transform: scale(0)
+      transform: scale(0);
     }
   }
 
   @keyframes Customer_blookLeave {
     0% {
-      transform: translateY(0)
+      transform: translateY(0);
     }
 
     7% {
-      transform: translateY(.5vw)
+      transform: translateY(0.5vw);
     }
 
     14% {
-      transform: translateY(-.5vw)
+      transform: translateY(-0.5vw);
     }
 
     21% {
-      transform: translateY(0)
+      transform: translateY(0);
     }
 
     28% {
-      transform: translateY(.5vw)
+      transform: translateY(0.5vw);
     }
 
     35% {
-      transform: translateY(-.5vw)
+      transform: translateY(-0.5vw);
     }
 
     42% {
-      transform: translateY(0)
+      transform: translateY(0);
     }
 
     49% {
-      transform: translateY(.5vw)
+      transform: translateY(0.5vw);
     }
 
     56% {
-      transform: translateY(-.5vw)
+      transform: translateY(-0.5vw);
     }
 
     63% {
       transform: translateY(0);
-      transform: translateX(0)
+      transform: translateX(0);
     }
 
     to {
-      transform: translateX(100vw)
+      transform: translateX(100vw);
     }
   }
 
@@ -352,6 +352,7 @@
     justify-content: center;
     gap: 3%;
     justify-content: center;
+    overflow: hidden;
 
     .cafe-game__table-customer-slot {
       display: flex;
@@ -362,6 +363,7 @@
         display: flex;
         align-items: flex-end;
         width: 100%;
+        cursor: pointer;
 
         @media only screen and (max-width: 700px) {
           flex-direction: column-reverse;
@@ -373,14 +375,14 @@
           width: 50%;
           height: auto;
           object-fit: contain;
-          animation: Customer_blookEnter .5s;
+          animation: Customer_blookEnter 0.5s;
 
           @media only screen and (max-width: 700px) {
             width: 80%;
           }
 
           &.leave {
-            animation: Customer_blookLeave 1s forwards
+            animation: Customer_blookLeave 1s forwards;
           }
         }
 
@@ -390,17 +392,17 @@
           flex-direction: column;
           justify-content: center;
           align-items: center;
-          gap: .75vw;
+          gap: 0.75vw;
           transform-origin: bottom left;
           transform: scale(0);
-          animation: SpeechBubble_growIn .3s .2s forwards;
-          margin-left: .75vw;
+          animation: SpeechBubble_growIn 0.3s 0.2s forwards;
+          margin-left: 0.75vw;
           margin-bottom: 15%;
-          box-shadow: 0 .5vw 0 #118891;
-          border: .5vw solid #099faa;
+          box-shadow: 0 0.5vw 0 #118891;
+          border: 0.5vw solid #099faa;
           border-radius: 20px;
           background-color: #ffffff;
-          padding: .25vw 0;
+          padding: 0.25vw 0;
           width: 50%;
           color: #3a3a3a;
           font-weight: 700;
@@ -423,7 +425,7 @@
             box-shadow: 0 1vw 0 var(--blue-dark);
             border: 1vw solid var(--blue-dark-background);
             border-radius: 10px;
-            padding: .5vw 0;
+            padding: 0.5vw 0;
             width: 90%;
             font-size: 7vw;
 
@@ -463,7 +465,7 @@
           &:before {
             display: block;
             position: absolute;
-            bottom: .5vw;
+            bottom: 0.5vw;
             border-bottom: 1.5vw solid transparent;
             border-top: 1.5vw solid transparent;
             border-left: 0;
@@ -481,7 +483,7 @@
           &:after {
             display: block;
             position: absolute;
-            bottom: .5vw;
+            bottom: 0.5vw;
             left: -1vw;
             z-index: 2;
             border-bottom: 1.5vw solid transparent;
@@ -527,7 +529,7 @@
     gap: 0 2.5vw;
     padding-top: 1vh;
 
-    >div {
+    > div {
       display: flex;
       flex-direction: column;
       justify-content: center;
@@ -607,24 +609,36 @@
   &__shop {
     width: 100dvw;
     height: 100dvh;
-    background-image: url("/images/cafe-game/wall-shop.svg");
+    overflow-x: hidden;
+    overflow-y: auto;
+    background-image: url("/images/cafe-game/wall-shop.svg"), url("/images/cafe-game/wall-shop-transform.svg");
+    display: flex;
+    flex-direction: column;
+    background-size: 40vw;
+    background-repeat: no-repeat;
+    background-color: var(--white);
+    background-position-x: left, right;
+    background-position-y: bottom;
   }
 
   &__shop-header {
     background-image: url("/images/cafe-game/curtain.svg");
     background-size: auto 100%;
     background-repeat: repeat-x;
-    height: 20%;
     position: relative;
+    display: flex;
+    flex-direction: column;
   }
 
   &__shop-header-setting {
+    position: relative;
+    z-index: 1;
     display: flex;
     justify-content: flex-end;
-    padding: 0.5rem;
+    padding: 0.25rem;
     gap: 0.5rem;
 
-    >div {
+    > div {
       height: 40px;
     }
 
@@ -636,48 +650,242 @@
   }
 
   &__shop-header-curtain {
+    flex: 1;
     display: flex;
+    justify-content: space-between;
   }
 
   &__shop-header-curtain-upgrades {
-    position: absolute;
     background-image: url("/images/cafe-game/ribbon-upgrade.svg");
     background-size: contain;
     background-repeat: no-repeat;
     background-origin: content-box;
     background-position-y: center;
-    width: 50%;
-    height: 70%;
-    top: 4dvh;
+    width: 26rem;
+    height: 8rem;
     color: var(--white);
     font-family: var(--font-titan);
     text-shadow: 0.2dvw 0.2dvw var(--gray-shadow);
     display: flex;
-    justify-content: flex-start;
-    align-items: center;
+    align-items: flex-start;
 
-    p {
-      position: relative;
-      left: 1dvw;
-      padding-bottom: 2.5dvw;
-      font-size: 3dvw;
+    div {
+      font-size: 3rem;
+      padding-top: 1.3rem;
+      padding-left: 1rem;
     }
   }
 
   &__shop-header-curtain-money {
     @extend .cafe-game__shop-header-curtain-upgrades;
     background-image: url("/images/cafe-game/ribbon-money.svg");
-    width: 25%;
-    right: 0;
-    text-align: right;
+    width: 20rem;
     justify-content: flex-end;
 
-    p {
-      left: -1dvw;
-      position: relative;
-      padding-bottom: 0.2dvw;
-      font-size: 2.4dvw;
+    div {
+      padding-top: 2.2rem;
+      padding-left: 0;
+      padding-right: 1rem;
     }
+  }
+
+  &__shop-body {
+    display: flex;
+    justify-content: center;
+    padding-top: 4dvh;
+  }
+
+  &__shop-cover-items {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 1.5dvw 3dvw;
+    padding: 0 1rem;
+
+    > button {
+      flex: 0 1 calc(25% - 3dvw - 1rem);
+    }
+  }
+
+  &__shop-item {
+    position: relative;
+    border: 0.5vh solid #4d4d4d;
+    border-radius: var(--button-radius);
+    cursor: not-allowed;
+    box-shadow: 0 -0.8vh var(--gray-dark) inset;
+    background-color: var(--gray);
+    color: var(--gray-text);
+    width: 20dvw;
+    padding: 1dvh 0 1.8dvh;
+  }
+
+  &__shop-item-content {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    font-weight: 700;
+    padding: 0 0.5rem;
+    font-family: var(--font-nunito);
+
+    > :first-child {
+      font-size: 1.4dvw;
+    }
+
+    > :nth-child(2) {
+      font-size: 1dvw;
+      text-align: right;
+    }
+
+    > :last-child {
+      font-size: 1.8vw;
+      margin-top: 1.5dvh;
+    }
+  }
+
+  &__shop-item-img {
+    display: flex;
+    position: absolute;
+    top: 50%;
+    left: 0;
+    justify-content: center;
+    align-items: center;
+    transform: translate(-20%, -53%);
+    aspect-ratio: 1;
+    height: 90%;
+
+    img {
+      width: 100%;
+      height: 100%;
+    }
+
+    > div {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -55%);
+      filter: drop-shadow(0 0.3vw var(--gray-shadow));
+      width: 60%;
+    }
+  }
+
+  &__shop-item-active {
+    cursor: pointer;
+    background-color: var(--blue-dark-background);
+    box-shadow: 0 -0.8vh var(--blue-dark) inset;
+    border: 0.5vh solid #0e6b71;
+    color: white;
+  }
+
+  &__shop-cover-btn {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    z-index: 1;
+    margin-top: auto;
+    padding: 2vw;
+    width: 100%;
+  }
+
+  &__abilities {
+    @extend .cafe-game__shop;
+  }
+
+  &__abilities-header {
+    @extend .cafe-game__shop-header;
+    background-image: url("/images/cafe-game/curtain-abilities.svg");
+  }
+
+  &__abilities-header-setting {
+    @extend .cafe-game__shop-header-setting;
+  }
+
+  &__abilities-header-curtain {
+    @extend .cafe-game__shop-header-curtain;
+  }
+
+  &__abilities-header-curtain-upgrades {
+    @extend .cafe-game__shop-header-curtain-upgrades;
+    background-image: url("/images/cafe-game/ribbon-upgrade-abilities.svg");
+  }
+
+  &__abilities-header-curtain-money {
+    @extend .cafe-game__shop-header-curtain-money;
+    background-image: url("/images/cafe-game/ribbon-money-abilities.svg");
+  }
+
+  &__abilities-body {
+    @extend .cafe-game__shop-body;
+  }
+
+  &__abilities-cover-items {
+    @extend .cafe-game__shop-cover-items;
+
+    > button {
+      flex: 0 1 calc(28% - 3dvw);
+    }
+  }
+
+  &__abilities-cover-btn {
+    @extend .cafe-game__shop-cover-btn;
+  }
+
+  &__abilities-item {
+    @extend .cafe-game__shop-item;
+  }
+
+  &__abilities-item-active {
+    @extend .cafe-game__shop-item-active;
+  }
+
+  &__abilities-item-content {
+    @extend .cafe-game__shop-item-content;
+    > :nth-child(2) {
+      width: 60%;
+    }
+  }
+
+  &__abilities-item-img {
+    @extend .cafe-game__shop-item-img;
+    transform: translate(-15%, -53%) rotate(-15deg);
+    height: 70%;
+
+    div {
+      width: 100%;
+    }
+  }
+
+  &__menu-layout {
+    position: absolute;
+    top: 0;
+    width: 100dvw;
+    height: 52px;
+    padding: 0 0.5rem;
+    display: flex;
+    justify-content: space-between;
+  }
+
+  &__menu-layout-setting {
+    display: flex;
+    gap: 0.25rem;
+
+    .setting-audio-react__icon {
+      min-width: 40px;
+      min-height: 40px;
+    }
+  }
+
+  &__tag {
+    border: 4px solid #023b6a;
+    border-top: none;
+    border-bottom-right-radius: var(--button-radius);
+    border-bottom-left-radius: var(--button-radius);
+    background-color: #0174bb;
+    padding: 5px 10px;
+    color: var(--white);
+    font-weight: 700;
+    font-size: 28px;
+    user-select: none;
+    width: fit-content;
   }
 
   @media screen and (max-width: 1850px) {
@@ -709,9 +917,39 @@
     }
 
     &__shop-header-curtain-upgrades {
-      p {
-        padding-bottom: 3.5vw;
-        font-size: 4vw;
+      width: 16rem;
+      height: 4rem;
+      div {
+        font-size: 1.5rem;
+        padding-top: 0.5rem;
+        padding-left: 0.5rem;
+      }
+    }
+
+    &__shop-header-curtain-money {
+      width: 12rem;
+      div {
+        padding: 1.1rem 0.5rem 0 0;
+      }
+    }
+
+    &__shop-cover-items {
+      > button {
+        flex: 0 1 calc(33% - 3dvw);
+      }
+    }
+
+    &__shop-item-content {
+      > :first-child {
+        font-size: 1rem;
+      }
+
+      > :nth-child(2) {
+        font-size: 0.75rem;
+      }
+
+      > :last-child {
+        font-size: 1.25rem;
       }
     }
   }
@@ -719,7 +957,6 @@
   @media screen and (max-width: $mobileW) {
     &__wall-container {
       &--content {
-
         > :first-child,
         > :last-child {
           display: none;
@@ -730,7 +967,7 @@
     &__table-container-plate {
       gap: 0.25rem;
 
-      >div {
+      > div {
         width: 30%;
         height: 33%;
       }
@@ -748,6 +985,37 @@
       min-width: 25dvw;
       font-size: 3dvw;
     }
+
+    &__shop-cover-items {
+      > button {
+        flex: 0 1 calc(50% - 3dvw);
+      }
+    }
+
+    &__shop-item-content {
+      > :first-child {
+        font-size: 0.75rem;
+      }
+
+      > :nth-child(2) {
+        font-size: 0.5rem;
+      }
+
+      > :last-child {
+        font-size: 1rem;
+      }
+    }
+
+    &__shop-header-setting {
+      > div {
+        width: 20px;
+        height: 20px;
+      }
+      img {
+        width: 20px;
+        height: 20px;
+      }
+    }
   }
 
   @media screen and (max-width: $small-mobileW) {
@@ -756,9 +1024,17 @@
     }
 
     &__shop-header-curtain-upgrades {
-      p {
-        padding-bottom: 4vw;
-        font-size: 5vw;
+      width: 11rem;
+      div {
+        font-size: 1rem;
+        padding-top: 1rem;
+      }
+    }
+
+    &__shop-header-curtain-money {
+      width: 8rem;
+      div {
+        padding-top: 1.4rem;
       }
     }
   }

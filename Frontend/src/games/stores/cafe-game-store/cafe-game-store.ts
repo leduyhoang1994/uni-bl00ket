@@ -90,25 +90,25 @@ const CafeGameStore = create<CafeGameState>((set, get) => {
       try {
         const cafeController = getCafeControllerInstance();
         get().setCafeBalance(cafeController.getBalance());
-      } catch (error) {}
+      } catch (error) { }
     },
     loadCafeShopItems: () => {
       try {
         const cafeController = getCafeControllerInstance();
         get().setCafeShopItems(cafeController.getShop());
-      } catch (error) {}
+      } catch (error) { }
     },
     loadCafeStocks: () => {
       try {
         const cafeController = getCafeControllerInstance();
         get().setCafeStocks(cafeController.getStocks());
-      } catch (error) {}
+      } catch (error) { }
     },
     loadCafeAbilities: () => {
       try {
         const cafeController = getCafeControllerInstance();
         get().setCafeAbilitiesItems(cafeController.getAbilities());
-      } catch (error) {}
+      } catch (error) { }
     },
     loadCafeData: () => {
       const store = get();
@@ -124,7 +124,9 @@ const CafeGameStore = create<CafeGameState>((set, get) => {
         const { setCustomers } = get();
         const cs = cafeController.getCustomers();
         setCustomers(cs);
-      } catch (error) {}
+      } catch (error) {
+        console.log(error);
+      }
     },
     getCustomerByPosition: (position) => {
       const { customers } = get();

@@ -75,7 +75,7 @@ export default class CafeController
   private stocks: Stock[] = [];
   private shopItems: ShopItem[] = [];
   private customers: Customer[] = [];
-  private balance: number = 0;
+  private balance: number = 80000;
   private questions: Question[] = [];
   private currentQuestion: Question | null = null;
   private abilities: Ability[] = [];
@@ -287,7 +287,7 @@ export default class CafeController
       const food = shuffled[i];
       orders.push({ stockId: food.id, quantity: randomFromArray([1, 2, 3]) });
     }
-    const cIndex = crypto.randomUUID();
+    const cIndex = crypto.randomUUID ? crypto.randomUUID() : Math.random() + "-customer";
 
     const avatarId = this.genAvatarId();
 

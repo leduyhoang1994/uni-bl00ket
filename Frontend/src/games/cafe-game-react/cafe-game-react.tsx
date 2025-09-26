@@ -14,6 +14,7 @@ import PopupAbilities from "../cafe-game/components/popup-abilities/popup-abilit
 import PopupAbilitiesHealth from "../cafe-game/components/popup-abilities/popup-abilities-health";
 import QuestionReact from "../components/question-react/question-react";
 import ShopContainer from "./screens/components/shop/shop-container";
+import AbilitiesContainer from "./screens/components/abilities/abilities-container";
 
 export default function CafeGameReact() {
   const {
@@ -22,6 +23,7 @@ export default function CafeGameReact() {
     loadCafeStocks,
     loadCafeBalance,
     isChoosingAbilityTarget,
+    toggleAbilitiShop
   } = CafeGameStore();
   const { toggleQuizContainer } = QuizStore();
   const [controllerLoaded, setControllerLoaded] = useState(false);
@@ -96,12 +98,15 @@ export default function CafeGameReact() {
 
   return (
     <RenderIf condition={controllerLoaded}>
-      <RenderIf condition={!toggleQuizContainer && !toggleVisitShop}>
+      <RenderIf condition={!toggleQuizContainer && !toggleVisitShop && !toggleAbilitiShop}>
         <CustomerDesk />
       </RenderIf>
       <QuestionReact />
       <RenderIf condition={toggleVisitShop}>
         <ShopContainer />
+      </RenderIf>
+      <RenderIf condition={toggleAbilitiShop}>
+        <AbilitiesContainer />
       </RenderIf>
       {/* <RenderIf condition={!toggleQuizContainer}>
         <CustomerDesk />

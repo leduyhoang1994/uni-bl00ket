@@ -12,22 +12,22 @@
 /**CHANGE SCROLL BAR */
 /* width */
 /* Thanh scrollbar */
-::-webkit-scrollbar {
-  width: 1rem; /* độ rộng */
-}
+// ::-webkit-scrollbar {
+//   width: 1rem; /* độ rộng */
+// }
 
-/* Track */
-::-webkit-scrollbar-track {
-  background: rgba(255, 255, 255, 0.3); /* trắng mờ */
-  border-radius: 1rem;
-}
+// /* Track */
+// ::-webkit-scrollbar-track {
+//   background: rgba(255, 255, 255, 0.3); /* trắng mờ */
+//   border-radius: 1rem;
+// }
 
-/* Thumb */
-::-webkit-scrollbar-thumb {
-  background-color: #ffffff; /* trắng đậm */
-  border-radius: 1rem;
-  border: 4px solid rgba(255, 255, 255, 0.3); /* tạo khoảng hở, cùng màu track */
-}
+// /* Thumb */
+// ::-webkit-scrollbar-thumb {
+//   background-color: #ffffff; /* trắng đậm */
+//   border-radius: 1rem;
+//   border: 4px solid rgba(255, 255, 255, 0.3); /* tạo khoảng hở, cùng màu track */
+// }
 
 .change-to-period {
   display: -webkit-box;
