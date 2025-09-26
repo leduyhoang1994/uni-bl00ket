@@ -6,7 +6,7 @@ export default function ShowTotalMoney() {
 
   return (
     <div className="show-total-money">
-      <div className="show-total-money__content">${highest}</div>
+      <div className="show-total-money__content change-to-period">${highest}</div>
     </div>
   );
 }

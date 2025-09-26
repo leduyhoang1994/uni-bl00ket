@@ -13,6 +13,7 @@ export default function ShopItem({
     "/images/cafe-game/plate-level-3.svg",
     "/images/cafe-game/plate-level-4.svg",
     "/images/cafe-game/plate-level-5.svg",
+    "/images/cafe-game/plate-level-5.svg",
   ];
 
   const defaultActive = {
@@ -26,7 +27,7 @@ export default function ShopItem({
       <div className="cafe-game__shop-item-content">
         <div>{name}</div>
         <div style={{ height: "15px" }}></div>
-        <div>{`$${priceSell}`}</div>
+        <div>{`${String(priceSell) == 'MAX' ? priceSell : `$${priceSell}`}`}</div>
       </div>
       <div className="cafe-game__shop-item-img">
         <img src={`${plateLevelArr[currentIndexLevel]}`} alt="" />

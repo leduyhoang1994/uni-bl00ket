@@ -1,3 +1,5 @@
+@use "../../variable-reponsive" as *;
+
 .button-player {
   display: flex;
   align-items: center;
@@ -59,5 +61,48 @@
     font-weight: 700;
     white-space: nowrap;
     font-size: 2.5dvw;
+    text-align: end;
+  }
+
+  @media screen and (max-width: $mobileW) {
+    &__user-number {
+      > :first-child {
+        font-size: 2rem;
+      }
+      > :last-child {
+        font-size: 0.8rem;
+      }
+    }
+
+    &__user-avatar {
+      width: 1.5rem;
+    }
+
+    &__user-name {
+      font-size: 1.5rem;
+    }
+
+    &__user-money {
+      font-size: 1rem;
+    }
+  }
+
+  @media screen and (max-width: $small-mobileW) {
+    &__user-number {
+      > :first-child {
+        font-size: 1rem;
+      }
+      > :last-child {
+        font-size: 0.4rem;
+      }
+    }
+
+    &__user-avatar {
+      display: none;
+    }
+
+    &__user-name {
+      font-size: 1rem;
+    }
   }
 }

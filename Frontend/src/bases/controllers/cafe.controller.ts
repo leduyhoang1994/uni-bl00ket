@@ -75,7 +75,7 @@ export default class CafeController
   private stocks: Stock[] = [];
   private shopItems: ShopItem[] = [];
   private customers: Customer[] = [];
-  private balance: number = 80000;
+  private balance: number = 0;
   private questions: Question[] = [];
   private currentQuestion: Question | null = null;
   private abilities: Ability[] = [];

@@ -55,36 +55,38 @@ export default function FinalStandingsPlayerContent() {
       <div className="final-standings-player__body-content-score">
         Score: {personalResult?.score || 0}
       </div>
-      {finalStandings.map((value: HostLeaderboardItem, index: number) => {
-        const userRank: UserRank = {
-          number: 0,
-          text: "st",
-          hasCurrentUser: false,
-        };
-        userRank.number = index + 1;
-        if (index == 1) {
-          userRank.text = "nd";
-        }
-        if (index == 2) {
-          userRank.text = "rd";
-        }
-        if (index == 3) {
-          userRank.text = "th";
-        }
+      <div className="final-standings-player__body-content-score-details">
+        {finalStandings.map((value: HostLeaderboardItem, index: number) => {
+          const userRank: UserRank = {
+            number: 0,
+            text: "st",
+            hasCurrentUser: false,
+          };
+          userRank.number = index + 1;
+          if (index == 1) {
+            userRank.text = "nd";
+          }
+          if (index == 2) {
+            userRank.text = "rd";
+          }
+          if (index == 3) {
+            userRank.text = "th";
+          }
 
-        if (personalResult?.rank === userRank.number) {
-          userRank.hasCurrentUser = true;
-        }
+          if (personalResult?.rank === userRank.number) {
+            userRank.hasCurrentUser = true;
+          }
 
-        return (
-          <div key={index}>
-            <FinalStandingsPlayerBoard
-              userRank={userRank}
-              leaderBoardItem={value}
-            />
-          </div>
-        );
-      })}
+          return (
+            <div key={index}>
+              <FinalStandingsPlayerBoard
+                userRank={userRank}
+                leaderBoardItem={value}
+              />
+            </div>
+          );
+        })}
+      </div>
       <div className="final-standings-player__body-content-accuracy">
         <div className="final-standings-player__body-content-accuracy-column">
           <div>Accuracy:</div>

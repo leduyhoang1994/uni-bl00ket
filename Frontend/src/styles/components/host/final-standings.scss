@@ -1,3 +1,4 @@
+@use "../../variable-reponsive" as *;
 @use "./host.scss";
 
 .final-standings {
@@ -74,6 +75,17 @@
   &__body-prize-third {
     left: 70vw;
     width: 25vw;
+  }
+
+  @media screen and (max-width: $mobileW) {
+    &__header {
+      padding-left: 0.5rem;
+      padding-right: 0.5rem;
+    }
+    &__header-first,
+    &__header-second {
+      font-size: 1.5rem;
+    }
   }
 }
 
@@ -275,6 +287,72 @@
     span {
       padding-top: 0.7vw;
       font-size: 3.2vw;
+    }
+  }
+
+  @media screen and (max-width: $tabletW) {
+    &__first-prize {
+      height: 58%;
+    }
+    &__second-prize {
+      height: 54%;
+    }
+    &__third-prize {
+      height: 60%;
+    }
+  }
+
+  @media screen and (max-width: $mobileW) {
+    &__score {
+      height: auto;
+      width: 100%;
+      padding-left: 0.25rem;
+      padding-right: 0.25rem;
+      justify-content: center;
+      div {
+        font-size: 0.8rem;
+      }
+    }
+
+    &__rank {
+      font-size: 3rem;
+      span {
+        font-size: 1rem;
+      }
+    }
+
+    &__second-prize {
+      .final-standings-prize__score {
+        height: auto;
+      }
+
+      .final-standings-prize__rank {
+        font-size: 2.8rem;
+        span {
+          font-size: 1rem;
+        }
+      }
+
+      .change-to-period {
+        font-size: 0.65rem;
+      }
+    }
+
+    &__third-prize {
+      .final-standings-prize__score {
+        height: auto;
+      }
+
+      .final-standings-prize__rank {
+        font-size: 2.8rem;
+        span {
+          font-size: 1rem;
+        }
+      }
+
+      .change-to-period {
+        font-size: 0.65rem;
+      }
     }
   }
 }

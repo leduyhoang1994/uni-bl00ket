@@ -19,8 +19,8 @@ export default function ButtonPlayer({ userNumber = 1, score = 0, name = "", ava
         <div className="button-player__user-avatar">
           <img src={avatar} alt="" />
         </div>
-        <div className="button-player__user-name">{name}</div>
-        <div className="button-player__user-money">${score}</div>
+        <div className="button-player__user-name change-to-period">{name}</div>
+        <div className="button-player__user-money change-to-period">${score}</div>
       </button>
     </div>
   );

@@ -1,3 +1,4 @@
+@use "../../variable-reponsive" as *;
 @use "./host.scss";
 
 .final-standings-player {
@@ -218,6 +219,32 @@
   &__body-content-btn-row-detail :hover {
     filter: brightness(110%);
   }
+
+  @media screen and (max-width: $mobileW) {
+    &__body-content {
+      width: auto;
+      margin: 2rem 1rem;
+    }
+
+    &__body-content-cheer {
+      font-size: 2rem;
+    }
+
+    &__body-content-score-details {
+      width: 100%;
+    }
+
+    &__body-content-accuracy-column {
+      height: auto;
+      > div {
+        font-size: 2rem;
+      }
+    }
+
+    &__body-content-accuracy-number {
+      font-size: 4rem;
+    }
+  }
 }
 
 .final-stadings-player-board {
@@ -287,5 +314,9 @@
     font-weight: 700;
     font-size: 28px;
     font-family: var(--font-nunito);
+  }
+
+  @media screen and (max-width: $mobileW) {
+    width: auto;
   }
 }

@@ -9,9 +9,9 @@ import initSocketClient from "@/utils/socket-client.util";
 import HostController from "@/host/controllers/host.controller";
 import { ABILITY_ID } from "@/model/model";
 import { Player } from "@common/types/host.type";
-import ChoosePlayerTarget from "../cafe-game/screens/choose-player-target/choose-player-target";
-import PopupAbilities from "../cafe-game/components/popup-abilities/popup-abilities";
-import PopupAbilitiesHealth from "../cafe-game/components/popup-abilities/popup-abilities-health";
+import ChoosePlayerTarget from "./screens/components/choose-player-target/choose-player-target";
+import PopupAbilities from "./screens/components/popup-abilities/popup-abilities";
+import PopupAbilitiesHealth from "./screens/components/popup-abilities/popup-abilities-health";
 import QuestionReact from "../components/question-react/question-react";
 import ShopContainer from "./screens/components/shop/shop-container";
 import AbilitiesContainer from "./screens/components/abilities/abilities-container";
@@ -107,6 +107,15 @@ export default function CafeGameReact() {
       </RenderIf>
       <RenderIf condition={toggleAbilitiShop}>
         <AbilitiesContainer />
+      </RenderIf>
+      <RenderIf condition={isChoosingAbilityTarget !== null}>
+        <ChoosePlayerTarget abilityId={isChoosingAbilityTarget as ABILITY_ID} />
+      </RenderIf>
+      <RenderIf condition={abilitiesObj.isOpen}>
+        <PopupAbilities abilitiesObj={abilitiesObj} setAbilitiesObj={setAbilitiesObj} />
+      </RenderIf>
+      <RenderIf condition={healthPopupObj.isOpen}>
+        <PopupAbilitiesHealth timeBlockEnd={timeBlockEnd} healthPopupObj={healthPopupObj} />
       </RenderIf>
       {/* <RenderIf condition={!toggleQuizContainer}>
         <CustomerDesk />

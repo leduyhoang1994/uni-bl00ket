@@ -17,7 +17,8 @@ export default function QuestionReact() {
     answerQuiz,
     currentQuestion,
     setIsCorrect,
-    setAnsweredId
+    setAnsweredId,
+    isCorrect
   } = QuizStore();
   const { loadCafeStocks } = CafeGameStore();
 
@@ -32,11 +33,11 @@ export default function QuestionReact() {
   ]
   const [allowCloseBlock, setAllowCloseBlock] = useState(false);
   const quizContainer = useRef<any>(null);
-  const blockAnswer = useRef<any>(null);
+  const headerRef = useRef<any>(null);
 
-  const doClickAnswser = (answerId: any) => {
-    console.log('doClickAnswser', answerId);
-
+  const doClickAnswser = (answerId: any, e: any) => {
+    const divAnswers = document.querySelectorAll('.question-react__answer');
+    divAnswers.forEach((el) => el.classList.add('question-react__answer-default'));
     setAnswerQuiz(true);
     const cafeController = getCafeControllerInstance();
     const userAnswer = cafeController.answerQuestion(answerId);
@@ -44,16 +45,31 @@ export default function QuestionReact() {
     setIsCorrect(userAnswer.correct);
 
     if (!userAnswer.correct) {
+      if (e.target && (e.target as HTMLElement).classList) {
+        (e.target as HTMLElement).classList.add('question-react__answer-incorrect');
+      }
       setAllowCloseBlock(false);
       setTimeout(() => {
         setAllowCloseBlock(true);
       }, 2000);
       return;
     }
+    if (e.target && (e.target as HTMLElement).classList) {
+      (e.target as HTMLElement).classList.add('question-react__answer-correct');
+    }
     setAllowCloseBlock(true);
     setShowCongraEffect(true);
     loadCafeStocks();
   };
+
+  const doClickOutQuestion = () => {
+    if (!allowCloseBlock) {
+      return;
+    }
+    setToggleQuizContainer(false);
+    setAnswerQuiz(false);
+    setShowCongraEffect(false);
+  }
 
   useEffect(() => {
     if (!toggleQuizContainer) return;
@@ -66,35 +82,60 @@ export default function QuestionReact() {
   }, [toggleQuizContainer]);
 
   useEffect(() => {
-    if (answerQuiz && blockAnswer.current && allowCloseBlock) {
-      blockAnswer.current.off("pointerup");
-      blockAnswer.current.on("pointerup", () => {
-        setToggleQuizContainer(false);
-        setAnswerQuiz(false);
-        setShowCongraEffect(false);
-      });
+    if (answerQuiz && headerRef.current) {
+      if (!isCorrect) {
+        headerRef.current.classList.add('question-react__header-incorrect');
+      } else {
+        headerRef.current.classList.add('question-react__header-correct');
+      }
     }
-  }, [answerQuiz, allowCloseBlock]);
+  }, [answerQuiz, headerRef]);
 
   if (!toggleQuizContainer) {
     return null;
   }
 
-
   return (
     <div className="question-react" ref={quizContainer}>
-      <div className="question-react__header">
+      <div className={`question-react__header`} ref={headerRef}>
         <div className="question-react__header-left">
           <img src="/images/icons/audio-question.svg" alt="" />
           <div>username</div>
         </div>
+        <RenderIf condition={answerQuiz}>
+          <div className="question-react__header-mid">{isCorrect ? 'CORRECT' : 'INCORRECT'}</div>
+        </RenderIf>
         <div className="question-react__header-right">
           <img src="/images/cafe-game/leader-board.svg" alt="" />
           <SettingAudioReactIcon />
         </div>
       </div>
       <div className="question-react__body">
-        <div className="question-react__body-content">{question || 'a'}</div>
+        <div className="question-react__body-content">
+          <div className="question-react__body-content-title">{question || 'a'}</div>
+          <RenderIf condition={answerQuiz}>
+            <RenderIf condition={allowCloseBlock}>
+              <div className="question-react__body-content-allow">
+                <div className="question-react__body-content-allow-inside">
+                  <div className={`${isCorrect ? 'question-react__body-content-allow-inside-correct' : 'question-react__body-content-allow-inside-incorrect'}`}>
+                    <img src={`${isCorrect ? '/images/icons/question-correct.svg' : '/images/icons/question-wrong.svg'}`} alt="" />
+                  </div>
+                  <div>Press Anywhere to Continue.</div>
+                </div>
+              </div>
+            </RenderIf>
+            <RenderIf condition={!allowCloseBlock}>
+              <div className="question-react__body-content-allow">
+                <div className="question-react__body-content-allow-inside">
+                  <div className="question-react__body-content-allow-inside-incorrect">
+                    <img src="/images/icons/question-wrong.svg" alt="" />
+                  </div>
+                  <div>Wait for the abandon time to continue.</div>
+                </div>
+              </div>
+            </RenderIf>
+          </RenderIf>
+        </div>
         <div className="question-react__body-content-answers">
           {answers?.map((answer, i) => {
             const answerText = answer?.text || '';
@@ -103,7 +144,7 @@ export default function QuestionReact() {
               <div
                 key={`${i}-${answer}`}
                 className={`question-react__answer ${backgroundColorAnswer[i]}`}
-                onPointerUp={() => doClickAnswser(answerId)}>
+                onPointerUp={(e) => doClickAnswser(answerId, e)}>
                 {answerText}
               </div>
             )
@@ -112,6 +153,9 @@ export default function QuestionReact() {
       </div>
       <RenderIf condition={showCongraEffect}>
         <CongratulationEffect />
+      </RenderIf>
+      <RenderIf condition={answerQuiz}>
+        <div className="question-react__mask" onPointerUp={(doClickOutQuestion)}></div>
       </RenderIf>
     </div>
   )

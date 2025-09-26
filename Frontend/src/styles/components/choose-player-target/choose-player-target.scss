@@ -1,0 +1,88 @@
+@use "../../variable-reponsive" as *;
+
+.choose-player-target {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100dvw;
+  height: 100dvh;
+  z-index: 2;
+  background-image: url("/images/cafe-game/back-ground-waiting-action-creator.svg");
+
+  &__menu {
+    display: flex;
+    justify-content: flex-end;
+    gap: 0.25rem;
+    padding: 0.25rem 0.5rem;
+
+    div {
+      width: 40px;
+      height: 40px;
+    }
+  }
+
+  &__text {
+    font-size: 5.5vw;
+    color: var(--blue-dark);
+    font-family: var(--font-titan);
+    text-align: center;
+    text-shadow: 0.3vw 0.3vw rgba(0, 0, 0, 0.2);
+    padding: 0 1rem;
+    padding-top: 5rem;
+  }
+
+  &__cover-enemy {
+    padding: 2rem 0.5rem 0.5rem 0.5rem;
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 1rem;
+  }
+
+  &__enemy {
+    display: flex;
+    align-items: center;
+    gap: 1dvh;
+    transition: 0.2s;
+    cursor: pointer;
+    outline: none;
+    box-shadow: 0 -0.8dvh #118891 inset;
+    border: 0.5dvh solid #0e6b71;
+    border-radius: 10px;
+    background-color: #099faa;
+    padding: 1dvh 1dvw 1.8dvh 1dvw;
+    color: #fff;
+    font-weight: 700;
+    user-select: none;
+    width: 285px;
+    height: 90px;
+    font-size: 18px;
+    gap: 10px;
+
+    > img {
+      width: 50px;
+    }
+
+    div {
+      font-family: var(--font-nunito);
+    }
+  }
+
+  &__enemy-content {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  @media screen and (max-width: $tabletW) {
+    &__text {
+      padding-top: 3rem;
+    }
+  }
+
+  @media screen and (max-width: $mobileW) {
+    &__text {
+      font-size: 2rem;
+    }
+  }
+}
