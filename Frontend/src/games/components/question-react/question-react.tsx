@@ -4,6 +4,8 @@ import CafeGameStore from "@/games/stores/cafe-game-store/cafe-game-store";
 import { useEffect, useRef, useState } from "react";
 import { getCafeControllerInstance } from "@/games/cafe-game/cafe-controller.singleton";
 import gsap from "gsap";
+import CongratulationEffect from "./congratulation-effect";
+import RenderIf from "@/utils/condition-render";
 
 export default function QuestionReact() {
   const {
@@ -108,6 +110,9 @@ export default function QuestionReact() {
           })}
         </div>
       </div>
+      <RenderIf condition={showCongraEffect}>
+        <CongratulationEffect />
+      </RenderIf>
     </div>
   )
 }

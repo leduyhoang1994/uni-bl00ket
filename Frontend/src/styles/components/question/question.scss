@@ -105,6 +105,16 @@
     box-shadow: 0px 6px 0px rgb(204, 56, 34);
   }
 
+  &__congratulation-effect {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    pointer-events: none;
+    z-index: 20;
+  }
+
   @media screen and (max-width: $mobileW) {
     &__body-content-answers {
       grid-template-columns: none;
