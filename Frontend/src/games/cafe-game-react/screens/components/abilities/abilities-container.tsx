@@ -4,6 +4,7 @@ import CafeGameStore from "@/games/stores/cafe-game-store/cafe-game-store";
 import ButtonCafeGame from "@/games/cafe-game-react/components/button-cafe-game/button-cafe-game";
 import AbilitiesItem from "./components/abilities-item";
 import { REQUIRE_PLAYER_ABILITES } from "@/model/model";
+import { useLayoutEffect } from "react";
 
 export default function AbilitiesContainer() {
   const {
@@ -16,6 +17,10 @@ export default function AbilitiesContainer() {
     setToggleVisitShop,
     setToggleAbilitiShop
   } = CafeGameStore();
+
+  useLayoutEffect(() => {
+    loadCafeAbilities();
+  }, []);
 
   const doClickBuyItem = (id = 0) => {
     const cafeController = getCafeControllerInstance();

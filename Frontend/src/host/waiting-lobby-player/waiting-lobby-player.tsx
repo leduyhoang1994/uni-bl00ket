@@ -4,14 +4,18 @@ import RenderIf from "@/utils/condition-render";
 import { AuthenticatedUser } from "@common/types/socket.type";
 import { useNavigate, useParams } from "react-router";
 import tokenRequire from "../components/token-require.hoc";
-import { GenUrl, UrlGenerator } from "@/utils/utils";
+import { GenUrl, SCREEN_SIZES_ENUM, UrlGenerator } from "@/utils/utils";
 import { HostInfo } from "../../../../Common/types/host.type";
 import { HostState } from "@common/constants/host.constant";
+import AvatarPicker from "./avatar-picker";
+import ButtonCafeGame from "@/games/cafe-game-react/components/button-cafe-game/button-cafe-game";
+import UniButton from "@/games/components/buttons/uni-button";
 
 function WaitingLobbyPlayer() {
   const [isJoining, setIsJoining] = useState(true);
   const [isJoined, setIsJoined] = useState(false);
   const [player, setPlayer] = useState<AuthenticatedUser | null>(null);
+  const [showAvatarPicker, setShowAvatarPicker] = useState(true);
   const { hostId } = useParams();
   const navigate = useNavigate();
 
@@ -24,7 +28,6 @@ function WaitingLobbyPlayer() {
 
       const controller = await HostController.getInstance();
       const hostInfo = await controller.getHostInfo(hostId);
-      
 
       if (!hostInfo) {
         navigate(UrlGenerator.AccessDeniedUrl());
@@ -50,11 +53,22 @@ function WaitingLobbyPlayer() {
     })();
   }, []);
 
+  useLayoutEffect(() => {
+    const maxMobile = SCREEN_SIZES_ENUM.MOBILE_W;
+
+    const screenW = window.innerWidth;
+    if (screenW <= maxMobile) {
+      setShowAvatarPicker(false);
+    }
+  }, []);
+
   return (
     <>
       <div className="waiting-lobby-player">
         <div className="waiting-lobby-player__header">
-          <div className="waiting-lobby-player__header-first">{player?.username}</div>
+          <div className="waiting-lobby-player__header-first">
+            {player?.username}
+          </div>
           <div className="waiting-lobby-player__header-second">
             <RenderIf condition={isJoining}>
               <div>Joining Game . . .</div>
@@ -65,10 +79,33 @@ function WaitingLobbyPlayer() {
         <div className="waiting-lobby-player__body">
           <div className="waiting-lobby-player__body-background"></div>
           <RenderIf condition={isJoined}>
+            <RenderIf condition={showAvatarPicker}>
+              <div
+                className="dismiss-back"
+                onClick={() => setShowAvatarPicker(false)}
+              ></div>
+              <AvatarPicker
+                pickedCallback={(avatarId: string) => {
+                  const maxMobile = SCREEN_SIZES_ENUM.MOBILE_W;
+
+                  const screenW = window.innerWidth;
+                  if (screenW <= maxMobile) {
+                    setShowAvatarPicker(false);
+                  }
+                }}
+              />
+            </RenderIf>
             <div className="waiting-lobby-player__body-content">
-              <div>{player?.username}</div>
+              <UniButton
+                text="Change Avatar"
+                className="waiting-lobby-player__body-content-change-avatar"
+                onClick={() => {
+                  setShowAvatarPicker(true);
+                }}
+              />
               <div className="waiting-lobby-player__body-content-avatar">
                 <img src={player?.avatar} alt="" />
+                <div className="ribbon"></div>
               </div>
               <div className="waiting-lobby-player__body-content-footer">
                 <button>

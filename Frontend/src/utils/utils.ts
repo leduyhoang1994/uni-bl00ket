@@ -61,3 +61,17 @@ export function numberToOrder(numb: number): { numb: number; text: string } {
 
   return { numb, text: suffix };
 }
+
+export function getAvatarById(id: string) {
+  return `/images/cafe-game/customers/${id}.svg`;
+}
+
+export enum SCREEN_SIZES_ENUM {
+  MEDIUM_DESKTOP_W = 1440,
+  SMALL_DESKTOP_W_SPECIAL = 1260,
+  SMALL_DESKTOP_W = 1200,
+  TABLET_W = 1024,
+  MOBILE_W = 768,
+  SMALL_MOBILE_W = 576,
+  VERY_SMALL_MOBILE_W = 400,
+}

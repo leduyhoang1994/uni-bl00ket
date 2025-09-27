@@ -5,6 +5,7 @@ import logger from "../utils/logger";
 import { HOST_COMMANDS, HostEvent } from "@Common/constants/event.constant";
 import { GameEventType, HostState } from "@Common/constants/host.constant";
 import { GameEvent } from "@Common/types/host.type";
+import { AuthenticatedUser } from "@Common/types/socket.type";
 
 export default class HostController {
   private hostId: string;
@@ -221,6 +222,28 @@ export default class HostController {
     this.hostSocket?.emitGameEventToPlayers(socketIds, gameEvent);
   }
 
+  public async updatePlayerAvatar(updateData: {
+    hostId: string;
+    avatar: string;
+  }) {
+    const user = this.hostSocket?.getUser();
+    if (!user) {
+      logger.debug("User not found");
+      return;
+    }
+
+    await this.hostRepo.updatePlayerAvatar(
+      updateData.hostId,
+      user.id,
+      updateData.avatar
+    );
+    user.avatar = updateData.avatar;
+
+    await this.hostSocket?.emitUserInfo();
+
+    await this.hostSocket?.emitLobbyUpdated(user);
+  }
+
   public async eventHandler(eventName: HostEvent, ...args: any) {
     if (!this.hostSocket) {
       logger.debug("Host socket not found");
@@ -263,6 +286,9 @@ export default class HostController {
         break;
       case HostEvent.GameEvent:
         await this.handleGameEvent(args[0]);
+        break;
+      case HostEvent.UpdateAvatar:
+        await this.updatePlayerAvatar(args[0]);
         break;
     }
   }

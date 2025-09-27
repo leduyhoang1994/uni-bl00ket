@@ -28,7 +28,7 @@ export default function FinalStandingsPlayerBoard({
         {userRank.text}
       </div>
       <div className="final-stadings-player-board__rank-avatar">
-        <img src="/images/avatar/brown-dog.svg" alt="" />
+        <img src={leaderBoardItem.avatar} alt="" />
       </div>
       <div className="final-stadings-player-board__rank-user-name">
         {leaderBoardItem.username}

@@ -8,12 +8,16 @@ export enum HostEvent {
   SaveGame = "game:save",
   LeaderBoardUpdated = "host:leaderboard-updated",
   ScoreUpdated = "host:score-updated",
-  EndGame  = "host:end-game",
+  EndGame = "host:end-game",
   GameEnded = "host:game-ended",
   SaveActivity = "game:save-activity",
   ActivitySaved = "game:activity-saved",
   GameEvent = "game:event",
+  UpdateAvatar = "host:update-avatar",
 }
 
-export const HOST_COMMANDS = [HostEvent.LobbyStart, HostEvent.Kick, HostEvent.EndGame];
- 
+export const HOST_COMMANDS = [
+  HostEvent.LobbyStart,
+  HostEvent.Kick,
+  HostEvent.EndGame,
+];

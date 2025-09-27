@@ -26,7 +26,7 @@ export default function PopupAbilities({
           <img src={`/images/cafe-game/${currentImg}.svg`} alt="" />
           <div className="cafe-game__popup-abilities-content-text">
             <div>
-              <img src={`/images/avatar/brown-dog.svg`} alt="" />
+              <img src={abilitiesObj.player.avatar} alt="" />
             </div>
             <b>{username}</b> {currentDescriptionEnemy}
           </div>

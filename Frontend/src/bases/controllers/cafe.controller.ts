@@ -11,7 +11,8 @@ import {
   STOCKS,
   QUESTIONS,
   ABILITIES,
-  ABILITY_ID
+  ABILITY_ID,
+  AVATARS_CUSTOMER
 } from "@/model/model";
 import GameController from "./game.controller";
 import { GameEvent, Player } from "@common/types/host.type";
@@ -19,19 +20,6 @@ import { GameEventType } from "@common/constants/host.constant";
 const MAX_CUSTOMER_CAN_SERVE = 3; // sô khách hàng tối đa có thể phục vụ
 const DEFAULT_REWARD_PRICE_TOAST = 2; // sô khách hàng tối đa có thể phục vụ
 const INDEX_MAX_LEVEL = 5; // max level
-const AVATARS_CUSTOMER = [
-  "alpaca",
-  "chick",
-  "chicken",
-  "cow",
-  "duck",
-  "giraffe",
-  "hedgehog",
-  "parrot",
-  "puppy",
-  "toucan",
-  "walrus",
-];
 
 export interface CafeControllerInterface {
   getBalance(): number;

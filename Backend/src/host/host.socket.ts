@@ -42,7 +42,7 @@ export default class HostSocket {
     await this.emitRoom(HostEvent.LobbyStarted);
   }
 
-  public async emitLobbyUpdated(palyers: Player[]) {
+  public async emitLobbyUpdated(palyers: Player[] | Player) {
     this.emitHost(HostEvent.LobbyUpdated, palyers);
   }
 
@@ -62,7 +62,10 @@ export default class HostSocket {
     this.emitHost(HostEvent.ActivitySaved, activity);
   }
 
-  public async emitGameEventToPlayers(playerSocketIds: string[] | "all", payload: any) {
+  public async emitGameEventToPlayers(
+    playerSocketIds: string[] | "all",
+    payload: any
+  ) {
     if (playerSocketIds === "all") {
       this.emitRoom(HostEvent.GameEvent, payload);
     } else {
@@ -70,7 +73,11 @@ export default class HostSocket {
     }
   }
 
-  protected async emitPlayers(playerSocketIds: string[], eventName: string, payload: any) {
+  protected async emitPlayers(
+    playerSocketIds: string[],
+    eventName: string,
+    payload: any
+  ) {
     this.socket.nsp.server;
 
     playerSocketIds.forEach((socketId) => {

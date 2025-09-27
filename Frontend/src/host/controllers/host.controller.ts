@@ -20,7 +20,7 @@ export default class HostController {
   private httpClient: Axios | null = null;
 
   // callbacks
-  public onLobbyUpdated: (players: Player[]) => Promise<void> = async () => {};
+  public onLobbyUpdated: (players: Player[] | Player) => Promise<void> = async () => {};
   public onConnected: () => Promise<void> = async () => {};
   public onError: (error: any) => Promise<void> = async () => {};
   public onUserInfo: (user: AuthenticatedUser) => Promise<void> =
@@ -73,7 +73,7 @@ export default class HostController {
     });
 
     await this.eventHandler(this.socketClient);
-    
+
     this.socketClient.on("disconnect", () => {
       console.log("Disconnected from server");
     });
@@ -91,7 +91,7 @@ export default class HostController {
       console.log(`Nhận được sự kiện: ${event}`, ...args);
 
       if (event === HostEvent.LobbyUpdated) {
-        await this.onLobbyUpdated(args[0] as Player[]);
+        await this.onLobbyUpdated(args[0] as Player[] | Player);
       }
 
       if (event === HostEvent.UserInfo) {
@@ -192,6 +192,17 @@ export default class HostController {
     );
 
     return result ? result.data.players : [];
+  }
+
+  public async updateAvatar(hostId: string, avatar: string) {
+    if (!this.socketClient) {
+      return;
+    }
+
+    this.socketClient.emit(HostEvent.UpdateAvatar, {
+      hostId,
+      avatar,
+    });
   }
 
   public static async saveAccessToken(token: string | null) {

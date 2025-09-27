@@ -69,6 +69,12 @@ export default class HostRepository {
   public async join(user: AuthenticatedUser) {
     const client = await RedisClient.getClient();
 
+    const existedUser = await this.getPlayerById(user.id);
+
+    if (existedUser) {
+      user.avatar = existedUser.avatar;
+    }
+
     await client.hSet(
       RedisHostKey.getPlayersKey(this.hostId),
       user.id,
@@ -268,6 +274,26 @@ export default class HostRepository {
         ...JSON.parse(item),
       };
     });
+  }
+
+  public async updatePlayerAvatar(
+    hostId: string,
+    userId: string,
+    avatar: string
+  ) {
+    const client = await RedisClient.getClient();
+    const playerData = await client.hGet(
+      RedisHostKey.getPlayersKey(hostId),
+      userId
+    );
+    const player = JSON.parse(playerData as string) as Player;
+    player.avatar = avatar;
+
+    await client.hSet(
+      RedisHostKey.getPlayersKey(hostId),
+      userId,
+      JSON.stringify(player)
+    );
   }
 
   public static async create(hostInfo: HostInfo) {

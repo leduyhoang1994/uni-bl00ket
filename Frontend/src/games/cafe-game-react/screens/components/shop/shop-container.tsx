@@ -3,6 +3,7 @@ import ShopItem from "./components/shop-item";
 import CafeGameStore from "@/games/stores/cafe-game-store/cafe-game-store";
 import { getCafeControllerInstance } from "@/games/cafe-game/cafe-controller.singleton";
 import ButtonCafeGame from "@/games/cafe-game-react/components/button-cafe-game/button-cafe-game";
+import { useLayoutEffect } from "react";
 
 export default function ShopContainer() {
   const {
@@ -13,8 +14,12 @@ export default function ShopContainer() {
     loadCafeStocks,
     cafeBalance,
     setToggleVisitShop,
-    setToggleAbilitiShop
+    setToggleAbilitiShop,
   } = CafeGameStore();
+
+  useLayoutEffect(() => {
+    loadCafeShopItems();
+  }, []);
 
   const doClickBuyItem = (id: number | string) => {
     const cafeController = getCafeControllerInstance();
@@ -27,12 +32,12 @@ export default function ShopContainer() {
   const doClickGoAbilities = () => {
     setToggleAbilitiShop(true);
     setToggleVisitShop(false);
-  }
+  };
 
   const doClickExitShop = () => {
     setToggleAbilitiShop(false);
     setToggleVisitShop(false);
-  }
+  };
 
   return (
     <div className="cafe-game__shop">
@@ -56,7 +61,7 @@ export default function ShopContainer() {
             const enabled = cafeShopItems[i].enabled;
             const max =
               dataStock.currentIndexLevel === dataStock.rewardPrices.length - 1;
-            
+
             const price = dataStock.enabled
               ? dataStock.sellPrices[dataStock.currentIndexLevel + 1]
               : dataStock.sellPrices[dataStock.currentIndexLevel];
@@ -79,5 +84,5 @@ export default function ShopContainer() {
         <ButtonCafeGame doClickBtn={doClickExitShop} text="Exit Shop" />
       </div>
     </div>
-  )
+  );
 }

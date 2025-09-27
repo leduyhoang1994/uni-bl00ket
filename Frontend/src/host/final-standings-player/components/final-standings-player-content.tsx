@@ -6,12 +6,14 @@ import { useLayoutEffect, useState } from "react";
 import { HostLeaderboardItem, PersonalResult } from "@common/types/host.type";
 import HostController from "@/host/controllers/host.controller";
 import { numberToOrder } from "@/utils/utils";
+import HostStore from "@/stores/host-store/host-store";
 
 export default function FinalStandingsPlayerContent() {
   const { hostId } = useParams();
   const [finalStandings, setFinalStandings] = useState<HostLeaderboardItem[]>(
     []
   );
+  const { userInfo } = HostStore();
 
   const [personalResult, setPersonalResult] = useState<PersonalResult | null>(
     null
@@ -47,7 +49,7 @@ export default function FinalStandingsPlayerContent() {
         <div>Place</div>
       </div>
       <div className="final-standings-player__body-content-image">
-        <img src="/images/avatar/brown-dog.svg" alt="" />
+        <img src={userInfo?.avatar || ""} alt="" />
       </div>
       <div className="final-standings-player__body-content-cheer">
         You Can Do It
