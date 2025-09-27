@@ -29,6 +29,10 @@
 //   border: 4px solid rgba(255, 255, 255, 0.3); /* tạo khoảng hở, cùng màu track */
 // }
 
+.game-container-react * {
+  user-select: none;
+}
+
 .change-to-period {
   display: -webkit-box;
   -webkit-box-orient: vertical;

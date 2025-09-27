@@ -10,7 +10,6 @@ import HostStore from "@/stores/host-store/host-store";
 import { HostLeaderboard, Player } from "@common/types/host.type";
 import CafeGameReact from "./cafe-game-react/cafe-game-react";
 
-
 export default function GameContainerReact() {
   const [loaded, setLoaded] = useState(false);
   const [gameMode, setGameMode] = useState<GameMode | null>(null);
@@ -87,8 +86,10 @@ export default function GameContainerReact() {
   }, [gameMode]);
 
   return (
-    <RenderIf condition={loaded && gameMode === GameMode.Cafe}>
-      <CafeGameReact />
-    </RenderIf>
+    <div className="game-container-react">
+      <RenderIf condition={loaded && gameMode === GameMode.Cafe}>
+        <CafeGameReact />
+      </RenderIf>
+    </div>
   );
 }
