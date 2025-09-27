@@ -5,6 +5,7 @@ export default function ShopItem({
   enabled = false,
   id = 0,
   currentIndexLevel = 0,
+  available = false,
   rewardPrices = [],
   doClickBuyItem = (id: number) => {},
 }) {
@@ -23,8 +24,8 @@ export default function ShopItem({
   };
   const activeObj = enabled ? defaultActive : {};
 
-  const currentReward = enabled ? rewardPrices[currentIndexLevel] : 0;
-  const nextReward = enabled
+  const currentReward = available ? rewardPrices[currentIndexLevel] : 0;
+  const nextReward = available
     ? rewardPrices[currentIndexLevel + 1]
     : rewardPrices[currentIndexLevel];
 

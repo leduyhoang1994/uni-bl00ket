@@ -56,6 +56,7 @@ export default function ShopContainer() {
             const enabled = cafeShopItems[i].enabled;
             const max =
               dataStock.currentIndexLevel === dataStock.rewardPrices.length - 1;
+            
             const price = dataStock.enabled
               ? dataStock.sellPrices[dataStock.currentIndexLevel + 1]
               : dataStock.sellPrices[dataStock.currentIndexLevel];
@@ -65,6 +66,7 @@ export default function ShopContainer() {
                 key={i}
                 {...dataStock}
                 priceSell={max ? "MAX" : price}
+                available={dataStock.enabled}
                 enabled={enabled}
                 doClickBuyItem={doClickBuyItem}
               />
