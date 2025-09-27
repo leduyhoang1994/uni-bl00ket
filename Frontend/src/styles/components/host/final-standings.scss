@@ -249,7 +249,7 @@
     div {
       display: inline-block;
       white-space: nowrap;
-      font-size: 6.2cqw;
+      font-size: clamp(1rem, 2vw + 1rem, 3rem);;
       opacity: 1;
     }
   }

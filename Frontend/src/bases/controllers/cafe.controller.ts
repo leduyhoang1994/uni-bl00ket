@@ -1,6 +1,5 @@
 import {
-  getRandomFloat,
-  randomFromArray,
+  randomFromArray
 } from "@/games/cafe-game/helpers/random";
 import {
   Ability,
@@ -12,15 +11,10 @@ import {
   STOCKS,
   QUESTIONS,
   ABILITIES,
-  ABILITY_ID,
-  REQUIRE_PLAYER_ABILITES,
+  ABILITY_ID
 } from "@/model/model";
 import GameController from "./game.controller";
-import initHttp from "@/utils/http.util";
-import HostController from "@/host/controllers/host.controller";
-import { HttpRoute } from "@common/constants/http.constant";
 import { GameEvent, Player } from "@common/types/host.type";
-import { HostEvent } from "@common/constants/event.constant";
 import { GameEventType } from "@common/constants/host.constant";
 const MAX_CUSTOMER_CAN_SERVE = 3; // sô khách hàng tối đa có thể phục vụ
 const DEFAULT_REWARD_PRICE_TOAST = 2; // sô khách hàng tối đa có thể phục vụ
@@ -71,7 +65,8 @@ enum CafeGameEvent {
 
 export default class CafeController
   extends GameController
-  implements CafeControllerInterface {
+  implements CafeControllerInterface
+{
   private stocks: Stock[] = [];
   private shopItems: ShopItem[] = [];
   private customers: Customer[] = [];
@@ -81,10 +76,10 @@ export default class CafeController
   private abilities: Ability[] = [];
   private doubleRewardCount: number = 0; //  số khách còn lại được x2 tiền
 
-  public onActivePayCheckBonus: (player: Player) => void = () => { };
-  public onActiveTrashTheFood: (player: Player) => void = () => { };
-  public onActiveTaxes: (player: Player) => void = () => { };
-  public onActiveHealthInspection: (player: Player) => void = () => { };
+  public onActivePayCheckBonus: (player: Player) => void = () => {};
+  public onActiveTrashTheFood: (player: Player) => void = () => {};
+  public onActiveTaxes: (player: Player) => void = () => {};
+  public onActiveHealthInspection: (player: Player) => void = () => {};
 
   constructor(hostId: string) {
     super(hostId);
@@ -118,18 +113,8 @@ export default class CafeController
   }
 
   public async initData() {
-    const accessToken = await HostController.getAccessToken();
-    if (!accessToken) {
-      return;
-    }
-
-    const client = await initHttp(accessToken);
-    const gameData = await client.post(
-      HttpRoute.GetGameData,
-      JSON.stringify({ hostId: this.hostId })
-    );
-
-    Object.assign(this, gameData.data.gameData);
+    const gameData = await this.loadSavedGame();
+    this.loadData(gameData);
     const s1Stock = this.stocks.find((s: any) => s.id === "s1");
 
     if (s1Stock && !s1Stock.enabled && s1Stock.currentIndexLevel === 0) {
@@ -138,7 +123,11 @@ export default class CafeController
   }
 
   public loadData(gameData: any) {
-    Object.assign(this, gameData.data.gameData);
+    Object.assign(this, gameData);
+    
+    this.customers = this.customers.filter((c) => {
+      return c.orders.length > 0;
+    }); // lọc lại những khách hàng đã order
   }
 
   // Lấy số tiền
@@ -287,7 +276,9 @@ export default class CafeController
       const food = shuffled[i];
       orders.push({ stockId: food.id, quantity: randomFromArray([1, 2, 3]) });
     }
-    const cIndex = crypto.randomUUID ? crypto.randomUUID() : Math.random() + "-customer";
+    const cIndex = crypto.randomUUID
+      ? crypto.randomUUID()
+      : Math.random() + "-customer";
 
     const avatarId = this.genAvatarId();
 
@@ -363,6 +354,10 @@ export default class CafeController
     customer.orders = customer.orders.filter((order) => order.quantity > 0);
 
     if (!isServedAll) {
+      if (servedItems.length > 0) {
+        this.saveGame();
+      }
+
       return {
         servedItems,
         servedAll: false,

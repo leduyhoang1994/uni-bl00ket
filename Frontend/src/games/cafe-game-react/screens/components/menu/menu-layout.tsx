@@ -5,17 +5,21 @@ import SettingAudioReactIcon from "@/games/components/setting-audio-react/settin
 
 export default function MenuLayout() {
   const { userInfo } = HostStore();
-  const { cafeBalance } = CafeGameStore();
-  console.log(cafeBalance);
+  const { cafeBalance, setToggleLeaderBoard } = CafeGameStore();
 
   return (
     <div className="cafe-game__menu-layout">
       <TagLayout tag={userInfo?.username} />
       <div className="cafe-game__menu-layout-setting">
         <TagLayout tag={`$${cafeBalance}`} />
-        <img src="/images/cafe-game/leader-board.svg" alt="" />
-        <SettingAudioReactIcon />
+        <img
+          onClick={() => setToggleLeaderBoard(true)}
+          style={{ cursor: "pointer" }}
+          src="/images/cafe-game/leader-board.svg"
+          alt=""
+        />
+        {/* <SettingAudioReactIcon /> */}
       </div>
     </div>
-  )
+  );
 }

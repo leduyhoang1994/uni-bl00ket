@@ -99,7 +99,7 @@ export default function FinalStandingsPlayerContent() {
           {personalResult?.accuracy.percent}%
         </div>
       </div>
-      <button className="final-standings-player__body-content-btn-detail">
+      {/* <button className="final-standings-player__body-content-btn-detail">
         View Details
       </button>
       <div className="final-standings-player__body-content-btn-row">
@@ -125,7 +125,7 @@ export default function FinalStandingsPlayerContent() {
             <span>Go to Market</span>
           </div>
         </Link>
-      </div>
+      </div> */}
     </div>
   );
 }

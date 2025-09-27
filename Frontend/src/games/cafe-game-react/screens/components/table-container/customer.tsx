@@ -1,7 +1,11 @@
 import { getCafeControllerInstance } from "@/games/cafe-game/cafe-controller.singleton";
 import CafeGameStore from "@/games/stores/cafe-game-store/cafe-game-store";
 import RenderIf from "@/utils/condition-render";
-import { useCallback, useLayoutEffect, useRef, useState } from "react";
+import {
+  useCallback,
+  useEffect, useRef,
+  useState
+} from "react";
 
 export default function Customer({ position }: { position: number }) {
   const {
@@ -28,6 +32,10 @@ export default function Customer({ position }: { position: number }) {
     const gameController = getCafeControllerInstance();
     const serveResult = gameController.serve(customer?.id);
 
+    if (serveResult.servedItems.length === 0) {
+      return;
+    }
+
     loadCafeStocks();
     pushServeAnimates(
       serveResult.servedItems.map((item) => {
@@ -52,27 +60,35 @@ export default function Customer({ position }: { position: number }) {
         gameController.removeCustomerByPosition(position);
         loadCustomers();
         setServed(false);
-      }, 2000);
+      }, 1800);
     }
   }, [customers.find((c) => c.position == position)?.id]);
 
-  // useLayoutEffect(() => {
-  //   setTimeout(() => {
-  //     setServed(true);
-  //     setEarned(100);
-  //   }, 1500);
-  // }, []);
+  useEffect(() => {
+    if (customer?.firstLoad) {
+      return;
+    }
+
+    setTimeout(() => {
+      const gameController = getCafeControllerInstance();
+      gameController.setFirstLoad(customer?.id, true);
+    }, 700);
+  }, [customer?.firstLoad]);
 
   return (
     <div className="cafe-game__table-customer-character" onClick={serve}>
       <img
-        className={`cafe-game__table-customer-avatar ${served ? "leave" : ""}`}
+        className={`cafe-game__table-customer-avatar ${
+          !customer?.firstLoad ? "enter" : ""
+        } ${served ? "leave" : ""}`}
         src={`/images/cafe-game/customers/${customer?.avatar}.svg`}
         ref={custAvatarRef}
         alt=""
       />
       <div
-        className={`cafe-game__table-customer-order ${served ? "leave" : ""}`}
+        className={`cafe-game__table-customer-order ${
+          !customer?.firstLoad ? "enter" : "show"
+        } ${served ? "leave" : ""}`}
       >
         <RenderIf condition={!served}>
           {orders.map((order, index) => {

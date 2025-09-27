@@ -1,11 +1,11 @@
 import QuizStore from "@/stores/quiz-store/quiz-store";
-import SettingAudioReactIcon from "../setting-audio-react/setting-audio-react-icon";
 import CafeGameStore from "@/games/stores/cafe-game-store/cafe-game-store";
 import { useEffect, useRef, useState } from "react";
 import { getCafeControllerInstance } from "@/games/cafe-game/cafe-controller.singleton";
 import gsap from "gsap";
 import CongratulationEffect from "./congratulation-effect";
 import RenderIf from "@/utils/condition-render";
+import HostStore from "@/stores/host-store/host-store";
 
 export default function QuestionReact() {
   const {
@@ -21,6 +21,7 @@ export default function QuestionReact() {
     isCorrect
   } = QuizStore();
   const { loadCafeStocks } = CafeGameStore();
+  const { userInfo } = HostStore();
 
   const question = currentQuestion?.text;
   const answers = currentQuestion?.answers;
@@ -29,11 +30,12 @@ export default function QuestionReact() {
     "question-react__answer-yellow",
     "question-react__answer-blue",
     "question-react__answer-green",
-    "question-react__answer-red"
-  ]
+    "question-react__answer-red",
+  ];
   const [allowCloseBlock, setAllowCloseBlock] = useState(false);
   const quizContainer = useRef<any>(null);
   const headerRef = useRef<any>(null);
+  const blockAnswer = useRef<any>(null);
 
   const doClickAnswser = (answerId: any, e: any) => {
     const divAnswers = document.querySelectorAll('.question-react__answer');
@@ -99,15 +101,15 @@ export default function QuestionReact() {
     <div className="question-react" ref={quizContainer}>
       <div className={`question-react__header`} ref={headerRef}>
         <div className="question-react__header-left">
-          <img src="/images/icons/audio-question.svg" alt="" />
-          <div>username</div>
+          {/* <img src="/images/icons/audio-question.svg" alt="" /> */}
+          <div>{userInfo?.username}</div>
         </div>
         <RenderIf condition={answerQuiz}>
           <div className="question-react__header-mid">{isCorrect ? 'CORRECT' : 'INCORRECT'}</div>
         </RenderIf>
         <div className="question-react__header-right">
           <img src="/images/cafe-game/leader-board.svg" alt="" />
-          <SettingAudioReactIcon />
+          {/* <SettingAudioReactIcon /> */}
         </div>
       </div>
       <div className="question-react__body">
@@ -138,16 +140,16 @@ export default function QuestionReact() {
         </div>
         <div className="question-react__body-content-answers">
           {answers?.map((answer, i) => {
-            const answerText = answer?.text || '';
+            const answerText = answer?.text || "";
             const answerId = answer?.id;
             return (
               <div
                 key={`${i}-${answer}`}
                 className={`question-react__answer ${backgroundColorAnswer[i]}`}
-                onPointerUp={(e) => doClickAnswser(answerId, e)}>
+                onClick={(e) => doClickAnswser(answerId, e)}>
                 {answerText}
               </div>
-            )
+            );
           })}
         </div>
       </div>
@@ -155,8 +157,8 @@ export default function QuestionReact() {
         <CongratulationEffect />
       </RenderIf>
       <RenderIf condition={answerQuiz}>
-        <div className="question-react__mask" onPointerUp={(doClickOutQuestion)}></div>
+        <div className="question-react__mask" onClick={(doClickOutQuestion)}></div>
       </RenderIf>
     </div>
-  )
+  );
 }

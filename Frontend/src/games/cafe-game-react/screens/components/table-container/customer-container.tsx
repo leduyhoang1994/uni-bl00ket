@@ -5,8 +5,6 @@ import Customer from "./customer";
 export default function CustomerContainer() {
   const { loadCustomers, customers } = CafeGameStore();
 
-  console.log(customers);
-
   useLayoutEffect(() => {
     loadCustomers();
   }, []);

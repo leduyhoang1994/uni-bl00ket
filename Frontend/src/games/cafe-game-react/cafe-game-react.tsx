@@ -15,6 +15,7 @@ import PopupAbilitiesHealth from "./screens/components/popup-abilities/popup-abi
 import QuestionReact from "../components/question-react/question-react";
 import ShopContainer from "./screens/components/shop/shop-container";
 import AbilitiesContainer from "./screens/components/abilities/abilities-container";
+import PlayerLeaderboard from "./screens/components/player-leaderboard/player-leaderboard";
 
 export default function CafeGameReact() {
   const {
@@ -23,7 +24,8 @@ export default function CafeGameReact() {
     loadCafeStocks,
     loadCafeBalance,
     isChoosingAbilityTarget,
-    toggleAbilitiShop
+    toggleAbilitiShop,
+    toggleLeaderBoard,
   } = CafeGameStore();
   const { toggleQuizContainer } = QuizStore();
   const [controllerLoaded, setControllerLoaded] = useState(false);
@@ -50,15 +52,15 @@ export default function CafeGameReact() {
     setHealthPopupObj({
       player: player,
       isOpen: true,
-    })
+    });
   }
 
   const timeBlockEnd = () => {
     setHealthPopupObj({
       player: {} as Player,
-      isOpen: false
+      isOpen: false,
     });
-  }
+  };
 
   useEffect(() => {
     (async () => {
@@ -98,7 +100,11 @@ export default function CafeGameReact() {
 
   return (
     <RenderIf condition={controllerLoaded}>
-      <RenderIf condition={!toggleQuizContainer && !toggleVisitShop && !toggleAbilitiShop}>
+      <RenderIf
+        condition={
+          !toggleQuizContainer && !toggleVisitShop && !toggleAbilitiShop
+        }
+      >
         <CustomerDesk />
       </RenderIf>
       <QuestionReact />
@@ -112,10 +118,20 @@ export default function CafeGameReact() {
         <ChoosePlayerTarget abilityId={isChoosingAbilityTarget as ABILITY_ID} />
       </RenderIf>
       <RenderIf condition={abilitiesObj.isOpen}>
-        <PopupAbilities abilitiesObj={abilitiesObj} setAbilitiesObj={setAbilitiesObj} />
+        <PopupAbilities
+          abilitiesObj={abilitiesObj}
+          setAbilitiesObj={setAbilitiesObj}
+        />
       </RenderIf>
       <RenderIf condition={healthPopupObj.isOpen}>
-        <PopupAbilitiesHealth timeBlockEnd={timeBlockEnd} healthPopupObj={healthPopupObj} />
+        <PopupAbilitiesHealth
+          timeBlockEnd={timeBlockEnd}
+          healthPopupObj={healthPopupObj}
+        />
+      </RenderIf>
+      <div className="cafe-game__serve-animations-container"></div>
+      <RenderIf condition={toggleLeaderBoard}>
+        <PlayerLeaderboard />
       </RenderIf>
       {/* <RenderIf condition={!toggleQuizContainer}>
         <CustomerDesk />

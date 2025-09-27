@@ -15,6 +15,7 @@ export default function HostPlayer() {
   useLayoutEffect(() => {
     (async () => {
       if (!hostId) {
+        sessionStorage.clear();
         return;
       }
 

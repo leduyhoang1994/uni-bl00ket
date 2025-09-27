@@ -5,7 +5,8 @@ export default function ShopItem({
   enabled = false,
   id = 0,
   currentIndexLevel = 0,
-  doClickBuyItem = (id: number) => { }
+  rewardPrices = [],
+  doClickBuyItem = (id: number) => {},
 }) {
   const plateLevelArr = [
     "/images/cafe-game/plate-active.svg",
@@ -22,12 +23,27 @@ export default function ShopItem({
   };
   const activeObj = enabled ? defaultActive : {};
 
+  const currentReward = enabled ? rewardPrices[currentIndexLevel] : 0;
+  const nextReward = enabled
+    ? rewardPrices[currentIndexLevel + 1]
+    : rewardPrices[currentIndexLevel];
+
+  const description = `$${currentReward} ${nextReward ? "→" : ""} ${
+    "$" + nextReward
+  }`;
+  const max = currentIndexLevel === rewardPrices.length - 1;
+
   return (
-    <button className={`cafe-game__shop-item ${enabled && 'cafe-game__shop-item-active'}`} {...activeObj}>
+    <button
+      className={`cafe-game__shop-item ${
+        enabled && "cafe-game__shop-item-active"
+      }`}
+      {...activeObj}
+    >
       <div className="cafe-game__shop-item-content">
         <div>{name}</div>
-        <div style={{ height: "15px" }}></div>
-        <div>{`${String(priceSell) == 'MAX' ? priceSell : `$${priceSell}`}`}</div>
+        <div>{description}</div>
+        <div>{max ? "MAX" : `$${priceSell}`}</div>
       </div>
       <div className="cafe-game__shop-item-img">
         <img src={`${plateLevelArr[currentIndexLevel]}`} alt="" />
@@ -36,5 +52,5 @@ export default function ShopItem({
         </div>
       </div>
     </button>
-  )
+  );
 }

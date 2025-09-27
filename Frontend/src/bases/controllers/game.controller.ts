@@ -1,5 +1,7 @@
+import HostController from "@/host/controllers/host.controller";
+import initHttp from "@/utils/http.util";
 import { HostEvent } from "@common/constants/event.constant";
-import { GameEventType } from "@common/constants/host.constant";
+import { HttpRoute } from "@common/constants/http.constant";
 import { GameEvent } from "@common/types/host.type";
 import { Socket } from "socket.io-client";
 
@@ -17,12 +19,36 @@ export default class GameController {
     return {};
   }
 
-  protected async saveGame() {
+  protected async loadSavedGame() {
+    const sessionData = sessionStorage.getItem("savedGame");
+    if (sessionData) {
+      return JSON.parse(sessionData);
+    }
+
+    const accessToken = await HostController.getAccessToken();
+    if (!accessToken) {
+      return;
+    }
+
+    const client = await initHttp(accessToken);
+    const gameData = await client.post(
+      HttpRoute.GetGameData,
+      JSON.stringify({ hostId: this.hostId })
+    );
+
+    return gameData.data.gameData;
+  }
+
+  protected async saveGame(online: boolean = false) {
     if (!this.socketClient) {
       return;
     }
 
-    this.socketClient.emit(HostEvent.SaveGame, this.getSaveData());
+    sessionStorage.setItem("savedGame", JSON.stringify(this.getSaveData()));
+
+    if (online) {
+      this.socketClient.emit(HostEvent.SaveGame, this.getSaveData());
+    }
   }
 
   public setSocketClient(client: Socket) {
@@ -35,6 +61,7 @@ export default class GameController {
 
   public onScoreUpdate: (score: number) => Promise<void> = async (score) => {
     this.socketClient?.emit(HostEvent.ScoreUpdated, score);
+    await this.saveGame(true);
   };
 
   protected async saveActivity(activity: any) {
