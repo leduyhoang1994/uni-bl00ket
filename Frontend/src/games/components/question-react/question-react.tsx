@@ -20,7 +20,7 @@ export default function QuestionReact() {
     setAnsweredId,
     isCorrect
   } = QuizStore();
-  const { loadCafeStocks } = CafeGameStore();
+  const { loadCafeStocks, setToggleLeaderBoard } = CafeGameStore();
   const { userInfo } = HostStore();
 
   const question = currentQuestion?.text;
@@ -108,7 +108,7 @@ export default function QuestionReact() {
           <div className="question-react__header-mid">{isCorrect ? 'CORRECT' : 'INCORRECT'}</div>
         </RenderIf>
         <div className="question-react__header-right">
-          <img src="/images/cafe-game/leader-board.svg" alt="" />
+          <img src="/images/cafe-game/leader-board.svg" alt="" onClick={() => setToggleLeaderBoard(true)}/>
           {/* <SettingAudioReactIcon /> */}
         </div>
       </div>

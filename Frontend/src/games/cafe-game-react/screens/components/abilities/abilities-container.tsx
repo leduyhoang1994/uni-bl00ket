@@ -15,7 +15,8 @@ export default function AbilitiesContainer() {
     loadCafeStocks,
     cafeBalance,
     setToggleVisitShop,
-    setToggleAbilitiShop
+    setToggleAbilitiShop,
+    setToggleLeaderBoard,
   } = CafeGameStore();
 
   useLayoutEffect(() => {
@@ -38,17 +39,21 @@ export default function AbilitiesContainer() {
   const doClickBackShop = () => {
     setToggleVisitShop(true);
     setToggleAbilitiShop(false);
-  }
+  };
 
   const doClickExitShop = () => {
     setToggleAbilitiShop(false);
     setToggleVisitShop(false);
-  }
+  };
   return (
     <div className="cafe-game__abilities">
       <div className="cafe-game__abilities-header">
         <div className="cafe-game__abilities-header-setting">
-          <img src="/images/cafe-game/leader-board.svg" alt="" />
+          <img
+            src="/images/cafe-game/leader-board.svg"
+            alt=""
+            onClick={() => setToggleLeaderBoard(true)}
+          />
           <SettingAudioReactIcon />
         </div>
         <div className="cafe-game__abilities-header-curtain">
@@ -82,5 +87,5 @@ export default function AbilitiesContainer() {
         <ButtonCafeGame doClickBtn={doClickExitShop} text="Exit Shop" />
       </div>
     </div>
-  )
+  );
 }

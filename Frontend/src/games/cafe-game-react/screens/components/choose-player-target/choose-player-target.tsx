@@ -10,9 +10,20 @@ import TargetEnemy from "./components/target-enemy";
 import { Player } from "@common/types/host.type";
 import { getCafeControllerInstance } from "@/games/cafe-game/cafe-controller.singleton";
 
-export default function ChoosePlayerTarget({ abilityId }: { abilityId: ABILITY_ID }) {
+export default function ChoosePlayerTarget({
+  abilityId,
+}: {
+  abilityId: ABILITY_ID;
+}) {
   const { hostId } = useParams();
-  const { setPlayers, players, setIsChoosingAbilityTarget, loadCafeAbilities, loadCafeBalance } = CafeGameStore();
+  const {
+    setPlayers,
+    players,
+    setIsChoosingAbilityTarget,
+    loadCafeAbilities,
+    loadCafeBalance,
+    setToggleLeaderBoard,
+  } = CafeGameStore();
   const { userInfo } = HostStore();
 
   const doClickBtn = async (player: Player) => {
@@ -46,23 +57,25 @@ export default function ChoosePlayerTarget({ abilityId }: { abilityId: ABILITY_I
   return (
     <div className="choose-player-target">
       <div className="choose-player-target__menu">
-        <img src="/images/cafe-game/leader-board.svg" alt="" />
+        <img
+          src="/images/cafe-game/leader-board.svg"
+          onClick={() => setToggleLeaderBoard(true)}
+          alt=""
+        />
         <SettingAudioReactIcon />
       </div>
       <div className="choose-player-target__text">
         Choose a Player to Target
       </div>
       <div className="choose-player-target__cover-enemy">
-        {
-          players.map((player) => {
-            return (
-              <div key={player.id} onPointerUp={() => doClickBtn(player)}>
-                <TargetEnemy {...player} />
-              </div>
-            )
-          })
-        }
+        {players.map((player) => {
+          return (
+            <div key={player.id} onPointerUp={() => doClickBtn(player)}>
+              <TargetEnemy {...player} />
+            </div>
+          );
+        })}
       </div>
     </div>
-  )
+  );
 }

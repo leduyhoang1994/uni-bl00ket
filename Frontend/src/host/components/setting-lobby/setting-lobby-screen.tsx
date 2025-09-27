@@ -70,7 +70,7 @@ export default function SettingLobbyScreen() {
       <div className="setting-lobby-screen" ref={boxRef} onClick={(e) => e.stopPropagation()}>
         <div className="setting-lobby-screen__header">
           <div>
-            <img src="/images/icons/setting.svg" alt="" />
+            {/* <img src="/images/icons/setting.svg" alt="" /> */}
           </div>
           <div>Settings</div>
           <button onClick={doClickClose}>

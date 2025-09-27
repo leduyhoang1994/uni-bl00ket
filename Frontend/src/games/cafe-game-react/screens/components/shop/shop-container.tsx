@@ -15,6 +15,7 @@ export default function ShopContainer() {
     cafeBalance,
     setToggleVisitShop,
     setToggleAbilitiShop,
+    setToggleLeaderBoard,
   } = CafeGameStore();
 
   useLayoutEffect(() => {
@@ -43,7 +44,11 @@ export default function ShopContainer() {
     <div className="cafe-game__shop">
       <div className="cafe-game__shop-header">
         <div className="cafe-game__shop-header-setting">
-          <img src="/images/cafe-game/leader-board.svg" alt="" />
+          <img
+            src="/images/cafe-game/leader-board.svg"
+            alt=""
+            onClick={() => setToggleLeaderBoard(true)}
+          />
           <SettingAudioReactIcon />
         </div>
         <div className="cafe-game__shop-header-curtain">
