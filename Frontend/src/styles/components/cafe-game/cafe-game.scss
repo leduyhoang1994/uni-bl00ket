@@ -1183,11 +1183,27 @@
     max-width: 800px;
     min-height: 70px;
     max-height: 80%;
-    overflow: hidden;
-    pointer-events: none;
+    overflow-y: scroll;
+    // pointer-events: none;
     color: #fff;
     font-family: var(--font-nunito);
-    z-index: 70;
+    z-index: 301;
+
+    &::-webkit-scrollbar {
+      border-radius: 10px;
+      background-color: #fff3;
+      width: 12px
+    }
+
+    &::-webkit-scrollbar-thumb {
+      border-radius: 10px;
+      background: #fff
+    }
+
+    &::-webkit-scrollbar-thumb:hover {
+      border-radius: 10px;
+      background: #fff
+    }
 
     &-header {
       display: flex;

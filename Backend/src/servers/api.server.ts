@@ -110,7 +110,15 @@ app.post(
 app.post(HttpRoute.GenToken, async (req, res) => {
   const userId = randomUUID();
   const username = req.body.username;
+  const hostId = req.body.hostId;
   const avatar = req.body.avatar;
+
+  const controller = new HostRepository(hostId);
+
+  if (await controller.checkPlayerNameExisted(hostId, username)) {
+    res.status(400).send("Username already existed");
+    return;
+  }
 
   const token = jwt.sign(
     {

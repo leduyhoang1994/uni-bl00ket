@@ -14,6 +14,10 @@ async function initHttp(token: string | null) {
   // Add a response interceptor
   client.interceptors.response.use(
     function (response) {
+      if (response.status !== 200) {
+        return Promise.reject(response);
+      }
+
       return JSON.parse(response.data);
     },
     function (error) {

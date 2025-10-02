@@ -1,6 +1,4 @@
-import {
-  randomFromArray
-} from "@/games/cafe-game/helpers/random";
+import { randomFromArray } from "@/games/cafe-game/helpers/random";
 import {
   Ability,
   Customer,
@@ -12,7 +10,7 @@ import {
   QUESTIONS,
   ABILITIES,
   ABILITY_ID,
-  AVATARS_CUSTOMER
+  AVATARS_CUSTOMER,
 } from "@/model/model";
 import GameController from "./game.controller";
 import { GameEvent, Player } from "@common/types/host.type";
@@ -88,12 +86,21 @@ export default class CafeController
 
   public getSaveData() {
     return {
-      stocks: this.stocks,
+      stocks: this.stocks.map((s) => ({
+        id: s.id,
+        enabled: s.enabled,
+        currentIndexLevel: s.currentIndexLevel,
+      })),
       customers: this.customers,
       balance: this.balance,
-      questions: this.questions,
+      // questions: this.questions,
       currentQuestion: this.currentQuestion,
-      abilities: this.abilities,
+      abilities: this.abilities.map((a) => ({
+        id: a.id,
+        enabled: a.enabled,
+        isActive: a.isActive,
+        purchased: a.purchased,
+      })),
       doubleRewardCount: this.doubleRewardCount,
       totalCorrectAnswers: this.totalCorrectAnswers,
       totalQuestions: this.totalQuestions,
@@ -112,7 +119,21 @@ export default class CafeController
 
   public loadData(gameData: any) {
     Object.assign(this, gameData);
-    
+
+    this.abilities = this.abilities.map((a, i) => {
+      return {
+        ...ABILITIES[i],
+        ...a,
+      };
+    });
+
+    this.stocks = this.stocks.map((a, i) => {
+      return {
+        ...STOCKS[i],
+        ...a,
+      };
+    });
+
     this.customers = this.customers.filter((c) => {
       return c.orders.length > 0;
     }); // lọc lại những khách hàng đã order

@@ -20,7 +20,8 @@ export default class HostController {
   private httpClient: Axios | null = null;
 
   // callbacks
-  public onLobbyUpdated: (players: Player[] | Player) => Promise<void> = async () => {};
+  public onLobbyUpdated: (players: Player[] | Player) => Promise<void> =
+    async () => {};
   public onConnected: () => Promise<void> = async () => {};
   public onError: (error: any) => Promise<void> = async () => {};
   public onUserInfo: (user: AuthenticatedUser) => Promise<void> =
@@ -129,15 +130,20 @@ export default class HostController {
 
   public async createGuest(username: string, hostId: string) {
     const client = await initHttp(null);
-
-    const createResult = await client.post(
-      HttpRoute.GenToken,
-      JSON.stringify({
-        username,
-        avatar: `${getHost()}/images/avatar/brown-dog.svg`,
-        hostId,
-      })
-    );
+    let createResult = null;
+    
+    try {
+      createResult = await client.post(
+        HttpRoute.GenToken,
+        JSON.stringify({
+          username,
+          avatar: `${getHost()}/images/avatar/brown-dog.svg`,
+          hostId,
+        })
+      );
+    } catch (error) {
+      return null;
+    }
 
     return createResult?.data.token;
   }

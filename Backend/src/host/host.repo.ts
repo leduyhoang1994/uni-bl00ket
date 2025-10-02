@@ -296,6 +296,18 @@ export default class HostRepository {
     );
   }
 
+  public async checkPlayerNameExisted(hostId: string, username: string) {
+    const players = await this.getPlayers();
+
+    if (!players) {
+      return false;
+    }
+
+    return Object.values(players).some((player) => {
+      return player.username === username;
+    });
+  }
+
   public static async create(hostInfo: HostInfo) {
     const client = await RedisClient.getClient();
     const hostId = hostInfo.hostId || hexRnd.rnd();

@@ -47,6 +47,11 @@ export default function HostPlayer() {
     const controller = await HostController.getInstance();
     await controller.initHttp();
     const guestToken = await controller.createGuest(username, hostId);
+
+    if (!guestToken) {
+      alert("Username has been used. Please provide another username.");
+      return;
+    }
     
     await HostController.saveAccessToken(guestToken);
 
