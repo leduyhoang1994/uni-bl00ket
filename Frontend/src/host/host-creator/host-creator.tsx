@@ -26,28 +26,9 @@ function HostCreator() {
         return;
       }
 
-      const updatePlayers = (
-        prevPlayers: Player[],
-        player: Player
-      ): Player[] => {
-        const existingIndex = prevPlayers.findIndex((p) => p.id === player.id);
-
-        if (existingIndex > -1) {
-          const updated = [...prevPlayers];
-          updated[existingIndex] = player;
-          return updated;
-        }
-
-        return [...prevPlayers, player];
-      };
-
       const hostController = await HostController.getInstance();
       hostController.onLobbyUpdated = async (players: Player[] | Player) => {
-        if (Array.isArray(players)) {
-          setLobbyPlayers(players);
-        } else {
-          setLobbyPlayers(updatePlayers(lobbyPlayers, players));
-        }
+        setLobbyPlayers(players);
       };
       hostController.onGameStarted = async () => {
         navigate(UrlGenerator.HostPlayUrl(hostId));

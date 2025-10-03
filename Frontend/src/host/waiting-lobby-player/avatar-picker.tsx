@@ -3,6 +3,7 @@ import { getAvatarById } from "@/utils/utils";
 import { useCallback } from "react";
 import HostController from "../controllers/host.controller";
 import { useParams } from "react-router";
+import HostStore from "@/stores/host-store/host-store";
 
 export default function AvatarPicker({
   pickedCallback = () => {},
@@ -10,6 +11,8 @@ export default function AvatarPicker({
   pickedCallback: (avatarId: string) => void;
 }) {
   const { hostId } = useParams();
+  const { userInfo } = HostStore();
+
   const updateAvatar = useCallback(
     async (avatarId: string) => {
       if (!hostId) {
@@ -17,12 +20,14 @@ export default function AvatarPicker({
       }
       const url = getAvatarById(avatarId);
 
-      const controller = await HostController.getInstance();
-      await controller.updateAvatar(hostId, url);
+      if (userInfo?.avatar != url) {
+        const controller = await HostController.getInstance();
+        await controller.updateAvatar(hostId, url);
+      }
 
       pickedCallback(avatarId);
     },
-    [hostId]
+    [hostId, userInfo]
   );
 
   const avatars = AVATARS_CUSTOMER;

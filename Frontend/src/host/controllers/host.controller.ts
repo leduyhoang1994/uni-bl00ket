@@ -89,7 +89,7 @@ export default class HostController {
 
   public async eventHandler(socket: Socket) {
     socket.onAny(async (event, ...args) => {
-      console.log(`Nhận được sự kiện: ${event}`, ...args);
+      // console.log(`Nhận được sự kiện: ${event}`, ...args);
 
       if (event === HostEvent.LobbyUpdated) {
         await this.onLobbyUpdated(args[0] as Player[] | Player);

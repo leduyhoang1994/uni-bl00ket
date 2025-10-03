@@ -56,8 +56,6 @@ export default function SettingLobbyScreen() {
           onComplete: () => {
             const background = document.querySelector('.setting-lobby-screen__background');
             background?.classList.remove('setting-lobby-screen__show');
-            console.log(background);
-
           }
         },
       );

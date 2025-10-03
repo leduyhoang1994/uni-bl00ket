@@ -10,6 +10,7 @@ import { HostState } from "@common/constants/host.constant";
 import AvatarPicker from "./avatar-picker";
 import ButtonCafeGame from "@/games/cafe-game-react/components/button-cafe-game/button-cafe-game";
 import UniButton from "@/games/components/buttons/uni-button";
+import HostStore from "@/stores/host-store/host-store";
 
 function WaitingLobbyPlayer() {
   const [isJoining, setIsJoining] = useState(true);
@@ -17,6 +18,7 @@ function WaitingLobbyPlayer() {
   const [player, setPlayer] = useState<AuthenticatedUser | null>(null);
   const [showAvatarPicker, setShowAvatarPicker] = useState(true);
   const { hostId } = useParams();
+  const { setUserInfo } = HostStore();
   const navigate = useNavigate();
 
   useLayoutEffect(() => {
@@ -45,6 +47,7 @@ function WaitingLobbyPlayer() {
       };
       controller.onUserInfo = async (player: AuthenticatedUser) => {
         setPlayer(player);
+        setUserInfo(player);
       };
       controller.onGameStarted = async () => {
         navigate(UrlGenerator.PlayerPlayUrl(hostId));
