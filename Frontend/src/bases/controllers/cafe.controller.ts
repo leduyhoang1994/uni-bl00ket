@@ -93,6 +93,7 @@ export default class CafeController
         id: s.id,
         enabled: s.enabled,
         currentIndexLevel: s.currentIndexLevel,
+        quantity: s.quantity,
       })),
       customers: this.customers,
       balance: this.balance,
