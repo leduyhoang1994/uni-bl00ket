@@ -61,6 +61,9 @@ export default class CafeController
   private currentQuestion: Question | null = null;
   private abilities: Ability[] = [];
   private doubleRewardCount: number = 0; //  số khách còn lại được x2 tiền
+  private randomQuestion: () => Question = this.createRandomPicker(
+    this.questions
+  );
 
   public onActivePayCheckBonus: (player: Player) => void = () => {};
   public onActiveTrashTheFood: (player: Player) => void = () => {};
@@ -115,6 +118,8 @@ export default class CafeController
     if (s1Stock && !s1Stock.enabled && s1Stock.currentIndexLevel === 0) {
       this.buyShopItem("s1");
     }
+
+    this.randomQuestion = this.createRandomPicker(this.questions);
   }
 
   public loadData(gameData: any) {
@@ -155,11 +160,27 @@ export default class CafeController
     });
   }
 
+  createRandomPicker<T>(items: T[]) {
+    let used = new Set<number>();
+
+    return function pick(): T {
+      if (used.size === items.length) {
+        // reset khi đã lấy hết
+        used.clear();
+      }
+
+      let index: number;
+      do {
+        index = Math.floor(Math.random() * items.length);
+      } while (used.has(index));
+
+      used.add(index);
+      return items[index];
+    };
+  }
+
   getQuestion(): Question {
-    const idx = Math.floor(Math.random() * this.questions.length);
-    this.currentQuestion = JSON.parse(
-      JSON.stringify(this.questions[idx])
-    ) as Question;
+    this.currentQuestion = this.randomQuestion();
     //shuffle answers
     this.currentQuestion.answers.sort(() => Math.random() - 0.5);
     this.totalQuestions += 1;
