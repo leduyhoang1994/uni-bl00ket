@@ -7,17 +7,22 @@ import {
 } from "@Common/types/host.type";
 import { AuthenticatedUser } from "../../../Common/types/socket.type";
 import { HostEvent } from "@Common/constants/event.constant";
+import { Emitter } from "@socket.io/redis-emitter";
 
 export default class HostSocket {
-  private socket: AuthenticatedSocket;
+  private socket: AuthenticatedSocket | Emitter;
   private hostId: string;
 
-  constructor(hostId: string, socket: AuthenticatedSocket) {
+  constructor(hostId: string, socket: AuthenticatedSocket | Emitter) {
     this.hostId = hostId;
     this.socket = socket;
   }
 
   public getUser(): AuthenticatedUser | null {
+    if (this.socket instanceof Emitter) {
+      return null;
+    }
+
     return this.socket.user || null;
   }
 
@@ -32,6 +37,10 @@ export default class HostSocket {
   }
 
   public async kick(socketId: string) {
+    if (this.socket instanceof Emitter) {
+      return null;
+    }
+
     logger.debug(
       `Socket exist: ${this.socket.nsp.server.sockets.sockets.has(socketId)}`
     );
@@ -47,6 +56,10 @@ export default class HostSocket {
   }
 
   public async emitUserInfo() {
+    if (this.socket instanceof Emitter) {
+      return null;
+    }
+
     this.socket.emit(HostEvent.UserInfo, this.socket.user);
   }
 
@@ -78,23 +91,30 @@ export default class HostSocket {
     eventName: string,
     payload: any
   ) {
-    this.socket.nsp.server;
+    const socketEmitter = this.getSocketEmmiter();
 
     playerSocketIds.forEach((socketId) => {
-      this.socket.nsp.server.to(socketId).emit(eventName, payload);
+      socketEmitter.to(socketId).emit(eventName, payload);
     });
   }
 
   protected async emitHost(eventName: string, arg: any = null) {
-    this.socket.nsp.server
-      .to(HostSocket.privateRoom(this.hostId))
-      .emit(eventName, arg);
+    const socketEmitter = this.getSocketEmmiter();
+
+    socketEmitter.to(HostSocket.privateRoom(this.hostId)).emit(eventName, arg);
   }
 
   protected async emitRoom(eventName: string, arg: any = null) {
-    this.socket.nsp.server
-      .to(HostSocket.publicRoom(this.hostId))
-      .emit(eventName, arg);
+    const socketEmitter = this.getSocketEmmiter();
+    socketEmitter.to(HostSocket.publicRoom(this.hostId)).emit(eventName, arg);
+  }
+
+  private getSocketEmmiter() {
+    if (this.socket instanceof Emitter) {
+      return this.socket;
+    }
+
+    return this.socket.nsp.server;
   }
 
   public static publicRoom(hostId: string) {

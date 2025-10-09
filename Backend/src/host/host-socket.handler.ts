@@ -5,9 +5,8 @@ import logger from "../utils/logger";
 import { HOST_COMMANDS, HostEvent } from "@Common/constants/event.constant";
 import { GameEventType, HostState } from "@Common/constants/host.constant";
 import { GameEvent } from "@Common/types/host.type";
-import { AuthenticatedUser } from "@Common/types/socket.type";
 
-export default class HostController {
+export default class HostSocketHandler {
   private hostId: string;
   private hostRepo: HostRepository;
   private hostSocket: HostSocket | null = null;

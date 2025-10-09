@@ -10,13 +10,19 @@ export type Player = {
 
 export type HostInfo = {
   hostId?: string;
-  settings?: any;
+  /** Cài đặt game */
+  gameSettings?: {
+    [key: string]: string;
+  };
   state?: HostState;
   gameMode: GameMode;
+  /** Bảng xếp hạng */
   finalStandings?: Array<HostLeaderboardItem>;
   personalResult?: PersonalResult;
+  /** Lịch sử hoạt động */
   activitiesBoard?: Array<ActivityBoardItem>;
   userInfo?: Player;
+  groupId?: string;
 };
 
 export type ActivityBoardItem = {
@@ -53,8 +59,8 @@ export type GetHostInfoOpts = {
 export type HostLeaderboard = HostLeaderboardItem[];
 
 export type GameEvent = {
-  type: GameEventType,
-  sourcePlayer?: Player | null,
-  targetPlayerIds?: Array<string>,
-  payload?: any
-}
+  type: GameEventType;
+  sourcePlayer?: Player | null;
+  targetPlayerIds?: Array<string>;
+  payload?: any;
+};

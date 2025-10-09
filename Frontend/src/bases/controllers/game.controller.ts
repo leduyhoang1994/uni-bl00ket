@@ -1,7 +1,7 @@
 import HostController from "@/host/controllers/host.controller";
 import initHttp from "@/utils/http.util";
 import { HostEvent } from "@common/constants/event.constant";
-import { HttpRoute } from "@common/constants/http.constant";
+import { InternalHttpRoute } from "@common/constants/http.constant";
 import { GameEvent } from "@common/types/host.type";
 import { Socket } from "socket.io-client";
 
@@ -32,7 +32,7 @@ export default class GameController {
 
     const client = await initHttp(accessToken);
     const gameData = await client.post(
-      HttpRoute.GetGameData,
+      InternalHttpRoute.GetGameData,
       JSON.stringify({ hostId: this.hostId })
     );
 

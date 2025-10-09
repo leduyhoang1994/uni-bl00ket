@@ -146,553 +146,1084 @@ export const STOCKS = [
 export const QUESTIONS = [
   {
     id: "q1",
-    text: "Chiến lược UNICLASS năm học 2025-2026 là gì?",
+    text: "Phụ huynh gặp khó khăn gì khi cho con học tiếng Anh tại trung tâm truyền thống?",
     answers: [
-      { id: "a1", text: "Học là thích" },
-      { id: "a2", text: "Sự tiến bộ" },
-      { id: "a3", text: "Học là vui" },
-      { id: "a4", text: "Học nữa học mãi" },
+      {
+        id: "[1]",
+        text: "Lớp học ít giáo viên bản xứ",
+      },
+      {
+        id: "[2]",
+        text: "Chi phí cao và mất thời gian đưa đón",
+      },
+      {
+        id: "[3]",
+        text: "Thiếu tài liệu học tập",
+      },
+      {
+        id: "[4]",
+        text: "Con không thích học",
+      },
     ],
-    correctAnswerId: "a1",
+    correctAnswerId: "[2]",
   },
   {
     id: "q2",
-    text: "Uniclass hiện đang dạy học sinh từ lớp mấy đến lớp mấy?",
+    text: "Vì sao nhiều phụ huynh không chọn cho con học tự học qua App hoặc Youtube?",
     answers: [
-      { id: "a1", text: "Lớp 1 đến lớp 12" },
-      { id: "a2", text: "Lớp 1 đến lớp 9" },
-      { id: "a3", text: "Lớp 1 đến lớp 5" },
-      { id: "a4", text: "Lớp 1 đến lớp 7" },
+      {
+        id: "[1]",
+        text: "Vì con học quá nhanh",
+      },
+      {
+        id: "[2]",
+        text: "Vì thiếu người hướng dẫn và khó đánh giá hiệu quả",
+      },
+      {
+        id: "[3]",
+        text: "Vì học quá vui",
+      },
+      {
+        id: "[4]",
+        text: "Vì tốn nhiều tiền",
+      },
     ],
-    correctAnswerId: "a2",
+    correctAnswerId: "[2]",
   },
   {
     id: "q3",
-    text: "Uniclass dạy theo hình thức nào?",
+    text: "Khi học online thông thường, trẻ dễ gặp vấn đề gì?",
     answers: [
-      { id: "a1", text: "BigClass Steam trực tiếp" },
-      { id: "a2", text: "App tự học" },
-      { id: "a3", text: "Video không có tương tác" },
-      { id: "a4", text: "Học qua video youtube" },
+      {
+        id: "[1]",
+        text: "Không có tương tác và dễ mất tập trung",
+      },
+      {
+        id: "[2]",
+        text: "Quá nhiều bài tập",
+      },
+      {
+        id: "[3]",
+        text: "Không có giáo viên Việt",
+      },
+      {
+        id: "[4]",
+        text: "Lớp học quá đông",
+      },
     ],
-    correctAnswerId: "a1",
+    correctAnswerId: "[1]",
   },
   {
     id: "q4",
-    text: "12 × 8 = ?",
+    text: "Babilala Class ra đời nhằm giải quyết điều gì?",
     answers: [
-      { id: "a1", text: "96" },
-      { id: "a2", text: "88" },
-      { id: "a3", text: "108" },
-      { id: "a4", text: "86" },
+      {
+        id: "[1]",
+        text: "Nâng cấp giao diện App Babilala",
+      },
+      {
+        id: "[2]",
+        text: "Giúp trẻ học hiệu quả qua sự kết hợp giữa lớp học bản xứ và App tự học",
+      },
+      {
+        id: "[3]",
+        text: "Tăng giá trị thương hiệu",
+      },
+      {
+        id: "[4]",
+        text: "Tăng số lượng học sinh",
+      },
     ],
-    correctAnswerId: "a1",
+    correctAnswerId: "[2]",
   },
   {
     id: "q5",
-    text: "Số nguyên tố nhỏ nhất là?",
+    text: "Lợi ích lớn nhất của việc kết hợp “Class + App + AI” trong Babilala Class là gì?",
     answers: [
-      { id: "a1", text: "0" },
-      { id: "a2", text: "1" },
-      { id: "a3", text: "2" },
-      { id: "a4", text: "3" },
+      {
+        id: "[1]",
+        text: "Giúp con vừa học vừa chơi, được kèm cặp và luyện phát âm chuẩn",
+      },
+      {
+        id: "[2]",
+        text: "Giảm tải công việc cho phụ huynh",
+      },
+      {
+        id: "[3]",
+        text: "Tăng doanh thu sản phẩm",
+      },
+      {
+        id: "[4]",
+        text: "Học nhanh hơn bạn bè",
+      },
     ],
-    correctAnswerId: "a3",
+    correctAnswerId: "[1]",
   },
   {
     id: "q6",
-    text: "Chu vi hình vuông cạnh 5 cm là?",
+    text: "Babilala Class giúp phụ huynh giải quyết vấn đề nào về chi phí học tiếng Anh?",
     answers: [
-      { id: "a1", text: "10" },
-      { id: "a2", text: "20" },
-      { id: "a3", text: "25" },
-      { id: "a4", text: "15" },
+      {
+        id: "[1]",
+        text: "Miễn phí hoàn toàn",
+      },
+      {
+        id: "[2]",
+        text: "Giảm 85% chi phí so với trung tâm",
+      },
+      {
+        id: "[3]",
+        text: "Tăng gấp đôi chi phí nhưng hiệu quả hơn",
+      },
+      {
+        id: "[4]",
+        text: "Không thay đổi chi phí",
+      },
     ],
-    correctAnswerId: "a2",
+    correctAnswerId: "[2]",
   },
   {
     id: "q7",
-    text: "3/4 + 1/4 = ?",
+    text: "Với Babilala Class, phụ huynh không cần lo lắng điều gì?",
     answers: [
-      { id: "a1", text: "3/8" },
-      { id: "a2", text: "1" },
-      { id: "a3", text: "4/8" },
-      { id: "a4", text: "2" },
+      {
+        id: "[1]",
+        text: "Con không được nói tiếng Anh",
+      },
+      {
+        id: "[2]",
+        text: "Con mất tập trung khi học",
+      },
+      {
+        id: "[3]",
+        text: "Con không được sửa lỗi phát âm",
+      },
+      {
+        id: "[4]",
+        text: "Tất cả các đáp án trên",
+      },
     ],
-    correctAnswerId: "a2",
+    correctAnswerId: "[4]",
   },
   {
     id: "q8",
-    text: "Tác giả của “Truyện Kiều” là ai?",
+    text: "Vì sao Babilala Class phù hợp với các gia đình bận rộn?",
     answers: [
-      { id: "a1", text: "Nguyễn Trãi" },
-      { id: "a2", text: "Hồ Xuân Hương" },
-      { id: "a3", text: "Tố Hữu" },
-      { id: "a4", text: "Nguyễn Du" },
+      {
+        id: "[1]",
+        text: "Có thể học tại nhà, chọn lịch linh hoạt, không tốn thời gian đưa đón",
+      },
+      {
+        id: "[2]",
+        text: "Có nhiều giáo viên dạy thay nhau",
+      },
+      {
+        id: "[3]",
+        text: "Học ít hơn",
+      },
+      {
+        id: "[4]",
+        text: "Không cần học phụ đạo",
+      },
     ],
-    correctAnswerId: "a4",
+    correctAnswerId: "[1]",
   },
   {
     id: "q9",
-    text: "Nhân vật Thánh Gióng ăn gì để lớn nhanh?",
+    text: "Điểm khác biệt trong mô hình của Babilala Class giúp phụ huynh an tâm là gì?",
     answers: [
-      { id: "a1", text: "Cháo hành" },
-      { id: "a2", text: "Cơm và rau muống luộc" },
-      { id: "a3", text: "Thịt gà" },
-      { id: "a4", text: "Trái cây" },
+      {
+        id: "[1]",
+        text: "Có camera giám sát, trợ giảng người Việt theo dõi, và báo cáo học tập chi tiết",
+      },
+      {
+        id: "[2]",
+        text: "Lớp học tự động, không cần giáo viên",
+      },
+      {
+        id: "[3]",
+        text: "Con được thi đua nhận quà",
+      },
+      {
+        id: "[4]",
+        text: "Học ít bài hơn",
+      },
     ],
-    correctAnswerId: "a2",
+    correctAnswerId: "[1]",
   },
   {
     id: "q10",
-    text: "Câu tục ngữ: “Có công mài sắt…” tiếp theo là?",
+    text: "Tại sao nói Babilala Class là giải pháp toàn diện cho phụ huynh?",
     answers: [
-      { id: "a1", text: "Có ngày sáng loáng" },
-      { id: "a2", text: "Có ngày nên kim" },
-      { id: "a3", text: "Có ngày thành thép" },
-      { id: "a4", text: "Có ngày thành kim" },
+      {
+        id: "[1]",
+        text: "Vì đáp ứng đủ học – luyện – kèm – phản hồi, giúp con tiến bộ toàn diện",
+      },
+      {
+        id: "[2]",
+        text: "Vì có nhiều game",
+      },
+      {
+        id: "[3]",
+        text: "Vì học ít bài hơn",
+      },
+      {
+        id: "[4]",
+        text: "Vì học offline",
+      },
     ],
-    correctAnswerId: "a2",
+    correctAnswerId: "[1]",
   },
   {
     id: "q11",
-    text: '"I love Uniclass" nghĩa là?',
+    text: "Babilala Class được cấu thành từ mấy phần chính?",
     answers: [
-      { id: "a1", text: "Tôi yêu em" },
-      { id: "a2", text: "Tôi học Uniclass" },
-      { id: "a3", text: "Tôi yêu Uniclass" },
-      { id: "a4", text: "Tôi đăng ký Uniclass" },
+      {
+        id: "[1]",
+        text: "2 phần",
+      },
+      {
+        id: "[2]",
+        text: "3 phần",
+      },
+      {
+        id: "[3]",
+        text: "4 phần",
+      },
+      {
+        id: "[4]",
+        text: "5 phần",
+      },
     ],
-    correctAnswerId: "a3",
+    correctAnswerId: "[3]",
   },
   {
     id: "q12",
-    text: "Trái đất quay quanh Mặt trời mất bao lâu?",
+    text: "4 phần chính trong mô hình Babilala Class bao gồm:",
     answers: [
-      { id: "a1", text: "30 ngày" },
-      { id: "a2", text: "365 ngày" },
-      { id: "a3", text: "24h" },
-      { id: "a4", text: "1000 ngày" },
+      {
+        id: "[1]",
+        text: "Babi App – Babi Class – Babi AI Speak – Babi Global",
+      },
+      {
+        id: "[2]",
+        text: "App học, Website học, Trung tâm học, Sách học",
+      },
+      {
+        id: "[3]",
+        text: "Học tại nhà, Học nhóm, Học tự do, Học cùng bố mẹ",
+      },
+      {
+        id: "[4]",
+        text: "Game, Video, Chatbot, Class",
+      },
     ],
-    correctAnswerId: "a2",
+    correctAnswerId: "[1]",
   },
   {
     id: "q13",
-    text: 'Loài vật nào được gọi là "vua của muôn loài"?',
+    text: "Trong Babi Class, trẻ học với ai?",
     answers: [
-      { id: "a1", text: "Cá mập" },
-      { id: "a2", text: "Gấu" },
-      { id: "a3", text: "Hổ" },
-      { id: "a4", text: "Sư tử" },
+      {
+        id: "[1]",
+        text: "Giáo viên Việt Nam",
+      },
+      {
+        id: "[2]",
+        text: "Giáo viên bản xứ và trợ giảng người Việt",
+      },
+      {
+        id: "[3]",
+        text: "AI Speak",
+      },
+      {
+        id: "[4]",
+        text: "Phụ huynh",
+      },
     ],
-    correctAnswerId: "a4",
+    correctAnswerId: "[2]",
   },
   {
     id: "q14",
-    text: "Chùa Một Cột nằm ở thành phố nào?",
+    text: "Một buổi Babi Class diễn ra trong bao lâu?",
     answers: [
-      { id: "a1", text: "Huế" },
-      { id: "a2", text: "Hà Nội" },
-      { id: "a3", text: "Đà Nẵng" },
-      { id: "a4", text: "TP. Hồ Chí Minh" },
+      {
+        id: "[1]",
+        text: "30 phút",
+      },
+      {
+        id: "[2]",
+        text: "45 phút",
+      },
+      {
+        id: "[3]",
+        text: "60 phút",
+      },
+      {
+        id: "[4]",
+        text: "90 phút",
+      },
     ],
-    correctAnswerId: "a2",
+    correctAnswerId: "[2]",
   },
   {
     id: "q15",
-    text: "Ngọn núi nào cao nhất thế giới?",
+    text: "Babi App giúp trẻ phát triển kỹ năng nào?",
     answers: [
-      { id: "a1", text: "Phan Xi Păng" },
-      { id: "a2", text: "Kilimanjaro" },
-      { id: "a3", text: "Alps" },
-      { id: "a4", text: "Everest" },
+      {
+        id: "[1]",
+        text: "Nghe – Nói – Đọc – Viết theo chuẩn CEFR",
+      },
+      {
+        id: "[2]",
+        text: "Chỉ học từ vựng",
+      },
+      {
+        id: "[3]",
+        text: "Chỉ luyện nói",
+      },
+      {
+        id: "[4]",
+        text: "Học văn hóa quốc tế",
+      },
     ],
-    correctAnswerId: "a4",
+    correctAnswerId: "[1]",
   },
   {
     id: "q16",
-    text: "Tác giả của truyện “Dế Mèn phiêu lưu ký” là ai?",
+    text: "Công nghệ nào trong Babi App giúp trẻ luyện phát âm chuẩn như người bản xứ?",
     answers: [
-      { id: "a1", text: "Ngô Tất Tố" },
-      { id: "a2", text: "Nguyễn Nhật Ánh" },
-      { id: "a3", text: "Nam Cao" },
-      { id: "a4", text: "Tô Hoài" },
+      {
+        id: "[1]",
+        text: "AI Listen",
+      },
+      {
+        id: "[2]",
+        text: "AI Speak",
+      },
+      {
+        id: "[3]",
+        text: "AI Talk",
+      },
+      {
+        id: "[4]",
+        text: "AI Pronounce",
+      },
     ],
-    correctAnswerId: "a4",
+    correctAnswerId: "[2]",
   },
   {
     id: "q17",
-    text: "Một năm nhuận có bao nhiêu ngày?",
+    text: "Babi AI Free Talk giúp trẻ luyện gì?",
     answers: [
-      { id: "a1", text: "365" },
-      { id: "a2", text: "366" },
-      { id: "a3", text: "367" },
-      { id: "a4", text: "364" },
+      {
+        id: "[1]",
+        text: "Phản xạ hội thoại theo ngữ cảnh thực tế",
+      },
+      {
+        id: "[2]",
+        text: "Gõ từ vựng nhanh",
+      },
+      {
+        id: "[3]",
+        text: "Viết câu đúng ngữ pháp",
+      },
+      {
+        id: "[4]",
+        text: "Học nghe thụ động",
+      },
     ],
-    correctAnswerId: "a2",
+    correctAnswerId: "[1]",
   },
   {
     id: "q18",
-    text: "Một giờ có bao nhiêu phút?",
+    text: "Babi Global mang lại giá trị gì cho trẻ?",
     answers: [
-      { id: "a1", text: "30" },
-      { id: "a2", text: "60" },
-      { id: "a3", text: "90" },
-      { id: "a4", text: "120" },
+      {
+        id: "[1]",
+        text: "Học qua trò chơi quốc tế",
+      },
+      {
+        id: "[2]",
+        text: "Hoạt động ngoại khóa, rèn sự tự tin và kỹ năng công dân toàn cầu",
+      },
+      {
+        id: "[3]",
+        text: "Luyện viết bài thi Cambridge",
+      },
+      {
+        id: "[4]",
+        text: "Thi đấu tiếng Anh online",
+      },
     ],
-    correctAnswerId: "a2",
+    correctAnswerId: "[2]",
   },
   {
     id: "q19",
-    text: "Một thế kỷ bằng bao nhiêu năm?",
+    text: "Trong buổi học Babilala Class, hệ thống AI có vai trò gì?",
     answers: [
-      { id: "a1", text: "10" },
-      { id: "a2", text: "50" },
-      { id: "a3", text: "100" },
-      { id: "a4", text: "1000" },
+      {
+        id: "[1]",
+        text: "Theo dõi phát âm, đánh giá phản xạ và cảnh báo khi trẻ mất tập trung",
+      },
+      {
+        id: "[2]",
+        text: "Chấm điểm ngữ pháp",
+      },
+      {
+        id: "[3]",
+        text: "Đọc truyện cho trẻ",
+      },
+      {
+        id: "[4]",
+        text: "Kiểm tra từ vựng",
+      },
     ],
-    correctAnswerId: "a3",
+    correctAnswerId: "[1]",
   },
   {
     id: "q20",
-    text: "7 × 9 = ?",
+    text: "Lộ trình học của Babi App được thiết kế theo tiêu chuẩn nào?",
     answers: [
-      { id: "a1", text: "63" },
-      { id: "a2", text: "72" },
-      { id: "a3", text: "64" },
-      { id: "a4", text: "54" },
+      {
+        id: "[1]",
+        text: "Chuẩn Việt Nam",
+      },
+      {
+        id: "[2]",
+        text: "CEFR Châu Âu",
+      },
+      {
+        id: "[3]",
+        text: "Cambridge Advanced",
+      },
+      {
+        id: "[4]",
+        text: "TOEFL Junior",
+      },
     ],
-    correctAnswerId: "a1",
+    correctAnswerId: "[2]",
   },
   {
     id: "q21",
-    text: "(–3) + 5 = ?",
+    text: "Babilala Class mang lại lợi ích gì nổi bật cho học sinh trong việc học tiếng Anh?",
     answers: [
-      { id: "a1", text: "-2" },
-      { id: "a2", text: "2" },
-      { id: "a3", text: "8" },
-      { id: "a4", text: "0" },
+      {
+        id: "[1]",
+        text: "Được học phát âm với công nghệ AI-Speak và giáo viên bản xứ",
+      },
+      {
+        id: "[2]",
+        text: "Học offline tại trung tâm",
+      },
+      {
+        id: "[3]",
+        text: "Học nhanh trong 2 tuần",
+      },
+      {
+        id: "[4]",
+        text: "Học qua phim hoạt hình",
+      },
     ],
-    correctAnswerId: "a2",
+    correctAnswerId: "[1]",
   },
   {
     id: "q22",
-    text: "Tác phẩm nào mở đầu bằng câu “Ngày xửa ngày xưa…”?",
+    text: "Điểm đặc biệt giúp trẻ hứng thú khi học Babilala Class là gì?",
     answers: [
-      { id: "a1", text: "Truyện cổ tích" },
-      { id: "a2", text: "Thơ ca" },
-      { id: "a3", text: "Truyện ngắn" },
-      { id: "a4", text: "Tục ngữ" },
+      {
+        id: "[1]",
+        text: "Bài học được thiết kế như trò chơi, có điểm số và thi đua trong lớp",
+      },
+      {
+        id: "[2]",
+        text: "Lớp học nghiêm túc như ở trường",
+      },
+      {
+        id: "[3]",
+        text: "Không cần tương tác",
+      },
+      {
+        id: "[4]",
+        text: "Học qua sách giấy",
+      },
     ],
-    correctAnswerId: "a1",
+    correctAnswerId: "[1]",
   },
   {
     id: "q23",
-    text: "“Lão Hạc” là tác phẩm của ai?",
+    text: "Phụ huynh được hưởng lợi gì khi cho con học Babilala Class?",
     answers: [
-      { id: "a1", text: "Ngô Tất Tố" },
-      { id: "a2", text: "Kim Lân" },
-      { id: "a3", text: "Nam Cao" },
-      { id: "a4", text: "Nguyễn Du" },
+      {
+        id: "[1]",
+        text: "Không cần theo dõi tiến độ",
+      },
+      {
+        id: "[2]",
+        text: "Tiết kiệm chi phí và có báo cáo chi tiết về quá trình học của con",
+      },
+      {
+        id: "[3]",
+        text: "Phải ngồi cùng con trong mỗi buổi học",
+      },
+      {
+        id: "[4]",
+        text: "Không được xem kết quả học",
+      },
     ],
-    correctAnswerId: "a3",
+    correctAnswerId: "[2]",
   },
   {
     id: "q24",
-    text: "Tác phẩm “Đồng chí” nói về ai?",
+    text: "Babilala Class giúp trẻ hình thành kỹ năng gì quan trọng cho tương lai?",
     answers: [
-      { id: "a1", text: "Người đồng hành" },
-      { id: "a2", text: "Người nông dân" },
-      { id: "a3", text: "Đôi bạn cùng tiến" },
-      { id: "a4", text: "Người lính kháng chiến" },
+      {
+        id: "[1]",
+        text: "Tư duy logic",
+      },
+      {
+        id: "[2]",
+        text: "Phản xạ giao tiếp, phát âm chuẩn và sự tự tin khi nói tiếng Anh",
+      },
+      {
+        id: "[3]",
+        text: "Kỹ năng viết học thuật",
+      },
+      {
+        id: "[4]",
+        text: "Học thuộc từ vựng nhanh",
+      },
     ],
-    correctAnswerId: "a4",
+    correctAnswerId: "[2]",
   },
   {
     id: "q25",
-    text: "Số 15 trong tiếng Anh là?",
+    text: "Vì sao nói Babilala Class tạo môi trường học an toàn cho trẻ?",
     answers: [
-      { id: "a1", text: "Fifteen" },
-      { id: "a2", text: "Fifty" },
-      { id: "a3", text: "Fiveteen" },
-      { id: "a4", text: "Fifty five" },
+      {
+        id: "[1]",
+        text: "Trẻ học một mình",
+      },
+      {
+        id: "[2]",
+        text: "Trẻ được học và nói trong môi trường không áp lực, luôn được khen và khuyến khích",
+      },
+      {
+        id: "[3]",
+        text: "Không có giáo viên giám sát",
+      },
+      {
+        id: "[4]",
+        text: "Không có chấm điểm",
+      },
     ],
-    correctAnswerId: "a1",
+    correctAnswerId: "[2]",
   },
   {
     id: "q26",
-    text: "Hành tinh nào gần Mặt trời nhất?",
+    text: "Nếu trong buổi học con không hiểu câu hỏi của giáo viên bản xứ, con nên làm gì?",
     answers: [
-      { id: "a1", text: "Sao Thuỷ" },
-      { id: "a2", text: "Sao Hoả" },
-      { id: "a3", text: "Sao Kim" },
-      { id: "a4", text: "Trái đất" },
+      {
+        id: "[1]",
+        text: "Giữ im lặng chờ qua bài khác",
+      },
+      {
+        id: "[2]",
+        text: "Thoát khỏi lớp học",
+      },
+      {
+        id: "[3]",
+        text: "Chat hoặc nói để hỏi lại, trợ giảng người Việt sẽ hỗ trợ",
+      },
+      {
+        id: "[4]",
+        text: "Báo với phụ huynh ngay lập tức",
+      },
     ],
-    correctAnswerId: "a1",
+    correctAnswerId: "[3]",
   },
   {
     id: "q27",
-    text: "Thể tích hình lập phương cạnh 3 cm là",
+    text: "Khi con bị mất tập trung trong buổi học online, ai sẽ theo dõi và nhắc nhở kịp thời?",
     answers: [
-      { id: "a1", text: "18" },
-      { id: "a2", text: "27" },
-      { id: "a3", text: "9" },
-      { id: "a4", text: "81" },
+      {
+        id: "[1]",
+        text: "Giáo viên bản xứ",
+      },
+      {
+        id: "[2]",
+        text: "AI Speak",
+      },
+      {
+        id: "[3]",
+        text: "Trợ giảng người Việt và hệ thống giám sát",
+      },
+      {
+        id: "[4]",
+        text: "Phụ huynh",
+      },
     ],
-    correctAnswerId: "a2",
+    correctAnswerId: "[3]",
   },
   {
     id: "q28",
-    text: "(–7) – (–5) = ?",
+    text: "Nếu phụ huynh muốn linh hoạt thời gian học, Babilala Class đáp ứng thế nào?",
     answers: [
-      { id: "a1", text: "-12" },
-      { id: "a2", text: "2" },
-      { id: "a3", text: "12" },
-      { id: "a4", text: "-2" },
+      {
+        id: "[1]",
+        text: "Không thay đổi được lịch học",
+      },
+      {
+        id: "[2]",
+        text: "Có thể đổi giáo viên tùy ý",
+      },
+      {
+        id: "[3]",
+        text: "Có nhiều khung lịch học từ thứ Hai đến thứ Bảy để chọn phù hợp",
+      },
+      {
+        id: "[4]",
+        text: "Học bất cứ lúc nào, không cần đăng ký lịch",
+      },
     ],
-    correctAnswerId: "a4",
+    correctAnswerId: "[3]",
   },
   {
     id: "q29",
-    text: "Ngày Nhà giáo Việt Nam là ngày nào?",
+    text: "Vì sao trẻ cảm thấy hứng thú khi học Babilala Class?",
     answers: [
-      { id: "a1", text: "20/11" },
-      { id: "a2", text: "2/9" },
-      { id: "a3", text: "20/10" },
-      { id: "a4", text: "21/11" },
+      {
+        id: "[1]",
+        text: "Vì bài học giống trò chơi, có điểm thưởng và lời khen từ giáo viên",
+      },
+      {
+        id: "[2]",
+        text: "Vì học ít bài hơn các lớp khác",
+      },
+      {
+        id: "[3]",
+        text: "Vì học không cần nghe giảng",
+      },
+      {
+        id: "[4]",
+        text: "Vì học qua phim hoạt hình",
+      },
     ],
-    correctAnswerId: "a1",
+    correctAnswerId: "[1]",
   },
   {
     id: "q30",
-    text: "Con người có bao nhiêu xương?",
+    text: "Yếu tố nào trong buổi học giúp trẻ duy trì sự tập trung suốt 45 phút?",
     answers: [
-      { id: "a1", text: "210" },
-      { id: "a2", text: "206" },
-      { id: "a3", text: "150" },
-      { id: "a4", text: "300" },
+      {
+        id: "[1]",
+        text: "Có âm nhạc nhẹ nhàng",
+      },
+      {
+        id: "[2]",
+        text: "Có trợ giảng giám sát và AI nhắc nhở khi trẻ mất tập trung",
+      },
+      {
+        id: "[3]",
+        text: "Có phần thưởng cuối buổi",
+      },
+      {
+        id: "[4]",
+        text: "Có bố mẹ ngồi cạnh",
+      },
     ],
-    correctAnswerId: "a2",
+    correctAnswerId: "[2]",
   },
   {
     id: "q31",
-    text: "Tầng nào của khí quyển chứa khí Ozon bảo vệ Trái Đất?",
+    text: "Khi trả lời đúng câu hỏi trong lớp, trẻ nhận được gì?",
     answers: [
-      { id: "a1", text: "Tầng đối lưu" },
-      { id: "a2", text: "Tầng bình lưu" },
-      { id: "a3", text: "Tầng trung lưu" },
-      { id: "a4", text: "Tầng ngoài" },
+      {
+        id: "[1]",
+        text: "Một món quà thật",
+      },
+      {
+        id: "[2]",
+        text: "Điểm số hoặc biểu tượng cúp hiển thị ngay trên màn hình",
+      },
+      {
+        id: "[3]",
+        text: "Học lại từ đầu",
+      },
+      {
+        id: "[4]",
+        text: "Một bài kiểm tra mới",
+      },
     ],
-    correctAnswerId: "a2",
+    correctAnswerId: "[2]",
   },
   {
     id: "q32",
-    text: "Bài thơ nào mở đầu bằng câu “Sông Mã xa rồi Tây Tiến ơi”?",
+    text: "Phản hồi của giáo viên trong buổi học có tác dụng gì?",
     answers: [
-      { id: "a1", text: "Việt Bắc" },
-      { id: "a2", text: "Đồng chí" },
-      { id: "a3", text: "Sóng" },
-      { id: "a4", text: "Tây Tiến" },
+      {
+        id: "[1]",
+        text: "Giúp trẻ biết mình sai ở đâu và được khích lệ tiến bộ",
+      },
+      {
+        id: "[2]",
+        text: "Khiến trẻ sợ mắc lỗi",
+      },
+      {
+        id: "[3]",
+        text: "Làm trẻ mất thời gian",
+      },
+      {
+        id: "[4]",
+        text: "Không có tác dụng gì",
+      },
     ],
-    correctAnswerId: "a4",
+    correctAnswerId: "[1]",
   },
   {
     id: "q33",
-    text: "Nhà Trần đã 3 lần đánh bại quân xâm lược nào?",
+    text: "Vì sao nói mỗi giờ học Babilala Class là “vừa học vừa chơi”?",
     answers: [
-      { id: "a1", text: "Quân Nguyên Mông" },
-      { id: "a2", text: "Quân nhà Minh" },
-      { id: "a3", text: "Quân nhà Thanh" },
-      { id: "a4", text: "Pháp" },
+      {
+        id: "[1]",
+        text: "Vì học sinh có thể chơi game xen kẽ trong tiết học",
+      },
+      {
+        id: "[2]",
+        text: "Vì các hoạt động tương tác liên tục khiến trẻ tham gia chủ động",
+      },
+      {
+        id: "[3]",
+        text: "Vì không có bài tập về nhà",
+      },
+      {
+        id: "[4]",
+        text: "Vì học sinh có thể nghỉ giữa giờ",
+      },
     ],
-    correctAnswerId: "a1",
+    correctAnswerId: "[2]",
   },
   {
     id: "q34",
-    text: "Năm nào Bác Hồ đọc Tuyên ngôn độc lập?",
+    text: "Trẻ được khen ngợi trong Babilala Class bằng cách nào?",
     answers: [
-      { id: "a1", text: "1954" },
-      { id: "a2", text: "1945" },
-      { id: "a3", text: "1930" },
-      { id: "a4", text: "1975" },
+      {
+        id: "[1]",
+        text: "Qua bảng xếp hạng và lời khen trực tiếp từ giáo viên",
+      },
+      {
+        id: "[2]",
+        text: "Qua phần thưởng vật chất",
+      },
+      {
+        id: "[3]",
+        text: "Qua điểm thi giữa kỳ",
+      },
+      {
+        id: "[4]",
+        text: "Qua tin nhắn gửi về cho bố mẹ",
+      },
     ],
-    correctAnswerId: "a2",
+    correctAnswerId: "[1]",
   },
   {
     id: "q35",
-    text: "“By next year, I ____ English for 5 years.”",
+    text: "Điều gì giúp trẻ tự tin hơn khi giao tiếp tiếng Anh sau một thời gian học Babilala Class?",
     answers: [
-      { id: "a1", text: "have learned" },
-      { id: "a2", text: "learn" },
-      { id: "a3", text: "will have learned" },
-      { id: "a4", text: "learned" },
+      {
+        id: "[1]",
+        text: "Chơi nhiều game hơn",
+      },
+      {
+        id: "[2]",
+        text: "Thường xuyên thực hành phát âm và hội thoại với giáo viên, AI",
+      },
+      {
+        id: "[3]",
+        text: "Làm bài tập nhiều hơn",
+      },
+      {
+        id: "[4]",
+        text: "Học thuộc câu trả lời mẫu",
+      },
     ],
-    correctAnswerId: "a3",
+    correctAnswerId: "[2]",
   },
   {
     id: "q36",
-    text: "Ánh sáng đi từ Mặt trời đến Trái Đất mất khoảng?",
+    text: "Khi hoàn thành nhiệm vụ tuần trong Babi Global, trẻ nhận được gì?",
     answers: [
-      { id: "a1", text: "8 phút 20 giây" },
-      { id: "a2", text: "1 giờ" },
-      { id: "a3", text: "24h" },
-      { id: "a4", text: "3 phút" },
+      {
+        id: "[1]",
+        text: "Phần thưởng từ hệ thống",
+      },
+      {
+        id: "[2]",
+        text: "Sự ghi nhận, điểm cộng và cơ hội chia sẻ video của mình",
+      },
+      {
+        id: "[3]",
+        text: "Một trò chơi mới",
+      },
+      {
+        id: "[4]",
+        text: "Thời gian nghỉ thêm",
+      },
     ],
-    correctAnswerId: "a1",
+    correctAnswerId: "[4]",
   },
   {
     id: "q37",
-    text: "DNA nằm ở đâu trong tế bào?",
+    text: "Cảm xúc phổ biến nhất của trẻ sau khi tham gia Babilala Class là gì?",
     answers: [
-      { id: "a1", text: "Nhân" },
-      { id: "a2", text: "Tế bào chất" },
-      { id: "a3", text: "Màng tế bào" },
-      { id: "a4", text: "Ty thể" },
+      {
+        id: "[1]",
+        text: "Áp lực",
+      },
+      {
+        id: "[2]",
+        text: "Mệt mỏi",
+      },
+      {
+        id: "[3]",
+        text: "Thích thú và mong chờ buổi học tiếp theo",
+      },
+      {
+        id: "[4]",
+        text: "Lo lắng",
+      },
     ],
-    correctAnswerId: "a1",
+    correctAnswerId: "[3]",
   },
   {
     id: "q38",
-    text: "Khí nào chiếm nhiều nhất trong không khí Trái Đất?",
+    text: "Động lực học tập của trẻ trong Babilala Class đến từ đâu?",
     answers: [
-      { id: "a1", text: "Oxy" },
-      { id: "a2", text: "C02" },
-      { id: "a3", text: "Heli" },
-      { id: "a4", text: "Ni tơ" },
+      {
+        id: "[1]",
+        text: "Từ sự giám sát của phụ huynh",
+      },
+      {
+        id: "[2]",
+        text: "Từ cách thiết kế học tập gamified, thi đua và phản hồi tích cực",
+      },
+      {
+        id: "[3]",
+        text: "Từ điểm số môn khác",
+      },
+      {
+        id: "[4]",
+        text: "Từ việc làm bài kiểm tra thường xuyên",
+      },
     ],
-    correctAnswerId: "a4",
+    correctAnswerId: "[2]",
   },
   {
     id: "q39",
-    text: "“I have ___ apple.”",
+    text: "Điều gì khiến Babilala Class trở nên đặc biệt hơn các sản phẩm tiếng Anh khác?",
     answers: [
-      { id: "a1", text: "an" },
-      { id: "a2", text: "a" },
-      { id: "a3", text: "the" },
-      { id: "a4", text: "one" },
+      {
+        id: "[1]",
+        text: "Có nhiều video hơn",
+      },
+      {
+        id: "[2]",
+        text: "Kết hợp lớp học bản xứ – App – AI – Giáo viên Việt đồng hành",
+      },
+      {
+        id: "[3]",
+        text: "Dạy ít hơn nhưng hiệu quả hơn",
+      },
+      {
+        id: "[4]",
+        text: "Có học phí cao",
+      },
     ],
-    correctAnswerId: "a1",
+    correctAnswerId: "[2]",
   },
   {
     id: "q40",
-    text: "Which is a preposition?",
+    text: "Khi kể với phụ huynh về sản phẩm, cảm xúc nào là đúng nhất mà nhân viên nên truyền tải?",
     answers: [
-      { id: "a1", text: "book" },
-      { id: "a2", text: "on" },
-      { id: "a3", text: "run" },
-      { id: "a4", text: "fast" },
+      {
+        id: "[1]",
+        text: "Hào hứng, tin tưởng và tự hào về giá trị dành cho trẻ",
+      },
+      {
+        id: "[2]",
+        text: "Lo lắng vì sản phẩm mới",
+      },
+      {
+        id: "[3]",
+        text: "Trung lập, không cảm xúc",
+      },
+      {
+        id: "[4]",
+        text: "Chỉ nói ngắn gọn",
+      },
     ],
-    correctAnswerId: "a2",
+    correctAnswerId: "[1]",
   },
   {
     id: "q41",
-    text: "Số tiếp theo của dãy: 2, 4, 8, 16, ?",
+    text: "Khi thấy học sinh tự tin nói tiếng Anh sau khóa học, nhân viên Babilala nên cảm nhận như thế nào?",
     answers: [
-      { id: "a1", text: "18" },
-      { id: "a2", text: "20" },
-      { id: "a3", text: "32" },
-      { id: "a4", text: "64" },
+      {
+        id: "[1]",
+        text: "Bình thường",
+      },
+      {
+        id: "[2]",
+        text: "Tự hào vì góp phần vào hành trình học của trẻ",
+      },
+      {
+        id: "[3]",
+        text: "Chỉ ghi nhận như KPI",
+      },
+      {
+        id: "[4]",
+        text: "Không quan tâm",
+      },
     ],
-    correctAnswerId: "a3",
+    correctAnswerId: "[2]",
   },
   {
     id: "q42",
-    text: "“AI” là viết tắt của gì?",
+    text: "Nếu được mô tả Babilala Class bằng một cụm từ, đâu là lựa chọn phù hợp nhất?",
     answers: [
-      { id: "a1", text: "Automatic Input" },
-      { id: "a2", text: "Artificial Intelligence" },
-      { id: "a3", text: "Advanced Internet" },
-      { id: "a4", text: "Applied Information" },
+      {
+        id: "[1]",
+        text: "Học cho có",
+      },
+      {
+        id: "[2]",
+        text: "Học vui – nói chuẩn – tự tin toàn cầu",
+      },
+      {
+        id: "[3]",
+        text: "Lớp học nghiêm khắc",
+      },
+      {
+        id: "[4]",
+        text: "Ứng dụng tạm thời",
+      },
     ],
-    correctAnswerId: "a2",
+    correctAnswerId: "[2]",
   },
   {
     id: "q43",
-    text: "Doraemon thích ăn món gì?",
+    text: "Giá trị cốt lõi mà Babilala Class hướng đến là gì?",
     answers: [
-      { id: "a1", text: "Bánh rán" },
-      { id: "a2", text: "Susjo" },
-      { id: "a3", text: "Pizza" },
-      { id: "a4", text: "Hamburger" },
+      {
+        id: "[1]",
+        text: "Dạy ngữ pháp chuẩn Cambridge",
+      },
+      {
+        id: "[2]",
+        text: "Giúp trẻ tự tin giao tiếp và yêu tiếng Anh",
+      },
+      {
+        id: "[3]",
+        text: "Dạy viết học thuật",
+      },
+      {
+        id: "[4]",
+        text: "Chuẩn bị thi chứng chỉ quốc tế",
+      },
     ],
-    correctAnswerId: "a1",
+    correctAnswerId: "[2]",
   },
   {
     id: "q44",
-    text: "Thủ môn nổi tiếng người Việt Nam – AFF Cup 2018?",
+    text: "Vì sao nhân viên Babilala nên tự hào khi giới thiệu sản phẩm này?",
     answers: [
-      { id: "a1", text: "Tiến Dũng" },
-      { id: "a2", text: "Đặng Văn Lâm" },
-      { id: "a3", text: "Quang Hải" },
-      { id: "a4", text: "Công Phượng" },
+      {
+        id: "[1]",
+        text: "Vì đây là sản phẩm đắt nhất thị trường",
+      },
+      {
+        id: "[2]",
+        text: "Vì mang lại cơ hội học tiếng Anh chất lượng cho mọi gia đình với chi phí hợp lý",
+      },
+      {
+        id: "[3]",
+        text: "Vì chỉ dành cho trẻ giỏi",
+      },
+      {
+        id: "[4]",
+        text: "Vì dễ bán",
+      },
     ],
-    correctAnswerId: "a2",
+    correctAnswerId: "[2]",
   },
   {
     id: "q45",
-    text: "Kim loại nào dẫn điện tốt nhất?",
+    text: "Theo bạn, điều gì là “trái tim” của Babilala Class?",
     answers: [
-      { id: "a1", text: "Vàng" },
-      { id: "a2", text: "Bạc" },
-      { id: "a3", text: "Đồng" },
-      { id: "a4", text: "Sắt" },
+      {
+        id: "[1]",
+        text: "Giáo án tiếng Anh Cambridge",
+      },
+      {
+        id: "[2]",
+        text: "Trải nghiệm học đầy cảm xúc, nơi trẻ được khích lệ và công nhận",
+      },
+      {
+        id: "[3]",
+        text: "Trò chơi trong lớp",
+      },
+      {
+        id: "[4]",
+        text: "App có nhiều chủ đề",
+      },
     ],
-    correctAnswerId: "a2",
+    correctAnswerId: "[2]",
   },
   {
     id: "q46",
-    text: "Giá trị của π (pi) gần bằng?",
+    text: "Điều khiến trẻ nhớ nhất sau mỗi buổi học Babilala Class là gì?",
     answers: [
-      { id: "a1", text: "2.14" },
-      { id: "a2", text: "3.14" },
-      { id: "a3", text: "4.14" },
-      { id: "a4", text: "5.14" },
+      {
+        id: "[1]",
+        text: "Sự nghiêm khắc của giáo viên",
+      },
+      {
+        id: "[2]",
+        text: "Lời khen, điểm số và cảm giác được công nhận",
+      },
+      {
+        id: "[3]",
+        text: "Học phí rẻ",
+      },
+      {
+        id: "[4]",
+        text: "Thời gian ngắn",
+      },
     ],
-    correctAnswerId: "a2",
+    correctAnswerId: "[2]",
   },
   {
     id: "q47",
-    text: "“Chị Dậu” là nhân vật trong tác phẩm nào?",
+    text: "Nhân viên Babilala Class có thể tự hào nói điều gì với phụ huynh?",
     answers: [
-      { id: "a1", text: "Vợ nhặt" },
-      { id: "a2", text: "Số đỏ" },
-      { id: "a3", text: "Chí phèo" },
-      { id: "a4", text: "Tắt đèn" },
+      {
+        id: "[1]",
+        text: "“Chúng tôi đang giúp con bạn học ít hơn nhưng hiệu quả hơn”",
+      },
+      {
+        id: "[2]",
+        text: "“Babilala & Babiclass mang lại môi trường học vui, an toàn và hiệu quả giúp trẻ yêu tiếng Anh mỗi ngày”",
+      },
+      {
+        id: "[3]",
+        text: "“Sản phẩm chúng tôi rẻ nhất thị trường”",
+      },
+      {
+        id: "[4]",
+        text: "“Chúng tôi chỉ dạy qua app”",
+      },
     ],
-    correctAnswerId: "a4",
-  },
-  {
-    id: "q48",
-    text: "Ánh sáng Mặt Trăng thực chất là gì?",
-    answers: [
-      { id: "a1", text: "Ánh sáng của Mặt Trăng" },
-      { id: "a2", text: "Ánh sáng của sao" },
-      { id: "a3", text: "Phản chiếu ánh sáng Mặt Trời" },
-      { id: "a4", text: "Ánh sáng phát ra từ đất" },
-    ],
-    correctAnswerId: "a3",
-  },
-  {
-    id: "q49",
-    text: "0, 1, 1, 2, 3, 5, 8, ? (dãy Fibonacci)",
-    answers: [
-      { id: "a1", text: "10" },
-      { id: "a2", text: "11" },
-      { id: "a3", text: "12" },
-      { id: "a4", text: "13" },
-    ],
-    correctAnswerId: "a4",
-  },
-  {
-    id: "q50",
-    text: "Vị vua nào lập ra triều Lý ở Việt Nam?",
-    answers: [
-      { id: "a1", text: "Lý Thường Kiệt" },
-      { id: "a2", text: "Lý Công Uẩn" },
-      { id: "a3", text: "Lý Nhân Tông" },
-      { id: "a4", text: "Lý Chiêu Hoàng" },
-    ],
-    correctAnswerId: "a2",
+    correctAnswerId: "[2]",
   },
 ];
 

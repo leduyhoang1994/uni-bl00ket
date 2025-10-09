@@ -2,7 +2,7 @@ import initHttp from "@/utils/http.util";
 import initSocketClient from "@/utils/socket-client.util";
 import { getHost } from "@/utils/utils";
 import { HostEvent } from "@common/constants/event.constant";
-import { HttpRoute } from "@common/constants/http.constant";
+import { InternalHttpRoute } from "@common/constants/http.constant";
 import {
   ActivityBoardItem,
   GetHostInfoOpts,
@@ -134,7 +134,7 @@ export default class HostController {
     
     try {
       createResult = await client.post(
-        HttpRoute.GenToken,
+        InternalHttpRoute.GenToken,
         JSON.stringify({
           username,
           avatar: `${getHost()}/images/avatar/brown-dog.svg`,
@@ -154,7 +154,7 @@ export default class HostController {
     }
 
     const createResult = await this.httpClient?.post(
-      HttpRoute.CreateHost,
+      InternalHttpRoute.CreateHost,
       JSON.stringify({
         hostInfo,
       })
@@ -172,7 +172,7 @@ export default class HostController {
     }
 
     const result = await this.httpClient?.post(
-      HttpRoute.GetHostInfo,
+      InternalHttpRoute.GetHostInfo,
       JSON.stringify({ hostId, options })
     );
 
@@ -193,7 +193,7 @@ export default class HostController {
     }
 
     const result = await this.httpClient?.post(
-      HttpRoute.GetPlayers,
+      InternalHttpRoute.GetPlayers,
       JSON.stringify({ hostId })
     );
 

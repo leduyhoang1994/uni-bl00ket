@@ -1,7 +1,13 @@
+/**
+ * Thể loại game
+ */
 export enum GameMode {
   Cafe = "cafe",
 }
 
+/**
+ * Trạng thái host
+ */
 export enum HostState {
   Lobby = "lobby",
   InGame = "in-game",
@@ -10,5 +16,5 @@ export enum HostState {
 
 export enum GameEventType {
   Players = "players",
-  All = "all"
+  All = "all",
 }

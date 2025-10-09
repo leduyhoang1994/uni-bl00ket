@@ -1,5 +1,5 @@
 import { Server } from "socket.io";
-import HostController from "../host/host.controller";
+import HostSocketHandler from "../host/host-socket.handler";
 import { AuthenticatedSocket } from "../types/socket";
 import logger from "../utils/logger";
 import { getPayloadFromAuth as getPayloadFromAuth } from "../utils/token";
@@ -15,17 +15,17 @@ async function userConnectedHandler(socket: AuthenticatedSocket) {
     socket.join(HostSocket.privateRoom(hostId));
   }
 
-  const controller = new HostController(hostId, socket);
+  const socketHandler = new HostSocketHandler(hostId, socket);
 
-  controller.join();
+  socketHandler.join();
 
   socket.onAny((eventName, ...args) =>
-    controller.eventHandler(eventName, ...args)
+    socketHandler.eventHandler(eventName, ...args)
   );
 
   socket.on("disconnect", () => {
     logger.debug("User disconnected");
-    controller.leave();
+    socketHandler.leave();
   });
 }
 

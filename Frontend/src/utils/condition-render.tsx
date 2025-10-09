@@ -5,7 +5,7 @@ export default function RenderIf({
   condition,
   children
 }: {
-  condition: boolean;
+  condition: boolean | string | undefined | null;
   children: any;
 }) {
   if (!condition) {

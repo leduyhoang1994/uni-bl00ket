@@ -323,6 +323,18 @@ export default class HostRepository {
       hostInfo.gameMode
     );
 
+    if (hostInfo.groupId) {
+      await client.hSet(
+        RedisHostKey.getHostKey(hostId),
+        "groupId",
+        hostInfo.groupId
+      );
+      await client.lPush(
+        RedisHostKey.getHostGroupKey(hostInfo.groupId),
+        hostId
+      );
+    }
+
     return hostId;
   }
 }

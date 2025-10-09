@@ -7,6 +7,7 @@ import { HostLeaderboardItem, PersonalResult } from "@common/types/host.type";
 import HostController from "@/host/controllers/host.controller";
 import { numberToOrder } from "@/utils/utils";
 import HostStore from "@/stores/host-store/host-store";
+import RenderIf from "@/utils/condition-render";
 
 export default function FinalStandingsPlayerContent() {
   const { hostId } = useParams();
@@ -49,7 +50,9 @@ export default function FinalStandingsPlayerContent() {
         <div>Place</div>
       </div>
       <div className="final-standings-player__body-content-image">
-        <img src={userInfo?.avatar || ""} alt="" />
+        <RenderIf condition={userInfo?.avatar}>
+          <img src={userInfo?.avatar || ""} alt="" />
+        </RenderIf>
       </div>
       <div className="final-standings-player__body-content-cheer">
         You Can Do It

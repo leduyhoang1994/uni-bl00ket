@@ -4,7 +4,10 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "build": "tsc && tsc-alias",
+    "tsoa:routes": "tsoa routes",
+    "tsoa:spec": "tsoa spec",
+    "build:tsoa": "npm run tsoa:routes && npm run tsoa:spec",
+    "build": "npm run build:tsoa && tsc && tsc-alias",
     "start": "node build/Backend/src/app.js",
     "dev": "nodemon -L -- 3000",
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -14,14 +17,19 @@
   "license": "ISC",
   "dependencies": {
     "@socket.io/redis-adapter": "^8.3.0",
+    "@socket.io/redis-emitter": "^5.1.0",
+    "@types/swagger-ui-express": "^4.1.8",
     "cors": "^2.8.5",
     "express": "^5.1.0",
     "helmet": "^6.1.2",
+    "joi": "^18.0.1",
     "jsonwebtoken": "^9.0.2",
     "redis": "^5.8.2",
     "short-unique-id": "^5.3.2",
     "socket.io": "^4.8.1",
-    "socket.io-client": "^4.8.1"
+    "socket.io-client": "^4.8.1",
+    "swagger-ui-express": "^5.0.1",
+    "tsoa": "^6.6.0"
   },
   "devDependencies": {
     "@types/express": "^5.0.3",

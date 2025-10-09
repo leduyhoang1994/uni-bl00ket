@@ -1,0 +1,748 @@
+{
+	"openapi": "3.0.0",
+	"components": {
+		"examples": {},
+		"headers": {},
+		"parameters": {},
+		"requestBodies": {},
+		"responses": {},
+		"schemas": {
+			"ResponseType__hostIds-string-Array__": {
+				"properties": {
+					"data": {
+						"properties": {
+							"hostIds": {
+								"items": {
+									"type": "string"
+								},
+								"type": "array"
+							}
+						},
+						"required": [
+							"hostIds"
+						],
+						"type": "object"
+					},
+					"code": {
+						"type": "number",
+						"format": "double"
+					},
+					"success": {
+						"type": "boolean"
+					}
+				},
+				"required": [
+					"data",
+					"code",
+					"success"
+				],
+				"type": "object"
+			},
+			"ECreateHostBody": {
+				"properties": {
+					"hostCount": {
+						"type": "number",
+						"format": "double"
+					},
+					"gameId": {
+						"type": "string"
+					},
+					"groupId": {
+						"type": "string"
+					}
+				},
+				"required": [
+					"hostCount",
+					"gameId",
+					"groupId"
+				],
+				"type": "object"
+			},
+			"EHostIds": {
+				"properties": {
+					"hostIds": {
+						"items": {
+							"type": "string"
+						},
+						"type": "array"
+					}
+				},
+				"required": [
+					"hostIds"
+				],
+				"type": "object"
+			},
+			"HostState": {
+				"description": "Trạng thái host",
+				"enum": [
+					"lobby",
+					"in-game",
+					"ended"
+				],
+				"type": "string"
+			},
+			"GameMode": {
+				"description": "Thể loại game",
+				"enum": [
+					"cafe"
+				],
+				"type": "string"
+			},
+			"HostLeaderboardItem": {
+				"properties": {
+					"avatar": {
+						"type": "string"
+					},
+					"username": {
+						"type": "string"
+					},
+					"score": {
+						"type": "number",
+						"format": "double"
+					},
+					"playerId": {
+						"type": "string"
+					}
+				},
+				"required": [
+					"score",
+					"playerId"
+				],
+				"type": "object"
+			},
+			"ActivityBoardItem": {
+				"properties": {
+					"activity": {},
+					"avatar": {
+						"type": "string"
+					},
+					"username": {
+						"type": "string"
+					},
+					"playerId": {
+						"type": "string"
+					}
+				},
+				"required": [
+					"activity",
+					"avatar",
+					"username",
+					"playerId"
+				],
+				"type": "object"
+			},
+			"Pick_HostInfo.Exclude_keyofHostInfo.personalResult-or-userInfo__": {
+				"properties": {
+					"hostId": {
+						"type": "string"
+					},
+					"gameSettings": {
+						"properties": {},
+						"additionalProperties": {
+							"type": "string"
+						},
+						"type": "object",
+						"description": "Cài đặt game"
+					},
+					"state": {
+						"$ref": "#/components/schemas/HostState"
+					},
+					"gameMode": {
+						"$ref": "#/components/schemas/GameMode"
+					},
+					"finalStandings": {
+						"items": {
+							"$ref": "#/components/schemas/HostLeaderboardItem"
+						},
+						"type": "array",
+						"description": "Bảng xếp hạng"
+					},
+					"activitiesBoard": {
+						"items": {
+							"$ref": "#/components/schemas/ActivityBoardItem"
+						},
+						"type": "array",
+						"description": "Lịch sử hoạt động"
+					},
+					"groupId": {
+						"type": "string"
+					}
+				},
+				"required": [
+					"gameMode"
+				],
+				"type": "object",
+				"description": "From T, pick a set of properties whose keys are in the union K"
+			},
+			"Omit_HostInfo.personalResult-or-userInfo_": {
+				"$ref": "#/components/schemas/Pick_HostInfo.Exclude_keyofHostInfo.personalResult-or-userInfo__",
+				"description": "Construct a type with the properties of T except for those in type K."
+			},
+			"EHostInfo": {
+				"$ref": "#/components/schemas/Omit_HostInfo.personalResult-or-userInfo_"
+			},
+			"ResponseType__hostInfo-EHostInfo__": {
+				"properties": {
+					"data": {
+						"properties": {
+							"hostInfo": {
+								"$ref": "#/components/schemas/EHostInfo"
+							}
+						},
+						"required": [
+							"hostInfo"
+						],
+						"type": "object"
+					},
+					"code": {
+						"type": "number",
+						"format": "double"
+					},
+					"success": {
+						"type": "boolean"
+					}
+				},
+				"required": [
+					"data",
+					"code",
+					"success"
+				],
+				"type": "object"
+			},
+			"Pick_GetHostInfoOpts.Exclude_keyofGetHostInfoOpts.personalResult-or-userInfo__": {
+				"properties": {
+					"activitiesBoard": {
+						"type": "boolean"
+					},
+					"fullLeaderboard": {
+						"type": "boolean"
+					}
+				},
+				"type": "object",
+				"description": "From T, pick a set of properties whose keys are in the union K"
+			},
+			"Omit_GetHostInfoOpts.personalResult-or-userInfo_": {
+				"$ref": "#/components/schemas/Pick_GetHostInfoOpts.Exclude_keyofGetHostInfoOpts.personalResult-or-userInfo__",
+				"description": "Construct a type with the properties of T except for those in type K."
+			},
+			"EGetHostInfo": {
+				"$ref": "#/components/schemas/Omit_GetHostInfoOpts.personalResult-or-userInfo_"
+			},
+			"ResponseType__hostId-string__": {
+				"properties": {
+					"data": {
+						"properties": {
+							"hostId": {
+								"type": "string"
+							}
+						},
+						"required": [
+							"hostId"
+						],
+						"type": "object"
+					},
+					"code": {
+						"type": "number",
+						"format": "double"
+					},
+					"success": {
+						"type": "boolean"
+					}
+				},
+				"required": [
+					"data",
+					"code",
+					"success"
+				],
+				"type": "object"
+			},
+			"PersonalResult": {
+				"properties": {
+					"accuracy": {
+						"properties": {
+							"percent": {
+								"type": "number",
+								"format": "double"
+							},
+							"total": {
+								"type": "number",
+								"format": "double"
+							},
+							"corrects": {
+								"type": "number",
+								"format": "double"
+							}
+						},
+						"required": [
+							"percent",
+							"total",
+							"corrects"
+						],
+						"type": "object"
+					},
+					"rank": {
+						"type": "number",
+						"format": "double"
+					},
+					"score": {
+						"type": "number",
+						"format": "double"
+					}
+				},
+				"required": [
+					"accuracy",
+					"rank",
+					"score"
+				],
+				"type": "object"
+			},
+			"Player": {
+				"properties": {
+					"score": {
+						"type": "number",
+						"format": "double"
+					},
+					"socketId": {
+						"type": "string"
+					},
+					"avatar": {
+						"type": "string"
+					},
+					"username": {
+						"type": "string"
+					},
+					"id": {
+						"type": "string"
+					}
+				},
+				"required": [
+					"socketId",
+					"avatar",
+					"username",
+					"id"
+				],
+				"type": "object"
+			},
+			"HostInfo": {
+				"properties": {
+					"groupId": {
+						"type": "string"
+					},
+					"userInfo": {
+						"$ref": "#/components/schemas/Player"
+					},
+					"activitiesBoard": {
+						"items": {
+							"$ref": "#/components/schemas/ActivityBoardItem"
+						},
+						"type": "array",
+						"description": "Lịch sử hoạt động"
+					},
+					"personalResult": {
+						"$ref": "#/components/schemas/PersonalResult"
+					},
+					"finalStandings": {
+						"items": {
+							"$ref": "#/components/schemas/HostLeaderboardItem"
+						},
+						"type": "array",
+						"description": "Bảng xếp hạng"
+					},
+					"gameMode": {
+						"$ref": "#/components/schemas/GameMode"
+					},
+					"state": {
+						"$ref": "#/components/schemas/HostState"
+					},
+					"gameSettings": {
+						"properties": {},
+						"additionalProperties": {
+							"type": "string"
+						},
+						"type": "object",
+						"description": "Cài đặt game"
+					},
+					"hostId": {
+						"type": "string"
+					}
+				},
+				"required": [
+					"gameMode"
+				],
+				"type": "object"
+			},
+			"CreateHostBody": {
+				"properties": {
+					"hostInfo": {
+						"$ref": "#/components/schemas/HostInfo"
+					}
+				},
+				"required": [
+					"hostInfo"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"ResponseType__hostInfo-HostInfo__": {
+				"properties": {
+					"data": {
+						"properties": {
+							"hostInfo": {
+								"$ref": "#/components/schemas/HostInfo"
+							}
+						},
+						"required": [
+							"hostInfo"
+						],
+						"type": "object"
+					},
+					"code": {
+						"type": "number",
+						"format": "double"
+					},
+					"success": {
+						"type": "boolean"
+					}
+				},
+				"required": [
+					"data",
+					"code",
+					"success"
+				],
+				"type": "object"
+			},
+			"GetHostInfoOpts": {
+				"properties": {
+					"userInfo": {
+						"type": "boolean"
+					},
+					"activitiesBoard": {
+						"type": "boolean"
+					},
+					"personalResult": {
+						"type": "boolean"
+					},
+					"fullLeaderboard": {
+						"type": "boolean"
+					}
+				},
+				"type": "object"
+			},
+			"GetHostInfoBody": {
+				"properties": {
+					"hostId": {
+						"type": "string"
+					},
+					"options": {
+						"$ref": "#/components/schemas/GetHostInfoOpts"
+					}
+				},
+				"required": [
+					"hostId"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"ResponseType__token-string__": {
+				"properties": {
+					"data": {
+						"properties": {
+							"token": {
+								"type": "string"
+							}
+						},
+						"required": [
+							"token"
+						],
+						"type": "object"
+					},
+					"code": {
+						"type": "number",
+						"format": "double"
+					},
+					"success": {
+						"type": "boolean"
+					}
+				},
+				"required": [
+					"data",
+					"code",
+					"success"
+				],
+				"type": "object"
+			},
+			"GenTokenBody": {
+				"properties": {
+					"username": {
+						"type": "string"
+					},
+					"hostId": {
+						"type": "string"
+					},
+					"avatar": {
+						"type": "string"
+					}
+				},
+				"required": [
+					"username",
+					"hostId"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"ResponseType__gameData-any__": {
+				"properties": {
+					"data": {
+						"properties": {
+							"gameData": {}
+						},
+						"required": [
+							"gameData"
+						],
+						"type": "object"
+					},
+					"code": {
+						"type": "number",
+						"format": "double"
+					},
+					"success": {
+						"type": "boolean"
+					}
+				},
+				"required": [
+					"data",
+					"code",
+					"success"
+				],
+				"type": "object"
+			},
+			"ResponseType__players-Player-Array__": {
+				"properties": {
+					"data": {
+						"properties": {
+							"players": {
+								"items": {
+									"$ref": "#/components/schemas/Player"
+								},
+								"type": "array"
+							}
+						},
+						"required": [
+							"players"
+						],
+						"type": "object"
+					},
+					"code": {
+						"type": "number",
+						"format": "double"
+					},
+					"success": {
+						"type": "boolean"
+					}
+				},
+				"required": [
+					"data",
+					"code",
+					"success"
+				],
+				"type": "object"
+			},
+			"GetPlayersBody": {
+				"properties": {
+					"hostId": {
+						"type": "string"
+					}
+				},
+				"required": [
+					"hostId"
+				],
+				"type": "object",
+				"additionalProperties": false
+			}
+		},
+		"securitySchemes": {
+			"bearerAuth": {
+				"type": "http",
+				"scheme": "bearer",
+				"bearerFormat": "JWT"
+			},
+			"apiKey": {
+				"type": "apiKey",
+				"name": "x-api-key",
+				"in": "header"
+			}
+		}
+	},
+	"info": {
+		"title": "backend",
+		"version": "1.0.0",
+		"license": {
+			"name": "ISC"
+		},
+		"contact": {}
+	},
+	"paths": {
+		"/external/host/create": {
+			"post": {
+				"operationId": "GetTest",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/ResponseType__hostIds-string-Array__"
+								}
+							}
+						}
+					}
+				},
+				"description": "Tạo hosts hàng loạt",
+				"tags": [
+					"External API"
+				],
+				"security": [
+					{
+						"apiKey": []
+					}
+				],
+				"parameters": [],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/ECreateHostBody"
+							}
+						}
+					}
+				}
+			}
+		},
+		"/external/host/start": {
+			"post": {
+				"operationId": "StartHosts",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/ResponseType__hostIds-string-Array__"
+								}
+							}
+						}
+					}
+				},
+				"description": "Bắt đầu hosts hàng loạt",
+				"tags": [
+					"External API"
+				],
+				"security": [
+					{
+						"apiKey": []
+					}
+				],
+				"parameters": [],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/EHostIds"
+							}
+						}
+					}
+				}
+			}
+		},
+		"/external/host/end": {
+			"post": {
+				"operationId": "StopHosts",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/ResponseType__hostIds-string-Array__"
+								}
+							}
+						}
+					}
+				},
+				"description": "Kết thúc hosts hàng loạt",
+				"tags": [
+					"External API"
+				],
+				"security": [
+					{
+						"apiKey": []
+					}
+				],
+				"parameters": [],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/EHostIds"
+							}
+						}
+					}
+				}
+			}
+		},
+		"/external/host/info/{hostId}": {
+			"post": {
+				"operationId": "GetHostInfo",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/ResponseType__hostInfo-EHostInfo__"
+								}
+							}
+						}
+					}
+				},
+				"description": "Lấy thông tin host",
+				"tags": [
+					"External API"
+				],
+				"security": [
+					{
+						"apiKey": []
+					}
+				],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "hostId",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/EGetHostInfo"
+							}
+						}
+					}
+				}
+			}
+		}
+	},
+	"servers": [
+		{
+			"url": "/"
+		}
+	]
+}
