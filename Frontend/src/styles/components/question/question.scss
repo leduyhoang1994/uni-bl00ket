@@ -55,6 +55,7 @@
   }
 
   &__body {
+    min-height: 0;
     flex: 1;
     background-color: white;
     padding: 0.5rem;
@@ -64,11 +65,10 @@
   }
 
   &__body-content {
-    display: flex;
+    display: grid;
+    place-items: center;
     height: 43%;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
+    overflow: auto;
   }
 
   &__body-content-title {
@@ -211,6 +211,22 @@
   }
 
   @media screen and (max-width: $mobileW) {
+    &__header {
+      height: 40px;
+      img {
+        width: 30px;
+        height: 30px;
+      }
+    }
+
+    &__body-content {
+      height: 40%;
+    }
+
+    &__answer {
+      font-size: clamp(1rem, 3dvw, 2rem);
+    }
+
     &__body-content-answers {
       grid-template-columns: none;
       grid-template-rows: 1fr 1fr 1fr 1fr;
