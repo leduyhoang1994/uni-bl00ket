@@ -9,6 +9,8 @@ import { RegisterRoutes } from "../routes";
 import swaggerUi from "swagger-ui-express";
 import { ValidateError } from "tsoa";
 import { AuthError } from "../base/errors/auth.error";
+import path from "path";
+import fs from "fs";
 
 const app = express();
 export const JWT_SECRET = "secretKey";
@@ -30,7 +32,10 @@ app.use(
   "/docs",
   swaggerUi.serve,
   async (_req: express.Request, res: express.Response) => {
-    return res.send(swaggerUi.generateHTML(await import("../swagger.json")));
+    const swaggerPath = path.join(__dirname, "../swagger.json");
+    const swaggerDocument = JSON.parse(fs.readFileSync(swaggerPath, "utf-8"));
+    
+    return res.send(swaggerUi.generateHTML(swaggerDocument));
   }
 );
 
