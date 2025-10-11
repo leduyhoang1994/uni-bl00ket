@@ -1,5 +1,5 @@
 export default function ButtonCafeGame({
-  text = 'Restock Food',
+  text = 'Trả lời câu hỏi',
   doClickBtn = () => { }
 }) {
   return (

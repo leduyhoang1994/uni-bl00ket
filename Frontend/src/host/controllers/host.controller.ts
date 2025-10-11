@@ -21,17 +21,17 @@ export default class HostController {
 
   // callbacks
   public onLobbyUpdated: (players: Player[] | Player) => Promise<void> =
-    async () => {};
-  public onConnected: () => Promise<void> = async () => {};
-  public onError: (error: any) => Promise<void> = async () => {};
+    async () => { };
+  public onConnected: () => Promise<void> = async () => { };
+  public onError: (error: any) => Promise<void> = async () => { };
   public onUserInfo: (user: AuthenticatedUser) => Promise<void> =
-    async () => {};
-  public onGameStarted: () => Promise<void> = async () => {};
+    async () => { };
+  public onGameStarted: () => Promise<void> = async () => { };
   public onLeaderBoardUpdated: (leaderBoard: HostLeaderboard) => Promise<void> =
-    async () => {};
-  public onGameEnded: () => Promise<void> = async () => {};
+    async () => { };
+  public onGameEnded: () => Promise<void> = async () => { };
   public onActivitySaved: (activity: ActivityBoardItem) => Promise<void> =
-    async () => {};
+    async () => { };
 
   public async initHttp() {
     const token = await HostController.getAccessToken();
@@ -131,7 +131,7 @@ export default class HostController {
   public async createGuest(username: string, hostId: string) {
     const client = await initHttp(null);
     let createResult = null;
-    
+
     try {
       createResult = await client.post(
         InternalHttpRoute.GenToken,

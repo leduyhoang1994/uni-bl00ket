@@ -53,7 +53,7 @@ export default function ShopContainer() {
         </div>
         <div className="cafe-game__shop-header-curtain">
           <div className="cafe-game__shop-header-curtain-upgrades">
-            <div>Upgrades</div>
+            <div>Nâng cấp</div>
           </div>
           <div className="cafe-game__shop-header-curtain-money">
             <div>{`$${cafeBalance}`}</div>
@@ -85,8 +85,8 @@ export default function ShopContainer() {
         </div>
       </div>
       <div className="cafe-game__shop-cover-btn">
-        <ButtonCafeGame doClickBtn={doClickGoAbilities} text="Abilities" />
-        <ButtonCafeGame doClickBtn={doClickExitShop} text="Exit Shop" />
+        <ButtonCafeGame doClickBtn={doClickGoAbilities} text="Kỹ năng" />
+        <ButtonCafeGame doClickBtn={doClickExitShop} text="Thoát" />
       </div>
     </div>
   );

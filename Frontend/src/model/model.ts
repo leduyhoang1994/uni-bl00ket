@@ -53,7 +53,7 @@ export interface Ability {
 export const STOCKS = [
   {
     id: "s1",
-    name: "Toast",
+    name: "Bánh mỳ",
     quantity: 0,
     enabled: false,
     currentIndexLevel: 0,
@@ -63,7 +63,7 @@ export const STOCKS = [
   },
   {
     id: "s2",
-    name: "Cereal",
+    name: "Ngũ cốc",
     quantity: 0,
     enabled: false,
     currentIndexLevel: 0,
@@ -73,7 +73,7 @@ export const STOCKS = [
   },
   {
     id: "s3",
-    name: "Yogurt",
+    name: "Sữa chua",
     quantity: 0,
     enabled: false,
     currentIndexLevel: 0,
@@ -83,7 +83,7 @@ export const STOCKS = [
   },
   {
     id: "s4",
-    name: "Breakfast Combo",
+    name: "Suất ăn sáng",
     quantity: 0,
     enabled: false,
     currentIndexLevel: 0,
@@ -93,7 +93,7 @@ export const STOCKS = [
   },
   {
     id: "s5",
-    name: "Orange Juice",
+    name: "Nước cam",
     quantity: 0,
     enabled: false,
     currentIndexLevel: 0,
@@ -103,7 +103,7 @@ export const STOCKS = [
   },
   {
     id: "s6",
-    name: "Milk",
+    name: "Sữa tươi",
     quantity: 0,
     enabled: false,
     currentIndexLevel: 0,
@@ -113,7 +113,7 @@ export const STOCKS = [
   },
   {
     id: "s7",
-    name: "Waffle",
+    name: "Bánh quế",
     quantity: 0,
     enabled: false,
     currentIndexLevel: 0,
@@ -123,7 +123,7 @@ export const STOCKS = [
   },
   {
     id: "s8",
-    name: "Pancakes",
+    name: "Bánh kếp",
     quantity: 0,
     enabled: false,
     currentIndexLevel: 0,
@@ -133,7 +133,7 @@ export const STOCKS = [
   },
   {
     id: "s9",
-    name: "French Toast",
+    name: "Bánh mì kiểu Pháp",
     quantity: 0,
     enabled: false,
     currentIndexLevel: 0,
@@ -1247,8 +1247,8 @@ export const REQUIRE_PLAYER_ABILITES = [
 export const ABILITIES = [
   {
     id: ABILITY_ID.PAYCHECK_BONUS,
-    name: "Paycheck Bonus",
-    description: "Give a player +25% of their balance",
+    name: "Tiền thưởng",
+    description: "Tặng một người chơi +25% số dư của họ.",
     price: 500,
     enabled: false,
     purchased: false,
@@ -1258,8 +1258,8 @@ export const ABILITIES = [
   },
   {
     id: ABILITY_ID.SUPPLY_CRATE,
-    name: "Supply Crate",
-    description: "+7 stock all of your foods",
+    name: "Thùng tiếp tế",
+    description: "Thêm 7 đơn vị cho tất cả các loại đồ ăn của bạn.",
     price: 1000,
     enabled: false,
     purchased: false,
@@ -1268,8 +1268,8 @@ export const ABILITIES = [
   },
   {
     id: ABILITY_ID.HAPPY_CUSTOMER,
-    name: "Happy Customer",
-    description: "Your next 5 customers pay double",
+    name: "Vị Khách Vui Vẻ",
+    description: "5 vị khách tiếp theo của bạn sẽ trả gấp đôi.",
     price: 2500,
     enabled: false,
     purchased: false,
@@ -1278,8 +1278,8 @@ export const ABILITIES = [
   },
   {
     id: ABILITY_ID.TRASH_THE_FOOD,
-    name: "Trash the Food",
-    description: "Lower a players food stocks by 3 each",
+    name: "Phá Hoại Đồ Ăn",
+    description: "Giảm 3 đơn vị mỗi loại đồ ăn của một người chơi.",
     price: 5000,
     enabled: false,
     purchased: false,
@@ -1289,8 +1289,8 @@ export const ABILITIES = [
   },
   {
     id: ABILITY_ID.TAXES,
-    name: "TAXES!",
-    description: "Reduce a players balance by 25%",
+    name: "THUẾ!",
+    description: "Giảm 25% số dư của một người chơi.",
     price: 7500,
     enabled: false,
     purchased: false,
@@ -1300,8 +1300,8 @@ export const ABILITIES = [
   },
   {
     id: ABILITY_ID.HEALTH_INSPECTION,
-    name: "Health Inspection",
-    description: "Force a player to get a 12s",
+    name: "Kiểm Tra Đồ Ăn",
+    description: "Buộc một người chơi phải chờ 12 giây.",
     price: 10000,
     enabled: false,
     purchased: false,
@@ -1310,8 +1310,8 @@ export const ABILITIES = [
   },
   {
     id: ABILITY_ID.RUN_IT_BACK,
-    name: "Run It Back",
-    description: "Be able to buy all your abilities again",
+    name: "Mua Lại Toàn Bộ",
+    description: "Có thể mua lại tất cả các kỹ năng của bạn một lần nữa.",
     price: 150000,
     enabled: false,
     purchased: false,
