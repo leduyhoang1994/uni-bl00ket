@@ -108,7 +108,7 @@ export default function QuestionReact() {
           <div className="question-react__header-mid">{isCorrect ? 'CORRECT' : 'INCORRECT'}</div>
         </RenderIf>
         <div className="question-react__header-right">
-          <img src="/images/cafe-game/leader-board.svg" alt="" onClick={() => setToggleLeaderBoard(true)}/>
+          <img src="/images/cafe-game/leader-board.svg" alt="" onClick={() => setToggleLeaderBoard(true)} />
           {/* <SettingAudioReactIcon /> */}
         </div>
       </div>
@@ -122,7 +122,7 @@ export default function QuestionReact() {
                   <div className={`${isCorrect ? 'question-react__body-content-allow-inside-correct' : 'question-react__body-content-allow-inside-incorrect'}`}>
                     <img src={`${isCorrect ? '/images/icons/question-correct.svg' : '/images/icons/question-wrong.svg'}`} alt="" />
                   </div>
-                  <div>Press Anywhere to Continue.</div>
+                  <div>Nhấn bất kỳ đâu để tiếp tục.</div>
                 </div>
               </div>
             </RenderIf>
@@ -132,7 +132,7 @@ export default function QuestionReact() {
                   <div className="question-react__body-content-allow-inside-incorrect">
                     <img src="/images/icons/question-wrong.svg" alt="" />
                   </div>
-                  <div>Wait for the abandon time to continue.</div>
+                  <div>Vui lòng chờ chút.</div>
                 </div>
               </div>
             </RenderIf>

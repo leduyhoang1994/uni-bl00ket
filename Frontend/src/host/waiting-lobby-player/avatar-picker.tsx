@@ -1,20 +1,21 @@
 import { AVATARS_CUSTOMER } from "@/model/model";
 import { getAvatarById } from "@/utils/utils";
-import { useCallback } from "react";
+import { useCallback, useState } from "react";
 import HostController from "../controllers/host.controller";
 import { useParams } from "react-router";
 import HostStore from "@/stores/host-store/host-store";
 
 export default function AvatarPicker({
-  pickedCallback = () => {},
+  pickedCallback = () => { },
 }: {
   pickedCallback: (avatarId: string) => void;
 }) {
   const { hostId } = useParams();
   const { userInfo } = HostStore();
+  const [currentAvatarIdx, setCurrentAvatarIdx] = useState(0);
 
   const updateAvatar = useCallback(
-    async (avatarId: string) => {
+    async (avatarId: string, index: number) => {
       if (!hostId) {
         return;
       }
@@ -26,6 +27,7 @@ export default function AvatarPicker({
       }
 
       pickedCallback(avatarId);
+      setCurrentAvatarIdx(index);
     },
     [hostId, userInfo]
   );
@@ -35,15 +37,18 @@ export default function AvatarPicker({
     <div className="waiting-lobby-player__body-avatar-picker">
       <div className="waiting-lobby-player__body-avatar-picker-viewport">
         <div className="waiting-lobby-player__body-avatar-picker-content">
-          {avatars.map((avatar) => (
-            <button
-              onClick={() => updateAvatar(avatar)}
-              key={avatar}
-              className="waiting-lobby-player__body-avatar-picker-content-avatar"
-            >
-              <img src={getAvatarById(avatar)} alt="" />
-            </button>
-          ))}
+          {avatars.map((avatar, index: number) => {
+            return (
+              <button
+                onClick={() => updateAvatar(avatar, index)}
+                key={avatar}
+                className={`waiting-lobby-player__body-avatar-picker-content-avatar
+                 ${currentAvatarIdx == index ? 'waiting-lobby-player__avatar-active' : ''}`}
+              >
+                <img src={getAvatarById(avatar)} alt="" />
+              </button>
+            )
+          })}
         </div>
       </div>
     </div>

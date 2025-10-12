@@ -46,7 +46,7 @@ export default function TableContainer() {
       </div>
       <div className="cafe-game__table-container-cover-btn">
         <ButtonCafeGame doClickBtn={doClickRestockFood} />
-        <ButtonCafeGame doClickBtn={doClickVisitShop} text="Visit Shop" />
+        <ButtonCafeGame doClickBtn={doClickVisitShop} text="Cửa hàng" />
       </div>
     </div>
   )

@@ -11,8 +11,10 @@ import AvatarPicker from "./avatar-picker";
 import ButtonCafeGame from "@/games/cafe-game-react/components/button-cafe-game/button-cafe-game";
 import UniButton from "@/games/components/buttons/uni-button";
 import HostStore from "@/stores/host-store/host-store";
+import UserPlayerInfo from "../components/player-info/user-player-infor";
 
 function WaitingLobbyPlayer() {
+
   const [isJoining, setIsJoining] = useState(true);
   const [isJoined, setIsJoined] = useState(false);
   const [player, setPlayer] = useState<AuthenticatedUser | null>(null);
@@ -69,19 +71,17 @@ function WaitingLobbyPlayer() {
     <>
       <div className="waiting-lobby-player">
         <div className="waiting-lobby-player__header">
-          <div className="waiting-lobby-player__header-first">
-            {player?.username}
-          </div>
           <div className="waiting-lobby-player__header-second">
-            <RenderIf condition={isJoining}>
-              <div>Joining Game . . .</div>
-            </RenderIf>
+            Pre-Class
+          </div>
+          <div className="waiting-lobby-player__header-first">
+            Đợi trò chơi bắt đầu
           </div>
           <div></div>
         </div>
         <div className="waiting-lobby-player__body">
           <div className="waiting-lobby-player__body-background"></div>
-          <RenderIf condition={isJoined}>
+          {/* <RenderIf condition={isJoined}>
             <RenderIf condition={showAvatarPicker}>
               <div
                 className="dismiss-back"
@@ -138,7 +138,16 @@ function WaitingLobbyPlayer() {
                 </div>
               </div>
             </div>
-          </RenderIf>
+          </RenderIf> */}
+          <div className="host-creator__body-cover-player">
+            {[1, 2, 3, 4, 5, 6, 7].map((player, index: number) => {
+              return (
+                <div className="waiting-lobby-player__user-infor" key={index}>
+                  <UserPlayerInfo player={{ avatar: "/images/cafe-game/customers/chick.svg", username: 'abc', id: '', socketId: '' }} />
+                </div>
+              )
+            })}
+          </div>
         </div>
       </div>
     </>

@@ -81,7 +81,7 @@
     width: 200%;
     height: 200%;
     background-size: 1000px;
-    pointer-events: none
+    pointer-events: none;
   }
 
   &__body-content {
@@ -270,6 +270,35 @@
   }
 }
 
+.user-player-infor {
+  @extend .player-infor;
+  width: 250px;
+  height: 46px;
+  border-radius: 4px;
+  box-shadow: 0 calc(-0.02 * 14rem) #0003 inset;
+
+  &__cover {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  &__image {
+    img {
+      width: 46px;
+      height: 53px;
+    }
+  }
+
+  &__content {
+    font-family: var(--font-nunito);
+    font-size: 28px;
+    color: #3f3f3f;
+    font-weight: 500;
+    padding: 0 6px;
+  }
+}
+
 .host-player {
   @extend .host-creator;
 
@@ -333,8 +362,8 @@
     h1 {
       color: #fff;
       font-weight: 400;
-      font-size: 80px;
-      font-family: var(--font-titan);
+      font-size: 50px;
+      font-family: var(--font-coiny);
       -webkit-user-select: none;
       -moz-user-select: none;
       user-select: none;
@@ -371,6 +400,10 @@
       font-size: 35px;
       text-align: center;
       font-family: var(--font-nunito);
+    }
+
+    input::placeholder {
+      color: #a8a8a8;
     }
   }
 

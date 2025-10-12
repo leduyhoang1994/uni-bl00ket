@@ -58,7 +58,7 @@ export default function AbilitiesContainer() {
         </div>
         <div className="cafe-game__abilities-header-curtain">
           <div className="cafe-game__abilities-header-curtain-upgrades">
-            <div>Abilities</div>
+            <div>Kỹ năng</div>
           </div>
           <div className="cafe-game__abilities-header-curtain-money">
             <div>{`$${cafeBalance}`}</div>
@@ -83,8 +83,8 @@ export default function AbilitiesContainer() {
         </div>
       </div>
       <div className="cafe-game__abilities-cover-btn">
-        <ButtonCafeGame doClickBtn={doClickBackShop} text="Upgrades" />
-        <ButtonCafeGame doClickBtn={doClickExitShop} text="Exit Shop" />
+        <ButtonCafeGame doClickBtn={doClickBackShop} text="Nâng cấp" />
+        <ButtonCafeGame doClickBtn={doClickExitShop} text="Thoát" />
       </div>
     </div>
   );
