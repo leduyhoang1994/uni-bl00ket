@@ -1,16 +1,24 @@
 import { createServer } from "http";
 import app from "./servers/api.server";
 import { createSocketServer } from "./servers/socket.server";
+import connectMongo from "./utils/mongo.client";
+import logger from "./utils/logger";
+import "dotenv/config";
 
-const port = parseInt(process.argv[2]) || 4000;
+async function bootstrap() {
+  const port = parseInt(process.argv[2]) || 4000;
 
-console.log(`Starting server on port ${port}...`);
+  logger.debug(`Starting server on port ${port}...`);
+  await connectMongo(process.env.MONGO_CONNECTION_URL || "mongodb://mongodb_server:27017/bl00ket");
 
-// Tạo HTTP server từ app Express
-const httpServer = createServer(app);
-createSocketServer(httpServer);
+  // Tạo HTTP server từ app Express
+  const httpServer = createServer(app);
+  createSocketServer(httpServer);
 
-// Start cả API và Socket trên cùng 1 cổng
-httpServer.listen(port, () => {
-  console.log(`API + Socket server running on ${port} . . .`);
-});
+  // Start cả API và Socket trên cùng 1 cổng
+  httpServer.listen(port, () => {
+    logger.debug(`API + Socket server running on ${port} . . .`);
+  });
+}
+
+bootstrap();

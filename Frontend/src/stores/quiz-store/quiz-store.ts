@@ -1,5 +1,5 @@
 import { getCafeControllerInstance } from "@/games/cafe-game/cafe-controller.singleton";
-import { Question } from "@/model/model";
+import { Question } from "@common/types/game.type";
 import { create } from "zustand";
 
 type QuizState = {

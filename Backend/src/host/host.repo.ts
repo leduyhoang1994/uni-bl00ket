@@ -128,6 +128,8 @@ export default class HostRepository {
     return {
       state: redisHostInfo["state"] as HostState,
       gameMode: redisHostInfo["gameMode"] as GameMode,
+      gameId: redisHostInfo["gameId"],
+      groupId: redisHostInfo["groupId"],
       hostId: hostId,
     };
   }
@@ -332,6 +334,14 @@ export default class HostRepository {
       await client.lPush(
         RedisHostKey.getHostGroupKey(hostInfo.groupId),
         hostId
+      );
+    }
+
+    if (hostInfo.gameId) {
+      await client.hSet(
+        RedisHostKey.getHostKey(hostId),
+        "gameId",
+        hostInfo.gameId
       );
     }
 

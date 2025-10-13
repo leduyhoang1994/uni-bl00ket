@@ -19,6 +19,7 @@ import HostRepository from "../host/host.repo";
 import { JWT_SECRET } from "../servers/api.server";
 import { AuthenticatedRequest } from "../types/http.type";
 import JsonResponse, { ResponseType } from "../utils/response";
+import GameQuestionRepo from "../game/game-quesion.repo";
 
 interface CreateHostBody {
   hostInfo: HostInfo;
@@ -98,6 +99,12 @@ export class InternalApiController extends Controller {
     }
     if (options.userInfo) {
       hostInfo.userInfo = players.find((p) => p.id === userId);
+    }
+
+    if (options.questions && hostInfo.gameId) {
+      const questions = await GameQuestionRepo.getGameQuestions(hostInfo.gameId);
+
+      hostInfo.questions = questions;
     }
 
     return JsonResponse({ hostInfo });

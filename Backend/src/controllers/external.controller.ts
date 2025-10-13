@@ -7,6 +7,8 @@ import { GetHostInfoOpts, HostInfo } from "@Common/types/host.type";
 import RedisClient from "../utils/redis.client";
 import HostSocket from "../host/host.socket";
 import { Emitter } from "@socket.io/redis-emitter";
+import GameRepo from "../game/game.repo";
+import { GameNotFoundError } from "../base/errors/game.error";
 
 type ECreateHostBody = {
   groupId: string;
@@ -29,14 +31,21 @@ export class ExternalController extends Controller {
    * Tạo hosts hàng loạt
    */
   @Post(ExternalHttpRoute.CreateHosts)
-  public async getTest(
+  public async createHosts(
     @Body() body: ECreateHostBody
   ): Promise<ResponseType<{ hostIds: string[] }>> {
     const hostIds = [];
 
+    const gameData = await GameRepo.findGameById(body.gameId);
+
+    if (!gameData) {
+      throw new GameNotFoundError();
+    }
+
     for (let i = 0; i < body.hostCount; i++) {
       const hostId = await HostRepository.create({
-        gameMode: GameMode.Cafe,
+        gameId: body.gameId,
+        gameMode: gameData.mode as GameMode,
         groupId: body.groupId,
       });
 

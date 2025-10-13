@@ -6,10 +6,14 @@ import {  fetchMiddlewares, ExpressTemplateService } from '@tsoa/runtime';
 // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
 import { ExternalController } from './controllers/external.controller';
 // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+import { CmsController } from './controllers/cms.controller';
+// WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
 import { InternalApiController } from './controllers/internal.controller';
 import { expressAuthentication } from './authentication';
 // @ts-ignore - no great way to install types from subpackage
 import type { Request as ExRequest, Response as ExResponse, RequestHandler, Router } from 'express';
+const multer = require('multer');
+
 
 const expressAuthenticationRecasted = expressAuthentication as (req: ExRequest, securityName: string, scopes?: string[], res?: ExResponse) => Promise<any>;
 
@@ -52,9 +56,14 @@ const models: TsoaRoute.Models = {
         "type": {"dataType":"nestedObjectLiteral","nestedProperties":{"activity":{"dataType":"any","required":true},"avatar":{"dataType":"string","required":true},"username":{"dataType":"string","required":true},"playerId":{"dataType":"string","required":true}},"validators":{}},
     },
     // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+    "Question": {
+        "dataType": "refAlias",
+        "type": {"dataType":"nestedObjectLiteral","nestedProperties":{"correctAnswerId":{"dataType":"string","required":true},"answers":{"dataType":"array","array":{"dataType":"nestedObjectLiteral","nestedProperties":{"text":{"dataType":"string","required":true},"id":{"dataType":"string","required":true}}},"required":true},"text":{"dataType":"string","required":true},"id":{"dataType":"string","required":true}},"validators":{}},
+    },
+    // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
     "Pick_HostInfo.Exclude_keyofHostInfo.personalResult-or-userInfo__": {
         "dataType": "refAlias",
-        "type": {"dataType":"nestedObjectLiteral","nestedProperties":{"hostId":{"dataType":"string"},"gameSettings":{"dataType":"nestedObjectLiteral","nestedProperties":{},"additionalProperties":{"dataType":"string"}},"state":{"ref":"HostState"},"gameMode":{"ref":"GameMode","required":true},"finalStandings":{"dataType":"array","array":{"dataType":"refAlias","ref":"HostLeaderboardItem"}},"activitiesBoard":{"dataType":"array","array":{"dataType":"refAlias","ref":"ActivityBoardItem"}},"groupId":{"dataType":"string"}},"validators":{}},
+        "type": {"dataType":"nestedObjectLiteral","nestedProperties":{"hostId":{"dataType":"string"},"gameId":{"dataType":"string"},"gameSettings":{"dataType":"nestedObjectLiteral","nestedProperties":{},"additionalProperties":{"dataType":"string"}},"state":{"ref":"HostState"},"gameMode":{"ref":"GameMode","required":true},"finalStandings":{"dataType":"array","array":{"dataType":"refAlias","ref":"HostLeaderboardItem"}},"activitiesBoard":{"dataType":"array","array":{"dataType":"refAlias","ref":"ActivityBoardItem"}},"groupId":{"dataType":"string"},"questions":{"dataType":"array","array":{"dataType":"refAlias","ref":"Question"}}},"validators":{}},
     },
     // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
     "Omit_HostInfo.personalResult-or-userInfo_": {
@@ -74,7 +83,7 @@ const models: TsoaRoute.Models = {
     // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
     "Pick_GetHostInfoOpts.Exclude_keyofGetHostInfoOpts.personalResult-or-userInfo__": {
         "dataType": "refAlias",
-        "type": {"dataType":"nestedObjectLiteral","nestedProperties":{"activitiesBoard":{"dataType":"boolean"},"fullLeaderboard":{"dataType":"boolean"}},"validators":{}},
+        "type": {"dataType":"nestedObjectLiteral","nestedProperties":{"activitiesBoard":{"dataType":"boolean"},"questions":{"dataType":"boolean"},"fullLeaderboard":{"dataType":"boolean"}},"validators":{}},
     },
     // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
     "Omit_GetHostInfoOpts.personalResult-or-userInfo_": {
@@ -85,6 +94,41 @@ const models: TsoaRoute.Models = {
     "EGetHostInfo": {
         "dataType": "refAlias",
         "type": {"ref":"Omit_GetHostInfoOpts.personalResult-or-userInfo_","validators":{}},
+    },
+    // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+    "Game": {
+        "dataType": "refAlias",
+        "type": {"dataType":"nestedObjectLiteral","nestedProperties":{"mode":{"ref":"GameMode","required":true},"name":{"dataType":"string","required":true},"_id":{"dataType":"string","required":true}},"validators":{}},
+    },
+    // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+    "ResponseType__game-Game__": {
+        "dataType": "refAlias",
+        "type": {"dataType":"nestedObjectLiteral","nestedProperties":{"data":{"dataType":"nestedObjectLiteral","nestedProperties":{"game":{"ref":"Game","required":true}},"required":true},"code":{"dataType":"double","required":true},"success":{"dataType":"boolean","required":true}},"validators":{}},
+    },
+    // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+    "ResponseType__game-Game--game_questions-Question-Array__": {
+        "dataType": "refAlias",
+        "type": {"dataType":"nestedObjectLiteral","nestedProperties":{"data":{"dataType":"nestedObjectLiteral","nestedProperties":{"game_questions":{"dataType":"array","array":{"dataType":"refAlias","ref":"Question"},"required":true},"game":{"ref":"Game","required":true}},"required":true},"code":{"dataType":"double","required":true},"success":{"dataType":"boolean","required":true}},"validators":{}},
+    },
+    // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+    "ResponseType__list-Game-Array--total-number--page-number--limit-number--total_page-number__": {
+        "dataType": "refAlias",
+        "type": {"dataType":"nestedObjectLiteral","nestedProperties":{"data":{"dataType":"nestedObjectLiteral","nestedProperties":{"total_page":{"dataType":"double","required":true},"limit":{"dataType":"double","required":true},"page":{"dataType":"double","required":true},"total":{"dataType":"double","required":true},"list":{"dataType":"array","array":{"dataType":"refAlias","ref":"Game"},"required":true}},"required":true},"code":{"dataType":"double","required":true},"success":{"dataType":"boolean","required":true}},"validators":{}},
+    },
+    // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+    "GameListOpts": {
+        "dataType": "refAlias",
+        "type": {"dataType":"nestedObjectLiteral","nestedProperties":{"limit":{"dataType":"integer","default":10},"page":{"dataType":"integer","default":1},"search":{"dataType":"string"}},"validators":{}},
+    },
+    // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+    "CmsUser": {
+        "dataType": "refAlias",
+        "type": {"dataType":"nestedObjectLiteral","nestedProperties":{"email":{"dataType":"string"},"username":{"dataType":"string","required":true},"id":{"dataType":"string","required":true}},"validators":{}},
+    },
+    // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+    "ResponseType__user-CmsUser--token-any__": {
+        "dataType": "refAlias",
+        "type": {"dataType":"nestedObjectLiteral","nestedProperties":{"data":{"dataType":"nestedObjectLiteral","nestedProperties":{"token":{"dataType":"any","required":true},"user":{"ref":"CmsUser","required":true}},"required":true},"code":{"dataType":"double","required":true},"success":{"dataType":"boolean","required":true}},"validators":{}},
     },
     // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
     "ResponseType__hostId-string__": {
@@ -104,7 +148,7 @@ const models: TsoaRoute.Models = {
     // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
     "HostInfo": {
         "dataType": "refAlias",
-        "type": {"dataType":"nestedObjectLiteral","nestedProperties":{"groupId":{"dataType":"string"},"userInfo":{"ref":"Player"},"activitiesBoard":{"dataType":"array","array":{"dataType":"refAlias","ref":"ActivityBoardItem"}},"personalResult":{"ref":"PersonalResult"},"finalStandings":{"dataType":"array","array":{"dataType":"refAlias","ref":"HostLeaderboardItem"}},"gameMode":{"ref":"GameMode","required":true},"state":{"ref":"HostState"},"gameSettings":{"dataType":"nestedObjectLiteral","nestedProperties":{},"additionalProperties":{"dataType":"string"}},"hostId":{"dataType":"string"}},"validators":{}},
+        "type": {"dataType":"nestedObjectLiteral","nestedProperties":{"questions":{"dataType":"array","array":{"dataType":"refAlias","ref":"Question"}},"groupId":{"dataType":"string"},"userInfo":{"ref":"Player"},"activitiesBoard":{"dataType":"array","array":{"dataType":"refAlias","ref":"ActivityBoardItem"}},"personalResult":{"ref":"PersonalResult"},"finalStandings":{"dataType":"array","array":{"dataType":"refAlias","ref":"HostLeaderboardItem"}},"gameMode":{"ref":"GameMode","required":true},"state":{"ref":"HostState"},"gameSettings":{"dataType":"nestedObjectLiteral","nestedProperties":{},"additionalProperties":{"dataType":"string"}},"gameId":{"dataType":"string"},"hostId":{"dataType":"string"}},"validators":{}},
     },
     // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
     "CreateHostBody": {
@@ -122,7 +166,7 @@ const models: TsoaRoute.Models = {
     // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
     "GetHostInfoOpts": {
         "dataType": "refAlias",
-        "type": {"dataType":"nestedObjectLiteral","nestedProperties":{"userInfo":{"dataType":"boolean"},"activitiesBoard":{"dataType":"boolean"},"personalResult":{"dataType":"boolean"},"fullLeaderboard":{"dataType":"boolean"}},"validators":{}},
+        "type": {"dataType":"nestedObjectLiteral","nestedProperties":{"questions":{"dataType":"boolean"},"userInfo":{"dataType":"boolean"},"activitiesBoard":{"dataType":"boolean"},"personalResult":{"dataType":"boolean"},"fullLeaderboard":{"dataType":"boolean"}},"validators":{}},
     },
     // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
     "GetHostInfoBody": {
@@ -175,35 +219,36 @@ const templateService = new ExpressTemplateService(models, {"noImplicitAdditiona
 
 
 
-export function RegisterRoutes(app: Router) {
+export function RegisterRoutes(app: Router,opts?:{multer?:ReturnType<typeof multer>}) {
 
     // ###########################################################################################################
     //  NOTE: If you do not see routes for all of your controllers in this file, then you might not have informed tsoa of where to look
     //      Please look into the "controllerPathGlobs" config option described in the readme: https://github.com/lukeautry/tsoa
     // ###########################################################################################################
 
+    const upload = opts?.multer ||  multer({"limits":{"fileSize":8388608}});
 
     
-        const argsExternalController_getTest: Record<string, TsoaRoute.ParameterSchema> = {
+        const argsExternalController_createHosts: Record<string, TsoaRoute.ParameterSchema> = {
                 body: {"in":"body","name":"body","required":true,"ref":"ECreateHostBody"},
         };
         app.post('/external/host/create',
             authenticateMiddleware([{"apiKey":[]}]),
             ...(fetchMiddlewares<RequestHandler>(ExternalController)),
-            ...(fetchMiddlewares<RequestHandler>(ExternalController.prototype.getTest)),
+            ...(fetchMiddlewares<RequestHandler>(ExternalController.prototype.createHosts)),
 
-            async function ExternalController_getTest(request: ExRequest, response: ExResponse, next: any) {
+            async function ExternalController_createHosts(request: ExRequest, response: ExResponse, next: any) {
 
             // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
 
             let validatedArgs: any[] = [];
             try {
-                validatedArgs = templateService.getValidatedArgs({ args: argsExternalController_getTest, request, response });
+                validatedArgs = templateService.getValidatedArgs({ args: argsExternalController_createHosts, request, response });
 
                 const controller = new ExternalController();
 
               await templateService.apiHandler({
-                methodName: 'getTest',
+                methodName: 'createHosts',
                 controller,
                 response,
                 next,
@@ -298,6 +343,177 @@ export function RegisterRoutes(app: Router) {
 
               await templateService.apiHandler({
                 methodName: 'getHostInfo',
+                controller,
+                response,
+                next,
+                validatedArgs,
+                successStatus: undefined,
+              });
+            } catch (err) {
+                return next(err);
+            }
+        });
+        // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+        const argsCmsController_createGame: Record<string, TsoaRoute.ParameterSchema> = {
+                game_questions: {"in":"formData","name":"game_questions","required":true,"dataType":"file"},
+                game_name: {"in":"formData","name":"game_name","required":true,"dataType":"string"},
+                game_mode: {"in":"formData","name":"game_mode","required":true,"dataType":"string"},
+        };
+        app.post('/cms/game',
+            authenticateMiddleware([{"cmsBearerAuth":[]}]),
+            upload.fields([
+                {
+                    name: "game_questions",
+                    maxCount: 1
+                }
+            ]),
+            ...(fetchMiddlewares<RequestHandler>(CmsController)),
+            ...(fetchMiddlewares<RequestHandler>(CmsController.prototype.createGame)),
+
+            async function CmsController_createGame(request: ExRequest, response: ExResponse, next: any) {
+
+            // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+
+            let validatedArgs: any[] = [];
+            try {
+                validatedArgs = templateService.getValidatedArgs({ args: argsCmsController_createGame, request, response });
+
+                const controller = new CmsController();
+
+              await templateService.apiHandler({
+                methodName: 'createGame',
+                controller,
+                response,
+                next,
+                validatedArgs,
+                successStatus: undefined,
+              });
+            } catch (err) {
+                return next(err);
+            }
+        });
+        // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+        const argsCmsController_getGame: Record<string, TsoaRoute.ParameterSchema> = {
+                game_id: {"in":"path","name":"game_id","required":true,"dataType":"string"},
+        };
+        app.get('/cms/game/:game_id',
+            authenticateMiddleware([{"cmsBearerAuth":[]}]),
+            ...(fetchMiddlewares<RequestHandler>(CmsController)),
+            ...(fetchMiddlewares<RequestHandler>(CmsController.prototype.getGame)),
+
+            async function CmsController_getGame(request: ExRequest, response: ExResponse, next: any) {
+
+            // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+
+            let validatedArgs: any[] = [];
+            try {
+                validatedArgs = templateService.getValidatedArgs({ args: argsCmsController_getGame, request, response });
+
+                const controller = new CmsController();
+
+              await templateService.apiHandler({
+                methodName: 'getGame',
+                controller,
+                response,
+                next,
+                validatedArgs,
+                successStatus: undefined,
+              });
+            } catch (err) {
+                return next(err);
+            }
+        });
+        // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+        const argsCmsController_updateGame: Record<string, TsoaRoute.ParameterSchema> = {
+                game_questions: {"in":"formData","name":"game_questions","required":true,"dataType":"file"},
+                game_id: {"in":"formData","name":"game_id","required":true,"dataType":"string"},
+                game_name: {"in":"formData","name":"game_name","required":true,"dataType":"string"},
+                game_mode: {"in":"formData","name":"game_mode","required":true,"dataType":"string"},
+        };
+        app.post('/cms/game/update',
+            authenticateMiddleware([{"cmsBearerAuth":[]}]),
+            upload.fields([
+                {
+                    name: "game_questions",
+                    maxCount: 1
+                }
+            ]),
+            ...(fetchMiddlewares<RequestHandler>(CmsController)),
+            ...(fetchMiddlewares<RequestHandler>(CmsController.prototype.updateGame)),
+
+            async function CmsController_updateGame(request: ExRequest, response: ExResponse, next: any) {
+
+            // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+
+            let validatedArgs: any[] = [];
+            try {
+                validatedArgs = templateService.getValidatedArgs({ args: argsCmsController_updateGame, request, response });
+
+                const controller = new CmsController();
+
+              await templateService.apiHandler({
+                methodName: 'updateGame',
+                controller,
+                response,
+                next,
+                validatedArgs,
+                successStatus: undefined,
+              });
+            } catch (err) {
+                return next(err);
+            }
+        });
+        // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+        const argsCmsController_listGame: Record<string, TsoaRoute.ParameterSchema> = {
+                body: {"in":"body","name":"body","required":true,"ref":"GameListOpts"},
+        };
+        app.post('/cms/game/list',
+            authenticateMiddleware([{"cmsBearerAuth":[]}]),
+            ...(fetchMiddlewares<RequestHandler>(CmsController)),
+            ...(fetchMiddlewares<RequestHandler>(CmsController.prototype.listGame)),
+
+            async function CmsController_listGame(request: ExRequest, response: ExResponse, next: any) {
+
+            // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+
+            let validatedArgs: any[] = [];
+            try {
+                validatedArgs = templateService.getValidatedArgs({ args: argsCmsController_listGame, request, response });
+
+                const controller = new CmsController();
+
+              await templateService.apiHandler({
+                methodName: 'listGame',
+                controller,
+                response,
+                next,
+                validatedArgs,
+                successStatus: undefined,
+              });
+            } catch (err) {
+                return next(err);
+            }
+        });
+        // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+        const argsCmsController_login: Record<string, TsoaRoute.ParameterSchema> = {
+                body: {"in":"body","name":"body","required":true,"dataType":"nestedObjectLiteral","nestedProperties":{"password":{"dataType":"string","required":true},"username":{"dataType":"string","required":true}}},
+        };
+        app.post('/cms/auth/login',
+            ...(fetchMiddlewares<RequestHandler>(CmsController)),
+            ...(fetchMiddlewares<RequestHandler>(CmsController.prototype.login)),
+
+            async function CmsController_login(request: ExRequest, response: ExResponse, next: any) {
+
+            // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+
+            let validatedArgs: any[] = [];
+            try {
+                validatedArgs = templateService.getValidatedArgs({ args: argsCmsController_login, request, response });
+
+                const controller = new CmsController();
+
+              await templateService.apiHandler({
+                methodName: 'login',
                 controller,
                 response,
                 next,

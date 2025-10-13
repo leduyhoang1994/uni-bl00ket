@@ -11,18 +11,34 @@ import { ValidateError } from "tsoa";
 import { AuthError } from "../base/errors/auth.error";
 import path from "path";
 import fs from "fs";
+import { UniError } from "../base/errors/base.error";
+import logger from "../utils/logger";
 
 const app = express();
 export const JWT_SECRET = "secretKey";
 
-app.use(helmet());
-// Configure CORS
-const corsOptions = {
-  origin: "*",
-  allowedHeaders: ["Content-Type", "Authorization", "x-api-key"],
-};
-app.use(cors(corsOptions)); // Use the cors middleware
+app.use(
+  cors({
+    origin: "*",
+    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+    allowedHeaders: [
+      "Content-Type",
+      "Authorization",
+      "x-api-key",
+      "x-requested-with",
+    ],
+  })
+);
+app.use(
+  helmet({
+    crossOriginResourcePolicy: false,
+    crossOriginEmbedderPolicy: false,
+    crossOriginOpenerPolicy: false,
+  })
+);
+
 app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 
 app.get("/", (req, res) => {
   res.send("MIIS");
@@ -34,7 +50,7 @@ app.use(
   async (_req: express.Request, res: express.Response) => {
     const swaggerPath = path.join(__dirname, "../swagger.json");
     const swaggerDocument = JSON.parse(fs.readFileSync(swaggerPath, "utf-8"));
-    
+
     return res.send(swaggerUi.generateHTML(swaggerDocument));
   }
 );
@@ -53,6 +69,16 @@ app.use(function errorHandler(
   res: ExResponse,
   next: NextFunction
 ): ExResponse | void {
+  logger.debug(err);
+
+  if (err instanceof UniError) {
+    return res.status(err.getHttpCode()).json({
+      uni_error: true,
+      message: err.message,
+      code: err.getCode(),
+    });
+  }
+
   if (err instanceof ValidateError) {
     console.warn(`Caught Validation Error for ${req.path}:`, err.fields);
     return res.status(422).json({

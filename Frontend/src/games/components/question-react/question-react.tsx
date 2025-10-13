@@ -105,7 +105,7 @@ export default function QuestionReact() {
           <div>{userInfo?.username}</div>
         </div>
         <RenderIf condition={answerQuiz}>
-          <div className="question-react__header-mid">{isCorrect ? 'CORRECT' : 'INCORRECT'}</div>
+          <div className="question-react__header-mid">{isCorrect ? 'Chính xác' : 'Sai đáp án'}</div>
         </RenderIf>
         <div className="question-react__header-right">
           <img src="/images/cafe-game/leader-board.svg" alt="" onClick={() => setToggleLeaderBoard(true)} />

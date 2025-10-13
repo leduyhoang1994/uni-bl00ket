@@ -31,11 +31,11 @@ export default function HostPlayer() {
 
   const handleWriteName = () => {
     if (username.length == 0) {
-      alert('Vui lòng nhập biệt danh');
+      alert("Vui lòng nhập biệt danh");
       return;
     }
     setChangeStateAvatar(true);
-  }
+  };
 
   const gameIdValue = (e: ChangeEvent<HTMLInputElement>) => {
     setHostIdValue(e.target.value);
@@ -49,7 +49,7 @@ export default function HostPlayer() {
     setUsername(e.target.value);
   };
 
-  const joinHost = async () => {
+  const joinHost = async (avatar: string) => {
     if (!hostId) {
       navigate(UrlGenerator.PlayerJoinUrl());
       return;
@@ -57,15 +57,17 @@ export default function HostPlayer() {
 
     const controller = await HostController.getInstance();
     await controller.initHttp();
-    const guestToken = await controller.createGuest(username, hostId);
+    const guestToken = await controller.createGuest(username, hostId, avatar);
 
     if (!guestToken) {
-      alert("Biệt danh này đã có người khác chọn. Vui lòng chọn biệt danh khác");
+      alert(
+        "Biệt danh này đã có người khác chọn. Vui lòng chọn biệt danh khác"
+      );
       return;
     }
 
     await HostController.saveAccessToken(guestToken);
-
+    
     navigate(UrlGenerator.PlayerJoinLobbyUrl(hostId));
   };
 
@@ -75,7 +77,9 @@ export default function HostPlayer() {
         <div className="host-player__header-first">
           <a href="">UniClass</a>
         </div>
-        <div className="host-player__header-second">{!changeStateAvatar ? 'Tham gia trò chơi' : 'Chọn nhân vật'}</div>
+        <div className="host-player__header-second">
+          {!changeStateAvatar ? "Tham gia trò chơi" : "Chọn nhân vật"}
+        </div>
         <div className="host-player__header-third">
           <a href="">Dashboard</a>
         </div>
@@ -103,7 +107,11 @@ export default function HostPlayer() {
           </div>
         </RenderIf>
         <RenderIf condition={changeStateAvatar}>
-          <ChooseAvatarHostPlayer username={username} nickNameValue={nickNameValue} joinHost={joinHost} />
+          <ChooseAvatarHostPlayer
+            username={username}
+            nickNameValue={nickNameValue}
+            joinHost={joinHost}
+          />
         </RenderIf>
       </div>
     </div>

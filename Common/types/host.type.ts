@@ -1,4 +1,5 @@
 import { GameEventType, GameMode, HostState } from "../constants/host.constant";
+import { Question } from "./game.type";
 
 export type Player = {
   id: string;
@@ -10,6 +11,7 @@ export type Player = {
 
 export type HostInfo = {
   hostId?: string;
+  gameId?: string;
   /** Cài đặt game */
   gameSettings?: {
     [key: string]: string;
@@ -23,6 +25,7 @@ export type HostInfo = {
   activitiesBoard?: Array<ActivityBoardItem>;
   userInfo?: Player;
   groupId?: string;
+  questions?: Array<Question>;
 };
 
 export type ActivityBoardItem = {
@@ -54,6 +57,7 @@ export type GetHostInfoOpts = {
   personalResult?: boolean;
   activitiesBoard?: boolean;
   userInfo?: boolean;
+  questions?: boolean;
 };
 
 export type HostLeaderboard = HostLeaderboardItem[];

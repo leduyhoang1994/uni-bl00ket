@@ -8,7 +8,7 @@ import FormSubmit from "../form-submit/form-submit";
 export default function ChooseAvatarHostPlayer({
   username = '',
   nickNameValue = (e: ChangeEvent<HTMLInputElement>) => { },
-  joinHost = async () => { }
+  joinHost = async (avatar: string) => { }
 }) {
   const [showAvatarPicker, setShowAvatarPicker] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
@@ -86,7 +86,7 @@ export default function ChooseAvatarHostPlayer({
               />
             </RenderIf>
           </div>
-          <div className="waiting-lobby-player__body-content-footer" onClick={joinHost}>
+          <div className="waiting-lobby-player__body-content-footer" onClick={() => { joinHost(userAvatar) }}>
             <img src="/images/icons/play-game-new.svg" alt="" />
             <div>Chơi</div>
           </div>

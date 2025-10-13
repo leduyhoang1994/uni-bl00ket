@@ -131,9 +131,50 @@
 				],
 				"type": "object"
 			},
+			"Question": {
+				"properties": {
+					"correctAnswerId": {
+						"type": "string"
+					},
+					"answers": {
+						"items": {
+							"properties": {
+								"text": {
+									"type": "string"
+								},
+								"id": {
+									"type": "string"
+								}
+							},
+							"required": [
+								"text",
+								"id"
+							],
+							"type": "object"
+						},
+						"type": "array"
+					},
+					"text": {
+						"type": "string"
+					},
+					"id": {
+						"type": "string"
+					}
+				},
+				"required": [
+					"correctAnswerId",
+					"answers",
+					"text",
+					"id"
+				],
+				"type": "object"
+			},
 			"Pick_HostInfo.Exclude_keyofHostInfo.personalResult-or-userInfo__": {
 				"properties": {
 					"hostId": {
+						"type": "string"
+					},
+					"gameId": {
 						"type": "string"
 					},
 					"gameSettings": {
@@ -166,6 +207,12 @@
 					},
 					"groupId": {
 						"type": "string"
+					},
+					"questions": {
+						"items": {
+							"$ref": "#/components/schemas/Question"
+						},
+						"type": "array"
 					}
 				},
 				"required": [
@@ -214,6 +261,9 @@
 					"activitiesBoard": {
 						"type": "boolean"
 					},
+					"questions": {
+						"type": "boolean"
+					},
 					"fullLeaderboard": {
 						"type": "boolean"
 					}
@@ -227,6 +277,206 @@
 			},
 			"EGetHostInfo": {
 				"$ref": "#/components/schemas/Omit_GetHostInfoOpts.personalResult-or-userInfo_"
+			},
+			"Game": {
+				"properties": {
+					"mode": {
+						"$ref": "#/components/schemas/GameMode"
+					},
+					"name": {
+						"type": "string"
+					},
+					"_id": {
+						"type": "string"
+					}
+				},
+				"required": [
+					"mode",
+					"name",
+					"_id"
+				],
+				"type": "object"
+			},
+			"ResponseType__game-Game__": {
+				"properties": {
+					"data": {
+						"properties": {
+							"game": {
+								"$ref": "#/components/schemas/Game"
+							}
+						},
+						"required": [
+							"game"
+						],
+						"type": "object"
+					},
+					"code": {
+						"type": "number",
+						"format": "double"
+					},
+					"success": {
+						"type": "boolean"
+					}
+				},
+				"required": [
+					"data",
+					"code",
+					"success"
+				],
+				"type": "object"
+			},
+			"ResponseType__game-Game--game_questions-Question-Array__": {
+				"properties": {
+					"data": {
+						"properties": {
+							"game_questions": {
+								"items": {
+									"$ref": "#/components/schemas/Question"
+								},
+								"type": "array"
+							},
+							"game": {
+								"$ref": "#/components/schemas/Game"
+							}
+						},
+						"required": [
+							"game_questions",
+							"game"
+						],
+						"type": "object"
+					},
+					"code": {
+						"type": "number",
+						"format": "double"
+					},
+					"success": {
+						"type": "boolean"
+					}
+				},
+				"required": [
+					"data",
+					"code",
+					"success"
+				],
+				"type": "object"
+			},
+			"ResponseType__list-Game-Array--total-number--page-number--limit-number--total_page-number__": {
+				"properties": {
+					"data": {
+						"properties": {
+							"total_page": {
+								"type": "number",
+								"format": "double"
+							},
+							"limit": {
+								"type": "number",
+								"format": "double"
+							},
+							"page": {
+								"type": "number",
+								"format": "double"
+							},
+							"total": {
+								"type": "number",
+								"format": "double"
+							},
+							"list": {
+								"items": {
+									"$ref": "#/components/schemas/Game"
+								},
+								"type": "array"
+							}
+						},
+						"required": [
+							"total_page",
+							"limit",
+							"page",
+							"total",
+							"list"
+						],
+						"type": "object"
+					},
+					"code": {
+						"type": "number",
+						"format": "double"
+					},
+					"success": {
+						"type": "boolean"
+					}
+				},
+				"required": [
+					"data",
+					"code",
+					"success"
+				],
+				"type": "object"
+			},
+			"GameListOpts": {
+				"properties": {
+					"limit": {
+						"type": "integer",
+						"format": "int32",
+						"default": 10
+					},
+					"page": {
+						"type": "integer",
+						"format": "int32",
+						"default": 1
+					},
+					"search": {
+						"type": "string",
+						"description": "Tìm kiếm"
+					}
+				},
+				"type": "object"
+			},
+			"CmsUser": {
+				"properties": {
+					"email": {
+						"type": "string"
+					},
+					"username": {
+						"type": "string"
+					},
+					"id": {
+						"type": "string"
+					}
+				},
+				"required": [
+					"username",
+					"id"
+				],
+				"type": "object"
+			},
+			"ResponseType__user-CmsUser--token-any__": {
+				"properties": {
+					"data": {
+						"properties": {
+							"token": {},
+							"user": {
+								"$ref": "#/components/schemas/CmsUser"
+							}
+						},
+						"required": [
+							"token",
+							"user"
+						],
+						"type": "object"
+					},
+					"code": {
+						"type": "number",
+						"format": "double"
+					},
+					"success": {
+						"type": "boolean"
+					}
+				},
+				"required": [
+					"data",
+					"code",
+					"success"
+				],
+				"type": "object"
 			},
 			"ResponseType__hostId-string__": {
 				"properties": {
@@ -325,6 +575,12 @@
 			},
 			"HostInfo": {
 				"properties": {
+					"questions": {
+						"items": {
+							"$ref": "#/components/schemas/Question"
+						},
+						"type": "array"
+					},
 					"groupId": {
 						"type": "string"
 					},
@@ -361,6 +617,9 @@
 						},
 						"type": "object",
 						"description": "Cài đặt game"
+					},
+					"gameId": {
+						"type": "string"
 					},
 					"hostId": {
 						"type": "string"
@@ -413,6 +672,9 @@
 			},
 			"GetHostInfoOpts": {
 				"properties": {
+					"questions": {
+						"type": "boolean"
+					},
 					"userInfo": {
 						"type": "boolean"
 					},
@@ -584,7 +846,7 @@
 	"paths": {
 		"/external/host/create": {
 			"post": {
-				"operationId": "GetTest",
+				"operationId": "CreateHosts",
 				"responses": {
 					"200": {
 						"description": "Ok",
@@ -733,6 +995,236 @@
 						"application/json": {
 							"schema": {
 								"$ref": "#/components/schemas/EGetHostInfo"
+							}
+						}
+					}
+				}
+			}
+		},
+		"/cms/game": {
+			"post": {
+				"operationId": "CreateGame",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/ResponseType__game-Game__"
+								}
+							}
+						}
+					}
+				},
+				"description": "Tạo game mới",
+				"tags": [
+					"CMS API"
+				],
+				"security": [
+					{
+						"cmsBearerAuth": []
+					}
+				],
+				"parameters": [],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"multipart/form-data": {
+							"schema": {
+								"type": "object",
+								"properties": {
+									"game_questions": {
+										"type": "string",
+										"format": "binary"
+									},
+									"game_name": {
+										"type": "string"
+									},
+									"game_mode": {
+										"type": "string"
+									}
+								},
+								"required": [
+									"game_questions",
+									"game_name",
+									"game_mode"
+								]
+							}
+						}
+					}
+				}
+			}
+		},
+		"/cms/game/{game_id}": {
+			"get": {
+				"operationId": "GetGame",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/ResponseType__game-Game--game_questions-Question-Array__"
+								}
+							}
+						}
+					}
+				},
+				"description": "Lấy thông tin game",
+				"tags": [
+					"CMS API"
+				],
+				"security": [
+					{
+						"cmsBearerAuth": []
+					}
+				],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "game_id",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				]
+			}
+		},
+		"/cms/game/update": {
+			"post": {
+				"operationId": "UpdateGame",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/ResponseType__game-Game--game_questions-Question-Array__"
+								}
+							}
+						}
+					}
+				},
+				"description": "Cập nhật game",
+				"tags": [
+					"CMS API"
+				],
+				"security": [
+					{
+						"cmsBearerAuth": []
+					}
+				],
+				"parameters": [],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"multipart/form-data": {
+							"schema": {
+								"type": "object",
+								"properties": {
+									"game_questions": {
+										"type": "string",
+										"format": "binary"
+									},
+									"game_id": {
+										"type": "string"
+									},
+									"game_name": {
+										"type": "string"
+									},
+									"game_mode": {
+										"type": "string"
+									}
+								},
+								"required": [
+									"game_questions",
+									"game_id",
+									"game_name",
+									"game_mode"
+								]
+							}
+						}
+					}
+				}
+			}
+		},
+		"/cms/game/list": {
+			"post": {
+				"operationId": "ListGame",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/ResponseType__list-Game-Array--total-number--page-number--limit-number--total_page-number__"
+								}
+							}
+						}
+					}
+				},
+				"description": "Danh sách game",
+				"tags": [
+					"CMS API"
+				],
+				"security": [
+					{
+						"cmsBearerAuth": []
+					}
+				],
+				"parameters": [],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/GameListOpts"
+							}
+						}
+					}
+				}
+			}
+		},
+		"/cms/auth/login": {
+			"post": {
+				"operationId": "Login",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/ResponseType__user-CmsUser--token-any__"
+								}
+							}
+						}
+					}
+				},
+				"description": "Đăng nhập",
+				"tags": [
+					"CMS API"
+				],
+				"security": [],
+				"parameters": [],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"properties": {
+									"password": {
+										"type": "string"
+									},
+									"username": {
+										"type": "string"
+									}
+								},
+								"required": [
+									"password",
+									"username"
+								],
+								"type": "object"
 							}
 						}
 					}

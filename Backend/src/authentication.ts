@@ -44,5 +44,26 @@ export async function expressAuthentication(
     }
   }
 
+  if (securityName === "cmsBearerAuth") {
+    const authHeader = request.headers.authorization;
+    if (authHeader?.startsWith("Bearer ")) {
+      const token = authHeader.split(" ")[1];
+
+      if (!token) {
+        return Promise.reject(new AuthError("Token missing"));
+      }
+
+      try {
+        const userData = await getPayloadFromAuth({ token });
+        // Dữ liệu trả về ở đây sẽ được gán vào request.user
+        return Promise.resolve(userData as AuthenticatedUser);
+      } catch (error) {
+        return Promise.reject(error);
+      }
+    } else {
+      return Promise.reject(new AuthError("No bearer token provided"));
+    }
+  }
+
   return Promise.reject(new AuthError("No security definition found"));
 }

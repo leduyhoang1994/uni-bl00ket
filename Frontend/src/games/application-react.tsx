@@ -29,6 +29,7 @@ export default function GameContainerReact() {
       const hostInfo = await hostController.getHostInfo(hostId, {
         userInfo: true,
         fullLeaderboard: true,
+        questions: true,
       });
 
       if (!hostInfo) {
@@ -41,6 +42,10 @@ export default function GameContainerReact() {
 
       if (hostInfo.finalStandings) {
         setLeaderboard(hostInfo.finalStandings);
+      }
+
+      if (hostInfo.questions) {
+        hostController.setQuestions(hostInfo.questions);
       }
 
       if (hostInfo.state === HostState.Ended) {
@@ -77,9 +82,10 @@ export default function GameContainerReact() {
 
       switch (gameMode) {
         case GameMode.Cafe:
-          setLoaded(true);
           break;
       }
+
+      setLoaded(true);
     };
 
     loadAssets();

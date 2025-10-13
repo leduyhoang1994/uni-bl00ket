@@ -65,12 +65,16 @@ export default function CafeGameReact() {
   useEffect(() => {
     (async () => {
       const token = await HostController.getAccessToken();
+      const hostController = await HostController.getInstance();
 
       if (!hostId || !token) {
         return;
       }
 
-      const controller = getCafeControllerInstance(hostId);
+      const controller = getCafeControllerInstance(
+        hostId,
+        hostController.getQuestions()
+      );
       controller.onActivePayCheckBonus = (player) => {
         loadCafeBalance();
         toggleAbilityPopup(ABILITY_ID.PAYCHECK_BONUS, player);

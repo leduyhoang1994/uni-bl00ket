@@ -1,3 +1,4 @@
 redis_data
 .env
 docker-compose.yml
+mongodb_data

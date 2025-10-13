@@ -1,0 +1,31 @@
+@use "@coreui/coreui/scss/functions" as *;
+@use "@coreui/coreui/scss/variables" as *;
+@use "@coreui/coreui/scss/mixins/breakpoints" as *;
+
+.cursor-pointer {
+  cursor: pointer;
+}
+
+.sidebar__toggle {
+  display: none;
+  position: absolute;
+  right: -20px;
+  top: 18px;
+  border: $secondary thin solid;
+  width: 20px;
+  height: 20px;
+  background-color: $secondary;
+  border-radius: 0 25% 25% 0;
+  cursor: pointer;
+
+  svg {
+    fill: white;
+    stroke: white;
+  }
+
+  @include media-breakpoint-down(lg) {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+}

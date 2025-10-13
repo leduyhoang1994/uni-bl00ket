@@ -11,13 +11,6 @@ export interface Stock {
   isDefaultSell?: boolean; // MÓn ăn mặc định có sẵn trong cửa hàng
 }
 
-export interface Question {
-  id: string;
-  text: string;
-  answers: { id: string; text: string }[]; // danh sách đáp án
-  correctAnswerId: string; // id của đáp án đúng
-}
-
 export interface ShopItem {
   id: string;
   stockId: string;

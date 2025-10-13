@@ -1,0 +1,23 @@
+.game-list {
+  &__id-cell {
+    button {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 5px;
+      position: relative;
+
+      .icon {
+        display: none;
+        position: absolute;
+        right: -20px;
+      }
+
+      &:hover {
+        .icon {
+          display: block;
+        }
+      }
+    }
+  }
+}

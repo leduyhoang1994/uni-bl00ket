@@ -14,7 +14,6 @@ import HostStore from "@/stores/host-store/host-store";
 import UserPlayerInfo from "../components/player-info/user-player-infor";
 
 function WaitingLobbyPlayer() {
-
   const [isJoining, setIsJoining] = useState(true);
   const [isJoined, setIsJoined] = useState(false);
   const [player, setPlayer] = useState<AuthenticatedUser | null>(null);
@@ -29,6 +28,8 @@ function WaitingLobbyPlayer() {
         navigate(UrlGenerator.AccessDeniedUrl());
         return;
       }
+
+      console.log(await HostController.getAccessToken());
 
       const controller = await HostController.getInstance();
       const hostInfo = await controller.getHostInfo(hostId);
@@ -71,9 +72,7 @@ function WaitingLobbyPlayer() {
     <>
       <div className="waiting-lobby-player">
         <div className="waiting-lobby-player__header">
-          <div className="waiting-lobby-player__header-second">
-            Pre-Class
-          </div>
+          <div className="waiting-lobby-player__header-second">Pre-Class</div>
           <div className="waiting-lobby-player__header-first">
             Đợi trò chơi bắt đầu
           </div>
@@ -81,73 +80,35 @@ function WaitingLobbyPlayer() {
         </div>
         <div className="waiting-lobby-player__body">
           <div className="waiting-lobby-player__body-background"></div>
-          {/* <RenderIf condition={isJoined}>
-            <RenderIf condition={showAvatarPicker}>
-              <div
-                className="dismiss-back"
-                onClick={() => setShowAvatarPicker(false)}
-              ></div>
-              <AvatarPicker
-                pickedCallback={(avatarId: string) => {
-                  const maxMobile = SCREEN_SIZES_ENUM.MOBILE_W;
-
-                  const screenW = window.innerWidth;
-                  if (screenW <= maxMobile) {
-                    setShowAvatarPicker(false);
-                  }
-                }}
-              />
-            </RenderIf>
-            <div className="waiting-lobby-player__body-content">
-              <UniButton
-                text="Change Avatar"
-                className="waiting-lobby-player__body-content-change-avatar"
-                onClick={() => {
-                  setShowAvatarPicker(true);
-                }}
-              />
+          <RenderIf condition={isJoined}>
+            <div className="waiting-lobby-player__body-content m-auto">
               <div className="waiting-lobby-player__body-content-avatar">
                 <img src={player?.avatar} alt="" />
                 <div className="ribbon"></div>
               </div>
               <div className="waiting-lobby-player__body-content-footer">
-                <button>
-                  <div></div>
-                  <div>
-                    <span>
-                      <svg
-                        aria-hidden="true"
-                        focusable="false"
-                        data-prefix="fas"
-                        data-icon="gamepad"
-                        className="svg-inline--fa fa-gamepad fa-w-20 "
-                        role="img"
-                        xmlns="http://www.w3.org/2000/svg"
-                        viewBox="0 0 640 512"
-                      >
-                        <path
-                          fill="currentColor"
-                          d="M480.07 96H160a160 160 0 1 0 114.24 272h91.52A160 160 0 1 0 480.07 96zM248 268a12 12 0 0 1-12 12h-52v52a12 12 0 0 1-12 12h-24a12 12 0 0 1-12-12v-52H84a12 12 0 0 1-12-12v-24a12 12 0 0 1 12-12h52v-52a12 12 0 0 1 12-12h24a12 12 0 0 1 12 12v52h52a12 12 0 0 1 12 12zm216 76a40 40 0 1 1 40-40 40 40 0 0 1-40 40zm64-96a40 40 0 1 1 40-40 40 40 0 0 1-40 40z"
-                        ></path>
-                      </svg>
-                    </span>
-                  </div>
-                </button>
                 <div className="waiting-lobby-player__body-content-footer-text">
-                  Waiting for Host
+                  Đợi trò chơi bắt đầu
                 </div>
               </div>
             </div>
-          </RenderIf> */}
-          <div className="host-creator__body-cover-player">
+          </RenderIf>
+          {/* <div className="host-creator__body-cover-player">
             {[1, 2, 3, 4, 5, 6, 7].map((player, index: number) => {
               return (
                 <div className="waiting-lobby-player__user-infor" key={index}>
-                  <UserPlayerInfo player={{ avatar: "/images/cafe-game/customers/chick.svg", username: 'abc', id: '', socketId: '' }} />
+                  <UserPlayerInfo
+                    player={{
+                      avatar: "/images/cafe-game/customers/chick.svg",
+                      username: "abc",
+                      id: "",
+                      socketId: "",
+                    }}
+                  />
                 </div>
-              )
+              );
             })}
-          </div>
+          </div> */}
         </div>
       </div>
     </>

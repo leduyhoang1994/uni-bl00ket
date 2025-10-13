@@ -1,8 +1,9 @@
-import initHttp from "@/utils/http.util";
+import { initInternalHttp } from "@/utils/http.util";
 import initSocketClient from "@/utils/socket-client.util";
 import { getHost } from "@/utils/utils";
 import { HostEvent } from "@common/constants/event.constant";
 import { InternalHttpRoute } from "@common/constants/http.constant";
+import { Question } from "@common/types/game.type";
 import {
   ActivityBoardItem,
   GetHostInfoOpts,
@@ -18,20 +19,21 @@ export default class HostController {
   private static controller: HostController;
   private socketClient: Socket | null = null;
   private httpClient: Axios | null = null;
+  private loadedQuestions: Question[] = [];
 
   // callbacks
   public onLobbyUpdated: (players: Player[] | Player) => Promise<void> =
-    async () => { };
-  public onConnected: () => Promise<void> = async () => { };
-  public onError: (error: any) => Promise<void> = async () => { };
+    async () => {};
+  public onConnected: () => Promise<void> = async () => {};
+  public onError: (error: any) => Promise<void> = async () => {};
   public onUserInfo: (user: AuthenticatedUser) => Promise<void> =
-    async () => { };
-  public onGameStarted: () => Promise<void> = async () => { };
+    async () => {};
+  public onGameStarted: () => Promise<void> = async () => {};
   public onLeaderBoardUpdated: (leaderBoard: HostLeaderboard) => Promise<void> =
-    async () => { };
-  public onGameEnded: () => Promise<void> = async () => { };
+    async () => {};
+  public onGameEnded: () => Promise<void> = async () => {};
   public onActivitySaved: (activity: ActivityBoardItem) => Promise<void> =
-    async () => { };
+    async () => {};
 
   public async initHttp() {
     const token = await HostController.getAccessToken();
@@ -41,7 +43,7 @@ export default class HostController {
       return;
     }
 
-    this.httpClient = await initHttp(token);
+    this.httpClient = await initInternalHttp(token, true);
   }
 
   public async initSocket(hostId: string) {
@@ -128,8 +130,8 @@ export default class HostController {
     this.socketClient.emit(HostEvent.LobbyStart);
   }
 
-  public async createGuest(username: string, hostId: string) {
-    const client = await initHttp(null);
+  public async createGuest(username: string, hostId: string, avatar: string) {
+    const client = await initInternalHttp(null);
     let createResult = null;
 
     try {
@@ -137,7 +139,7 @@ export default class HostController {
         InternalHttpRoute.GenToken,
         JSON.stringify({
           username,
-          avatar: `${getHost()}/images/avatar/brown-dog.svg`,
+          avatar: `${getHost()}/images/cafe-game/customers/${avatar}.svg`,
           hostId,
         })
       );
@@ -209,6 +211,14 @@ export default class HostController {
       hostId,
       avatar,
     });
+  }
+
+  public setQuestions(questions: Question[]) {
+    this.loadedQuestions = questions;
+  }
+
+  public getQuestions() {
+    return this.loadedQuestions;
   }
 
   public static async saveAccessToken(token: string | null) {

@@ -17,10 +17,10 @@ export default function PlayerLeaderboard() {
       <div className="cafe-game__player-leaderboard">
         <div className="cafe-game__player-leaderboard-header">
           <div className="cafe-game__player-leaderboard-header-left">
-            LEADERBOARD
+            Bảng xếp hạng
           </div>
           <div className="cafe-game__player-leaderboard-header-right">
-            SCORE
+            Điểm
           </div>
         </div>
 

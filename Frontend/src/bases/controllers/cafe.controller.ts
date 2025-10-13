@@ -4,7 +4,6 @@ import {
   Customer,
   Stock,
   OrderItem,
-  Question,
   ShopItem,
   STOCKS,
   QUESTIONS,
@@ -15,6 +14,7 @@ import {
 import GameController from "./game.controller";
 import { GameEvent, Player } from "@common/types/host.type";
 import { GameEventType } from "@common/constants/host.constant";
+import { Question } from "@common/types/game.type";
 const MAX_CUSTOMER_CAN_SERVE = 3; // sô khách hàng tối đa có thể phục vụ
 const DEFAULT_REWARD_PRICE_TOAST = 2; // sô khách hàng tối đa có thể phục vụ
 const INDEX_MAX_LEVEL = 5; // max level
@@ -70,7 +70,7 @@ export default class CafeController
   public onActiveTaxes: (player: Player) => void = () => {};
   public onActiveHealthInspection: (player: Player) => void = () => {};
 
-  constructor(hostId: string) {
+  constructor(hostId: string, questions: Question[] = []) {
     super(hostId);
     // Init Stocks
     this.stocks = STOCKS;
@@ -82,7 +82,7 @@ export default class CafeController
     }));
 
     // init Questions
-    this.questions = QUESTIONS;
+    this.questions = questions;
 
     this.abilities = ABILITIES;
   }
