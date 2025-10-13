@@ -80,7 +80,7 @@ export default function Leaderboard() {
       <div className="waiting-action-creator__header">
         <div className="waiting-action-creator__header-first">Uni</div>
         <div className="waiting-action-creator__header-second">
-          Goal: $100,000
+          Mục tiêu: $100,000
         </div>
         <div className="waiting-action-creator__header-third">
           <div>ID: {hostId}</div>

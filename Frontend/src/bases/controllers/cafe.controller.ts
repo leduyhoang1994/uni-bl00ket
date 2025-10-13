@@ -51,8 +51,7 @@ enum CafeGameEvent {
 
 export default class CafeController
   extends GameController
-  implements CafeControllerInterface
-{
+  implements CafeControllerInterface {
   private stocks: Stock[] = [];
   private shopItems: ShopItem[] = [];
   private customers: Customer[] = [];
@@ -65,10 +64,10 @@ export default class CafeController
     this.questions
   );
 
-  public onActivePayCheckBonus: (player: Player) => void = () => {};
-  public onActiveTrashTheFood: (player: Player) => void = () => {};
-  public onActiveTaxes: (player: Player) => void = () => {};
-  public onActiveHealthInspection: (player: Player) => void = () => {};
+  public onActivePayCheckBonus: (player: Player) => void = () => { };
+  public onActiveTrashTheFood: (player: Player) => void = () => { };
+  public onActiveTaxes: (player: Player) => void = () => { };
+  public onActiveHealthInspection: (player: Player) => void = () => { };
 
   constructor(hostId: string, questions: Question[] = []) {
     super(hostId);
@@ -592,7 +591,7 @@ export default class CafeController
     switch (action) {
       case CafeActivity.BuyShopItem:
         const foodName = STOCKS.find((s) => s.id === data.stockId)?.name;
-        return `has updated ${foodName} to level ${data.level}`;
+        return `đã nâng cấp ${foodName} đạt mốc ${data.level}`;
     }
   }
 

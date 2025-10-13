@@ -5,6 +5,7 @@ import FinalStandingsPrize, {
 import { useLayoutEffect, useState } from "react";
 import HostController from "../controllers/host.controller";
 import { HostLeaderboardItem } from "@common/types/host.type";
+import FinalStandingsPrizeV2 from "./components/final-standing-prize-v2";
 
 export default function FinalStandings() {
   const { hostId } = useParams();
@@ -30,8 +31,8 @@ export default function FinalStandings() {
   return (
     <div className="final-standings">
       <div className="final-standings__header">
-        <div className="final-standings__header-first">Blooket</div>
-        <div className="final-standings__header-second">Final Standings</div>
+        <div className="final-standings__header-first">Pre-Class</div>
+        <div className="final-standings__header-second">Trò chơi kết thúc</div>
         <div></div>
         {/* <Link
           to={{
@@ -45,7 +46,7 @@ export default function FinalStandings() {
       <div className="final-standings__body">
         <div className="final-standings__body-background"></div>
         <div className="final-standings__body-cover-prize">
-          {finalStandings.map((item: HostLeaderboardItem, index: number) => {
+          {/* {finalStandings.map((item: HostLeaderboardItem, index: number) => {
             let prizeObj = {
               userRank: FinalStandingsPrizeRank.FIRST,
               bodyClass: "final-standings__body-prize-first",
@@ -67,7 +68,8 @@ export default function FinalStandings() {
                 <FinalStandingsPrize useRank={prizeObj.userRank} leaderboardItem={item} />
               </div>
             );
-          })}
+          })} */}
+          <FinalStandingsPrizeV2 finalStandings={finalStandings} />
         </div>
       </div>
     </div>

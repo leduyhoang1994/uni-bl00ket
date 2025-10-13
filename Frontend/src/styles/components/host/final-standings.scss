@@ -20,11 +20,15 @@
   }
 
   &__header-first {
-    font-size: 34px;
+    font-size: 32px;
+    font-family: var(--font-coiny);
+    font-weight: 400;
   }
 
   &__header-second {
-    font-size: 38px;
+    font-size: 27px;
+    font-family: var(--font-nunito);
+    font-weight: 400;
   }
 
   &__header-third {
@@ -49,8 +53,47 @@
   }
 
   &__body-cover-prize {
-    position: relative;
+    min-height: 0;
     flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 60px 8px 10px 8px;
+  }
+
+  &__body-cover-prize-detail {
+    width: 100%;
+    max-width: 868px;
+    // aspect-ratio: 868 / 563;
+    margin: 0 auto;
+    position: relative;
+  }
+
+  &__ranking-wrapper {
+    width: 100%;
+    height: 100%;
+    position: relative;
+  }
+
+  &__ranking-bg {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+  }
+
+  &__body-ribbon {
+    width: 50%;
+    height: auto;
+    position: absolute;
+    top: -6.5%;
+    left: 0;
+    right: 0;
+    margin: auto;
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+    }
   }
 
   &__body-prize {
@@ -77,6 +120,119 @@
     width: 25vw;
   }
 
+  &__ranking-detail {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    left: 0;
+    margin: auto;
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+    gap: 24px;
+  }
+
+  &__ranking-prize {
+    position: relative;
+    max-width: 24%;
+
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+    }
+  }
+
+  &__ranking-user-avatar {
+    width: 100%;
+    height: auto;
+    text-align: center;
+    div {
+      font-family: "inter";
+      color: #2d2d2d;
+      font-size: 20px;
+      font-style: normal;
+      font-weight: 500;
+      line-height: 20px;
+    }
+
+    img {
+      width: 50%;
+      height: auto;
+      object-fit: contain;
+    }
+  }
+
+  &__ranking-user-podium {
+    position: relative;
+  }
+
+  &__ranking-score {
+    position: absolute;
+    top: 10%;
+    left: 0;
+    right: 0;
+    margin: auto;
+    min-width: 92px;
+    max-width: fit-content;
+    padding: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 4px;
+    background-color: var(--white);
+    border-radius: 20px;
+    backdrop-filter: blur(2px);
+
+    img {
+      width: 24px;
+      height: 24px;
+    }
+
+    div {
+      font-size: 24px;
+      font-weight: 400;
+      font-family: var(--font-concert);
+      color: #ffa237;
+    }
+  }
+
+  &__ranking-order-first {
+    order: 2;
+  }
+
+  &__ranking-order-second {
+    order: 1;
+  }
+
+  &__ranking-order-third {
+    order: 3;
+  }
+
+  @media screen and (orientation: landscape) and (max-height: 600px) {
+    &__body-cover-prize-detail {
+      height: 90%;
+      width: auto;
+    }
+
+    &__ranking-user-podium {
+      display: flex;
+    }
+  }
+
+  @media screen and (max-width: $tabletW) {
+    &__ranking-score {
+      min-width: 60px;
+      padding: 4px;
+      border-radius: 12px;
+      div {
+        font-size: 16px;
+      }
+    }
+  }
+
   @media screen and (max-width: $mobileW) {
     &__header {
       padding-left: 0.5rem;
@@ -85,6 +241,10 @@
     &__header-first,
     &__header-second {
       font-size: 1.5rem;
+    }
+
+    &__body-cover-prize {
+      padding-top: 10px;
     }
   }
 }
@@ -249,7 +409,7 @@
     div {
       display: inline-block;
       white-space: nowrap;
-      font-size: clamp(1rem, 2vw + 1rem, 3rem);;
+      font-size: clamp(1rem, 2vw + 1rem, 3rem);
       opacity: 1;
     }
   }

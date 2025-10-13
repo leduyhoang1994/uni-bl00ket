@@ -15,7 +15,7 @@ import SettingLobbyScreen from "../components/setting-lobby/setting-lobby-screen
 function HostCreator() {
   const { setLobbyPlayers, lobbyPlayers } = HostStore();
   const hasPlayer = lobbyPlayers.length > 0;
-  const textBtn = hasPlayer ? "Start" : "1 More";
+  const textBtn = hasPlayer ? "Bắt đầu" : "Ít nhất 1";
   const { hostId } = useParams();
   const navigate = useNavigate();
   const [togglePopup, setTogglePopup] = useState(false);
@@ -58,14 +58,15 @@ function HostCreator() {
         <div className="host-creator__header-QR"></div>
         <div className="host-creator__header-infor">
           <div>
-            Go to <span>{GenUrl("/join")}</span>
+            Tham gia và
+            {/* <span>{GenUrl("/tham gia")}</span> */}
           </div>
-          <div>and enter Game ID:</div>
+          <div>nhập ID trò chơi:</div>
         </div>
         <div className="host-creator__header-id">{hostId}</div>
         <div className="host-creator__header-copy-link">
           <a href="#" onClick={copyLink}>
-            Copy Join Link
+            Sao chép link tham gia
           </a>
         </div>
         <SettingLobbyIcon />

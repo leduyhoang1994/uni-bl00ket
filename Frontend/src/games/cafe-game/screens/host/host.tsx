@@ -39,7 +39,7 @@ function CreateCafeHost() {
             className="button-host"
             onClick={createHost}
           >
-            Create Host
+            Tạo Phòng
           </button>
           <div className="waiting-lobby-player__body-background"></div>
         </div>

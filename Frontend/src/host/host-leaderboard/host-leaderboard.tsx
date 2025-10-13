@@ -43,7 +43,7 @@ export default function HostLeaderboardScreen() {
       }
       await hostController.initSocket(hostId);
 
-      
+
 
     })();
   }, []);

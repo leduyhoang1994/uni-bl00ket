@@ -12,6 +12,7 @@ type RankDetails = {
   ribbonClass: string;
   textSuffix: string;
   rankNumber: number;
+  stateImg?: string
 };
 
 const RANK_CONFIG: Record<FinalStandingsPrizeRank, RankDetails> = {
@@ -20,18 +21,21 @@ const RANK_CONFIG: Record<FinalStandingsPrizeRank, RankDetails> = {
     ribbonClass: 'final-standings-prize__first-prize-ribbon',
     textSuffix: 'st',
     rankNumber: 1,
+    stateImg: '/images/background-avatar/gold-prize.svg',
   },
   [FinalStandingsPrizeRank.SECOND]: {
     columnClass: 'final-standings-prize__second-prize',
     ribbonClass: 'final-standings-prize__second-prize-ribbon',
     textSuffix: 'nd',
     rankNumber: 2,
+    stateImg: '/images/background-avatar/silver-prize.svg',
   },
   [FinalStandingsPrizeRank.THIRD]: {
     columnClass: 'final-standings-prize__third-prize',
     ribbonClass: 'final-standings-prize__third-prize-ribbon',
     textSuffix: 'rd',
     rankNumber: 3,
+    stateImg: '/images/background-avatar/bronze-prize.svg',
   },
 };
 
