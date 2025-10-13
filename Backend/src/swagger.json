@@ -7,6 +7,71 @@
 		"requestBodies": {},
 		"responses": {},
 		"schemas": {
+			"ResponseType__joinUrls-string-Array__": {
+				"properties": {
+					"data": {
+						"properties": {
+							"joinUrls": {
+								"items": {
+									"type": "string"
+								},
+								"type": "array"
+							}
+						},
+						"required": [
+							"joinUrls"
+						],
+						"type": "object"
+					},
+					"code": {
+						"type": "number",
+						"format": "double"
+					},
+					"success": {
+						"type": "boolean"
+					}
+				},
+				"required": [
+					"data",
+					"code",
+					"success"
+				],
+				"type": "object"
+			},
+			"ECreateHostBody": {
+				"properties": {
+					"hostCount": {
+						"type": "number",
+						"format": "double"
+					},
+					"gameId": {
+						"type": "string"
+					}
+				},
+				"required": [
+					"hostCount",
+					"gameId"
+				],
+				"type": "object"
+			},
+			"ECreateHostByIdsBody": {
+				"properties": {
+					"hostIds": {
+						"items": {
+							"type": "string"
+						},
+						"type": "array"
+					},
+					"gameId": {
+						"type": "string"
+					}
+				},
+				"required": [
+					"hostIds",
+					"gameId"
+				],
+				"type": "object"
+			},
 			"ResponseType__hostIds-string-Array__": {
 				"properties": {
 					"data": {
@@ -35,26 +100,6 @@
 					"data",
 					"code",
 					"success"
-				],
-				"type": "object"
-			},
-			"ECreateHostBody": {
-				"properties": {
-					"hostCount": {
-						"type": "number",
-						"format": "double"
-					},
-					"gameId": {
-						"type": "string"
-					},
-					"groupId": {
-						"type": "string"
-					}
-				},
-				"required": [
-					"hostCount",
-					"gameId",
-					"groupId"
 				],
 				"type": "object"
 			},
@@ -853,7 +898,7 @@
 						"content": {
 							"application/json": {
 								"schema": {
-									"$ref": "#/components/schemas/ResponseType__hostIds-string-Array__"
+									"$ref": "#/components/schemas/ResponseType__joinUrls-string-Array__"
 								}
 							}
 						}
@@ -875,6 +920,43 @@
 						"application/json": {
 							"schema": {
 								"$ref": "#/components/schemas/ECreateHostBody"
+							}
+						}
+					}
+				}
+			}
+		},
+		"/external/host/create-by-ids": {
+			"post": {
+				"operationId": "CreateHostsByIds",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/ResponseType__joinUrls-string-Array__"
+								}
+							}
+						}
+					}
+				},
+				"description": "Tạo hosts hàng loạt theo ID cho trước",
+				"tags": [
+					"External API"
+				],
+				"security": [
+					{
+						"apiKey": []
+					}
+				],
+				"parameters": [],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/ECreateHostByIdsBody"
 							}
 						}
 					}

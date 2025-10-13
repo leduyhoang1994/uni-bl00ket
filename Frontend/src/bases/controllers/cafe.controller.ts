@@ -182,7 +182,7 @@ export default class CafeController
   getQuestion(): Question {
     this.currentQuestion = this.randomQuestion();
     //shuffle answers
-    this.currentQuestion.answers.sort(() => Math.random() - 0.5);
+    this.currentQuestion.answers?.sort(() => Math.random() - 0.5);
     this.totalQuestions += 1;
 
     this.saveGame();

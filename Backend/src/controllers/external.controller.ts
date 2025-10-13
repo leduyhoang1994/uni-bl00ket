@@ -9,15 +9,20 @@ import HostSocket from "../host/host.socket";
 import { Emitter } from "@socket.io/redis-emitter";
 import GameRepo from "../game/game.repo";
 import { GameNotFoundError } from "../base/errors/game.error";
+import { getJoinUrl } from "../utils/util";
 
 type ECreateHostBody = {
-  groupId: string;
   gameId: string;
   hostCount: number;
 };
 
+type ECreateHostByIdsBody = {
+  gameId: string;
+  hostIds: Array<string>;
+};
+
 type EHostIds = {
-  hostIds: string[];
+  hostIds: Array<string>;
 };
 
 type EGetHostInfo = Omit<GetHostInfoOpts, "personalResult" | "userInfo">;
@@ -33,7 +38,7 @@ export class ExternalController extends Controller {
   @Post(ExternalHttpRoute.CreateHosts)
   public async createHosts(
     @Body() body: ECreateHostBody
-  ): Promise<ResponseType<{ hostIds: string[] }>> {
+  ): Promise<ResponseType<{ joinUrls: string[] }>> {
     const hostIds = [];
 
     const gameData = await GameRepo.findGameById(body.gameId);
@@ -46,13 +51,46 @@ export class ExternalController extends Controller {
       const hostId = await HostRepository.create({
         gameId: body.gameId,
         gameMode: gameData.mode as GameMode,
-        groupId: body.groupId,
       });
 
       hostIds.push(hostId);
     }
 
-    return JsonResponse({ hostIds });
+    const joinUrls = hostIds.map((hostId) => getJoinUrl(hostId, body.gameId));
+
+    return JsonResponse({ joinUrls });
+  }
+
+  /**
+   * Tạo hosts hàng loạt theo ID cho trước
+   */
+  @Post(ExternalHttpRoute.CreateHostsByIds)
+  public async createHostsByIds(
+    @Body() body: ECreateHostByIdsBody
+  ): Promise<ResponseType<{ joinUrls: string[] }>> {
+    const hostIds = [];
+
+    const gameData = await GameRepo.findGameById(body.gameId);
+
+    if (!gameData) {
+      throw new GameNotFoundError();
+    }
+
+    for (let i = 0; i < body.hostIds.length; i++) {
+      const hostId = body.hostIds[i];
+
+      await HostRepository.create({
+        gameId: body.gameId,
+        gameMode: gameData.mode as GameMode,
+        hostId: hostId,
+      });
+
+      hostIds.push(hostId);
+    }
+
+    const joinUrls = hostIds.map((hostId) => getJoinUrl(hostId, body.gameId));
+
+    return JsonResponse({ joinUrls });
   }
 
   /**

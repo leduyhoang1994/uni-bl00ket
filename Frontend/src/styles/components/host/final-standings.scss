@@ -48,10 +48,6 @@
     background: linear-gradient(rgb(11, 194, 207), rgb(52, 154, 239));
   }
 
-  &__body-background {
-    @extend.host-creator__body-background;
-  }
-
   &__body-cover-prize {
     min-height: 0;
     flex: 1;

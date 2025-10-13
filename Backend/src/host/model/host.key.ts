@@ -23,7 +23,7 @@ export default class RedisHostKey {
     return this.fullKey(`host:${hostId}:activities`);
   }
 
-  static getHostGroupKey(groupId: string): string {
-    return this.fullKey(`group:${groupId}`);
+  static getGameHostListKey(gameId: string): string {
+    return this.fullKey(`game:${gameId}`);
   }
 }

@@ -11,7 +11,9 @@ export default function FinalStandingsPlayer() {
         }} className="final-standings-player__header-play-again">Play Again</Link>
       </div>
       <div className="final-standings-player__body">
-        <div className="final-standings-player__body-background"></div>
+          <div className="body-background-wrapper">
+            <div className="body-background"></div>
+          </div>
         <FinalStandingsPlayerContent />
       </div>
     </div>

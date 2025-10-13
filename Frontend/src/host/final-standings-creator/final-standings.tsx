@@ -44,7 +44,9 @@ export default function FinalStandings() {
         </Link> */}
       </div>
       <div className="final-standings__body">
-        <div className="final-standings__body-background"></div>
+          <div className="body-background-wrapper">
+            <div className="body-background"></div>
+          </div>
         <div className="final-standings__body-cover-prize">
           {/* {finalStandings.map((item: HostLeaderboardItem, index: number) => {
             let prizeObj = {

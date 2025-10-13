@@ -6,18 +6,18 @@ import { ChangeEvent, useLayoutEffect, useState } from "react";
 import FormSubmit from "../form-submit/form-submit";
 
 export default function ChooseAvatarHostPlayer({
-  username = '',
-  nickNameValue = (e: ChangeEvent<HTMLInputElement>) => { },
-  joinHost = async (avatar: string) => { }
+  username = "",
+  nickNameValue = (e: ChangeEvent<HTMLInputElement>) => {},
+  joinHost = async (avatar: string) => {},
 }) {
   const [showAvatarPicker, setShowAvatarPicker] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
-  const [userAvatar, setUserAvatar] = useState('chick');
+  const [userAvatar, setUserAvatar] = useState("chick");
   const [changeUserName, setChangeUserName] = useState(false);
 
   const handleChangeName = () => {
     setChangeUserName(true);
-  }
+  };
 
   useLayoutEffect(() => {
     const maxMobile = SCREEN_SIZES_ENUM.MOBILE_W;
@@ -58,7 +58,7 @@ export default function ChooseAvatarHostPlayer({
         <div className="waiting-lobby-player__body-content">
           <div className="waiting-lobby-player__body-content-cover-avatar">
             <UniButton
-              text="Change Avatar"
+              text="Đổi ảnh đại diện"
               className="waiting-lobby-player__body-content-change-avatar"
               onClick={() => {
                 setShowAvatarPicker(true);
@@ -71,8 +71,11 @@ export default function ChooseAvatarHostPlayer({
             <RenderIf condition={!changeUserName}>
               <div className="waiting-lobby-player__body-content-username">
                 <div>{username}</div>
-                <img src="/images/icons/write-name.svg" alt="change-name"
-                  onClick={handleChangeName} />
+                <img
+                  src="/images/icons/write-name.svg"
+                  alt="change-name"
+                  onClick={handleChangeName}
+                />
               </div>
             </RenderIf>
             <RenderIf condition={changeUserName}>
@@ -86,12 +89,15 @@ export default function ChooseAvatarHostPlayer({
               />
             </RenderIf>
           </div>
-          <div className="waiting-lobby-player__body-content-footer" onClick={() => { joinHost(userAvatar) }}>
-            <img src="/images/icons/play-game-new.svg" alt="" />
-            <div>Chơi</div>
-          </div>
+
+          <UniButton
+            text="Chơi ngay"
+            onClick={() => {
+              joinHost(userAvatar);
+            }}
+          />
         </div>
       </RenderIf>
-    </div >
-  )
+    </div>
+  );
 }

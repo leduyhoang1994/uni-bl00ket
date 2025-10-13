@@ -4,14 +4,9 @@ import RenderIf from "@/utils/condition-render";
 import { AuthenticatedUser } from "@common/types/socket.type";
 import { useNavigate, useParams } from "react-router";
 import tokenRequire from "../components/token-require.hoc";
-import { GenUrl, SCREEN_SIZES_ENUM, UrlGenerator } from "@/utils/utils";
-import { HostInfo } from "../../../../Common/types/host.type";
+import { SCREEN_SIZES_ENUM, UrlGenerator } from "@/utils/utils";
 import { HostState } from "@common/constants/host.constant";
-import AvatarPicker from "./avatar-picker";
-import ButtonCafeGame from "@/games/cafe-game-react/components/button-cafe-game/button-cafe-game";
-import UniButton from "@/games/components/buttons/uni-button";
 import HostStore from "@/stores/host-store/host-store";
-import UserPlayerInfo from "../components/player-info/user-player-infor";
 
 function WaitingLobbyPlayer() {
   const [isJoining, setIsJoining] = useState(true);
@@ -28,8 +23,6 @@ function WaitingLobbyPlayer() {
         navigate(UrlGenerator.AccessDeniedUrl());
         return;
       }
-
-      console.log(await HostController.getAccessToken());
 
       const controller = await HostController.getInstance();
       const hostInfo = await controller.getHostInfo(hostId);
@@ -78,8 +71,13 @@ function WaitingLobbyPlayer() {
           </div>
           <div></div>
         </div>
-        <div className="waiting-lobby-player__body">
-          <div className="waiting-lobby-player__body-background"></div>
+        <div
+          className="waiting-lobby-player__body"
+          style={{ overflowY: "auto" }}
+        >
+          <div className="body-background-wrapper">
+            <div className="body-background"></div>
+          </div>
           <RenderIf condition={isJoined}>
             <div className="waiting-lobby-player__body-content m-auto">
               <div className="waiting-lobby-player__body-content-avatar">

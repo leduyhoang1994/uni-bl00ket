@@ -67,7 +67,7 @@ export default function HostPlayer() {
     }
 
     await HostController.saveAccessToken(guestToken);
-    
+
     navigate(UrlGenerator.PlayerJoinLobbyUrl(hostId));
   };
 
@@ -84,8 +84,10 @@ export default function HostPlayer() {
           <a href="">Tổng quan</a>
         </div>
       </div>
-      <div className="host-player__body">
-        <div className="host-player__body-background"></div>
+      <div className="host-player__body" style={{ overflowY: "auto" }}>
+          <div className="body-background-wrapper">
+            <div className="body-background"></div>
+          </div>
         <RenderIf condition={!changeStateAvatar}>
           <div className="host-player__body-main">
             <RenderIf condition={!hasIdGame}>

@@ -325,19 +325,9 @@ export default class HostRepository {
       hostInfo.gameMode
     );
 
-    if (hostInfo.groupId) {
-      await client.hSet(
-        RedisHostKey.getHostKey(hostId),
-        "groupId",
-        hostInfo.groupId
-      );
-      await client.lPush(
-        RedisHostKey.getHostGroupKey(hostInfo.groupId),
-        hostId
-      );
-    }
-
     if (hostInfo.gameId) {
+      await client.lPush(RedisHostKey.getGameHostListKey(hostInfo.gameId), hostId);
+
       await client.hSet(
         RedisHostKey.getHostKey(hostId),
         "gameId",

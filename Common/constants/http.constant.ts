@@ -8,6 +8,7 @@ export enum InternalHttpRoute {
 
 export enum ExternalHttpRoute {
   CreateHosts = "/host/create",
+  CreateHostsByIds = "/host/create-by-ids",
   StartHosts = "/host/start",
   StopHosts = "/host/end",
   GetHostInfo = "/host/info/{hostId}",

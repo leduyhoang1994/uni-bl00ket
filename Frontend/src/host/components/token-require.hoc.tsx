@@ -29,7 +29,9 @@ export default function tokenRequire<T extends React.ComponentType<any>>(
         <div className="host-creator">
           <div className="host-creator__header"></div>
           <div className="host-creator__body">
-            <div className="host-creator__body-background"></div>
+          <div className="body-background-wrapper">
+            <div className="body-background"></div>
+          </div>
             <div
               className="host-creator__body-content"
               style={{

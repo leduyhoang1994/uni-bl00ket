@@ -72,7 +72,9 @@ function HostCreator() {
         <SettingLobbyIcon />
       </div>
       <div className="host-creator__body">
-        <div className="host-creator__body-background"></div>
+          <div className="body-background-wrapper">
+            <div className="body-background"></div>
+          </div>
         <div className="host-creator__body-content">
           <div className="host-creator__body-content-player">
             <div>{lobbyPlayers.length || 0}</div>

@@ -41,7 +41,9 @@ function CreateCafeHost() {
           >
             Tạo Phòng
           </button>
-          <div className="waiting-lobby-player__body-background"></div>
+          <div className="body-background-wrapper">
+            <div className="body-background"></div>
+          </div>
         </div>
       </div>
     </>

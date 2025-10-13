@@ -27,11 +27,6 @@
     overflow-y: auto;
   }
 
-  &__body-background {
-    @extend.host-creator__body-background;
-    background-size: auto;
-  }
-
   &__body-content {
     display: flex;
     position: relative;
