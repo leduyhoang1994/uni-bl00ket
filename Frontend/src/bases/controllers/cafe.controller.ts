@@ -181,6 +181,29 @@ export default class CafeController
 
   getQuestion(): Question {
     this.currentQuestion = this.randomQuestion();
+    // this.currentQuestion = {
+    //   id: "q1",
+    //   text: "Phụ huynh gặp khó khăn gì khi cho con học tiếng Anh tại trung tâm truyền thống?",
+    //   answers: [
+    //     {
+    //       id: "[1]",
+    //       text: "Lớp học ít giáo viên bản xứ Lớp học ít giáo viên bản xứ Lớp học ít giáo viên bản xứ",
+    //     },
+    //     {
+    //       id: "[2]",
+    //       text: "Chi phí cao và mất thời gian đưa đón Chi phí cao và mất thời gian đưa đón",
+    //     },
+    //     {
+    //       id: "[3]",
+    //       text: "Thiếu tài liệu học tập Thiếu tài liệu học tập Thiếu tài liệu học tập Thiếu tài liệu học tập Thiếu tài liệu học tập",
+    //     },
+    //     {
+    //       id: "[4]",
+    //       text: "Con không thích học",
+    //     },
+    //   ],
+    //   correctAnswerId: "[2]",
+    // },
     //shuffle answers
     this.currentQuestion.answers.sort(() => Math.random() - 0.5);
     this.totalQuestions += 1;
