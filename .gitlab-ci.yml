@@ -71,7 +71,7 @@ build-image-backend-prod(build-image):
     CI_REGISTRY_EDUCA: hub.educa.vn
     CI_REGISTRY_EDUCA_USER: $CI_REGISTRY_USER_PROD
     CI_REGISTRY_EDUCA_PASSWORD: $CI_REGISTRY_PASSWORD_PROD
-    DOCKERFILE: Backend/Dockerfile
+    DOCKERFILE: Backend-k8s.Dockerfile
     MODULE_NAME: backend-game
   tags:
     - build-shell
