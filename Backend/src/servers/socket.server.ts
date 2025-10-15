@@ -36,10 +36,8 @@ export async function createSocketServer(httpServer: any) {
     },
   });
 
-  const pubClient = await RedisClient.getClient();
+  const pubClient = RedisClient.getClient();
   const subClient = pubClient.duplicate();
-
-  await subClient.connect();
   
   socketServer.adapter(createAdapter(pubClient, subClient));
 

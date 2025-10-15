@@ -1,18 +1,14 @@
-import { ConnectionOptions, Queue, Worker } from "bullmq";
+import { Queue, Worker } from "bullmq";
 import HostRepository from "../host/host.repo";
 import HostSocket from "../host/host.socket";
 import RedisClient from "../utils/redis.client";
 import { Emitter } from "@socket.io/redis-emitter";
 
-const redisConnection: ConnectionOptions = {
-  url: process.env.REDIS_CONNECTION_URL,
-};
-
 export default class WorkerController {
   private static controller: WorkerController;
-  public static HOST_START_JOB = "host-start";
-  public static HOST_END_JOB = "host-end";
-  private hostTimerQueueName = "host-timer";
+  public static HOST_START_JOB = "{host-start}";
+  public static HOST_END_JOB = "{host-end}";
+  private hostTimerQueueName = "{host-timer}";
   private hostTimerQueue: Queue | null = null;
   private emitter: Emitter | null = null;
 
@@ -26,12 +22,14 @@ export default class WorkerController {
   }
 
   constructor() {
+    const redisClient = RedisClient.getClient();
     this.hostTimerQueue = new Queue(this.hostTimerQueueName, {
-      connection: redisConnection,
+      connection: redisClient
     });
   }
 
   private async initWorkers() {
+    const redisClient = RedisClient.getClient();
     const controller = await WorkerController.getInstance();
 
     const hostSchedulerWorker = new Worker(
@@ -47,7 +45,7 @@ export default class WorkerController {
         }
       },
       {
-        connection: redisConnection,
+        connection: redisClient,
       }
     );
 
@@ -61,7 +59,7 @@ export default class WorkerController {
   }
 
   public async init() {
-    const redisClient = await RedisClient.getClient();
+    const redisClient = RedisClient.getClient();
     this.emitter = new Emitter(redisClient);
 
     await this.initWorkers();

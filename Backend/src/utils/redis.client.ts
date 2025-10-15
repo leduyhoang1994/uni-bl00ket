@@ -1,17 +1,44 @@
-import { RedisClientType, createClient } from "redis";
+import Redis, { Redis as RedisType, Cluster } from "ioredis";
 import logger from "./logger";
+import { UniError } from "../base/errors/base.error";
 
 export default class RedisClient {
-  private static redisClient: RedisClientType<any> | null = null;
+  private static redisClient: RedisType | Cluster | null = null;
 
-  static async getClient(): Promise<RedisClientType<any>> {
+  static getClient(): RedisType | Cluster {
     if (this.redisClient) {
       return this.redisClient;
     }
 
-    const client: RedisClientType<any> = createClient({
-      url: process.env.REDIS_CONNECTION_URL,
-    });
+    let client: RedisType | Cluster | null = null;
+    const redisType = process.env.REDIS_TYPE || "standalone";
+    const redisUrl = process.env.REDIS_CONNECTION_URL;
+
+    if (!redisUrl) {
+      throw new UniError(
+        "REDIS_CONNECTION_URL is not defined in environment variables"
+      );
+    }
+
+    if (redisType === "standalone") {
+      client = new Redis(redisUrl);
+    }
+
+    if (redisType === "cluster") {      
+      const clusterNodes = redisUrl.split(";").map((urlStr) => {
+        const url = new URL(urlStr);
+        return {
+          host: url.hostname,
+          port: Number(url.port) || 6379,
+        };
+      });
+
+      client = new Redis.Cluster(clusterNodes);
+    }
+
+    if (!client) {
+      throw new UniError("Unable to detect Redis connection type");
+    }
 
     client.on("error", (err) => logger.info(`Redis Error: ${err}`));
     client.on("connect", () => logger.info("Redis connected"));
@@ -20,7 +47,6 @@ export default class RedisClient {
       logger.info("Redis ready!");
     });
 
-    await client.connect();
     this.redisClient = client;
 
     return this.redisClient;
