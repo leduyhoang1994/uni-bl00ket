@@ -51,13 +51,13 @@ export default class WorkerController {
       }
     );
 
-    hostSchedulerWorker.on("completed", (job) => {
-      console.log(`✅ Game started successfully: ${job.data.sessionId}`);
-    });
+    // hostSchedulerWorker.on("completed", (job) => {
+    //   console.log(`✅ Game started successfully: ${job.data.sessionId}`);
+    // });
 
-    hostSchedulerWorker.on("failed", (job, err) => {
-      console.error(`❌ Game ${job?.data.sessionId} failed:`, err.message);
-    });
+    // hostSchedulerWorker.on("failed", (job, err) => {
+    //   console.error(`❌ Game ${job?.data.sessionId} failed:`, err.message);
+    // });
   }
 
   public async init() {
