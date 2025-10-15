@@ -67,7 +67,7 @@ export default class HostSocket {
     this.emitRoom(HostEvent.LeaderBoardUpdated, leaderboard);
   }
 
-  public async emitGameEnded() {
+  public async emitEnded() {
     this.emitRoom(HostEvent.GameEnded);
   }
 

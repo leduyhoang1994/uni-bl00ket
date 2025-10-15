@@ -6,7 +6,6 @@ import {
   OrderItem,
   ShopItem,
   STOCKS,
-  QUESTIONS,
   ABILITIES,
   ABILITY_ID,
   AVATARS_CUSTOMER,
@@ -179,9 +178,8 @@ export default class CafeController
     };
   }
 
-  getQuestion(): Question {
+  getQuestion(): Question {    
     this.currentQuestion = this.randomQuestion();
-    //shuffle answers
     this.currentQuestion.answers?.sort(() => Math.random() - 0.5);
     this.totalQuestions += 1;
 

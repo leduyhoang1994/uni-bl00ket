@@ -13,6 +13,9 @@ function CreateCafeHost() {
 
     const createResult: any = await controller.createHost({
       gameMode: GameMode.Cafe,
+      gameSettings: {
+        testing: true,
+      }
     });
     const hostId = createResult?.data?.hostId;
 

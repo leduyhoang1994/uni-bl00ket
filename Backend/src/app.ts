@@ -4,6 +4,7 @@ import { createSocketServer } from "./servers/socket.server";
 import connectMongo from "./utils/mongo.client";
 import logger from "./utils/logger";
 import "dotenv/config";
+import WorkerController from "./servers/worker.server";
 
 async function bootstrap() {
   const port = parseInt(process.argv[2]) || 4000;
@@ -13,7 +14,11 @@ async function bootstrap() {
 
   // Tạo HTTP server từ app Express
   const httpServer = createServer(app);
+
+  // Tạo socket server
   createSocketServer(httpServer);
+
+  await WorkerController.getInstance();
 
   // Start cả API và Socket trên cùng 1 cổng
   httpServer.listen(port, () => {

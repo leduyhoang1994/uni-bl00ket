@@ -36,6 +36,8 @@ export default function GameContainerReact() {
         return;
       }
 
+      hostController.setHostInfo(hostInfo);
+
       if (hostInfo.userInfo) {
         setUserInfo(hostInfo.userInfo);
       }
@@ -43,10 +45,8 @@ export default function GameContainerReact() {
       if (hostInfo.finalStandings) {
         setLeaderboard(hostInfo.finalStandings);
       }
-
-      if (hostInfo.questions) {
-        hostController.setQuestions(hostInfo.questions);
-      }
+      
+      hostController.setQuestions(hostInfo.questions);
 
       if (hostInfo.state === HostState.Ended) {
         navigate(UrlGenerator.PlayerFinalStandingUrl(hostId));

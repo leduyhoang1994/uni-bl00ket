@@ -1,3 +1,4 @@
+import { QUESTIONS } from "@/model/model";
 import { initInternalHttp } from "@/utils/http.util";
 import initSocketClient from "@/utils/socket-client.util";
 import { getHost } from "@/utils/utils";
@@ -20,6 +21,7 @@ export default class HostController {
   private socketClient: Socket | null = null;
   private httpClient: Axios | null = null;
   private loadedQuestions: Question[] = [];
+  private hostInfo: HostInfo | null = null;
 
   // callbacks
   public onLobbyUpdated: (players: Player[] | Player) => Promise<void> =
@@ -87,6 +89,10 @@ export default class HostController {
     this.socketClient.connect();
 
     return this.socketClient;
+  }
+
+  public setHostInfo(hostInfo: HostInfo) {
+    this.hostInfo = hostInfo;
   }
 
   public async eventHandler(socket: Socket) {
@@ -213,8 +219,16 @@ export default class HostController {
     });
   }
 
-  public setQuestions(questions: Question[]) {
-    this.loadedQuestions = questions;
+  public setQuestions(questions?: Question[]) {
+    if (
+      (!questions || questions.length === 0) &&
+      this.hostInfo?.gameSettings?.testing
+    ) {
+      this.loadedQuestions = QUESTIONS;
+      return;
+    }
+
+    this.loadedQuestions = questions || [];
   }
 
   public getQuestions() {

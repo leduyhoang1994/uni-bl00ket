@@ -103,8 +103,27 @@
 				],
 				"type": "object"
 			},
+			"Schedules": {
+				"anyOf": [
+					{
+						"type": "number",
+						"format": "double"
+					},
+					{
+						"items": {
+							"type": "number",
+							"format": "double"
+						},
+						"type": "array"
+					}
+				],
+				"description": "Unix timestamp theo giây, nếu không truyền lên thì mặc định thực hiện luôn\r\n- Nếu là số thì áp dụng cho toàn bộ hosts gửi lên\r\n- Nếu là mảng thì áp dụng cho host index tương ứng"
+			},
 			"EHostIds": {
 				"properties": {
+					"schedules": {
+						"$ref": "#/components/schemas/Schedules"
+					},
 					"hostIds": {
 						"items": {
 							"type": "string"
@@ -224,9 +243,7 @@
 					},
 					"gameSettings": {
 						"properties": {},
-						"additionalProperties": {
-							"type": "string"
-						},
+						"additionalProperties": {},
 						"type": "object",
 						"description": "Cài đặt game"
 					},
@@ -258,6 +275,14 @@
 							"$ref": "#/components/schemas/Question"
 						},
 						"type": "array"
+					},
+					"startTime": {
+						"type": "number",
+						"format": "double"
+					},
+					"endTime": {
+						"type": "number",
+						"format": "double"
 					}
 				},
 				"required": [
@@ -620,6 +645,14 @@
 			},
 			"HostInfo": {
 				"properties": {
+					"endTime": {
+						"type": "number",
+						"format": "double"
+					},
+					"startTime": {
+						"type": "number",
+						"format": "double"
+					},
 					"questions": {
 						"items": {
 							"$ref": "#/components/schemas/Question"
@@ -657,9 +690,7 @@
 					},
 					"gameSettings": {
 						"properties": {},
-						"additionalProperties": {
-							"type": "string"
-						},
+						"additionalProperties": {},
 						"type": "object",
 						"description": "Cài đặt game"
 					},

@@ -14,7 +14,7 @@ export type HostInfo = {
   gameId?: string;
   /** Cài đặt game */
   gameSettings?: {
-    [key: string]: string;
+    [key: string]: any;
   };
   state?: HostState;
   gameMode: GameMode;
@@ -26,6 +26,8 @@ export type HostInfo = {
   userInfo?: Player;
   groupId?: string;
   questions?: Array<Question>;
+  startTime?: number;
+  endTime?: number;
 };
 
 export type ActivityBoardItem = {

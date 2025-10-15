@@ -4,12 +4,17 @@ import { GameMode } from "@Common/constants/host.constant";
 import JsonResponse, { ResponseType } from "../utils/response";
 import { ExternalHttpRoute } from "@Common/constants/http.constant";
 import { GetHostInfoOpts, HostInfo } from "@Common/types/host.type";
-import RedisClient from "../utils/redis.client";
-import HostSocket from "../host/host.socket";
-import { Emitter } from "@socket.io/redis-emitter";
 import GameRepo from "../game/game.repo";
 import { GameNotFoundError } from "../base/errors/game.error";
 import { getJoinUrl } from "../utils/util";
+import WorkerController from "../servers/worker.server";
+
+/**
+ * Unix timestamp theo giây, nếu không truyền lên thì mặc định thực hiện luôn
+ * - Nếu là số thì áp dụng cho toàn bộ hosts gửi lên
+ * - Nếu là mảng thì áp dụng cho host index tương ứng
+ */
+type Schedules = number | Array<number>;
 
 type ECreateHostBody = {
   gameId: string;
@@ -23,6 +28,7 @@ type ECreateHostByIdsBody = {
 
 type EHostIds = {
   hostIds: Array<string>;
+  schedules?: Schedules;
 };
 
 type EGetHostInfo = Omit<GetHostInfoOpts, "personalResult" | "userInfo">;
@@ -101,14 +107,23 @@ export class ExternalController extends Controller {
     @Body() body: EHostIds
   ): Promise<ResponseType<{ hostIds: string[] }>> {
     const hostIds = body.hostIds;
-    const redisClient = await RedisClient.getClient();
-    const emitter = new Emitter(redisClient);
+    const workerController = await WorkerController.getInstance();
+    const now = Date.now() / 1000;
 
     for (let i = 0; i < hostIds.length; i++) {
-      const hostRepository = new HostRepository(hostIds[i]);
-      const socketEmmiter = new HostSocket(hostIds[i], emitter);
-      await hostRepository.start();
-      await socketEmmiter.emitStarted();
+      const hostId = hostIds[i];
+      let targetTime = now;
+
+      if (Array.isArray(body.schedules)) {
+        targetTime = body.schedules[i] || now;
+      }
+
+      if (typeof body.schedules === "number") {
+        targetTime = body.schedules;
+      }
+
+      await HostRepository.setStartTime(hostId, targetTime);
+      await workerController.scheduleStart(hostId, targetTime - now);
     }
 
     return JsonResponse({ hostIds });
@@ -122,15 +137,23 @@ export class ExternalController extends Controller {
     @Body() body: EHostIds
   ): Promise<ResponseType<{ hostIds: string[] }>> {
     const hostIds = body.hostIds;
-    const redisClient = await RedisClient.getClient();
-    const emitter = new Emitter(redisClient);
+    const workerController = await WorkerController.getInstance();
+    const now = Date.now() / 1000;
 
     for (let i = 0; i < hostIds.length; i++) {
       const hostId = hostIds[i];
-      const hostRepository = new HostRepository(hostId);
-      const socketEmmiter = new HostSocket(hostId, emitter);
-      await hostRepository.endGame(hostId);
-      await socketEmmiter.emitGameEnded();
+      let targetTime = now;
+
+      if (Array.isArray(body.schedules)) {
+        targetTime = body.schedules[i] || now;
+      }
+
+      if (typeof body.schedules === "number") {
+        targetTime = body.schedules;
+      }
+
+      await HostRepository.setStartTime(hostId, targetTime);
+      await workerController.scheduleEnd(hostId, targetTime - now);
     }
 
     return JsonResponse({ hostIds });

@@ -18,7 +18,7 @@ export default class HostRepository {
     this.hostId = hostId;
   }
 
-  public async start() {
+  public async start(hostId?: string) {
     if (await this.hasStarted()) {
       logger.info("Game has already Started");
       return;
@@ -27,7 +27,7 @@ export default class HostRepository {
     logger.info("Host Started");
     const redisClient = await RedisClient.getClient();
     await redisClient.hSet(
-      RedisHostKey.getHostKey(this.hostId),
+      RedisHostKey.getHostKey(hostId || this.hostId),
       "state",
       HostState.InGame
     );
@@ -131,6 +131,9 @@ export default class HostRepository {
       gameId: redisHostInfo["gameId"],
       groupId: redisHostInfo["groupId"],
       hostId: hostId,
+      gameSettings: JSON.parse(redisHostInfo["gameSettings"] || "{}"),
+      startTime: parseInt(redisHostInfo["startTime"]) || undefined,
+      endTime: parseInt(redisHostInfo["endTime"]) || undefined,
     };
   }
 
@@ -194,10 +197,10 @@ export default class HostRepository {
     return result;
   }
 
-  public async endGame(hostId: string) {
+  public async end(hostId?: string) {
     const client = await RedisClient.getClient();
     await client.hSet(
-      RedisHostKey.getHostKey(hostId),
+      RedisHostKey.getHostKey(hostId || this.hostId),
       "state",
       HostState.Ended
     );
@@ -310,6 +313,26 @@ export default class HostRepository {
     });
   }
 
+  public async setStartTime(time: number) {
+    await HostRepository.setStartTime(this.hostId, time);
+  }
+
+  public async setEndTime(time: number) {
+    await HostRepository.setEndTime(this.hostId, time);
+  }
+
+  public static async setStartTime(hostId: string, time: number) {
+    const client = await RedisClient.getClient();
+
+    await client.hSet(RedisHostKey.getHostKey(hostId), "startTime", time);
+  }
+
+  public static async setEndTime(hostId: string, time: number) {
+    const client = await RedisClient.getClient();
+
+    await client.hSet(RedisHostKey.getHostKey(hostId), "endTime", time);
+  }
+
   public static async create(hostInfo: HostInfo) {
     const client = await RedisClient.getClient();
     const hostId = hostInfo.hostId || hexRnd.rnd();
@@ -326,13 +349,32 @@ export default class HostRepository {
     );
 
     if (hostInfo.gameId) {
-      await client.lPush(RedisHostKey.getGameHostListKey(hostInfo.gameId), hostId);
+      await client.lPush(
+        RedisHostKey.getGameHostListKey(hostInfo.gameId),
+        hostId
+      );
 
       await client.hSet(
         RedisHostKey.getHostKey(hostId),
         "gameId",
         hostInfo.gameId
       );
+    }
+
+    if (hostInfo.gameSettings) {
+      await client.hSet(
+        RedisHostKey.getHostKey(hostId),
+        "gameSettings",
+        JSON.stringify(hostInfo.gameSettings)
+      );
+    }
+
+    if (hostInfo.startTime) {
+      await HostRepository.setStartTime(hostId, hostInfo.startTime);
+    }
+
+    if (hostInfo.endTime) {
+      await HostRepository.setEndTime(hostId, hostInfo.endTime);
     }
 
     return hostId;

@@ -118,7 +118,7 @@ export default function QuestionReact() {
           <RenderIf condition={answerQuiz}>
             <RenderIf condition={allowCloseBlock}>
               <div className="question-react__body-content-allow">
-                <div className="question-react__body-content-allow-inside">
+                <div className="question-react__body-content-allow-inside" onClick={doClickOutQuestion}>
                   <div className={`${isCorrect ? 'question-react__body-content-allow-inside-correct' : 'question-react__body-content-allow-inside-incorrect'}`}>
                     <img src={`${isCorrect ? '/images/icons/question-correct.svg' : '/images/icons/question-wrong.svg'}`} alt="" />
                   </div>

@@ -1,4 +1,4 @@
-import { HostLeaderboard, Player } from "@common/types/host.type";
+import { HostInfo, HostLeaderboard, Player } from "@common/types/host.type";
 import { create } from "zustand";
 
 export enum StateType {
@@ -7,6 +7,7 @@ export enum StateType {
 }
 
 type HostState = {
+  hostInfo?: HostInfo,
   currentState: StateType;
   lobbyPlayers: Player[];
   setCurrentState: (currentState: StateType) => void;
@@ -17,9 +18,11 @@ type HostState = {
   setUserInfo: (userInfo: Player | null) => void;
   toggleSetting: boolean;
   setToggleSetting: (toggleSetting: boolean) => void;
+  setHostInfo: (hostInfo: HostInfo) => void;
 };
 
 const initialDataHost = {
+  hostInfo: undefined,
   currentState: StateType.HOST,
   lobbyPlayers: [],
   leaderboard: [],
@@ -56,6 +59,7 @@ const HostStore = create<HostState>((set, get) => ({
   setLeaderboard: (leaderboard) => set({ leaderboard }),
   setUserInfo: (userInfo) => set({ userInfo }),
   setToggleSetting: (toggleSetting) => set({ toggleSetting }),
+  setHostInfo: (hostInfo) => set({ hostInfo }),
 }));
 
 export default HostStore;

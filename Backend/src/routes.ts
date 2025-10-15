@@ -41,9 +41,14 @@ const models: TsoaRoute.Models = {
         "type": {"dataType":"nestedObjectLiteral","nestedProperties":{"data":{"dataType":"nestedObjectLiteral","nestedProperties":{"hostIds":{"dataType":"array","array":{"dataType":"string"},"required":true}},"required":true},"code":{"dataType":"double","required":true},"success":{"dataType":"boolean","required":true}},"validators":{}},
     },
     // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+    "Schedules": {
+        "dataType": "refAlias",
+        "type": {"dataType":"union","subSchemas":[{"dataType":"double"},{"dataType":"array","array":{"dataType":"double"}}],"validators":{}},
+    },
+    // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
     "EHostIds": {
         "dataType": "refAlias",
-        "type": {"dataType":"nestedObjectLiteral","nestedProperties":{"hostIds":{"dataType":"array","array":{"dataType":"string"},"required":true}},"validators":{}},
+        "type": {"dataType":"nestedObjectLiteral","nestedProperties":{"schedules":{"ref":"Schedules"},"hostIds":{"dataType":"array","array":{"dataType":"string"},"required":true}},"validators":{}},
     },
     // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
     "HostState": {
@@ -73,7 +78,7 @@ const models: TsoaRoute.Models = {
     // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
     "Pick_HostInfo.Exclude_keyofHostInfo.personalResult-or-userInfo__": {
         "dataType": "refAlias",
-        "type": {"dataType":"nestedObjectLiteral","nestedProperties":{"hostId":{"dataType":"string"},"gameId":{"dataType":"string"},"gameSettings":{"dataType":"nestedObjectLiteral","nestedProperties":{},"additionalProperties":{"dataType":"string"}},"state":{"ref":"HostState"},"gameMode":{"ref":"GameMode","required":true},"finalStandings":{"dataType":"array","array":{"dataType":"refAlias","ref":"HostLeaderboardItem"}},"activitiesBoard":{"dataType":"array","array":{"dataType":"refAlias","ref":"ActivityBoardItem"}},"groupId":{"dataType":"string"},"questions":{"dataType":"array","array":{"dataType":"refAlias","ref":"Question"}}},"validators":{}},
+        "type": {"dataType":"nestedObjectLiteral","nestedProperties":{"hostId":{"dataType":"string"},"gameId":{"dataType":"string"},"gameSettings":{"dataType":"nestedObjectLiteral","nestedProperties":{},"additionalProperties":{"dataType":"any"}},"state":{"ref":"HostState"},"gameMode":{"ref":"GameMode","required":true},"finalStandings":{"dataType":"array","array":{"dataType":"refAlias","ref":"HostLeaderboardItem"}},"activitiesBoard":{"dataType":"array","array":{"dataType":"refAlias","ref":"ActivityBoardItem"}},"groupId":{"dataType":"string"},"questions":{"dataType":"array","array":{"dataType":"refAlias","ref":"Question"}},"startTime":{"dataType":"double"},"endTime":{"dataType":"double"}},"validators":{}},
     },
     // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
     "Omit_HostInfo.personalResult-or-userInfo_": {
@@ -158,7 +163,7 @@ const models: TsoaRoute.Models = {
     // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
     "HostInfo": {
         "dataType": "refAlias",
-        "type": {"dataType":"nestedObjectLiteral","nestedProperties":{"questions":{"dataType":"array","array":{"dataType":"refAlias","ref":"Question"}},"groupId":{"dataType":"string"},"userInfo":{"ref":"Player"},"activitiesBoard":{"dataType":"array","array":{"dataType":"refAlias","ref":"ActivityBoardItem"}},"personalResult":{"ref":"PersonalResult"},"finalStandings":{"dataType":"array","array":{"dataType":"refAlias","ref":"HostLeaderboardItem"}},"gameMode":{"ref":"GameMode","required":true},"state":{"ref":"HostState"},"gameSettings":{"dataType":"nestedObjectLiteral","nestedProperties":{},"additionalProperties":{"dataType":"string"}},"gameId":{"dataType":"string"},"hostId":{"dataType":"string"}},"validators":{}},
+        "type": {"dataType":"nestedObjectLiteral","nestedProperties":{"endTime":{"dataType":"double"},"startTime":{"dataType":"double"},"questions":{"dataType":"array","array":{"dataType":"refAlias","ref":"Question"}},"groupId":{"dataType":"string"},"userInfo":{"ref":"Player"},"activitiesBoard":{"dataType":"array","array":{"dataType":"refAlias","ref":"ActivityBoardItem"}},"personalResult":{"ref":"PersonalResult"},"finalStandings":{"dataType":"array","array":{"dataType":"refAlias","ref":"HostLeaderboardItem"}},"gameMode":{"ref":"GameMode","required":true},"state":{"ref":"HostState"},"gameSettings":{"dataType":"nestedObjectLiteral","nestedProperties":{},"additionalProperties":{"dataType":"any"}},"gameId":{"dataType":"string"},"hostId":{"dataType":"string"}},"validators":{}},
     },
     // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
     "CreateHostBody": {

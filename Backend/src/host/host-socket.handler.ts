@@ -174,11 +174,11 @@ export default class HostSocketHandler {
   }
 
   public async endGame() {
-    await this.hostRepo.endGame(this.hostId);
+    await this.hostRepo.end(this.hostId);
     await this.onGameEnded();
   }
   private async onGameEnded() {
-    await this.hostSocket?.emitGameEnded();
+    await this.hostSocket?.emitEnded();
   }
 
   public async saveActivity(payload: any) {
