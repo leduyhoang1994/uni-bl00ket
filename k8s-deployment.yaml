@@ -1,124 +1,191 @@
+---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: uni-class-game-backend-nginx
+  namespace: k12
   labels:
-    app: uni-class-game-backend-nginx
+    app: game-backend
+    version: "15.10.25"
+    environment: "production"
+  name: game-backend
+  annotations:
+    deployment.kubernetes.io/revision: "1"
 spec:
-  replicas: 2
+  # Production: Tăng replicas để đảm bảo high availability
+  replicas: 3
+  revisionHistoryLimit: 10
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      # Production: Cấu hình an toàn hơn cho rolling update
+      maxUnavailable: 1
+      maxSurge: 1
   selector:
     matchLabels:
-      app: uni-class-game-backend-nginx
+      app: game-backend
   template:
     metadata:
       labels:
-        app: uni-class-game-backend-nginx
+        app: game-backend
+        version: "15.10.25"
+        environment: "production"
+
     spec:
+      # Production: Security context
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 1001
+        runAsGroup: 1001
+        fsGroup: 1001
       containers:
-      - name: backend-nginx
-        image: your-registry/uni-class-game:latest  # Thay đổi theo registry của bạn
-        imagePullPolicy: Always
-        ports:
-        - containerPort: 80
-          name: http
-          protocol: TCP
-        env:
-        - name: FRONTEND_DOMAIN
-          value: "your-frontend-domain.com"
-        - name: REDIS_CONNECTION_URL
-          valueFrom:
-            configMapKeyRef:
-              name: uni-class-game-config
-              key: redis-url
-        - name: MONGO_CONNECTION_URL
-          valueFrom:
-            configMapKeyRef:
-              name: uni-class-game-config
-              key: mongo-url
-        - name: API_KEY
-          valueFrom:
-            secretKeyRef:
-              name: uni-class-game-secrets
-              key: api-key
-        resources:
-          requests:
-            memory: "256Mi"
-            cpu: "250m"
-          limits:
-            memory: "512Mi"
-            cpu: "500m"
-        livenessProbe:
-          httpGet:
-            path: /
-            port: 80
-          initialDelaySeconds: 30
-          periodSeconds: 10
-          timeoutSeconds: 5
-          failureThreshold: 3
-        readinessProbe:
-          httpGet:
-            path: /
-            port: 80
-          initialDelaySeconds: 5
-          periodSeconds: 5
-          timeoutSeconds: 3
-          failureThreshold: 3
-        volumeMounts:
-        - name: nginx-logs
-          mountPath: /var/log/nginx
+        - image: hub.educa.vn/k12/main/backend-game:15.10.25-a2e0ff77
+          name: game-backend
+          imagePullPolicy: IfNotPresent
+          # Production: Container security context
+          securityContext:
+            allowPrivilegeEscalation: false
+            readOnlyRootFilesystem: false
+            runAsNonRoot: true
+            runAsUser: 1001
+            capabilities:
+              drop:
+              - ALL
+          ports:
+            - name: http
+              containerPort: 8080
+              protocol: TCP
+          envFrom:
+            - configMapRef:
+                name: cm-game-backend
+          # Production: Thêm health checks
+          # Production: Tối ưu hóa resources
+          resources:
+            requests:
+              memory: "256Mi"
+              cpu: "250m"
+            limits:
+              memory: "512Mi"
+              cpu: "500m"
+          livenessProbe:
+            httpGet:
+              path: /health
+              port: 8080
+            initialDelaySeconds: 30
+            periodSeconds: 10
+            timeoutSeconds: 5
+            failureThreshold: 3
+          readinessProbe:
+            httpGet:
+              path: /health
+              port: 8080
+            initialDelaySeconds: 5
+            periodSeconds: 5
+            timeoutSeconds: 3
+            failureThreshold: 3
+          volumeMounts:
+          - name: nginx-logs
+            mountPath: /var/log/nginx
+          - name: nginx-cache
+            mountPath: /var/cache/nginx
+          - name: nginx-tmp
+            mountPath: /tmp
+          - name: nginx-run
+            mountPath: /var/run
       volumes:
       - name: nginx-logs
         emptyDir: {}
+      - name: nginx-cache
+        emptyDir: {}
+      - name: nginx-tmp
+        emptyDir: {}
+      - name: nginx-run
+        emptyDir: {}
       restartPolicy: Always
+      # Production: Termination grace period
+      terminationGracePeriodSeconds: 30
+      imagePullSecrets:
+        - name: k12-nexus
 ---
 apiVersion: v1
 kind: Service
 metadata:
-  name: uni-class-game-service
+  name: game-backend-service
+  namespace: k12
   labels:
-    app: uni-class-game-backend-nginx
+    app: game-backend
+    version: "15.10.25"
+    environment: "production"
 spec:
   selector:
-    app: uni-class-game-backend-nginx
+    app: game-backend
   ports:
-  - port: 80
-    targetPort: 80
+  - name: http
+    port: 80
+    targetPort: 8080
     protocol: TCP
-    name: http
   type: ClusterIP
+  sessionAffinity: ClientIP
 ---
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: uni-class-game-config
+  name: cm-game-backend
+  namespace: k12
+  labels:
+    app: game-backend
+    version: "15.10.25"
+    environment: "production"
 data:
-  redis-url: "redis://redis-service:6379"
-  mongo-url: "mongodb://mongodb-service:27017/bl00ket"
+  FRONTEND_DOMAIN: "your-frontend-domain.com"
+  REDIS_CONNECTION_URL: "redis://redis-service:6379"
+  MONGO_CONNECTION_URL: "mongodb://mongodb-service:27017/bl00ket"
+  NODE_ENV: "production"
+  LOG_LEVEL: "info"
 ---
 apiVersion: v1
 kind: Secret
 metadata:
-  name: uni-class-game-secrets
+  name: game-backend-secrets
+  namespace: k12
+  labels:
+    app: game-backend
+    version: "15.10.25"
+    environment: "production"
 type: Opaque
 data:
-  api-key: eW91ci1hcGkta2V5LWhlcmU=  # base64 encoded API key
+  API_KEY: eW91ci1hcGkta2V5LWhlcmU=  # base64 encoded API key
 ---
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: uni-class-game-ingress
+  name: game-backend-ingress
+  namespace: k12
+  labels:
+    app: game-backend
+    version: "15.10.25"
+    environment: "production"
   annotations:
     nginx.ingress.kubernetes.io/rewrite-target: /
     nginx.ingress.kubernetes.io/ssl-redirect: "false"
+    nginx.ingress.kubernetes.io/proxy-body-size: "10m"
+    nginx.ingress.kubernetes.io/proxy-read-timeout: "300"
+    nginx.ingress.kubernetes.io/proxy-send-timeout: "300"
+    nginx.ingress.kubernetes.io/proxy-connect-timeout: "60"
+    cert-manager.io/cluster-issuer: "letsencrypt-prod"
 spec:
+  tls:
+  - hosts:
+    - game-backend.your-domain.com
+    secretName: game-backend-tls
   rules:
-  - host: your-domain.com
+  - host: game-backend.your-domain.com
     http:
       paths:
       - path: /
         pathType: Prefix
         backend:
           service:
-            name: uni-class-game-service
+            name: game-backend-service
             port:
-              number: 80
+              number: 80      # Production: Node affinity và tolerations
+

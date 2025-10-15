@@ -6,19 +6,21 @@ Dự án này sử dụng một container duy nhất chạy cả Backend (Node.j
 
 ## Cấu trúc
 
-- `Dockerfile.k8s`: Multi-stage Dockerfile để build image chứa cả Backend và nginx
+- `Backend-k8s.Dockerfile`: Multi-stage Dockerfile để build image chứa cả Backend và nginx
 - `k8s-deployment.yaml`: Kubernetes manifests bao gồm Deployment, Service, ConfigMap, Secret và Ingress
+- `k8s-hpa.yaml`: Horizontal Pod Autoscaler, PodDisruptionBudget và NetworkPolicy
+- `nginx/nginx-k8s.conf`: nginx configuration tối ưu cho single container deployment
 
 ## Cách triển khai
 
 ### 1. Build Docker image
 
 ```bash
-# Build image từ Dockerfile.k8s
-docker build -f Dockerfile.k8s -t your-registry/uni-class-game:latest .
+# Build image từ Backend-k8s.Dockerfile
+docker build -f Backend-k8s.Dockerfile -t hub.educa.vn/k12/main/backend-game:15.10.25-a2e0ff77 .
 
 # Push image lên registry
-docker push your-registry/uni-class-game:latest
+docker push hub.educa.vn/k12/main/backend-game:15.10.25-a2e0ff77
 ```
 
 ### 2. Cấu hình Kubernetes
@@ -35,11 +37,13 @@ Trước khi deploy, cần cập nhật các giá trị trong `k8s-deployment.ya
 ```bash
 # Apply manifests
 kubectl apply -f k8s-deployment.yaml
+kubectl apply -f k8s-hpa.yaml
 
 # Kiểm tra deployment
-kubectl get pods -l app=uni-class-game-backend-nginx
-kubectl get services
-kubectl get ingress
+kubectl get pods -l app=game-backend -n k12
+kubectl get services -n k12
+kubectl get ingress -n k12
+kubectl get hpa -n k12
 ```
 
 ### 4. Kiểm tra logs
