@@ -1,0 +1,82 @@
+include:
+  - project: "devops/gitlab-piplelie"
+    file: "kustomize.gitlab-ci.yml"
+
+
+
+stages:
+  - build-image
+  - push-image-tag
+
+
+
+variables:
+  MODULE_NAME: backend-game
+  PROJECT_NAME: k12
+before_script:
+  - export IMAGE_TAG=$(date +%d.%m.%y)-${CI_COMMIT_SHA::8}
+
+## 1. Build image web (build full)
+.build-image-web:
+  stage: build-image
+  variables:
+    CI_REGISTRY_EDUCA: 192.168.1.205
+    CI_REGISTRY_EDUCA_USER: default
+    CI_REGISTRY_EDUCA_PASSWORD: default
+    IMAGE_NAME: $CI_REGISTRY_EDUCA/$PROJECT_NAME/$CI_COMMIT_REF_NAME/$MODULE_NAME
+    DOCKERFILE: Dockerfile
+    #RUNNERSERVER: build-shell
+  #tags:
+    #- $RUNNERSERVER
+  script:
+    - echo hello $IMAGE_NAME:$IMAGE_TAG
+    - echo $CI_REGISTRY_EDUCA_USER
+    - echo $CI_REGISTRY_EDUCA_PASSWORD
+    - docker login -u $CI_REGISTRY_EDUCA_USER -p $CI_REGISTRY_EDUCA_PASSWORD  $CI_REGISTRY_EDUCA
+    - docker build  --cache-from $IMAGE_NAME:latest --tag $IMAGE_NAME:latest  --tag $IMAGE_NAME:$IMAGE_TAG -f $DOCKERFILE .
+    - docker push $IMAGE_NAME:$IMAGE_TAG
+  cache:
+    key: composer.json
+    paths:
+      - node_modules/
+      - vendor/
+#devaa
+
+#production
+build-image-frontend-prod(build-image):
+  extends: .build-image-web
+  variables:
+    #RUNNER-SERVER: deploy-prod
+    #GIT-BRANCH: master
+    CI_REGISTRY_EDUCA: hub.educa.vn
+    CI_REGISTRY_EDUCA_USER: $CI_REGISTRY_USER_PROD
+    CI_REGISTRY_EDUCA_PASSWORD: $CI_REGISTRY_PASSWORD_PROD
+    DOCKERFILE: Frontend/Dockerfile
+    MODULE_NAME: frontend-game
+    #RUNNER-SERVER: deploy-prod
+  tags:
+    - build-shell
+  #when: manual
+  only:
+    refs:
+      - main
+    changes:
+      - Frontend/**/*
+#dev
+
+#production
+build-image-backend-prod(build-image):
+  extends: .build-image-web
+  variables:
+    CI_REGISTRY_EDUCA: hub.educa.vn
+    CI_REGISTRY_EDUCA_USER: $CI_REGISTRY_USER_PROD
+    CI_REGISTRY_EDUCA_PASSWORD: $CI_REGISTRY_PASSWORD_PROD
+    DOCKERFILE: Backend/Dockerfile
+    MODULE_NAME: backend-game
+  tags:
+    - build-shell
+  only:
+    refs:
+      - main
+    changes:
+      - Backend/**/*
