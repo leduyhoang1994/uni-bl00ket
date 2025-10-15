@@ -3,7 +3,7 @@ FROM node:20-alpine
 # Cài đặt PM2 toàn cục
 RUN npm install pm2 -g
 
-# Sao chép các file cần thiết
+# Sao chép các file cần thiếta
 COPY Common/ /app/Common/
 WORKDIR /app/Backend
 COPY Backend/package*.json ./
