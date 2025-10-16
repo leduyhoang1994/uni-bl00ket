@@ -21,7 +21,9 @@ export default class RedisClient {
     }
 
     if (redisType === "standalone") {
-      client = new Redis(redisUrl);
+      client = new Redis(redisUrl, {
+        maxRetriesPerRequest: null,
+      });
     }
 
     if (redisType === "cluster") {      
