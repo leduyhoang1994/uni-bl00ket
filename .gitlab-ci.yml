@@ -52,7 +52,7 @@ build-image-frontend-prod(build-image):
     CI_REGISTRY_EDUCA: hub.educa.vn
     CI_REGISTRY_EDUCA_USER: $CI_REGISTRY_USER_PROD
     CI_REGISTRY_EDUCA_PASSWORD: $CI_REGISTRY_PASSWORD_PROD
-    DOCKERFILE: Frontend/Dockerfile
+    DOCKERFILE: Frontend/Pro.Dockerfile
     MODULE_NAME: frontend-game
     VITE_UNI_CLASS_BACKEND_HOST: "https://ws-game.uniclass.vn"
     #RUNNER-SERVER: deploy-prod
