@@ -1,9 +1,9 @@
-import { CmsApiRoutes, initCmsHttp } from "@/utils/http.util";
+import { CmsApiRoutes, initCmsHttp } from "@/game/common/utils/http.util";
 import { CButton, CCard, CCardBody, CCardHeader } from "@coreui/react";
 import { FormEvent, useCallback, useLayoutEffect, useState } from "react";
 import GameForm from "./form";
 import { useParams } from "react-router";
-import GameStore from "@/stores/cms-store/game.store";
+import GameStore from "@/cms/stores/game.store";
 import { useToast } from "../hooks/use-toast.hook";
 import CIcon from "@coreui/icons-react";
 import { cilCopy } from "@coreui/icons";

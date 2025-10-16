@@ -23,7 +23,8 @@
     ],
     "paths": {
       "@/*": ["./src/*"],
-      "@common/*": ["../Common/*"]
+      "@common/*": ["../Common/*"],
+      "@styles/*": ["./src/styles/*"],
     }
   },
   "include": [

@@ -7,6 +7,7 @@ export default defineConfig({
   resolve: {
     alias: {
       "@": path.resolve(__dirname, "./src"),
+      "@styles": path.resolve(__dirname, "./src/styles"),
       "@common": path.resolve(__dirname, "../Common"),
     },
     extensions: ['.ts', '.tsx', '.js', '.jsx', '.json'],

@@ -1,0 +1,1123 @@
+@use "@styles/variable-reponsive" as *;
+
+.cafe-game {
+  width: 100dvw;
+  height: 100dvh;
+  --font-titan: "Titan One", sans-serif;
+  --font-nunito: "Nunito", sans-serif;
+  font-family: var(--font-nunito);
+
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+  }
+
+  &__wall-container {
+    width: 100dvw;
+    height: 50dvh;
+    background-image: url("/images/cafe-game/back-ground-row.svg");
+    background-position: left;
+    position: absolute;
+
+    &--content {
+      display: flex;
+      justify-content: center;
+      padding: 2rem;
+      gap: 3rem;
+      height: 100%;
+
+      > :first-child,
+      > :last-child {
+        max-width: 15dvw;
+      }
+
+      > :nth-child(2) {
+        flex: 1;
+        max-width: 100%;
+      }
+    }
+  }
+
+  @keyframes Customer_blookEnter {
+    0% {
+      transform: translateX(-100vw);
+    }
+
+    to {
+      transform: translateX(0);
+    }
+  }
+
+  @keyframes SpeechBubble_growIn {
+    0% {
+      transform: scale(0);
+    }
+
+    to {
+      transform: scale(1);
+    }
+  }
+
+  @keyframes SpeechBubble_growOut {
+    0% {
+      transform: scale(1);
+    }
+
+    75% {
+      transform: scale(1);
+    }
+
+    100% {
+      transform: scale(0);
+    }
+  }
+
+  @keyframes Customer_blookLeave {
+    0% {
+      transform: translateY(0);
+    }
+
+    7% {
+      transform: translateY(0.5vw);
+    }
+
+    14% {
+      transform: translateY(-0.5vw);
+    }
+
+    21% {
+      transform: translateY(0);
+    }
+
+    28% {
+      transform: translateY(0.5vw);
+    }
+
+    35% {
+      transform: translateY(-0.5vw);
+    }
+
+    42% {
+      transform: translateY(0);
+    }
+
+    49% {
+      transform: translateY(0.5vw);
+    }
+
+    56% {
+      transform: translateY(-0.5vw);
+    }
+
+    63% {
+      transform: translateY(0);
+      transform: translateX(0);
+    }
+
+    to {
+      transform: translateX(100vw);
+    }
+  }
+
+  &__table-customer-container {
+    width: 100dvw;
+    height: 50dvh;
+    display: flex;
+    position: relative;
+    align-items: flex-end;
+    justify-content: center;
+    gap: 3%;
+    justify-content: center;
+    overflow: hidden;
+
+    .cafe-game__table-customer-slot {
+      display: flex;
+      align-items: end;
+      width: 30%;
+
+      .cafe-game__table-customer-character {
+        display: flex;
+        align-items: flex-end;
+        width: 100%;
+        cursor: pointer;
+
+        @media only screen and (max-width: $mobileW) {
+          flex-direction: column-reverse;
+          align-items: center;
+        }
+
+        .cafe-game__table-customer-avatar {
+          margin-bottom: -5%;
+          width: 50%;
+          height: auto;
+          object-fit: contain;
+
+          &.enter {
+            animation: Customer_blookEnter 0.5s;
+          }
+
+          &.leave {
+            animation: Customer_blookLeave 1s forwards;
+          }
+        }
+
+        .cafe-game__table-customer-order {
+          display: flex;
+          position: relative;
+          flex-direction: column;
+          justify-content: center;
+          align-items: center;
+          gap: 0.75vw;
+          transform-origin: bottom left;
+          transform: scale(0);
+          margin-left: 0.75vw;
+          margin-bottom: 15%;
+          box-shadow: 0 0.5vw 0 #118891;
+          border: 0.5vw solid #099faa;
+          border-radius: 20px;
+          background-color: #ffffff;
+          padding: 0.25vw 0;
+          width: 50%;
+          color: #3a3a3a;
+          font-weight: 700;
+          font-size: 3.5vw;
+          text-align: center;
+
+          .cafe-game__table-customer-earned {
+            font-size: 3vw;
+          }
+
+          &.show {
+            transform: scale(1);
+          }
+
+          &.enter {
+            animation: SpeechBubble_growIn 0.3s 0.2s forwards;
+          }
+
+          &.leave {
+            animation: SpeechBubble_growOut 0.75s forwards;
+          }
+
+          @media only screen and (max-width: $mobileW) {
+            gap: 1.5vw;
+            transform-origin: bottom center;
+            margin-bottom: 1vh;
+            margin-left: 0;
+            box-shadow: 0 1vw 0 var(--blue-dark);
+            border: 1vw solid var(--blue-dark-background);
+            border-radius: 10px;
+            padding: 0.5vw 0;
+            width: 90%;
+            font-size: 28px;
+
+            &:before {
+              display: none !important;
+            }
+
+            &:after {
+              display: none !important;
+            }
+          }
+
+          .cafe-game__table-customer-order-item {
+            display: flex;
+            width: 90%;
+            justify-content: center;
+            align-items: center;
+
+            &-image {
+              margin-right: 7.5%;
+              width: 30%;
+            }
+
+            &-x-number {
+              width: 15%;
+              margin: 0 2.5%;
+              font-size: 2vw;
+              text-align: center;
+            }
+
+            &-quantity {
+              width: 30%;
+              text-align: center;
+            }
+
+            @media only screen and (max-width: $mobileW) {
+              &-x-number {
+                font-size: 28px;
+              }
+
+              &-quantity {
+                font-size: 28px;
+              }
+            }
+          }
+
+          &:before {
+            display: block;
+            position: absolute;
+            bottom: 0.5vw;
+            border-bottom: 1.5vw solid transparent;
+            border-top: 1.5vw solid transparent;
+            border-left: 0;
+            border-right: 1.5vw solid transparent;
+            border-right-color: white;
+            width: 0;
+            height: 0;
+            overflow: hidden;
+            content: "";
+            left: -1.55vw;
+            z-index: 1;
+            border-right-color: #099faa;
+          }
+
+          &:after {
+            display: block;
+            position: absolute;
+            bottom: 0.5vw;
+            left: -1vw;
+            z-index: 2;
+            border-bottom: 1.5vw solid transparent;
+            border-top: 1.5vw solid transparent;
+            border-left: 0;
+            border-right: 1.5vw solid transparent;
+            border-right-color: white;
+            width: 0;
+            height: 0;
+            overflow: hidden;
+            content: "";
+          }
+        }
+      }
+
+      @media only screen and (max-width: $mobileW) {
+        max-width: 140px;
+      }
+    }
+  }
+
+  &__table-container {
+    width: 100dvw;
+    height: 50dvh;
+    background-image: url("/images/cafe-game/back-ground-table.svg");
+    background-position: left;
+    box-shadow: 0 -0.75vh 0.4vh #0003;
+    background-position: center;
+    background-size: auto 100%;
+    position: relative;
+
+    .cafe-game__table-customer-container {
+      background-color: red;
+      position: absolute;
+      width: 100%;
+      height: 300px;
+    }
+  }
+
+  &__table-container-plate {
+    width: 100dvw;
+    height: 82%;
+    display: flex;
+    flex-flow: row wrap;
+    align-content: center;
+    justify-content: center;
+    gap: 0 2.5vw;
+    padding-top: 1vh;
+
+    >div {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      width: 18%;
+      height: 45%;
+    }
+  }
+
+  &__plate {
+    position: relative;
+    flex-grow: 1;
+    transform: scale(1.3);
+    aspect-ratio: 1;
+    max-width: 100%;
+    max-height: 100%;
+
+    img.cafe-game__plate-food {
+      position: absolute;
+      width: 60%;
+      height: auto;
+      left: 0;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      margin: auto;
+    }
+  }
+
+  &__plate-active {
+    filter: drop-shadow(0 0.6vw var(--gray-shadow));
+  }
+
+  &__plate-non-active {
+    filter: drop-shadow(0 0.6vw var(--gray-shadow)) brightness(50%) grayscale(100%);
+  }
+
+  &__plate-food-number {
+    position: absolute;
+    right: 8%;
+    bottom: 8%;
+    box-shadow: 0.25vw 0.25vw #0003;
+    border-radius: 5px;
+    background-color: var(--blue-dark-background);
+    padding: 0 0.5vw;
+    min-width: 15%;
+    color: var(--white);
+    font-weight: 700;
+    text-align: center;
+  }
+
+  &__serve-animations-container {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100dvw;
+    height: 100dvh;
+    pointer-events: none;
+    overflow: hidden;
+    z-index: 50;
+
+    .cafe-game__serve-animations-food {
+      position: absolute;
+    }
+  }
+
+  &__table-container-cover-btn {
+    display: flex;
+    position: absolute;
+    bottom: 1dvh;
+    left: 0;
+    justify-content: center;
+    gap: 10dvw;
+    margin: auto;
+    width: 100%;
+  }
+
+  &__button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 4;
+    min-width: 20dvw;
+    text-align: center;
+    position: relative;
+    flex-direction: column;
+    transition: 0.2s;
+    cursor: pointer;
+    outline: none;
+    box-shadow: 0 -0.8vh var(--blue-dark) inset;
+    border: 0.5vh solid #0e6b71;
+    border-radius: var(--button-radius);
+    background-color: var(--blue-dark-background);
+    padding: 1vh 0 1.8vh;
+    width: 20dvw;
+    color: var(--white);
+    font-weight: 700;
+    font-size: 2dvw;
+    user-select: none;
+  }
+
+  &__shop {
+    width: 100dvw;
+    height: 100dvh;
+    overflow-x: hidden;
+    overflow-y: auto;
+    background-image: url("/images/cafe-game/wall-shop.svg"), url("/images/cafe-game/wall-shop-transform.svg");
+    display: flex;
+    flex-direction: column;
+    background-size: 40vw;
+    background-repeat: no-repeat;
+    background-color: var(--white);
+    background-position-x: left, right;
+    background-position-y: bottom;
+  }
+
+  &__shop-header {
+    background-image: url("/images/cafe-game/curtain.svg");
+    background-size: auto 100%;
+    background-repeat: repeat-x;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+  }
+
+  &__shop-header-setting {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    justify-content: flex-end;
+    padding: 0.25rem;
+    gap: 0.5rem;
+
+    >div {
+      height: 40px;
+    }
+
+    // img {
+    //   width: 40px;
+    //   height: 40px;
+    //   object-fit: contain;
+    // }
+  }
+
+  &__shop-header-curtain {
+    flex: 1;
+    display: flex;
+    justify-content: space-between;
+  }
+
+  &__shop-header-curtain-upgrades {
+    background-image: url("/images/cafe-game/ribbon-upgrade.svg");
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-origin: content-box;
+    background-position-y: center;
+    width: 26rem;
+    height: 8rem;
+    color: var(--white);
+    font-family: var(--font-coiny);
+    text-shadow: 0.2dvw 0.2dvw var(--gray-shadow);
+    display: flex;
+    align-items: flex-start;
+
+    div {
+      font-size: 3rem;
+      padding-top: 1.3rem;
+      padding-left: 1rem;
+    }
+  }
+
+  &__shop-header-curtain-money {
+    @extend .cafe-game__shop-header-curtain-upgrades;
+    background-image: url("/images/cafe-game/ribbon-money.svg");
+    width: 20rem;
+    justify-content: flex-end;
+
+    div {
+      padding-top: 2.2rem;
+      padding-left: 0;
+      padding-right: 1rem;
+    }
+  }
+
+  &__shop-body {
+    display: flex;
+    justify-content: center;
+    padding-top: 4dvh;
+  }
+
+  &__shop-cover-items {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 1.5dvw 3dvw;
+    padding: 0 1rem;
+
+    >button {
+      flex: 0 1 calc(25% - 3dvw - 1rem);
+    }
+  }
+
+  &__shop-item {
+    position: relative;
+    border: 0.5vh solid #4d4d4d;
+    border-radius: var(--button-radius);
+    cursor: not-allowed;
+    box-shadow: 0 -0.8vh var(--gray-dark) inset;
+    background-color: var(--gray);
+    color: var(--gray-text);
+    width: 20dvw;
+    padding: 1dvh 0 1.8dvh;
+  }
+
+  &__shop-item-content {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    font-weight: 700;
+    padding: 0 0.5rem;
+    font-family: var(--font-nunito);
+
+    > :first-child {
+      font-size: 1.1rem;
+    }
+
+    > :nth-child(2) {
+      text-align: right;
+      margin-top: 0.5dvh;
+    }
+
+    > :last-child {
+      margin-top: 1.5dvh;
+      font-size: 1.2rem;
+    }
+  }
+
+  &__shop-item-img {
+    display: flex;
+    position: absolute;
+    top: 50%;
+    left: 0;
+    justify-content: center;
+    align-items: center;
+    transform: translate(-20%, -53%);
+    aspect-ratio: 1;
+    height: 90%;
+
+    img {
+      width: 100%;
+      height: 100%;
+    }
+
+    >div {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -55%);
+      filter: drop-shadow(0 0.3vw var(--gray-shadow));
+      width: 60%;
+    }
+  }
+
+  &__shop-item-active {
+    cursor: pointer;
+    background-color: var(--blue-dark-background);
+    box-shadow: 0 -0.8vh var(--blue-dark) inset;
+    border: 0.5vh solid #0e6b71;
+    color: white;
+  }
+
+  &__shop-cover-btn {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    z-index: 1;
+    margin-top: auto;
+    padding: 2vw;
+    width: 100%;
+    position: fixed;
+    bottom: 0;
+  }
+
+  &__abilities {
+    @extend .cafe-game__shop;
+  }
+
+  &__abilities-header {
+    @extend .cafe-game__shop-header;
+    background-image: url("/images/cafe-game/curtain-abilities.svg");
+  }
+
+  &__abilities-header-setting {
+    @extend .cafe-game__shop-header-setting;
+  }
+
+  &__abilities-header-curtain {
+    @extend .cafe-game__shop-header-curtain;
+  }
+
+  &__abilities-header-curtain-upgrades {
+    @extend .cafe-game__shop-header-curtain-upgrades;
+    background-image: url("/images/cafe-game/ribbon-upgrade-abilities.svg");
+  }
+
+  &__abilities-header-curtain-money {
+    @extend .cafe-game__shop-header-curtain-money;
+    background-image: url("/images/cafe-game/ribbon-money-abilities.svg");
+  }
+
+  &__abilities-body {
+    @extend .cafe-game__shop-body;
+  }
+
+  &__abilities-cover-items {
+    @extend .cafe-game__shop-cover-items;
+
+    >button {
+      flex: 0 1 calc(28% - 3dvw);
+    }
+  }
+
+  &__abilities-cover-btn {
+    @extend .cafe-game__shop-cover-btn;
+  }
+
+  &__abilities-item {
+    @extend .cafe-game__shop-item;
+  }
+
+  &__abilities-item-active {
+    @extend .cafe-game__shop-item-active;
+  }
+
+  &__abilities-item-content {
+    @extend .cafe-game__shop-item-content;
+
+    > :nth-child(2) {
+      width: 60%;
+    }
+  }
+
+  &__abilities-item-img {
+    @extend .cafe-game__shop-item-img;
+    transform: translate(-15%, -53%) rotate(-15deg);
+    height: 70%;
+
+    div {
+      width: 100%;
+    }
+  }
+
+  &__menu-layout {
+    position: absolute;
+    top: 0;
+    width: 100dvw;
+    height: 52px;
+    padding: 0 0.5rem;
+    padding-left: 3.5rem;
+    display: flex;
+    justify-content: space-between;
+  }
+
+  &__menu-layout-setting {
+    display: flex;
+    gap: 0.25rem;
+
+    .setting-audio-react__icon {
+      min-width: 40px;
+      min-height: 40px;
+    }
+  }
+
+  &__tag {
+    border: 4px solid #023b6a;
+    border-top: none;
+    border-bottom-right-radius: var(--button-radius);
+    border-bottom-left-radius: var(--button-radius);
+    background-color: #0174bb;
+    padding: 5px 10px;
+    color: var(--white);
+    font-weight: 700;
+    font-size: 28px;
+    user-select: none;
+    width: fit-content;
+  }
+
+  &__popup-abilities {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100dvh;
+    width: 100dvw;
+    background-color: #00000080;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 10;
+  }
+
+  &__popup-abilities-content {
+    background-color: white;
+    width: 500px;
+    padding: 20px 15px;
+    font-family: var(--font-nunito);
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 5px;
+    border-radius: 10px;
+  }
+
+  &__popup-abilities-content-detail {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 5px;
+
+    >img {
+      width: 100px;
+    }
+  }
+
+  &__popup-abilities-content-text {
+    font-family: var(--font-nunito);
+    margin-top: 14px;
+    margin-bottom: 15px;
+    font-size: 32px;
+
+    >img {
+      width: 35px;
+      height: 40px;
+    }
+
+    >div {
+      display: inline-block;
+      transform: translateY(5px);
+      margin-right: 10px;
+      width: 35px;
+    }
+  }
+
+  &__popup-abilities-btn {
+    transition: filter 0.25s;
+    cursor: pointer;
+    outline: none;
+    border: none;
+    border-radius: 10px;
+    -webkit-user-select: none;
+    user-select: none;
+    text-decoration: none;
+    background: rgb(11, 194, 207);
+    width: 93px;
+    height: 45px;
+    box-shadow: 0 -0.5vh var(--blue-dark) inset;
+
+    div {
+      color: #fff;
+      font-weight: 700;
+      font-size: 22px;
+      font-family: var(--font-nunito);
+      text-align: center;
+      min-height: 35px;
+    }
+  }
+
+  &__popup-abilities-health {
+    @extend .cafe-game__popup-abilities;
+    cursor: not-allowed;
+  }
+
+  &__popup-abilities-health-container {
+    position: relative;
+
+    img {
+      object-fit: contain;
+    }
+  }
+
+  &__popup-abilities-health-content {
+    font-family: var(--font-nunito);
+    position: absolute;
+    top: 63%;
+    left: 56%;
+    transform: translate(-50%, -50%);
+    font-size: 2.1rem;
+    width: max-content;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  &__player-leaderboard-dismissible {
+    position: fixed;
+    width: 100vw;
+    height: 100vh;
+    top: 0;
+    left: 0;
+    z-index: 300;
+    background: transparent;
+    cursor: pointer;
+    border: none;
+  }
+
+  &__player-leaderboard {
+    display: flex;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    flex-direction: column;
+    justify-content: flex-start;
+    transform: translate(-50%, -50%);
+    border-radius: 10px;
+    width: 95%;
+    max-width: 800px;
+    min-height: 70px;
+    max-height: 80%;
+    overflow-y: scroll;
+    // pointer-events: none;
+    color: #fff;
+    font-family: var(--font-nunito);
+    z-index: 301;
+
+    &::-webkit-scrollbar {
+      border-radius: 10px;
+      background-color: #fff3;
+      width: 12px;
+    }
+
+    &::-webkit-scrollbar-thumb {
+      border-radius: 10px;
+      background: #fff;
+    }
+
+    &::-webkit-scrollbar-thumb:hover {
+      border-radius: 10px;
+      background: #fff;
+    }
+
+    &-header {
+      display: flex;
+      align-items: center;
+      background-color: #000c;
+      padding: 0 15px;
+      width: 100%;
+      height: 45px;
+
+      &-left {
+        margin-right: auto;
+        font-size: 24px;
+      }
+
+      &-right {
+        width: 130px;
+        font-size: 18px;
+        text-align: center;
+      }
+    }
+
+    &-row {
+      display: flex;
+      align-items: center;
+      padding: 0 15px;
+      width: 100%;
+      height: 35px;
+      font-size: 18px;
+
+      &.self {
+        background-color: rgba(255, 255, 255, 0.8) !important;
+        color: rgb(0, 0, 0);
+      }
+
+      &:nth-child(odd) {
+        background-color: rgba(20, 20, 20, 0.8);
+      }
+
+      &:nth-child(even) {
+        background-color: rgba(0, 0, 0, 0.8);
+      }
+
+      &-image {
+        display: flex;
+        justify-content: flex-start;
+        align-items: center;
+        width: 40px;
+        height: 100%;
+
+        &-wrapper {
+          height: 90%;
+          display: flex;
+          justify-content: flex-end;
+          outline: none;
+          -webkit-user-select: none;
+          user-select: none;
+
+          img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+          }
+        }
+      }
+
+      &-name {
+        margin-right: auto;
+        width: 200px;
+        text-align: left;
+      }
+
+      &-score {
+        width: 130px;
+        text-align: center;
+      }
+    }
+  }
+
+  @media screen and (max-width: 1850px) {
+    &__plate {
+      transform: scale(1.2);
+    }
+  }
+
+  @media screen and (max-width: 1450px) {}
+
+  @media screen and (max-width: $small-desktopW) {
+    &__plate {
+      transform: scale(1.2);
+    }
+
+    &__button {
+      min-width: 30dvw;
+      font-size: 3dvw;
+    }
+  }
+
+  @media screen and (max-width: $tabletW) {
+    &__plate {
+      transform: scale(0.9);
+    }
+
+    &__shop-header-curtain-upgrades {
+      width: 16rem;
+      height: 4rem;
+
+      div {
+        font-size: 1.5rem;
+        padding-top: 0.5rem;
+        padding-left: 0.5rem;
+      }
+    }
+
+    &__shop-header-curtain-money {
+      width: 12rem;
+
+      div {
+        padding: 1.1rem 0.5rem 0 0;
+      }
+    }
+
+    &__shop-cover-items {
+      >button {
+        flex: 0 1 calc(33% - 3dvw);
+      }
+    }
+
+    // &__shop-item-content {
+    //   > :first-child {
+    //     font-size: 1rem;
+    //   }
+
+    //   > :nth-child(2) {
+    //     font-size: 0.75rem;
+    //   }
+
+    //   > :last-child {
+    //     font-size: 1.25rem;
+    //   }
+    // }
+  }
+
+  @media screen and (max-width: $mobileW) {
+    &__wall-container {
+      &--content {
+
+        > :first-child,
+        > :last-child {
+          display: none;
+        }
+      }
+    }
+
+    &__table-container-plate {
+      gap: 0.25rem;
+
+      >div {
+        width: 30%;
+        height: 33%;
+      }
+    }
+
+    &__plate {
+      transform: scale(1);
+    }
+
+    &__button {
+      min-width: 25dvw;
+      font-size: 3dvw;
+    }
+
+    &__shop-cover-items {
+      >button {
+        flex: 0 1 calc(50% - 3dvw);
+      }
+    }
+
+    &__shop-item-content {
+      > :first-child {
+        font-size: 0.7rem;
+      }
+
+      > :nth-child(2) {
+        font-size: 0.5rem;
+      }
+
+      > :last-child {
+        font-size: 1rem;
+      }
+    }
+
+    &__shop-header-setting {
+      >div {
+        width: 20px;
+        height: 20px;
+      }
+
+      // img {
+      //   width: 20px;
+      //   height: 20px;
+      // }
+    }
+
+    &__popup-abilities-health-container {
+      padding: 0 0.5rem;
+
+      img {
+        width: 100%;
+        height: 100%;
+      }
+    }
+
+    &__popup-abilities-health-content {
+      font-size: 1.5rem;
+    }
+  }
+
+  @media screen and (max-width: $small-mobileW) {
+    &__button {
+      box-shadow: 0 -2px var(--blue-dark) inset;
+    }
+
+    &__shop-header-curtain-upgrades {
+      width: 11rem;
+
+      div {
+        font-size: 1rem;
+        padding-top: 1rem;
+      }
+    }
+
+    &__shop-header-curtain-money {
+      width: 8rem;
+
+      div {
+        padding-top: 1.4rem;
+      }
+    }
+
+    &__plate-food-number {
+      font-size: 0.75rem;
+      padding: 0 0.25rem;
+    }
+
+    &__popup-abilities-content {
+      width: 100%;
+      margin: 0 0.5rem;
+    }
+
+    &__popup-abilities-health-content {
+      font-size: 1rem;
+    }
+  }
+}

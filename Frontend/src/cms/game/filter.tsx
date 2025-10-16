@@ -1,4 +1,4 @@
-import GameStore from "@/stores/cms-store/game.store";
+import GameStore from "@/cms/stores/game.store";
 import { CForm, CFormInput } from "@coreui/react";
 import { FormEvent, useCallback } from "react";
 

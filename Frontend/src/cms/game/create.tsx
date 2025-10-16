@@ -1,4 +1,4 @@
-import { CmsApiRoutes, initCmsHttp } from "@/utils/http.util";
+import { CmsApiRoutes, initCmsHttp } from "@/game/common/utils/http.util";
 import { CCard, CCardBody, CCardHeader } from "@coreui/react";
 import { FormEvent, useCallback } from "react";
 import GameForm from "./form";

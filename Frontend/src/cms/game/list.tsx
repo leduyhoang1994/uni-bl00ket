@@ -14,7 +14,7 @@ import {
 } from "@coreui/react";
 import { useToast } from "../hooks/use-toast.hook";
 import { useCallback, useLayoutEffect } from "react";
-import GameStore from "@/stores/cms-store/game.store";
+import GameStore from "@/cms/stores/game.store";
 import { useNavigate } from "react-router";
 import "../styles/game.list.scss";
 import CIcon from "@coreui/icons-react";

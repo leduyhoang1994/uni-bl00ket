@@ -1,4 +1,4 @@
-import useAuthStore from "@/stores/cms-store/auth.store";
+import useAuthStore from "@/cms/stores/auth.store";
 import {
   CHeader,
   CHeaderNav,
