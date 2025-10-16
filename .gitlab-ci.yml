@@ -25,6 +25,7 @@ before_script:
     CI_REGISTRY_EDUCA_PASSWORD: default
     IMAGE_NAME: $CI_REGISTRY_EDUCA/$PROJECT_NAME/$CI_COMMIT_REF_NAME/$MODULE_NAME
     DOCKERFILE: Dockerfile
+    VITE_UNI_CLASS_BACKEND_HOST: $VITE_UNI_CLASS_BACKEND_HOST
     #RUNNERSERVER: build-shell
   #tags:
     #- $RUNNERSERVER
@@ -33,7 +34,7 @@ before_script:
     - echo $CI_REGISTRY_EDUCA_USER
     - echo $CI_REGISTRY_EDUCA_PASSWORD
     - docker login -u $CI_REGISTRY_EDUCA_USER -p $CI_REGISTRY_EDUCA_PASSWORD  $CI_REGISTRY_EDUCA
-    - docker build  --cache-from $IMAGE_NAME:latest --tag $IMAGE_NAME:latest  --tag $IMAGE_NAME:$IMAGE_TAG -f $DOCKERFILE .
+    - docker build --build-arg $VITE_UNI_CLASS_BACKEND_HOST --cache-from $IMAGE_NAME:latest --tag $IMAGE_NAME:latest  --tag $IMAGE_NAME:$IMAGE_TAG -f $DOCKERFILE .
     - docker push $IMAGE_NAME:$IMAGE_TAG
   cache:
     key: composer.json
@@ -53,6 +54,7 @@ build-image-frontend-prod(build-image):
     CI_REGISTRY_EDUCA_PASSWORD: $CI_REGISTRY_PASSWORD_PROD
     DOCKERFILE: Frontend/Dockerfile
     MODULE_NAME: frontend-game
+    VITE_UNI_CLASS_BACKEND_HOST: "https://ws-game.uniclass.vn"
     #RUNNER-SERVER: deploy-prod
   tags:
     - build-shell
@@ -73,6 +75,7 @@ build-image-backend-prod(build-image):
     CI_REGISTRY_EDUCA_PASSWORD: $CI_REGISTRY_PASSWORD_PROD
     DOCKERFILE: Backend-k8s.Dockerfile
     MODULE_NAME: backend-game
+    VITE_UNI_CLASS_BACKEND_HOST: "https://ws-game.uniclass.vn"
   tags:
     - build-shell
   only:
