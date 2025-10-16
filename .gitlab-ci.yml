@@ -83,3 +83,4 @@ build-image-backend-prod(build-image):
       - main
     changes:
       - Backend/**/*
+      - Backend-k8s.Dockerfile
