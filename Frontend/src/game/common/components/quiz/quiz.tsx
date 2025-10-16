@@ -21,7 +21,7 @@ export default function Quiz() {
     setAnsweredId,
     isCorrect
   } = QuizStore();
-  const { loadCafeStocks, setToggleLeaderBoard } = CafeGameStore();
+  const { loadCafeStocks } = CafeGameStore();
   const { userInfo } = HostStore();
 
   const question = currentQuestion?.text;
@@ -108,9 +108,6 @@ export default function Quiz() {
         <RenderIf condition={answerQuiz}>
           <div className="question-react__header-mid">{isCorrect ? 'Chính xác' : 'Sai đáp án'}</div>
         </RenderIf>
-        <div className="question-react__header-right">
-          <img src="/images/cafe-game/leader-board.svg" alt="" onClick={() => setToggleLeaderBoard(true)} />
-        </div>
       </div>
       <div className="question-react__body">
         <div className="question-react__body-content">
