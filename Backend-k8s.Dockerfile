@@ -20,8 +20,8 @@ RUN npm run build
 
 # Cleanup devDependencies sau khi build and copy to /app/Backend
 RUN npm prune --production
-RUN ls -al build/
+RUN ls -al build/Backend/
 EXPOSE 80
 
-CMD [ "node", "build/app.js" ]
+CMD [ "node", "build/Backend/app.js" ]
 
