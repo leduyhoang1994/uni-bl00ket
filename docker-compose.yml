@@ -34,6 +34,7 @@ services:
       - REDIS_CONNECTION_URL=${REDIS_CONNECTION_URL}
       - MONGO_CONNECTION_URL=${MONGO_CONNECTION_URL}
       - API_KEY=${API_KEY}
+      - REDIS_TYPE=${REDIS_TYPE}
 
   nginx_service:
     image: nginx:stable-alpine
