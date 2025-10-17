@@ -3,30 +3,33 @@ import HostController from "@/game/host/controller";
 import { UrlGenerator } from "@/game/common/utils/utils";
 import { GameMode } from "@common/constants/host.constant";
 import { useNavigate } from "react-router";
+import { useState } from "react";
+import GameModePicker from "./game-mode-picker";
 
 function HostCreate() {
   let navigate = useNavigate();
+  const [gameMode, setGameMode] = useState<GameMode>(GameMode.Cafe);
 
   async function createHost() {
     const controller = await HostController.getInstance();
     await controller.initHttp();
 
     const createResult: any = await controller.createHost({
-      gameMode: GameMode.Cafe,
+      gameMode: gameMode,
       gameSettings: {
         testing: true,
       },
     });
     const hostId = createResult?.data?.hostId;
 
-    navigate(UrlGenerator.HostLobbbyUrl(hostId));
+    navigate(UrlGenerator.AdminHostUrl(hostId));
   }
   return (
     <>
       <div className="waiting-lobby-player">
         <div className="waiting-lobby-player__header">
           <div className="waiting-lobby-player__header-second">
-            Create Cafe Host
+            Tạo phòng Game
           </div>
           <div></div>
         </div>
@@ -34,16 +37,18 @@ function HostCreate() {
           className="waiting-lobby-player__body"
           style={{
             display: "flex",
+            flexDirection: "column",
             justifyContent: "center",
             alignItems: "center",
           }}
         >
+          <GameModePicker gameMode={gameMode} setGameMode={setGameMode} />
           <button className="button-host" onClick={createHost}>
-            Tạo Phòng
+            <span className="coiny-text">Tạo Phòng</span>
           </button>
-          <div className="body-background-wrapper">
-            <div className="body-background"></div>
-          </div>
+        </div>
+        <div className="body-background-wrapper">
+          <div className="body-background"></div>
         </div>
       </div>
     </>

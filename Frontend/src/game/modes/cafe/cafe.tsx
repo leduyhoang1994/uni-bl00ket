@@ -1,6 +1,6 @@
 import RenderIf from "@/game/common/utils/condition-render";
 import CafeGameStore from "@/game/modes/cafe/store";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import QuizStore from "@/game/common/components/quiz/store";
 import CustomerDesk from "./screens/customer-desk/customer-desk";
 import { useParams } from "react-router";
@@ -17,6 +17,7 @@ import AbilitiesContainer from "./screens/abilities/abilities-container";
 import PlayerLeaderboard from "./components/player-leaderboard/player-leaderboard";
 import "./styles/cafe.scss";
 import Quiz from "@/game/common/components/quiz/quiz";
+import CafeController from "./cafe.controller";
 
 export default function Cafe() {
   const {
@@ -40,6 +41,9 @@ export default function Cafe() {
     player: {} as Player,
     isOpen: false,
   });
+  const [cafeController, setCafeController] = useState<CafeController | null>(
+    null
+  );
 
   function toggleAbilityPopup(abilityId: ABILITY_ID, player: Player) {
     setAbilitiesObj({
@@ -99,8 +103,15 @@ export default function Cafe() {
       controller.setSocketClient(socket);
       await controller.initData();
       loadCafeData();
+      setCafeController(controller);
       setControllerLoaded(true);
     })();
+  }, []);
+
+  const answerCallback = useCallback((correct: boolean) => {
+    if (correct) {
+      loadCafeStocks();
+    }
   }, []);
 
   return (
@@ -112,7 +123,9 @@ export default function Cafe() {
       >
         <CustomerDesk />
       </RenderIf>
-      <Quiz />
+      {cafeController && (
+        <Quiz answerCallback={answerCallback} gameController={cafeController} />
+      )}
       <RenderIf condition={toggleVisitShop}>
         <ShopContainer />
       </RenderIf>
@@ -138,22 +151,6 @@ export default function Cafe() {
       <RenderIf condition={toggleLeaderBoard}>
         <PlayerLeaderboard />
       </RenderIf>
-      {/* <RenderIf condition={!toggleQuizContainer}>
-        <CustomerDesk />
-      </RenderIf>
-      <QuestionScreen />
-      <RenderIf condition={toggleVisitShop}>
-        <UpgradesScreen />
-      </RenderIf>
-      <RenderIf condition={isChoosingAbilityTarget !== null}>
-        <ChoosePlayerTarget abilityId={isChoosingAbilityTarget as ABILITY_ID} />
-      </RenderIf>
-      <RenderIf condition={abilitiesObj.isOpen}>
-        <PopupAbilities abilitiesObj={abilitiesObj} setAbilitiesObj={setAbilitiesObj} />
-      </RenderIf>
-      <RenderIf condition={healthPopupObj.isOpen}>
-        <PopupAbilitiesHealth timeBlockEnd={timeBlockEnd} healthPopupObj={healthPopupObj} />
-      </RenderIf> */}
     </RenderIf>
   );
 }

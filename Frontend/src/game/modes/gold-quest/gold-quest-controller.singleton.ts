@@ -1,11 +1,11 @@
 import { getGameController } from "@/game/common/game-controller.singleton";
-import CafeController from "@/game/modes/cafe/cafe.controller";
 import { GameMode } from "@common/constants/host.constant";
 import { Question } from "@common/types/game.type";
+import GoldQuestController from "./gold-quest.controller";
 
-export const getCafeControllerInstance = (
+export const getGoldQuestControllerInstance = (
   hostId?: string,
   questions: Question[] = []
-): CafeController => {
-  return getGameController<GameMode.Cafe>(GameMode.Cafe, hostId, questions);
+): GoldQuestController => {
+  return getGameController<GameMode.GoldQuest>(GameMode.GoldQuest, hostId, questions);
 };

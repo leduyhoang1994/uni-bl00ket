@@ -1,25 +1,48 @@
-import GameApplication from "./game/page";
 import "./App.css";
 import "./styles/styles.scss";
-import HostLobby from "@/game/host/pages/admin/lobby/lobby";
-import HostPlayer from "@/game/host/pages/player/lobby/host-player";
-import WaitingLobbyPlayer from "@/game/host/pages/player/lobby/waiting-lobby-player";
 import { BrowserRouter, Navigate, Route, Routes } from "react-router";
-import { useLayoutEffect } from "react";
+import { lazy, Suspense, useLayoutEffect } from "react";
 import HostController from "@/game/host/controller";
-import AccessDenied from "@/game/host/components/access-denied";
-import HostNavigator from "@/game/host/pages/admin/host";
-import FinalStandings from "@/game/host/pages/admin/final/final-standings";
-import GameList from "./cms/game/list";
-import CmsLayout from "./cms/layout/cms.layout";
-import CmsLogin from "./cms/auth/login";
-import AdminLayout from "./cms/layout/admin.layout";
-import GameCreate from "./cms/game/create";
-import GameEdit from "./cms/game/edit";
-import HostCreate from "./game/host/pages/admin/host-create/host-create";
-import InGame from "./game/host/pages/admin/in-game/in-game";
-import FinalStandingsPlayer from "./game/host/pages/player/final/final-standings-player";
-import GoldQuest from "./game/modes/gold-quest/gold-quest";
+import FullPageLoader from "./loader";
+import HostPlayerLayout from "./game/host/pages/player/player.layout";
+
+// --- Player Components ---
+const HostPlayer = lazy(
+  () => import("@/game/host/pages/player/lobby/host-player")
+);
+const WaitingLobbyPlayer = lazy(
+  () => import("@/game/host/pages/player/lobby/waiting-lobby-player")
+);
+const PlayerInGame = lazy(() => import("./game/host/pages/player/in-game/in-game"));
+const FinalStandingsPlayer = lazy(
+  () => import("@/game/host/pages/player/final/final-standings-player")
+);
+
+// --- Admin/Host Components ---
+const HostAdminLayout = lazy(
+  () => import("./game/host/pages/admin/admin.layout")
+);
+const HostCreate = lazy(
+  () => import("./game/host/pages/admin/host-create/host-create")
+);
+const HostNavigator = lazy(() => import("@/game/host/pages/admin/host"));
+const HostLobby = lazy(() => import("@/game/host/pages/admin/lobby/lobby"));
+const InGame = lazy(() => import("./game/host/pages/admin/in-game/in-game"));
+const FinalStandings = lazy(
+  () => import("@/game/host/pages/admin/final/final-standings")
+);
+
+// --- CMS Components ---
+const CmsLayout = lazy(() => import("./cms/layout/cms.layout"));
+const CmsLogin = lazy(() => import("./cms/auth/login"));
+const AdminLayout = lazy(() => import("./cms/layout/admin.layout"));
+const GameList = lazy(() => import("./cms/game/list"));
+const GameCreate = lazy(() => import("./cms/game/create"));
+const GameEdit = lazy(() => import("./cms/game/edit"));
+
+// --- Other Components ---
+const AccessDenied = lazy(() => import("@/game/host/components/access-denied"));
+const GoldQuest = lazy(() => import("./game/modes/gold-quest/gold-quest"));
 
 function App() {
   useLayoutEffect(() => {
@@ -36,47 +59,53 @@ function App() {
 
   return (
     <BrowserRouter>
-      <Routes>
-        {/* Player Lobby */}
-        <Route path="join" element={<HostPlayer />} />
-        <Route path="join/:hostId" element={<HostPlayer />} />
-        <Route path="join/:hostId/lobby" element={<WaitingLobbyPlayer />} />
-        {/* Admin Lobby */}
-        <Route path="admin-lobby/:hostId" element={<HostLobby />} />
-
-        {/* In Game */}
-        <Route path="player-play/:hostId" element={<GameApplication />} />
-        <Route path="player-final/:hostId" element={<FinalStandingsPlayer />} />
-        <Route path="admin-play/:hostId" element={<HostNavigator />} />
-        <Route path="admin-final/:hostId" element={<FinalStandings />} />
-
-        <Route path="/cafe">
-          {/* Creator Lobby */}
-          <Route path="create" element={<HostCreate />} />
-          <Route path=":hostId/leaderboard" element={<InGame />} />
-        </Route>
-
-        <Route path="/gold-quest" element={<GoldQuest />} />
-
-        <Route path="cms" element={<CmsLayout />}>
-          <Route index element={<Navigate to="admin" replace />} />
-          <Route path="auth">
-            <Route path="login" element={<CmsLogin />} />
+      <Suspense fallback={<FullPageLoader />}>
+        <Routes>
+          {/* Player */}
+          <Route element={<HostPlayerLayout />}>
+            <Route path="join" element={<HostPlayer />} />
+            <Route path="join/:hostId" element={<HostPlayer />} />
+            <Route path="join/:hostId/lobby" element={<WaitingLobbyPlayer />} />
+            <Route path="player-play/:hostId" element={<PlayerInGame />} />
+            <Route
+              path="player-final/:hostId"
+              element={<FinalStandingsPlayer />}
+            />
           </Route>
-          <Route path="admin" element={<AdminLayout />}>
-            <Route index element={<Navigate to="game/list" replace />} />
 
-            <Route path="game">
-              <Route index element={<Navigate to="list" replace />} />
-              <Route path="list" element={<GameList />} />
-              <Route path="create" element={<GameCreate />} />
-              <Route path="edit/:game_id" element={<GameEdit />} />
+          <Route path="admin" element={<HostAdminLayout />}>
+            <Route path="game/create" element={<HostCreate />} />
+
+            <Route path="host/:hostId">
+              <Route index element={<HostNavigator />} />
+              <Route path="lobby" element={<HostLobby />} />
+              <Route path="in-game" element={<InGame />} />
+              <Route path="final" element={<FinalStandings />} />
             </Route>
           </Route>
-        </Route>
 
-        <Route path="/access-denied" element={<AccessDenied />} />
-      </Routes>
+          <Route path="/gold-quest" element={<GoldQuest />} />
+
+          <Route path="cms" element={<CmsLayout />}>
+            <Route index element={<Navigate to="admin" replace />} />
+            <Route path="auth">
+              <Route path="login" element={<CmsLogin />} />
+            </Route>
+            <Route path="admin" element={<AdminLayout />}>
+              <Route index element={<Navigate to="game/list" replace />} />
+
+              <Route path="game">
+                <Route index element={<Navigate to="list" replace />} />
+                <Route path="list" element={<GameList />} />
+                <Route path="create" element={<GameCreate />} />
+                <Route path="edit/:game_id" element={<GameEdit />} />
+              </Route>
+            </Route>
+          </Route>
+
+          <Route path="/access-denied" element={<AccessDenied />} />
+        </Routes>
+      </Suspense>
     </BrowserRouter>
   );
 }

@@ -156,7 +156,7 @@ export default class HostRepository {
     await client.hset(
       RedisHostKey.getPlayerGameDataKey(hostId),
       userId,
-      JSON.stringify(gameData)
+      gameData
     );
   }
 

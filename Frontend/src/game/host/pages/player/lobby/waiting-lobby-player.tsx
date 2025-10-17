@@ -73,7 +73,7 @@ function WaitingLobbyPlayer() {
         </div>
         <div
           className="waiting-lobby-player__body"
-          style={{ overflowY: "auto" }}
+          style={{ overflowY: "auto", justifyContent: "center" }}
         >
           <div className="body-background-wrapper">
             <div className="body-background"></div>
@@ -91,22 +91,6 @@ function WaitingLobbyPlayer() {
               </div>
             </div>
           </RenderIf>
-          {/* <div className="host-creator__body-cover-player">
-            {[1, 2, 3, 4, 5, 6, 7].map((player, index: number) => {
-              return (
-                <div className="waiting-lobby-player__user-infor" key={index}>
-                  <UserPlayerInfo
-                    player={{
-                      avatar: "/images/cafe-game/customers/chick.svg",
-                      username: "abc",
-                      id: "",
-                      socketId: "",
-                    }}
-                  />
-                </div>
-              );
-            })}
-          </div> */}
         </div>
       </div>
     </>

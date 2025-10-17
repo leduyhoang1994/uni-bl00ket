@@ -1,24 +1,9 @@
-import { useLayoutEffect } from "react";
-import { NavigateFunction, useNavigate, useParams } from "react-router";
+import { useLayoutEffect, useState } from "react";
+import { useNavigate, useParams } from "react-router";
 import HostController from "../../controller";
 import tokenRequire from "../../components/token-require.hoc";
-import { GameMode, HostState } from "@common/constants/host.constant";
+import { HostState } from "@common/constants/host.constant";
 import { UrlGenerator } from "@/game/common/utils/utils";
-import "../../styles/host.scss";
-
-function leaderboardNavigator(
-  navigate: NavigateFunction,
-  hostId: string,
-  gameMode: GameMode
-) {
-  switch (gameMode) {
-    case GameMode.Cafe:
-      navigate(UrlGenerator.LeaderBoardUrl(gameMode, hostId));
-      break;
-    default:
-      break;
-  }
-}
 
 function HostNavigator() {
   const { hostId } = useParams();
@@ -37,22 +22,28 @@ function HostNavigator() {
       if (!hostInfo) {
         return;
       }
-
+      
       switch (hostInfo.state) {
         case HostState.Lobby:
-          navigate(UrlGenerator.HostLobbbyUrl(hostId));
+          navigate(UrlGenerator.AdminHostLobbyUrl(hostId));
           break;
         case HostState.InGame:
-          leaderboardNavigator(navigate, hostId, hostInfo.gameMode);
+          navigate(UrlGenerator.AdminHostInGameUrl(hostId));
           break;
         case HostState.Ended:
+          navigate(UrlGenerator.AdminHostFinalUrl(hostId));
           break;
+      
         default:
           break;
       }
     })();
   }, []);
-  return <></>;
+  return (
+    <>
+      Loading . . .
+    </>
+  );
 }
 
 export default tokenRequire(HostNavigator);

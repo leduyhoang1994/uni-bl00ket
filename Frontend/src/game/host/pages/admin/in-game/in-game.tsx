@@ -3,7 +3,6 @@ import ShowTotalMoney from "@/game/host/components/show-total-money/show-total-m
 import PlayerActivitiesBoard from "@/game/host/components/player-activities-board/player-activites-board";
 import HostController from "@/game/host/controller";
 import HostStore from "@/game/host/store";
-import { UrlGenerator } from "@/game/common/utils/utils";
 import {
   ActivityBoardItem,
   HostLeaderboard,
@@ -11,11 +10,12 @@ import {
 } from "@common/types/host.type";
 import { useCallback, useLayoutEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router";
+import { HostState } from "@common/constants/host.constant";
+import { UrlGenerator } from "@/game/common/utils/utils";
 
 export default function InGame() {
   const { hostId } = useParams();
-  const { setLeaderboard } = HostStore();
-  const { leaderboard } = HostStore();
+  const { setLeaderboard, leaderboard, setHostInfo } = HostStore();
   const [activitiesBoard, setActivitiesBoard] = useState<ActivityBoardItem[]>(
     []
   );
@@ -39,8 +39,25 @@ export default function InGame() {
 
       const hostController = await HostController.getInstance();
 
+      await hostController.initHttp();
+
+      const hostInfo = await hostController.getHostInfo(hostId, {
+        activitiesBoard: true,
+      });
+
+      if (!hostInfo) {
+        return;
+      }
+
+      setHostInfo(hostInfo);
+
+      if (hostInfo.state !== HostState.InGame) {
+        navigate(UrlGenerator.AdminHostUrl(hostId));
+        return;
+      }
+
       hostController.onGameEnded = async () => {
-        await navigate(UrlGenerator.HostFinalStandingUrl(hostId));
+        await navigate(UrlGenerator.AdminHostFinalUrl(hostId));
       };
 
       hostController.onLeaderBoardUpdated = async (
@@ -64,22 +81,15 @@ export default function InGame() {
       };
 
       await hostController.initSocket(hostId);
-      await hostController.initHttp();
 
-      const hostInfo = await hostController.getHostInfo(hostId, {
-        activitiesBoard: true,
-      });
-
-      setActivitiesBoard(hostInfo?.activitiesBoard || []);
+      setActivitiesBoard(hostInfo.activitiesBoard || []);
     })();
   }, []);
   return (
     <div className="waiting-action-creator">
       <div className="waiting-action-creator__header">
-        <div className="waiting-action-creator__header-first">Uni</div>
-        <div className="waiting-action-creator__header-second">
-          Mục tiêu: $100,000
-        </div>
+        <div className="waiting-action-creator__header-first">PreClass</div>
+        <div className="waiting-action-creator__header-second"></div>
         <div className="waiting-action-creator__header-third">
           <div>ID: {hostId}</div>
           <img

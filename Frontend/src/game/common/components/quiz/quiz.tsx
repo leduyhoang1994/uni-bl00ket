@@ -1,14 +1,21 @@
 import QuizStore from "@/game/common/components/quiz/store";
-import CafeGameStore from "@/game/modes/cafe/store";
 import { useEffect, useRef, useState } from "react";
-import { getCafeControllerInstance } from "../../../modes/cafe/cafe-controller.singleton";
 import gsap from "gsap";
 import CongratulationEffect from "./congratulation-effect";
 import RenderIf from "@/game/common/utils/condition-render";
 import HostStore from "@/game/host/store";
 import "./quiz.scss";
+import GameController from "../../game.controller";
 
-export default function Quiz() {
+export default function Quiz({
+  gameController,
+  answerCallback,
+  onQuizDissmiss,
+}: {
+  gameController: GameController;
+  answerCallback?: (correct: boolean) => void;
+  onQuizDissmiss?: (correct: boolean) => void;
+}) {
   const {
     setToggleQuizContainer,
     toggleQuizContainer,
@@ -19,9 +26,8 @@ export default function Quiz() {
     currentQuestion,
     setIsCorrect,
     setAnsweredId,
-    isCorrect
+    isCorrect,
   } = QuizStore();
-  const { loadCafeStocks } = CafeGameStore();
   const { userInfo } = HostStore();
 
   const question = currentQuestion?.text;
@@ -36,33 +42,42 @@ export default function Quiz() {
   const [allowCloseBlock, setAllowCloseBlock] = useState(false);
   const quizContainer = useRef<any>(null);
   const headerRef = useRef<any>(null);
-  const blockAnswer = useRef<any>(null);
 
   const doClickAnswser = (answerId: any, e: any) => {
-    const divAnswers = document.querySelectorAll('.question-react__answer');
-    divAnswers.forEach((el) => el.classList.add('question-react__answer-default'));
+    const divAnswers = document.querySelectorAll(".question-react__answer");
+    divAnswers.forEach((el) =>
+      el.classList.add("question-react__answer-default")
+    );
     setAnswerQuiz(true);
-    const cafeController = getCafeControllerInstance();
-    const userAnswer = cafeController.answerQuestion(answerId);
+    const userAnswer = gameController.answerQuestion(answerId);
     setAnsweredId(answerId);
     setIsCorrect(userAnswer.correct);
 
     if (!userAnswer.correct) {
       if (e.target && (e.target as HTMLElement).classList) {
-        (e.target as HTMLElement).classList.add('question-react__answer-incorrect');
+        (e.target as HTMLElement).classList.add(
+          "question-react__answer-incorrect"
+        );
       }
       setAllowCloseBlock(false);
       setTimeout(() => {
         setAllowCloseBlock(true);
       }, 2000);
+
+      if (answerCallback) {
+        answerCallback(false);
+      }
       return;
     }
     if (e.target && (e.target as HTMLElement).classList) {
-      (e.target as HTMLElement).classList.add('question-react__answer-correct');
+      (e.target as HTMLElement).classList.add("question-react__answer-correct");
     }
     setAllowCloseBlock(true);
     setShowCongraEffect(true);
-    loadCafeStocks();
+
+    if (answerCallback) {
+      answerCallback(true);
+    }
   };
 
   const doClickOutQuestion = () => {
@@ -72,7 +87,10 @@ export default function Quiz() {
     setToggleQuizContainer(false);
     setAnswerQuiz(false);
     setShowCongraEffect(false);
-  }
+    if (onQuizDissmiss) {
+      onQuizDissmiss(isCorrect);
+    }
+  };
 
   useEffect(() => {
     if (!toggleQuizContainer) return;
@@ -87,9 +105,9 @@ export default function Quiz() {
   useEffect(() => {
     if (answerQuiz && headerRef.current) {
       if (!isCorrect) {
-        headerRef.current.classList.add('question-react__header-incorrect');
+        headerRef.current.classList.add("question-react__header-incorrect");
       } else {
-        headerRef.current.classList.add('question-react__header-correct');
+        headerRef.current.classList.add("question-react__header-correct");
       }
     }
   }, [answerQuiz, headerRef]);
@@ -106,18 +124,38 @@ export default function Quiz() {
           <div>{userInfo?.username}</div>
         </div>
         <RenderIf condition={answerQuiz}>
-          <div className="question-react__header-mid">{isCorrect ? 'Chính xác' : 'Sai đáp án'}</div>
+          <div className="question-react__header-mid">
+            {isCorrect ? "Chính xác" : "Sai đáp án"}
+          </div>
         </RenderIf>
       </div>
       <div className="question-react__body">
         <div className="question-react__body-content">
-          <div className="question-react__body-content-title">{question || 'a'}</div>
+          <div className="question-react__body-content-title">
+            {question || "a"}
+          </div>
           <RenderIf condition={answerQuiz}>
             <RenderIf condition={allowCloseBlock}>
               <div className="question-react__body-content-allow">
-                <div className="question-react__body-content-allow-inside" onClick={doClickOutQuestion}>
-                  <div className={`${isCorrect ? 'question-react__body-content-allow-inside-correct' : 'question-react__body-content-allow-inside-incorrect'}`}>
-                    <img src={`${isCorrect ? '/images/icons/question-correct.svg' : '/images/icons/question-wrong.svg'}`} alt="" />
+                <div
+                  className="question-react__body-content-allow-inside"
+                  onClick={doClickOutQuestion}
+                >
+                  <div
+                    className={`${
+                      isCorrect
+                        ? "question-react__body-content-allow-inside-correct"
+                        : "question-react__body-content-allow-inside-incorrect"
+                    }`}
+                  >
+                    <img
+                      src={`${
+                        isCorrect
+                          ? "/images/icons/question-correct.svg"
+                          : "/images/icons/question-wrong.svg"
+                      }`}
+                      alt=""
+                    />
                   </div>
                   <div>Nhấn bất kỳ đâu để tiếp tục.</div>
                 </div>
@@ -143,7 +181,8 @@ export default function Quiz() {
               <div
                 key={`${i}-${answer}`}
                 className={`question-react__answer ${backgroundColorAnswer[i]}`}
-                onClick={(e) => doClickAnswser(answerId, e)}>
+                onClick={(e) => doClickAnswser(answerId, e)}
+              >
                 {answerText}
               </div>
             );
@@ -154,7 +193,10 @@ export default function Quiz() {
         <CongratulationEffect />
       </RenderIf>
       <RenderIf condition={answerQuiz}>
-        <div className="question-react__mask" onClick={(doClickOutQuestion)}></div>
+        <div
+          className="question-react__mask"
+          onClick={doClickOutQuestion}
+        ></div>
       </RenderIf>
     </div>
   );

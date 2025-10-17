@@ -17,25 +17,6 @@ import { randomFromArray } from "@/game/common/components/quiz/random";
 const MAX_CUSTOMER_CAN_SERVE = 3; // sô khách hàng tối đa có thể phục vụ
 const INDEX_MAX_LEVEL = 5; // max level
 
-export interface CafeControllerInterface {
-  getBalance(): number;
-  getStocks(): Stock[];
-  getQuestion(): Question;
-  answerQuestion(answerId: string): { correct: boolean; message: string };
-  getShop(): ShopItem[];
-  buyShopItem(shopItemId: string): { success: boolean; message: string };
-  getNextCustomer(): Customer;
-  serve(customerId: string): {
-    servedItems: { stockId: string; quantity: number }[];
-    servedAll: boolean;
-  };
-  getAbilities(): Ability[];
-  buyAbilityItem(
-    abilityId: number,
-    playerId?: string
-  ): { success: boolean; message: string };
-}
-
 enum CafeActivity {
   BuyShopItem = "buy-shop-item",
 }
@@ -47,28 +28,21 @@ enum CafeGameEvent {
   HealthInspection = "health-inspection",
 }
 
-export default class CafeController
-  extends GameController
-  implements CafeControllerInterface {
+export default class CafeController extends GameController {
   private stocks: Stock[] = [];
   private shopItems: ShopItem[] = [];
   private customers: Customer[] = [];
   private balance: number = 0;
-  private questions: Question[] = [];
-  private currentQuestion: Question | null = null;
   private abilities: Ability[] = [];
   private doubleRewardCount: number = 0; //  số khách còn lại được x2 tiền
-  private randomQuestion: () => Question = this.createRandomPicker(
-    this.questions
-  );
 
-  public onActivePayCheckBonus: (player: Player) => void = () => { };
-  public onActiveTrashTheFood: (player: Player) => void = () => { };
-  public onActiveTaxes: (player: Player) => void = () => { };
-  public onActiveHealthInspection: (player: Player) => void = () => { };
+  public onActivePayCheckBonus: (player: Player) => void = () => {};
+  public onActiveTrashTheFood: (player: Player) => void = () => {};
+  public onActiveTaxes: (player: Player) => void = () => {};
+  public onActiveHealthInspection: (player: Player) => void = () => {};
 
   constructor(hostId: string, questions: Question[] = []) {
-    super(hostId);
+    super(hostId, questions);
     // Init Stocks
     this.stocks = STOCKS;
     // Init ShopItems
@@ -78,14 +52,11 @@ export default class CafeController
       enabled: false,
     }));
 
-    // init Questions
-    this.questions = questions;
-
     this.abilities = ABILITIES;
   }
 
-  public getSaveData() {
-    return {
+  protected getSaveData() {
+    return super.getSaveData({
       stocks: this.stocks.map((s) => ({
         id: s.id,
         enabled: s.enabled,
@@ -94,7 +65,6 @@ export default class CafeController
       })),
       customers: this.customers,
       balance: this.balance,
-      // questions: this.questions,
       currentQuestion: this.currentQuestion,
       abilities: this.abilities.map((a) => ({
         id: a.id,
@@ -105,7 +75,7 @@ export default class CafeController
       doubleRewardCount: this.doubleRewardCount,
       totalCorrectAnswers: this.totalCorrectAnswers,
       totalQuestions: this.totalQuestions,
-    };
+    });
   }
 
   public async initData() {
@@ -158,53 +128,18 @@ export default class CafeController
     });
   }
 
-  createRandomPicker<T>(items: T[]) {
-    let used = new Set<number>();
-
-    return function pick(): T {
-      if (used.size === items.length) {
-        // reset khi đã lấy hết
-        used.clear();
+  public answerQuestion(answerId: string): {
+    correct: boolean;
+    message: string;
+  } {
+    return super.answerQuestion(answerId, (correct) => {
+      if (correct) {
+        // đúng thì +1 số lượng cho tất cả món ăn enable
+        this.stocks.forEach((s) => {
+          if (s.enabled) s.quantity += 1;
+        });
       }
-
-      let index: number;
-      do {
-        index = Math.floor(Math.random() * items.length);
-      } while (used.has(index));
-
-      used.add(index);
-      return items[index];
-    };
-  }
-
-  getQuestion(): Question {    
-    this.currentQuestion = this.randomQuestion();
-    this.currentQuestion.answers?.sort(() => Math.random() - 0.5);
-    this.totalQuestions += 1;
-
-    this.saveGame();
-
-    return this.currentQuestion;
-  }
-
-  answerQuestion(answerId: string): { correct: boolean; message: string } {
-    if (!this.currentQuestion) {
-      return { correct: false, message: "No question has been asked yet" };
-    }
-
-    const isCorrect = this.currentQuestion.correctAnswerId === answerId;
-    if (!isCorrect) {
-      return { correct: false, message: "Wrong answer." };
-    }
-
-    // đúng thì +1 số lượng cho tất cả món ăn enable
-    this.stocks.forEach((s) => {
-      if (s.enabled) s.quantity += 1;
     });
-
-    this.totalCorrectAnswers += 1;
-    this.saveGame();
-    return { correct: true, message: "OK" };
   }
 
   getShop(): ShopItem[] {
@@ -489,8 +424,8 @@ export default class CafeController
   }
 
   // Abilities Func
-  async applyPayCheckBounus(playerId: string) {
-    await this.emitGameEvent({
+  applyPayCheckBounus(playerId: string) {
+    this.emitGameEvent({
       type: GameEventType.Players,
       targetPlayerIds: [playerId],
       payload: {
@@ -499,8 +434,8 @@ export default class CafeController
     });
   }
 
-  async applyTrashTheFood(playerId: string) {
-    await this.emitGameEvent({
+  applyTrashTheFood(playerId: string) {
+    this.emitGameEvent({
       type: GameEventType.Players,
       targetPlayerIds: [playerId],
       payload: {
@@ -509,8 +444,8 @@ export default class CafeController
     });
   }
 
-  async applyTaxes(playerId: string) {
-    await this.emitGameEvent({
+  applyTaxes(playerId: string) {
+    this.emitGameEvent({
       type: GameEventType.Players,
       targetPlayerIds: [playerId],
       payload: {
@@ -519,8 +454,8 @@ export default class CafeController
     });
   }
 
-  async applyHealthInspection(playerId: string) {
-    await this.emitGameEvent({
+  applyHealthInspection(playerId: string) {
+    this.emitGameEvent({
       type: GameEventType.Players,
       targetPlayerIds: [playerId],
       payload: {
@@ -577,11 +512,10 @@ export default class CafeController
 
   async updateBalance(balance: number) {
     this.balance = Math.round(balance);
-
-    await this.onScoreUpdate(this.balance);
+    this.updateScore(this.balance);
   }
 
-  public static decodeActivity(activity: any) {
+  public decodeActivity(activity: any) {
     const action = activity.action;
     const data = activity.data;
 

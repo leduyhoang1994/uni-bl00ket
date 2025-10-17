@@ -1,4 +1,3 @@
-import { getCafeControllerInstance } from "../../../modes/cafe/cafe-controller.singleton";
 import { Question } from "@common/types/game.type";
 import { create } from "zustand";
 
@@ -13,12 +12,12 @@ type QuizState = {
   setShowCongraEffect: (showCongraEffect: boolean) => void;
   setAnswerQuiz: (answerQuiz: boolean) => void;
   setCurrentQuestion: (currentQuestion: Question) => void;
-  loadNewQuestion: () => void;
   setIsCorrect: (isCorrect: boolean) => void;
   setAnsweredId: (answeredId: string) => void;
+  reloadStore: () => void;
 };
 
-const initialStateQuiz = {
+export const initialStateQuiz = {
   toggleQuizContainer: false,
   showCongraEffect: false,
   answerQuiz: false,
@@ -33,16 +32,9 @@ const QuizStore = create<QuizState>((set, get) => ({
   setShowCongraEffect: (showCongraEffect) => set({ showCongraEffect }),
   setAnswerQuiz: (answerQuiz) => set({ answerQuiz }),
   setCurrentQuestion: (currentQuestion) => set({ currentQuestion }),
-  loadNewQuestion: () => {
-    const gameController = getCafeControllerInstance();
-    const question = gameController.getQuestion();
-
-    return set({
-      currentQuestion: question,
-    });
-  },
   setIsCorrect: (isCorrect) => set({ isCorrect }),
   setAnsweredId: (answeredId) => set({ answeredId }),
+  reloadStore: () => set({ ...initialStateQuiz }),
 }));
 
 export default QuizStore;

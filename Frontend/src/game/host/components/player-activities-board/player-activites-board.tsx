@@ -1,13 +1,37 @@
-import CafeController from "@/game/modes/cafe/controller";
 import RenderIf from "@/game/common/utils/condition-render";
 import { ActivityBoardItem } from "@common/types/host.type";
+import { getGameController } from "@/game/common/game-controller.singleton";
+import { useParams } from "react-router";
+import { useLayoutEffect, useState } from "react";
+import HostStore from "../../store";
+import GameController from "@/game/common/game.controller";
 
 export default function PlayerActivitiesBoard({
   activitiesBoard = [],
 }: {
   activitiesBoard: ActivityBoardItem[];
 }) {
+  const { hostId } = useParams();
+  const [gameController, setGameController] = useState<GameController | null>(
+    null
+  );
+  const { hostInfo } = HostStore();
+
   const hasRecordPlayer = activitiesBoard.length > 0;
+
+  useLayoutEffect(() => {
+    if (!hostId || !hostInfo) {      
+      return;
+    }
+
+    const controller = getGameController(hostInfo?.gameMode, hostId);
+    setGameController(controller);
+  }, [hostInfo]);
+
+  if (!hostId || !gameController) {
+    return null;
+  }
+
   return (
     <div className="waiting-player-board">
       <RenderIf condition={hasRecordPlayer}>
@@ -17,7 +41,9 @@ export default function PlayerActivitiesBoard({
               <div>
                 <img src={value.avatar} alt="" />
               </div>
-              <span>{`${value.username} ${CafeController.decodeActivity(value.activity)}`}</span>
+              <span>{`${value.username} ${gameController.decodeActivity(
+                value.activity
+              )}`}</span>
             </div>
           );
         })}

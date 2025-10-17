@@ -148,7 +148,8 @@
 			"GameMode": {
 				"description": "Thể loại game",
 				"enum": [
-					"cafe"
+					"cafe",
+					"gold-quest"
 				],
 				"type": "string"
 			},

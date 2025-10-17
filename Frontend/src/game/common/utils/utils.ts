@@ -13,10 +13,6 @@ export class UrlGenerator {
     return GenUrl(`/player-final/${hostId}`);
   }
 
-  public static HostFinalStandingUrl(hostId: string) {
-    return GenUrl(`/admin-final/${hostId}`);
-  }
-
   public static PlayerJoinLobbyUrl(hostId: string) {
     return GenUrl(`/join/${hostId}/lobby`);
   }
@@ -29,20 +25,28 @@ export class UrlGenerator {
     return GenUrl(`/player-play/${hostId}`);
   }
 
-  public static HostLobbbyUrl(hostId: string) {
-    return GenUrl(`/admin-lobby/${hostId}`);
-  }
-
-  public static HostPlayUrl(hostId: string) {
-    return GenUrl(`/admin-play/${hostId}`);
-  }
-
   public static AccessDeniedUrl() {
     return GenUrl("/access-denied");
   }
 
   public static LeaderBoardUrl(gameMode: GameMode, hostId: string) {
     return GenUrl(`/${gameMode}/${hostId}/leaderboard`);
+  }
+
+  public static AdminHostUrl(hostId: string) {
+    return GenUrl(`/admin/host/${hostId}`);
+  }
+
+  public static AdminHostLobbyUrl(hostId: string) {
+    return GenUrl(`/admin/host/${hostId}/lobby`);
+  }
+
+  public static AdminHostInGameUrl(hostId: string) {
+    return GenUrl(`/admin/host/${hostId}/in-game`);
+  }
+
+  public static AdminHostFinalUrl(hostId: string) {
+    return GenUrl(`/admin/host/${hostId}/final`);
   }
 }
 

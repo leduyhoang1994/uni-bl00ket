@@ -2,13 +2,17 @@ import CafeGameStore from "@/game/modes/cafe/store";
 import ButtonCafeGame from "@/game/modes/cafe/components/button-cafe-game/button-cafe-game";
 import QuizStore from "@/game/common/components/quiz/store";
 import Plate from "./plate";
+import { getCafeControllerInstance } from "@/game/modes/cafe/cafe-controller.singleton";
 
 export default function TableContainer() {
-  const { setToggleQuizContainer, loadNewQuestion } = QuizStore();
+  const { setToggleQuizContainer, setCurrentQuestion } = QuizStore();
   const { setToggleVisitShop, cafeStocks, loadCafeShopItems } = CafeGameStore();
 
   const doClickRestockFood = () => {
-    loadNewQuestion();
+    const controller = getCafeControllerInstance();
+    const newQuestion = controller.getQuestion();
+    setCurrentQuestion(newQuestion);
+
     setToggleQuizContainer(true);
   };
 
