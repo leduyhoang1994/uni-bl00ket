@@ -1,6 +1,5 @@
 import QuizStore from "@/game/common/components/quiz/store";
 import { useEffect, useRef, useState } from "react";
-import gsap from "gsap";
 import CongratulationEffect from "./congratulation-effect";
 import RenderIf from "@/game/common/utils/condition-render";
 import HostStore from "@/game/host/store";
@@ -95,10 +94,13 @@ export default function Quiz({
   useEffect(() => {
     if (!toggleQuizContainer) return;
 
-    gsap.fromTo(
-      quizContainer.current,
-      { scale: 0 },
-      { scale: 1, duration: 0.2, ease: "none" }
+    quizContainer.current.animate(
+      [{ transform: "scale(0)" }, { transform: "scale(1)" }],
+      {
+        duration: 200,
+        easing: "linear",
+        fill: "forwards",
+      }
     );
   }, [toggleQuizContainer]);
 
