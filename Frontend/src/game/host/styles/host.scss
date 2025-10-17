@@ -648,6 +648,7 @@
   }
 
   &__avatar-active {
+    cursor: default !important;
     img {
       filter: brightness(100%) !important;
     }

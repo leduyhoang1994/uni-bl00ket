@@ -139,8 +139,11 @@ export default class GoldQuestController extends GameController {
     return selectedChests;
   }
 
+  // Lấy ra 3 rương Random
   public loadRandomChests() {
     this.chestsToChoose = this.getRandomChests();
+
+    // TODO: Fix Cứng, cần bỏ sau khi dev xong
     this.chestsToChoose = [Chests.Steal10, Chests.Steal25, Chests.Gain100];
 
     return this.chestsToChoose;

@@ -86,6 +86,8 @@ function App() {
 
           <Route path="/gold-quest" element={<GoldQuest />} />
 
+          <Route path="/cafe/create" element={<Navigate to="/admin/game/create" replace />} />
+
           <Route path="cms" element={<CmsLayout />}>
             <Route index element={<Navigate to="admin" replace />} />
             <Route path="auth">
