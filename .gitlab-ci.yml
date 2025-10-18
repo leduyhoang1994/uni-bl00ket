@@ -16,7 +16,7 @@ variables:
 before_script:
   - export IMAGE_TAG=$(date +%d.%m.%y)-${CI_COMMIT_SHA::8}
 
-## 1. Build image web (build full)
+## 1. Build image web (build full)a
 .build-image-web:
   stage: build-image
   variables:
