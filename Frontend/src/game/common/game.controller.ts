@@ -54,8 +54,12 @@ class GameController {
     };
   }
 
+  private saveDataSessionKey() {
+    return `savedGame_${this.hostId}`;
+  }
+
   protected async loadSavedGame() {
-    const sessionData = sessionStorage.getItem("savedGame");
+    const sessionData = sessionStorage.getItem(this.saveDataSessionKey());
     if (sessionData) {
       return JSON.parse(sessionData);
     }
@@ -79,7 +83,10 @@ class GameController {
       return;
     }
 
-    sessionStorage.setItem("savedGame", JSON.stringify(this.getSaveData()));
+    sessionStorage.setItem(
+      this.saveDataSessionKey(),
+      JSON.stringify(this.getSaveData())
+    );
 
     if (online) {
       this.socketClient.emit(HostEvent.SaveGame, this.getSaveData());
@@ -129,6 +136,7 @@ class GameController {
     const isCorrect = this.currentQuestion.correctAnswerId === answerId;
     if (!isCorrect) {
       if (action) action(false);
+      this.saveGame(true);
       return { correct: false, message: "Wrong answer." };
     }
 
