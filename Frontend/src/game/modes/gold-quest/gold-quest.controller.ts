@@ -84,9 +84,9 @@ export default class GoldQuestController extends GameController {
   ) => { };
 
   public getSaveData() {
-    return {
+    return super.getSaveData({
       gold: this.gold,
-    };
+    });
   }
 
   public async initData() {
@@ -176,7 +176,7 @@ export default class GoldQuestController extends GameController {
     this.chestsToChoose = this.getRandomChests();
 
     // TODO: Fix Cứng, cần bỏ sau khi dev xong
-    this.chestsToChoose = [Chests.Steal10, Chests.Steal25, Chests.Gain100];
+    // this.chestsToChoose = [Chests.Steal10, Chests.Steal25, Chests.Gain100];
 
     return this.chestsToChoose;
   }
