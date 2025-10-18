@@ -1,5 +1,5 @@
 import QuizStore from "@/game/common/components/quiz/store";
-import { useEffect, useRef, useState } from "react";
+import { ReactElement, useEffect, useRef, useState } from "react";
 import CongratulationEffect from "./congratulation-effect";
 import RenderIf from "@/game/common/utils/condition-render";
 import HostStore from "@/game/host/store";
@@ -10,10 +10,12 @@ export default function Quiz({
   gameController,
   answerCallback,
   onQuizDissmiss,
+  children
 }: {
   gameController: GameController;
   answerCallback?: (correct: boolean) => void;
   onQuizDissmiss?: (correct: boolean) => void;
+  children?: ReactElement
 }) {
   const {
     setToggleQuizContainer,
@@ -130,6 +132,9 @@ export default function Quiz({
             {isCorrect ? "Chính xác" : "Sai đáp án"}
           </div>
         </RenderIf>
+        <RenderIf condition={!!children}>
+          {children}
+        </RenderIf>
       </div>
       <div className="question-react__body">
         <div className="question-react__body-content">
@@ -144,18 +149,16 @@ export default function Quiz({
                   onClick={doClickOutQuestion}
                 >
                   <div
-                    className={`${
-                      isCorrect
-                        ? "question-react__body-content-allow-inside-correct"
-                        : "question-react__body-content-allow-inside-incorrect"
-                    }`}
+                    className={`${isCorrect
+                      ? "question-react__body-content-allow-inside-correct"
+                      : "question-react__body-content-allow-inside-incorrect"
+                      }`}
                   >
                     <img
-                      src={`${
-                        isCorrect
-                          ? "/images/icons/question-correct.svg"
-                          : "/images/icons/question-wrong.svg"
-                      }`}
+                      src={`${isCorrect
+                        ? "/images/icons/question-correct.svg"
+                        : "/images/icons/question-wrong.svg"
+                        }`}
                       alt=""
                     />
                   </div>

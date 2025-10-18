@@ -2,10 +2,10 @@ export default function GoldQuestHeader({ gold = 0 }) {
   return (
     <header className="gold-quest__header">
       <div className="change-to-period">name</div>
-      <div>
+      <article className="gold-quest__artice-for-quiz">
         <div>{gold}</div>
         <img src="/images/gold-quest/gold.svg" alt="gold" />
-      </div>
+      </article>
     </header>
   )
 }

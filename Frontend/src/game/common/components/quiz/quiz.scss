@@ -38,6 +38,7 @@
     gap: 1rem;
     > div {
       cursor: context-menu;
+      font-size: 2rem;
     }
     img {
       width: 25px;
@@ -243,6 +244,12 @@
       img {
         width: 30px;
         height: 30px;
+      }
+    }
+
+    &__header-left {
+      > div {
+        font-size: 1.5rem;
       }
     }
 

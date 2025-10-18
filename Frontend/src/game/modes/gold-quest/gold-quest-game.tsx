@@ -14,6 +14,7 @@ import GoldQuestHeader from "./components/gold-quest-header";
 import { gsap } from "gsap";
 import GoldQuestInfoUser from "./components/gold-quest-info-user";
 import { Player } from "@common/types/host.type";
+import GoldQuestPopup from "./components/gold-quest-popup";
 
 const chestImgArr = [
   "/images/gold-quest/chest-one.svg",
@@ -30,6 +31,11 @@ export default function GoldQuest() {
   const [completedAnim, setCompletedAnim] = useState(false);
   const [showPageTargetUser, setShowPageTargetUser] = useState(false);
   const [listOtherUser, setListOtherUser] = useState<Array<Player>>([]);
+  const [userStealActive, setUserStealActive] = useState({
+    userAvatarSteal: '',
+    userNameSteal: '',
+    gold: 0
+  })
   const chestRefs = useRef<(HTMLDivElement | null)[]>([]);
 
   const { setGold, gold } = GoldQuestStore();
@@ -52,6 +58,11 @@ export default function GoldQuest() {
     setIsAnimating(false);
     setCompletedAnim(false);
     setShowPageTargetUser(false);
+    setUserStealActive({
+      userAvatarSteal: '',
+      userNameSteal: '',
+      gold: 0
+    })
     loadNewQuestion();
   }
 
@@ -199,6 +210,23 @@ export default function GoldQuest() {
     resetStatePerRound();
   }, [selectedChest, chestsToChoose, resetStatePerRound])
 
+  const onExits = () => {
+    setUserStealActive({
+      userAvatarSteal: '',
+      userNameSteal: '',
+      gold: 0
+    })
+  }
+
+  const renderGoldForQuiz = () => {
+    return (
+      <article className="gold-quest__artice-for-quiz">
+        <div>{gold}</div>
+        <img src="/images/gold-quest/gold.svg" alt="gold" />
+      </article>
+    )
+  }
+
   useLayoutEffect(() => {
     (async () => {
       const token = await HostController.getAccessToken();
@@ -215,7 +243,12 @@ export default function GoldQuest() {
 
       controller.onGoldUpdate = (gold) => setGold(gold);
       controller.onGoldStealActive = (player, gold) => {
-        alert(`Player ${player.username} has stolen ${gold} gold from you.`);
+        setUserStealActive({
+          userAvatarSteal: player.avatar,
+          userNameSteal: player.username,
+          gold: gold
+        })
+        // alert(`Player ${player.username} has stolen ${gold} gold from you.`);
       };
 
       const socket = initSocketClient(hostId, token, controller);
@@ -256,6 +289,7 @@ export default function GoldQuest() {
         <Quiz
           gameController={goldQuestController}
           onQuizDissmiss={onQuizzDissmiss}
+          children={renderGoldForQuiz()}
         />
       )}
       <RenderIf condition={chestsToChoose.length > 0}>
@@ -301,7 +335,7 @@ export default function GoldQuest() {
                   const userName = user.username;
                   const gold = user.score;
                   return (
-                    <button style={{ display: 'flex' }} key={i} onClick={() => handleActionOtherUser(user)}>
+                    <button key={i} onClick={() => handleActionOtherUser(user)}>
                       <GoldQuestInfoUser userName={userName} gold={gold} />
                     </button>
                   )
@@ -318,6 +352,14 @@ export default function GoldQuest() {
           ></div>
         </RenderIf>
       </RenderIf >
+      <RenderIf condition={userStealActive.userNameSteal}>
+        <GoldQuestPopup
+          userAvatarSteal={userStealActive.userAvatarSteal}
+          userNameSteal={userStealActive.userNameSteal}
+          gold={userStealActive.gold}
+          onExits={onExits}
+        />
+      </RenderIf>
     </>
   );
 }
