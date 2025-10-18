@@ -22,6 +22,38 @@ export enum Chests {
   Nothing = "Nothing",
 }
 
+export const chestImageMap: Record<Chests, string> = {
+  [Chests.Gain10]: "/images/gold-quest/gold.svg",
+  [Chests.Gain20]: "/images/gold-quest/gold.svg",
+  [Chests.Gain30]: "/images/gold-quest/gold.svg",
+  [Chests.Gain40]: "/images/gold-quest/gold.svg",
+  [Chests.Gain50]: "/images/gold-quest/gold.svg",
+  [Chests.Gain100]: "/images/gold-quest/gold.svg",
+  [Chests.Double]: "/images/cafe-game/customers/jester.svg",
+  [Chests.Triple]: "/images/cafe-game/customers/unicorn.svg",
+  [Chests.Lose25]: "/images/cafe-game/customers/slimemonster.svg",
+  [Chests.Lose50]: "/images/cafe-game/customers/dragon.svg",
+  [Chests.Steal10]: "/images/cafe-game/customers/elf.svg",
+  [Chests.Steal25]: "/images/cafe-game/customers/wizard.svg",
+  [Chests.Nothing]: "/images/cafe-game/customers/fairy.svg",
+};
+
+export const chestTextMap: Record<Chests, string> = {
+  [Chests.Gain10]: "+10 Gold",
+  [Chests.Gain20]: "+20 Gold",
+  [Chests.Gain30]: "+30 Gold",
+  [Chests.Gain40]: "+40 Gold",
+  [Chests.Gain50]: "+50 Gold",
+  [Chests.Gain100]: "+100 Gold",
+  [Chests.Double]: "Double Gold!",
+  [Chests.Triple]: "Triple Gold!",
+  [Chests.Lose25]: "Lose 25%",
+  [Chests.Lose50]: "Lose 50%",
+  [Chests.Steal10]: "Take 10%",
+  [Chests.Steal25]: "Take 25%",
+  [Chests.Nothing]: "Nothing!",
+};
+
 const ChestProbabilities = new Map<Chests, number>([
   [Chests.Gain10, 6],
   [Chests.Gain20, 13.5],
@@ -45,11 +77,11 @@ enum GoldQuestActivity {
 export default class GoldQuestController extends GameController {
   private gold: number = 0;
   private chestsToChoose: Array<Chests> = [];
-  public onGoldUpdate: (gold: number) => void = (gold) => {};
+  public onGoldUpdate: (gold: number) => void = (gold) => { };
   public onGoldStealActive: (player: Player, gold: number) => void = (
     player,
     gold
-  ) => {};
+  ) => { };
 
   public getSaveData() {
     return {

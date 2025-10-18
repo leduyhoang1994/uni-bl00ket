@@ -175,6 +175,7 @@
     top: 50dvh;
     z-index: 3;
     background-color: white;
+    margin: 0 0.5rem;
 
     > :first-child {
       width: 40px;
@@ -227,8 +228,6 @@
   &__header-correct {
     background-color: rgb(75, 194, 46);
   }
-
-  
 
   @media only screen and (max-width: $tabletW) {
     &__header {
