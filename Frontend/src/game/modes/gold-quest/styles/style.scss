@@ -278,6 +278,15 @@
     }
   }
 
+  &__button-next {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    article {
+      cursor: pointer;
+    }
+  }
+
   @media screen and (max-width: $mobileW) {
     &__content {
       padding: 0.5rem;

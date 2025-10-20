@@ -8,6 +8,8 @@ import TargetEnemy from "./components/target-enemy";
 import { Player } from "@common/types/host.type";
 import { getCafeControllerInstance } from "../../cafe-controller.singleton";
 import "./choose-player-target.scss";
+import RenderIf from "@/game/common/utils/condition-render";
+import ButtonCafeGame from "../../components/button-cafe-game/button-cafe-game";
 
 export default function ChoosePlayerTarget({
   abilityId,
@@ -48,7 +50,6 @@ export default function ChoosePlayerTarget({
       const playerData = (await controller.getPlayers(hostId)).filter(
         (player) => player.id !== userInfo.id
       );
-
       setPlayers(playerData);
     })();
   }, []);
@@ -73,6 +74,11 @@ export default function ChoosePlayerTarget({
             </div>
           );
         })}
+        <RenderIf condition={!players.length}>
+          <div style={{ marginTop: '2rem' }}>
+            <ButtonCafeGame text="Go Back" doClickBtn={() => setIsChoosingAbilityTarget(null)} />
+          </div>
+        </RenderIf>
       </div>
     </div>
   );
