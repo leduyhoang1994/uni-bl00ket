@@ -3,6 +3,7 @@ import HostRepository from "../host/host.repo";
 import HostSocket from "../host/host.socket";
 import RedisClient from "../utils/redis.client";
 import { Emitter } from "@socket.io/redis-emitter";
+import logger from "../utils/logger";
 
 export default class WorkerController {
   private static controller: WorkerController;
@@ -70,10 +71,10 @@ export default class WorkerController {
       return;
     }
 
-    const hostSocket = new HostSocket(hostId, this.emitter);
+    // const hostSocket = new HostSocket(hostId, this.emitter);
 
     // TODO: Emit Start Time
-
+    logger.info(`[Worker - scheduleStart] hostId: ${hostId}, delay: ${delay}`);
     await this.hostTimerQueue?.add(
       WorkerController.HOST_START_JOB,
       { hostId },
@@ -86,7 +87,7 @@ export default class WorkerController {
 
   public async scheduleEnd(hostId: string, delay: number) {
     // TODO: Emit End Time
-
+    logger.info(`[Worker - scheduleEnd] hostId: ${hostId}, delay: ${delay}`);
     await this.hostTimerQueue?.add(
       WorkerController.HOST_END_JOB,
       { hostId },
@@ -101,7 +102,7 @@ export default class WorkerController {
     if (!this.emitter) {
       return;
     }
-
+    logger.info(`[Worker - onHostStart] hostId: ${hostId}`);
     const hostRepo = new HostRepository(hostId);
     const hostSocket = new HostSocket(hostId, this.emitter);
 
@@ -113,7 +114,7 @@ export default class WorkerController {
     if (!this.emitter) {
       return;
     }
-
+    logger.info(`[Worker - onHostEnd] hostId: ${hostId}`);
     const hostRepo = new HostRepository(hostId);
     const hostSocket = new HostSocket(hostId, this.emitter);
     await hostRepo.end();
