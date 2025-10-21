@@ -1,5 +1,5 @@
 import QuizStore from "@/game/common/components/quiz/store";
-import { ReactElement, useEffect, useRef, useState } from "react";
+import { ReactElement, useEffect, useLayoutEffect, useRef, useState } from "react";
 import CongratulationEffect from "./congratulation-effect";
 import RenderIf from "@/game/common/utils/condition-render";
 import HostStore from "@/game/host/store";
@@ -30,6 +30,7 @@ export default function Quiz({
     isCorrect,
   } = QuizStore();
   const { userInfo } = HostStore();
+  const answersContainerRef = useRef<HTMLDivElement>(null);
 
   const question = currentQuestion?.text;
   const answers = currentQuestion?.answers;
@@ -116,6 +117,28 @@ export default function Quiz({
     }
   }, [answerQuiz, headerRef]);
 
+  useLayoutEffect(() => {
+    if (!toggleQuizContainer || !answersContainerRef.current) {
+      return;
+    }
+    const answerElements = Array.from(
+      answersContainerRef.current.children
+    ) as HTMLElement[];
+
+    if (answerElements.length === 0) {
+      return;
+    }
+    answerElements.forEach((el) => {
+      el.style.height = "auto";
+    });
+    const maxHeight = Math.max(
+      ...answerElements.map((el) => el.offsetHeight)
+    );
+    answerElements.forEach((el) => {
+      el.style.minHeight = `${maxHeight}px`;
+    });
+  }, [answers, toggleQuizContainer]);
+
   if (!toggleQuizContainer) {
     return null;
   }
@@ -178,7 +201,7 @@ export default function Quiz({
             </RenderIf>
           </RenderIf>
         </div>
-        <div className="question-react__body-content-answers">
+        <div className="question-react__body-content-answers" ref={answersContainerRef}>
           {answers?.map((answer, i) => {
             const answerText = answer?.text || "";
             const answerId = answer?.id;
