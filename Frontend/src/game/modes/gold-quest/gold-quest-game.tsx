@@ -192,6 +192,7 @@ export default function GoldQuest() {
       resetStatePerRound();
       return;
     }
+
     if (
       currentTypeChest === Chests.Steal10 ||
       currentTypeChest === Chests.Steal25
@@ -294,7 +295,7 @@ export default function GoldQuest() {
       )}
       <RenderIf condition={chestsToChoose.length > 0}>
         <main className="gold-quest">
-          <GoldQuestHeader gold={gold} />
+          <GoldQuestHeader gold={gold} userName={userInfo?.username} />
           <section className="gold-quest__content">
             <article className="gold-quest__content-title">
               <div>
@@ -340,8 +341,16 @@ export default function GoldQuest() {
                     </button>
                   )
                 })}
-
               </section>
+              <RenderIf condition={!listOtherUser.length}>
+                <section className="gold-quest__button-next">
+                  <article className="gold-quest__content-title" onClick={() => resetStatePerRound()}>
+                    <div>
+                      <h1>Next</h1>
+                    </div>
+                  </article>
+                </section>
+              </RenderIf>
             </RenderIf>
           </section>
         </main>
