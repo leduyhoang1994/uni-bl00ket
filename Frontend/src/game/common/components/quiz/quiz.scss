@@ -231,6 +231,9 @@
   }
 
   @media only screen and (max-width: $tabletW) {
+    &__body-content-title {
+      font-size: 2rem;
+    }
     &__header {
       padding-left: 1rem;
       gap: 1rem;
@@ -238,6 +241,15 @@
   }
 
   @media screen and (max-width: $mobileW) {
+    &__body-content-allow-inside {
+      > :last-child {
+        font-size: 1rem;
+      }
+    }
+
+    &__body-content-title {
+      font-size: 1.75rem;
+    }
     &__header {
       height: 40px;
       padding-right: 2rem;
@@ -258,13 +270,13 @@
     }
 
     &__answer {
-      font-size: clamp(1rem, 3dvw, 2rem);
+      font-size: clamp(1.5rem, 3dvw, 2rem);
     }
 
-    &__body-content-answers {
-      grid-template-columns: none;
-      grid-template-rows: 1fr 1fr 1fr 1fr;
-    }
+    // &__body-content-answers {
+    //   grid-template-columns: none;
+    //   grid-template-rows: 1fr 1fr 1fr 1fr;
+    // }
 
     &__header-mid {
       display: none;
