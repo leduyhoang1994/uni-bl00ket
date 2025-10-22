@@ -10,9 +10,10 @@ import tokenRequire from "../../../components/token-require.hoc";
 import { GenUrl, UrlGenerator } from "@/game/common/utils/utils";
 import PopupCopyLink from "../../../components/popup/popup-copy-link";
 import { HostState } from "@common/constants/host.constant";
+import CountdownTimer from "@/game/common/components/countdown/CountdownTimer";
 
 function HostLobby() {
-  const { setLobbyPlayers, lobbyPlayers } = HostStore();
+  const { setLobbyPlayers, lobbyPlayers, hostInfo, setHostInfo } = HostStore();
   const hasPlayer = lobbyPlayers.length > 0;
   const textBtn = hasPlayer ? "Bắt đầu" : "Ít nhất 1";
   const { hostId } = useParams();
@@ -33,7 +34,9 @@ function HostLobby() {
       if (!hostInfo) {
         return;
       }
-      
+
+      setHostInfo(hostInfo);
+
       if (hostInfo.state !== HostState.Lobby) {
         navigate(UrlGenerator.AdminHostUrl(hostId));
         return;
@@ -44,6 +47,9 @@ function HostLobby() {
       };
       hostController.onGameStarted = async () => {
         await navigate(UrlGenerator.AdminHostInGameUrl(hostId));
+      };
+      hostController.onStartTimeUpdated = async (startTime: number) => {
+        console.log("Start time updated:", startTime);
       };
       await hostController.initSocket(hostId);
     })();
@@ -86,6 +92,9 @@ function HostLobby() {
         <div className="body-background-wrapper">
           <div className="body-background"></div>
         </div>
+        {hostInfo?.startTime && (
+          <CountdownTimer targetTimestamp={hostInfo.startTime} />
+        )}
         <div className="host-creator__body-content">
           <div className="host-creator__body-content-player">
             <div>

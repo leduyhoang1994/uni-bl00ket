@@ -91,3 +91,13 @@
 .coiny-text {
   transform: translateY(12%);
 }
+
+.game-tag {
+  position: fixed;
+  height: 30px;
+  width: 100vw;
+  text-align: center;
+  z-index: 1000;
+  font-family: var(--font-coiny);
+  pointer-events: none;
+}

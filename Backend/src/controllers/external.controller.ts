@@ -8,6 +8,9 @@ import GameRepo from "../game/game.repo";
 import { GameNotFoundError } from "../base/errors/game.error";
 import { getJoinUrl } from "../utils/util";
 import WorkerController from "../servers/worker.server";
+import HostSocket from "../host/host.socket";
+import { Emitter } from "@socket.io/redis-emitter";
+import RedisClient from "../utils/redis.client";
 
 /**
  * Unix timestamp theo giây, nếu không truyền lên thì mặc định thực hiện luôn
@@ -123,6 +126,11 @@ export class ExternalController extends Controller {
       }
 
       await HostRepository.setStartTime(hostId, targetTime);
+
+      const emitter = new Emitter(RedisClient.getClient());
+      const hostSocket = new HostSocket(hostId, emitter);
+      await hostSocket.emitStartTime(targetTime);
+
       await workerController.scheduleStart(hostId, targetTime - now);
     }
 
@@ -152,7 +160,12 @@ export class ExternalController extends Controller {
         targetTime = body.schedules;
       }
 
-      await HostRepository.setStartTime(hostId, targetTime);
+      await HostRepository.setEndTime(hostId, targetTime);
+
+      const emitter = new Emitter(RedisClient.getClient());
+      const hostSocket = new HostSocket(hostId, emitter);
+      await hostSocket.emitEndTime(targetTime);
+
       await workerController.scheduleEnd(hostId, targetTime - now);
     }
 
@@ -180,7 +193,12 @@ export class ExternalController extends Controller {
 
     finalStandings = finalStandings.map((item) => {
       const player = players.find((p) => p.id === item.playerId);
-      return { ...item, username: player?.username, avatar: player?.avatar };
+      return {
+        ...item,
+        username: player?.username,
+        avatar: player?.avatar,
+        meta: player?.meta,
+      };
     });
 
     hostInfo.finalStandings = finalStandings;

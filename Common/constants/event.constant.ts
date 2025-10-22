@@ -14,6 +14,8 @@ export enum HostEvent {
   ActivitySaved = "game:activity-saved",
   GameEvent = "game:event",
   UpdateAvatar = "host:update-avatar",
+  StartTimeUpdated = "game:start-time-updated",
+  EndTimeUpdated = "game:end-time-updated",
 }
 
 export const HOST_COMMANDS = [

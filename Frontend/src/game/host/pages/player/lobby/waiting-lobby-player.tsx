@@ -7,6 +7,7 @@ import tokenRequire from "../../../components/token-require.hoc";
 import { SCREEN_SIZES_ENUM, UrlGenerator } from "@/game/common/utils/utils";
 import { HostState } from "@common/constants/host.constant";
 import HostStore from "@/game/host/store";
+import CountdownTimer from "@/game/common/components/countdown/CountdownTimer";
 
 function WaitingLobbyPlayer() {
   const [isJoining, setIsJoining] = useState(true);
@@ -14,7 +15,7 @@ function WaitingLobbyPlayer() {
   const [player, setPlayer] = useState<AuthenticatedUser | null>(null);
   const [showAvatarPicker, setShowAvatarPicker] = useState(true);
   const { hostId } = useParams();
-  const { setUserInfo } = HostStore();
+  const { setUserInfo, hostInfo, setHostInfo, updateStartTime } = HostStore();
   const navigate = useNavigate();
 
   useLayoutEffect(() => {
@@ -32,6 +33,8 @@ function WaitingLobbyPlayer() {
         return;
       }
 
+      setHostInfo(hostInfo);
+
       if (hostInfo.state === HostState.InGame) {
         navigate(UrlGenerator.PlayerPlayUrl(hostId));
         return;
@@ -47,6 +50,9 @@ function WaitingLobbyPlayer() {
       };
       controller.onGameStarted = async () => {
         navigate(UrlGenerator.PlayerPlayUrl(hostId));
+      };
+      controller.onStartTimeUpdated = async (startTime: number) => {
+        updateStartTime(startTime);
       };
       await controller.initSocket(hostId);
     })();
@@ -67,7 +73,9 @@ function WaitingLobbyPlayer() {
         <div className="waiting-lobby-player__header">
           <div className="waiting-lobby-player__header-second">Pre-Class</div>
           <div className="waiting-lobby-player__header-first">
-            Đợi trò chơi bắt đầu
+            {hostInfo?.startTime && (
+              <CountdownTimer targetTimestamp={hostInfo.startTime} />
+            )}
           </div>
           <div></div>
         </div>

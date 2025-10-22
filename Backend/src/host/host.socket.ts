@@ -8,6 +8,7 @@ import {
 import { AuthenticatedUser } from "../../../Common/types/socket.type";
 import { HostEvent } from "@Common/constants/event.constant";
 import { Emitter } from "@socket.io/redis-emitter";
+import RedisClient from "../utils/redis.client";
 
 export default class HostSocket {
   private socket: AuthenticatedSocket | Emitter;
@@ -51,6 +52,10 @@ export default class HostSocket {
     await this.emitRoom(HostEvent.LobbyStarted);
   }
 
+  public async emitStartTime(startTime: number) {
+    this.emitRoom(HostEvent.StartTimeUpdated, startTime);
+  }
+
   public async emitLobbyUpdated(palyers: Player[] | Player) {
     this.emitHost(HostEvent.LobbyUpdated, palyers);
   }
@@ -69,6 +74,10 @@ export default class HostSocket {
 
   public async emitEnded() {
     this.emitRoom(HostEvent.GameEnded);
+  }
+
+  public async emitEndTime(endTime: number) {
+    this.emitRoom(HostEvent.EndTimeUpdated, endTime);
   }
 
   public async emitActivitySaved(activity: ActivityBoardItem) {
@@ -106,6 +115,7 @@ export default class HostSocket {
 
   protected async emitRoom(eventName: string, arg: any = null) {
     const socketEmitter = this.getSocketEmmiter();
+
     socketEmitter.to(HostSocket.publicRoom(this.hostId)).emit(eventName, arg);
   }
 
@@ -114,7 +124,8 @@ export default class HostSocket {
       return this.socket;
     }
 
-    return this.socket.nsp.server;
+    const redisClient = RedisClient.getClient();
+    return new Emitter(redisClient);
   }
 
   public static publicRoom(hostId: string) {

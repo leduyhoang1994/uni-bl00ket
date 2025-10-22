@@ -9,6 +9,7 @@ import { UrlGenerator } from "@/game/common/utils/utils";
 import HostStore from "@/game/host/store";
 import { HostLeaderboard, Player } from "@common/types/host.type";
 import "@styles/styles.scss";
+import CountdownTimer from "@/game/common/components/countdown/CountdownTimer";
 
 /**
  * Game Components
@@ -21,7 +22,8 @@ export default function PlayerInGame() {
   const [gameMode, setGameMode] = useState<GameMode | null>(null);
   const { hostId } = useParams();
   const navigate = useNavigate();
-  const { setUserInfo, setLeaderboard } = HostStore();
+  const { setUserInfo, setLeaderboard, setHostInfo, updateEndTime, hostInfo } =
+    HostStore();
 
   useLayoutEffect(() => {
     (async () => {
@@ -41,6 +43,8 @@ export default function PlayerInGame() {
       if (!hostInfo) {
         return;
       }
+
+      setHostInfo(hostInfo);
 
       hostController.setHostInfo(hostInfo);
 
@@ -74,6 +78,10 @@ export default function PlayerInGame() {
         setLeaderboard(leaderboard);
       };
 
+      hostController.onEndTimeUpdated = async (endTime: number) => {
+        updateEndTime(endTime);
+      };
+
       await hostController.initSocket(hostId);
 
       setGameMode(hostInfo.gameMode);
@@ -99,6 +107,11 @@ export default function PlayerInGame() {
 
   return (
     <div className="game-container-react">
+      {hostInfo?.endTime && (
+        <div className="game-tag">
+          <CountdownTimer targetTimestamp={hostInfo.endTime} />
+        </div>
+      )}
       <Suspense fallback={<div>Loading . . .</div>}>
         <RenderIf condition={loaded && gameMode === GameMode.Cafe}>
           <Cafe />

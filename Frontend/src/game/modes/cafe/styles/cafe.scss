@@ -326,7 +326,7 @@
     gap: 0 2.5vw;
     padding-top: 1vh;
 
-    >div {
+    > div {
       display: flex;
       flex-direction: column;
       justify-content: center;
@@ -460,7 +460,7 @@
     padding: 0.25rem;
     gap: 0.5rem;
 
-    >div {
+    > div {
       height: 40px;
     }
 
@@ -524,7 +524,7 @@
     gap: 1.5dvw 3dvw;
     padding: 0 1rem;
 
-    >button {
+    > button {
       flex: 0 1 calc(25% - 3dvw - 1rem);
     }
   }
@@ -580,7 +580,7 @@
       height: 100%;
     }
 
-    >div {
+    > div {
       position: absolute;
       top: 50%;
       left: 50%;
@@ -644,7 +644,7 @@
   &__abilities-cover-items {
     @extend .cafe-game__shop-cover-items;
 
-    >button {
+    > button {
       flex: 0 1 calc(28% - 3dvw);
     }
   }
@@ -747,7 +747,7 @@
     align-items: center;
     gap: 5px;
 
-    >img {
+    > img {
       width: 100px;
     }
   }
@@ -758,12 +758,12 @@
     margin-bottom: 15px;
     font-size: 32px;
 
-    >img {
+    > img {
       width: 35px;
       height: 40px;
     }
 
-    >div {
+    > div {
       display: inline-block;
       transform: translateY(5px);
       margin-right: 10px;
@@ -951,7 +951,8 @@
     }
   }
 
-  @media screen and (max-width: 1450px) {}
+  @media screen and (max-width: 1450px) {
+  }
 
   @media screen and (max-width: $small-desktopW) {
     &__plate {
@@ -965,6 +966,15 @@
   }
 
   @media screen and (max-width: $tabletW) {
+    &__shop-cover-btn {
+      bottom: 15px;
+    }
+
+    &__button {
+      min-width: fit-content;
+      padding: 8px;
+    }
+
     &__plate {
       transform: scale(0.9);
     }
@@ -989,30 +999,15 @@
     }
 
     &__shop-cover-items {
-      >button {
+      > button {
         flex: 0 1 calc(33% - 3dvw);
       }
     }
-
-    // &__shop-item-content {
-    //   > :first-child {
-    //     font-size: 1rem;
-    //   }
-
-    //   > :nth-child(2) {
-    //     font-size: 0.75rem;
-    //   }
-
-    //   > :last-child {
-    //     font-size: 1.25rem;
-    //   }
-    // }
   }
 
   @media screen and (max-width: $mobileW) {
     &__wall-container {
       &--content {
-
         > :first-child,
         > :last-child {
           display: none;
@@ -1023,7 +1018,7 @@
     &__table-container-plate {
       gap: 0.25rem;
 
-      >div {
+      > div {
         width: 30%;
         height: 33%;
       }
@@ -1033,13 +1028,8 @@
       transform: scale(1);
     }
 
-    &__button {
-      min-width: 25dvw;
-      font-size: 3dvw;
-    }
-
     &__shop-cover-items {
-      >button {
+      > button {
         flex: 0 1 calc(50% - 3dvw);
       }
     }
@@ -1059,7 +1049,7 @@
     }
 
     &__shop-header-setting {
-      >div {
+      > div {
         width: 20px;
         height: 20px;
       }

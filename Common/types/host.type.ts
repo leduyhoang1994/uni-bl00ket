@@ -6,6 +6,7 @@ export type Player = {
   username: string;
   avatar: string;
   socketId: string;
+  meta?: string;
   score?: number;
 };
 
@@ -52,7 +53,10 @@ export type HostLeaderboardItem = {
   score: number;
   username?: string;
   avatar?: string;
+  meta?: string;
 };
+
+export type HostLeaderboard = HostLeaderboardItem[];
 
 export type GetHostInfoOpts = {
   fullLeaderboard?: boolean;
@@ -61,8 +65,6 @@ export type GetHostInfoOpts = {
   userInfo?: boolean;
   questions?: boolean;
 };
-
-export type HostLeaderboard = HostLeaderboardItem[];
 
 export type GameEvent = {
   type: GameEventType;

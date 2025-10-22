@@ -13,6 +13,7 @@ export async function getPayloadFromAuth(auth: any): Promise<{
   hostId: string;
   role: "host" | "player";
   avatar: string;
+  meta?: string;
 }> {  
   if (auth.token.startsWith("Host")) {
     return {
@@ -32,5 +33,6 @@ export async function getPayloadFromAuth(auth: any): Promise<{
     hostId: auth.hostId,
     role: "player",
     avatar: payload.avatar,
+    meta: payload.meta,
   };
 }
