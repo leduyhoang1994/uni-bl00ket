@@ -7,7 +7,7 @@ export enum StateType {
 }
 
 type HostState = {
-  hostInfo?: HostInfo,
+  hostInfo?: HostInfo;
   currentState: StateType;
   lobbyPlayers: Player[];
   setCurrentState: (currentState: StateType) => void;
@@ -19,6 +19,8 @@ type HostState = {
   toggleSetting: boolean;
   setToggleSetting: (toggleSetting: boolean) => void;
   setHostInfo: (hostInfo: HostInfo) => void;
+  updateStartTime: (startTime: number) => void;
+  updateEndTime: (endTime: number) => void;
 };
 
 const initialDataHost = {
@@ -60,6 +62,24 @@ const HostStore = create<HostState>((set, get) => ({
   setUserInfo: (userInfo) => set({ userInfo }),
   setToggleSetting: (toggleSetting) => set({ toggleSetting }),
   setHostInfo: (hostInfo) => set({ hostInfo }),
+  updateStartTime: (startTime) => {
+    const hostInfo = get().hostInfo;
+
+    if (!hostInfo) {
+      return;
+    }
+
+    set({ hostInfo: { ...hostInfo, startTime } });
+  },
+  updateEndTime: (endTime) => {
+    const hostInfo = get().hostInfo;
+
+    if (!hostInfo) {
+      return;
+    }
+
+    set({ hostInfo: { ...hostInfo, endTime } });
+  },
 }));
 
 export default HostStore;

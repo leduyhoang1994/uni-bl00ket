@@ -66,19 +66,20 @@ export default class WorkerController {
     await this.initWorkers();
   }
 
-  public async scheduleStart(hostId: string, delay: number) {
-    if (!this.emitter) {
-      return;
+  public async scheduleStart(hostId: string, delay: number) {    
+    const jobId = `start-${hostId}`;
+    const job = await this.hostTimerQueue?.getJob(jobId);
+
+    if (job) {
+      await job.remove();
     }
-
-    // const hostSocket = new HostSocket(hostId, this.emitter);
-
-    // TODO: Emit Start Time
+    
     logger.info(`[Worker - scheduleStart] hostId: ${hostId}, delay: ${delay}`);
     await this.hostTimerQueue?.add(
       WorkerController.HOST_START_JOB,
       { hostId },
       {
+        jobId: jobId,
         delay: delay * 1000,
         removeOnComplete: true,
       }
@@ -86,12 +87,19 @@ export default class WorkerController {
   }
 
   public async scheduleEnd(hostId: string, delay: number) {
-    // TODO: Emit End Time
+    const jobId = `end-${hostId}`;
+    const job =  await this.hostTimerQueue?.getJob(jobId);
+
+    if (job) {
+      await job.remove();
+    }
+
     logger.info(`[Worker - scheduleEnd] hostId: ${hostId}, delay: ${delay}`);
     await this.hostTimerQueue?.add(
       WorkerController.HOST_END_JOB,
       { hostId },
       {
+        jobId: `end-${hostId}`,
         delay: delay * 1000,
         removeOnComplete: true,
       }

@@ -12,10 +12,11 @@ import { useCallback, useLayoutEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router";
 import { HostState } from "@common/constants/host.constant";
 import { UrlGenerator } from "@/game/common/utils/utils";
+import CountdownTimer from "@/game/common/components/countdown/CountdownTimer";
 
 export default function InGame() {
   const { hostId } = useParams();
-  const { setLeaderboard, leaderboard, setHostInfo } = HostStore();
+  const { setLeaderboard, leaderboard, setHostInfo, hostInfo, updateEndTime } = HostStore();
   const [activitiesBoard, setActivitiesBoard] = useState<ActivityBoardItem[]>(
     []
   );
@@ -80,6 +81,10 @@ export default function InGame() {
         });
       };
 
+      hostController.onEndTimeUpdated = async (endTime: number) => {
+        updateEndTime(endTime);
+      };
+
       await hostController.initSocket(hostId);
 
       setActivitiesBoard(hostInfo.activitiesBoard || []);
@@ -89,7 +94,11 @@ export default function InGame() {
     <div className="waiting-action-creator">
       <div className="waiting-action-creator__header">
         <div className="waiting-action-creator__header-first">PreClass</div>
-        <div className="waiting-action-creator__header-second"></div>
+        <div className="waiting-action-creator__header-second">
+          {hostInfo?.endTime && (
+            <CountdownTimer targetTimestamp={hostInfo.endTime} />
+          )}
+        </div>
         <div className="waiting-action-creator__header-third">
           <div>ID: {hostId}</div>
           <img

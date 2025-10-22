@@ -10,6 +10,7 @@ import RedisHostKey from "./model/host.key";
 import RedisClient from "../utils/redis.client";
 import { hexRnd } from "../utils/token";
 import { GameMode, HostState } from "@Common/constants/host.constant";
+import { publishLeaderboard } from "../utils/kafka.client";
 
 export default class HostRepository {
   private hostId: string;
@@ -87,11 +88,11 @@ export default class HostRepository {
     console.debug(`Player ${user.id} joined`);
   }
 
-  public async getPlayers() {
+  public async getPlayers(hostId?: string): Promise<Player[]> {
+    hostId = hostId || this.hostId;
+
     const client = RedisClient.getClient();
-    const players = await client.hgetall(
-      RedisHostKey.getPlayersKey(this.hostId)
-    );
+    const players = await client.hgetall(RedisHostKey.getPlayersKey(hostId));
 
     return Object.values(players).map((player) => JSON.parse(player) as Player);
   }
@@ -200,11 +201,26 @@ export default class HostRepository {
 
   public async end(hostId?: string) {
     const client = RedisClient.getClient();
+    hostId = hostId || this.hostId;
+
     await client.hset(
-      RedisHostKey.getHostKey(hostId || this.hostId),
+      RedisHostKey.getHostKey(hostId),
       "state",
       HostState.Ended
     );
+
+    try {
+      const rawLeaderboard = await this.getLeaderboard(hostId);
+      const players = await this.getPlayers(hostId);
+      const leaderBoard = rawLeaderboard.map((item) => {
+        const player = players.find((p) => p.id === item.playerId);
+        return { ...item, meta: player?.meta };
+      });
+
+      await publishLeaderboard(hostId, leaderBoard);
+    } catch (error) {
+      logger.debug("Publish leaderboard error:", error);
+    }
   }
 
   public async getUserResult(
@@ -352,7 +368,10 @@ export default class HostRepository {
     await pipeline.exec();
 
     if (hostInfo.gameId) {
-      await client.lpush(RedisHostKey.getGameHostListKey(hostInfo.gameId), hostId);
+      await client.lpush(
+        RedisHostKey.getGameHostListKey(hostInfo.gameId),
+        hostId
+      );
     }
 
     return hostId;

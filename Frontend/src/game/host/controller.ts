@@ -36,6 +36,9 @@ export default class HostController {
   public onGameEnded: () => Promise<void> = async () => {};
   public onActivitySaved: (activity: ActivityBoardItem) => Promise<void> =
     async () => {};
+  public onStartTimeUpdated: (startTime: number) => Promise<void> =
+    async () => {};
+  public onEndTimeUpdated: (endTime: number) => Promise<void> = async () => {};
 
   public async initHttp() {
     const token = await HostController.getAccessToken();
@@ -126,6 +129,14 @@ export default class HostController {
       if (event === HostEvent.ActivitySaved) {
         await this.onActivitySaved(args[0]);
       }
+
+      if (event === HostEvent.StartTimeUpdated) {
+        await this.onStartTimeUpdated(args[0]);
+      }
+
+      if (event === HostEvent.EndTimeUpdated) {
+        await this.onEndTimeUpdated(args[0]);
+      }
     });
   }
 
@@ -136,7 +147,12 @@ export default class HostController {
     this.socketClient.emit(HostEvent.LobbyStart);
   }
 
-  public async createGuest(username: string, hostId: string, avatar: string) {
+  public async createGuest(
+    username: string,
+    hostId: string,
+    avatar: string,
+    meta?: string
+  ) {
     const client = await initInternalHttp(null);
     let createResult = null;
 
@@ -147,6 +163,7 @@ export default class HostController {
           username,
           avatar: `${getHost()}/images/cafe-game/customers/${avatar}.svg`,
           hostId,
+          meta,
         })
       );
     } catch (error) {

@@ -1,7 +1,7 @@
 import RenderIf from "@/game/common/utils/condition-render";
 import FormSubmit from "../../../components/form-submit/form-submit";
 import { ChangeEvent, useLayoutEffect, useState } from "react";
-import { useNavigate, useParams } from "react-router";
+import { useNavigate, useParams, useSearchParams } from "react-router";
 import HostController from "../../../controller";
 import { UrlGenerator } from "@/game/common/utils/utils";
 import ChooseAvatarHostPlayer from "../../../components/choose-avatar-host-player/choose-avatar-host-player";
@@ -13,20 +13,13 @@ export default function HostPlayer() {
   const [username, setUsername] = useState("");
   const [changeStateAvatar, setChangeStateAvatar] = useState(false);
   const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
 
   useLayoutEffect(() => {
     (async () => {
-      if (!hostId) {
-        sessionStorage.clear();
-        return;
-      }
-
-      const accessToken = await HostController.getAccessToken();
-      if (accessToken) {
-        navigate(UrlGenerator.PlayerJoinLobbyUrl(hostId));
-      }
+      sessionStorage.clear();
     })();
-  });
+  }, []);
 
   const handleWriteName = () => {
     if (username.length == 0) {
@@ -56,7 +49,9 @@ export default function HostPlayer() {
 
     const controller = await HostController.getInstance();
     await controller.initHttp();
-    const guestToken = await controller.createGuest(username, hostId, avatar);
+    const meta = searchParams.get("meta") || undefined;
+    
+    const guestToken = await controller.createGuest(username, hostId, avatar, meta);
 
     if (!guestToken) {
       alert(
@@ -84,9 +79,9 @@ export default function HostPlayer() {
         </div>
       </div>
       <div className="host-player__body" style={{ overflowY: "auto" }}>
-          <div className="body-background-wrapper">
-            <div className="body-background"></div>
-          </div>
+        <div className="body-background-wrapper">
+          <div className="body-background"></div>
+        </div>
         <RenderIf condition={!changeStateAvatar}>
           <div className="host-player__body-main">
             <RenderIf condition={!hasIdGame}>

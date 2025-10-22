@@ -34,6 +34,7 @@ interface GenTokenBody {
   username: string;
   hostId: string;
   avatar?: string;
+  meta?: string;
 }
 
 interface GetPlayersBody {
@@ -118,7 +119,7 @@ export class InternalApiController extends Controller {
   public async generateToken(
     @Body() body: GenTokenBody
   ): Promise<ResponseType<{ token: string }>> {
-    const { username, hostId, avatar } = body;
+    const { username, hostId, avatar, meta } = body;
     const controller = new HostRepository(hostId);
 
     if (await controller.checkPlayerNameExisted(hostId, username)) {
@@ -129,7 +130,7 @@ export class InternalApiController extends Controller {
 
     const userId = randomUUID();
     const token = jwt.sign(
-      { id: userId, username, avatar } as Player,
+      { id: userId, username, avatar, meta } as Player,
       JWT_SECRET
     );
 

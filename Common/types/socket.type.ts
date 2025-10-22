@@ -5,4 +5,5 @@ export type AuthenticatedUser = {
   role: "host" | "player";
   avatar: string; // Avatar được lấy ra trong JWT có thể out of date, cần lấy avatar thật từ trong DB
   socketId: string;
+  meta?: string;
 };

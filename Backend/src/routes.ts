@@ -63,7 +63,7 @@ const models: TsoaRoute.Models = {
     // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
     "HostLeaderboardItem": {
         "dataType": "refAlias",
-        "type": {"dataType":"nestedObjectLiteral","nestedProperties":{"avatar":{"dataType":"string"},"username":{"dataType":"string"},"score":{"dataType":"double","required":true},"playerId":{"dataType":"string","required":true}},"validators":{}},
+        "type": {"dataType":"nestedObjectLiteral","nestedProperties":{"meta":{"dataType":"string"},"avatar":{"dataType":"string"},"username":{"dataType":"string"},"score":{"dataType":"double","required":true},"playerId":{"dataType":"string","required":true}},"validators":{}},
     },
     // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
     "ActivityBoardItem": {
@@ -158,7 +158,7 @@ const models: TsoaRoute.Models = {
     // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
     "Player": {
         "dataType": "refAlias",
-        "type": {"dataType":"nestedObjectLiteral","nestedProperties":{"score":{"dataType":"double"},"socketId":{"dataType":"string","required":true},"avatar":{"dataType":"string","required":true},"username":{"dataType":"string","required":true},"id":{"dataType":"string","required":true}},"validators":{}},
+        "type": {"dataType":"nestedObjectLiteral","nestedProperties":{"score":{"dataType":"double"},"meta":{"dataType":"string"},"socketId":{"dataType":"string","required":true},"avatar":{"dataType":"string","required":true},"username":{"dataType":"string","required":true},"id":{"dataType":"string","required":true}},"validators":{}},
     },
     // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
     "HostInfo": {
@@ -204,6 +204,7 @@ const models: TsoaRoute.Models = {
             "username": {"dataType":"string","required":true},
             "hostId": {"dataType":"string","required":true},
             "avatar": {"dataType":"string"},
+            "meta": {"dataType":"string"},
         },
         "additionalProperties": false,
     },
