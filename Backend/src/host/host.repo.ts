@@ -10,7 +10,7 @@ import RedisHostKey from "./model/host.key";
 import RedisClient from "../utils/redis.client";
 import { hexRnd } from "../utils/token";
 import { GameMode, HostState } from "@Common/constants/host.constant";
-import { publishLeaderboard } from "../utils/kafka.client";
+import { GameEventPublisherPublisher } from "../publishers/game-event.publisher";
 
 export default class HostRepository {
   private hostId: string;
@@ -217,7 +217,7 @@ export default class HostRepository {
         return { ...item, meta: player?.meta };
       });
 
-      await publishLeaderboard(hostId, leaderBoard);
+      await GameEventPublisherPublisher.getInstance().publishLeaderboard(hostId, leaderBoard);
     } catch (error) {
       logger.debug("Publish leaderboard error:", error);
     }
