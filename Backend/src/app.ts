@@ -5,6 +5,7 @@ import connectMongo from "./utils/mongo.client";
 import logger from "./utils/logger";
 import "dotenv/config";
 import WorkerController from "./servers/worker.server";
+import KafkaClient from "./utils/kafka.client";
 
 async function bootstrap() {
   const port = parseInt(process.argv[2]) || 4000;
@@ -19,6 +20,11 @@ async function bootstrap() {
   createSocketServer(httpServer);
 
   await WorkerController.getInstance();
+
+  logger.info("Initializing Kafka...");
+  const kafkaClient = KafkaClient.getInstance();
+  await kafkaClient.getProducer();
+  logger.info("✅ Kafka producer connected");
 
   // Start cả API và Socket trên cùng 1 cổng
   httpServer.listen(port, () => {
