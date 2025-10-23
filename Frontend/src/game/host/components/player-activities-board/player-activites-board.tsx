@@ -39,7 +39,7 @@ export default function PlayerActivitiesBoard({
           return (
             <div className="waiting-player-board__user-action" key={index}>
               <div>
-                <img src={value.avatar} alt="" />
+                <img height="100%" width="auto" src={value.avatar} alt="" />
               </div>
               <span>{`${value.username} ${gameController.decodeActivity(
                 value.activity
