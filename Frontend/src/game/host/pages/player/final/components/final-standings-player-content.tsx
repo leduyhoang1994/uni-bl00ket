@@ -48,7 +48,7 @@ export default function FinalStandingsPlayerContent() {
       </div>
       <div className="final-standings-player__body-content-image">
         <RenderIf condition={personalResult?.userInfo?.avatar}>
-          <img src={personalResult?.userInfo?.avatar || ""} alt="" />
+          <img width={"100%"} height={"auto"} src={personalResult?.userInfo?.avatar || ""} alt="" />
         </RenderIf>
       </div>
       <div className="final-standings-player__body-content-cheer">

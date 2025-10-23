@@ -40,12 +40,13 @@ export default function FinalStandingsPrizeV2(
             }
             const userName = item.username;
             const score = formatScore(item.score);
+            const avatar = item.avatar
 
             return (
               <div className={`final-standings__ranking-prize ${prizeObj.orderClass}`} key={index}>
                 <div className="final-standings__ranking-user-avatar" >
-                  <div className="change-to-period">{userName}</div>
-                  <img src="/images/avatar/brown-dog.svg" alt="avatar" />
+                  <div className="change-to-period coiny-text">{userName}</div>
+                  <img src={avatar || "/images/avatar/brown-dog.svg"} alt="avatar" />
                 </div>
                 <div className="final-standings__ranking-user-podium">
                   <img src={prizeObj.stateImg} alt="" />
