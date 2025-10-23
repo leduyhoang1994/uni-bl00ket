@@ -26,7 +26,7 @@ async function bootstrap() {
 
   logger.info("Initializing Kafka...");
   const kafkaClient = KafkaClient.getInstance();
-  await kafkaClient.getProducer();
+  kafkaClient.getProducer();
   logger.info("✅ Kafka producer connected");
 
   // Start cả API và Socket trên cùng 1 cổng

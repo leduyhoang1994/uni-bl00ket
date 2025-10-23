@@ -1,20 +1,22 @@
-import { Kafka, Producer, logLevel } from "kafkajs";
+import {Kafka, Producer, logLevel, SASLMechanismOptions} from "kafkajs";
 import logger from "./logger";
 import "dotenv/config";
 
 const kafkaConnection = {
-    brokers: (process.env.KAFKA_BROKERS || "localhost:9092").split(","),
-    username: process.env.KAFKA_USERNAME,
-    password: process.env.KAFKA_PASSWORD,
+    brokers: (process.env.KAFKA_BROKERS || "localhost:9092").split(','),
     clientId: process.env.KAFKA_CLIENT_ID || "uniclass-bloocket-game-backend",
     retry: {
         initialRetryTime: 100,
-        retries: 8,
+        retries: 3,
     },
     connectionTimeout: 10000,
     requestTimeout: 30000,
-    ssl: false,
     logLevel: logLevel.ERROR,
+    sasl: {
+        mechanism: 'plain',
+        username: process.env.KAFKA_USERNAME,
+        password: process.env.KAFKA_PASSWORD,
+    } as SASLMechanismOptions<'plain'>,
 }
 class KafkaClient {
     private static instance: KafkaClient;
@@ -24,7 +26,7 @@ class KafkaClient {
 
     private constructor() {
         this.kafka = new Kafka(kafkaConnection);
-        logger.info(`[KafkaClient] Initialized with brokers: ${kafkaConnection}`);
+        logger.info(`[KafkaClient] Initialized with brokers: ${JSON.stringify(kafkaConnection)}`);
     }
 
     static getInstance(): KafkaClient {
