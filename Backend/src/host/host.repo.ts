@@ -217,7 +217,7 @@ export default class HostRepository {
         return { ...item, meta: player?.meta };
       });
 
-      await GameEventPublisherPublisher.getInstance().publishLeaderboard(hostId, leaderBoard);
+      GameEventPublisherPublisher.getInstance().publishLeaderboard(hostId, leaderBoard);
     } catch (error) {
       logger.debug("Publish leaderboard error:", error);
     }
