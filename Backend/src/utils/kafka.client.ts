@@ -1,9 +1,10 @@
 import {Kafka, Producer, logLevel, SASLMechanismOptions} from "kafkajs";
 import logger from "./logger";
 import "dotenv/config";
+const isProd = process.env.KAFKA_AUTH ?? false;
 
-const kafkaConnection = {
-    brokers: (process.env.KAFKA_BROKERS || "localhost:9092").split(','),
+const baseConfig = {
+    brokers: (process.env.KAFKA_BROKERS || "localhost:9092").split(","),
     clientId: process.env.KAFKA_CLIENT_ID || "uniclass-bloocket-game-backend",
     retry: {
         initialRetryTime: 100,
@@ -12,12 +13,25 @@ const kafkaConnection = {
     connectionTimeout: 10000,
     requestTimeout: 30000,
     logLevel: logLevel.ERROR,
-    sasl: {
-        mechanism: 'plain',
-        username: process.env.KAFKA_USERNAME,
-        password: process.env.KAFKA_PASSWORD,
-    } as SASLMechanismOptions<'plain'>,
-}
+};
+
+const secureConfig = isProd
+    ? {
+        sasl: {
+            mechanism: "plain",
+            username: process.env.KAFKA_USERNAME,
+            password: process.env.KAFKA_PASSWORD,
+        } as SASLMechanismOptions<"plain">,
+    }
+    : {
+        ssl: false,
+    };
+
+export const kafkaConnection = {
+    ...baseConfig,
+    ...secureConfig,
+};
+
 class KafkaClient {
     private static instance: KafkaClient;
     private kafka: Kafka;
