@@ -34,48 +34,57 @@ export class GameEventPublisherPublisher {
     ): Promise<void> {
         const maxRetries = options?.retries ?? 3;
         const sendTimeout = options?.timeout ?? 10000;
+        try {
+            const producer = await this.kafkaClient.getProducer();
+            const message = {
+                key: hostId,
+                value: JSON.stringify(leaderboard),
+                timestamp: Date.now().toString(),
+            };
 
-        const producer = await this.kafkaClient.getProducer();
+            for (let attempt = 1; attempt <= maxRetries; attempt++) {
+                try {
+                    await producer.send({
+                        topic: KafkaTopics.GAME_LEADERBOARD,
+                        messages: [message],
+                        compression: 1,
+                        acks: -1,
+                        timeout: sendTimeout,
+                    });
 
-        const message = {
-            key: hostId,
-            value: JSON.stringify(leaderboard),
-            timestamp: Date.now().toString(),
-        };
-
-        for (let attempt = 1; attempt <= maxRetries; attempt++) {
-            try {
-                await producer.send({
-                    topic: KafkaTopics.GAME_LEADERBOARD,
-                    messages: [message],
-                    compression: 1,
-                    acks: -1,
-                    timeout: sendTimeout,
-                });
-
-                logger.info(
-                    {hostId, attempt},
-                    `[Kafka] Published leaderboard for host ${hostId}`
-                );
-                return;
-            } catch (error: any) {
-                logger.debug(
-                    {
-                        hostId,
-                        attempt,
-                        error: error?.message,
-                    },
-                    `[Kafka] Failed to publish leaderboard (attempt ${attempt})`
-                );
-                if (attempt === maxRetries) {
-                    logger.debug(
-                        {hostId, error},
-                        `[Kafka] Giving up after ${maxRetries} retries`
+                    logger.info(
+                        {hostId, attempt},
+                        `[Kafka] Published leaderboard for host ${hostId}`
                     );
-                    throw error;
+                    return;
+                } catch (error: any) {
+                    logger.debug(
+                        {
+                            hostId,
+                            attempt,
+                            error: error?.message,
+                        },
+                        `[Kafka] Failed to publish leaderboard (attempt ${attempt})`
+                    );
+                    if (attempt === maxRetries) {
+                        logger.debug(
+                            {hostId, error},
+                            `[Kafka] Giving up after ${maxRetries} retries`
+                        );
+                        throw error;
+                    }
+                    await new Promise((res) => setTimeout(res, 500 * attempt));
                 }
-                await new Promise((res) => setTimeout(res, 500 * attempt));
             }
+        } catch (error: any) {
+            logger.debug(
+                {
+                    hostId,
+                    error: error?.message,
+                    stack: error?.stack,
+                },
+                `[Kafka] Fatal error publishing leaderboard`
+            );
         }
     }
 }
