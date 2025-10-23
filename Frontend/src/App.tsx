@@ -42,7 +42,6 @@ const GameEdit = lazy(() => import("./cms/game/edit"));
 
 // --- Other Components ---
 const AccessDenied = lazy(() => import("@/game/host/components/access-denied"));
-const GoldQuest = lazy(() => import("./game/modes/gold-quest/gold-quest"));
 
 function App() {
   useLayoutEffect(() => {
@@ -83,8 +82,6 @@ function App() {
               <Route path="final" element={<FinalStandings />} />
             </Route>
           </Route>
-
-          <Route path="/gold-quest" element={<GoldQuest />} />
 
           <Route path="/cafe/create" element={<Navigate to="/admin/game/create" replace />} />
 

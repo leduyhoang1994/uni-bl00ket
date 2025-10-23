@@ -39,19 +39,19 @@ export const chestImageMap: Record<Chests, string> = {
 };
 
 export const chestTextMap: Record<Chests, string> = {
-  [Chests.Gain10]: "+10 Gold",
-  [Chests.Gain20]: "+20 Gold",
-  [Chests.Gain30]: "+30 Gold",
-  [Chests.Gain40]: "+40 Gold",
-  [Chests.Gain50]: "+50 Gold",
-  [Chests.Gain100]: "+100 Gold",
-  [Chests.Double]: "Double Gold!",
-  [Chests.Triple]: "Triple Gold!",
-  [Chests.Lose25]: "Lose 25%",
-  [Chests.Lose50]: "Lose 50%",
-  [Chests.Steal10]: "Take 10%",
-  [Chests.Steal25]: "Take 25%",
-  [Chests.Nothing]: "Nothing!",
+  [Chests.Gain10]: "+10 Vàng",
+  [Chests.Gain20]: "+20 Vàng",
+  [Chests.Gain30]: "+30 Vàng",
+  [Chests.Gain40]: "+40 Vàng",
+  [Chests.Gain50]: "+50 Vàng",
+  [Chests.Gain100]: "+100 Vàng",
+  [Chests.Double]: "Nhân đôi Vàng!",
+  [Chests.Triple]: "Nhân ba Vàng!",
+  [Chests.Lose25]: "Mất 25%",
+  [Chests.Lose50]: "Mất 50%",
+  [Chests.Steal10]: "Cướp 10%",
+  [Chests.Steal25]: "Cướp 25%",
+  [Chests.Nothing]: "Trống rỗng!",
 };
 
 const ChestProbabilities = new Map<Chests, number>([
@@ -295,7 +295,7 @@ export default class GoldQuestController extends GameController {
 
     switch (action) {
       case GoldQuestActivity.Steal:
-        return ` đã lấy ${data.gold} vàng từ ${data.targetPlayer.username}`;
+        return ` đã cướp ${data.gold} vàng từ ${data.targetPlayer.username}`;
     }
   }
 }

@@ -1,3 +1,4 @@
+import { formatScore } from "@/game/common/utils/utils";
 import { HostLeaderboardItem } from "@common/types/host.type";
 
 export type UserRank = {
@@ -34,7 +35,7 @@ export default function FinalStandingsPlayerBoard({
         {leaderBoardItem.username}
       </div>
       <div className="final-stadings-player-board__rank-user-score">
-        {leaderBoardItem.score}
+        {formatScore(leaderBoardItem.score)}
       </div>
     </div>
   );

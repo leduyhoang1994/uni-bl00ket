@@ -79,3 +79,7 @@ export enum SCREEN_SIZES_ENUM {
   SMALL_MOBILE_W = 576,
   VERY_SMALL_MOBILE_W = 400,
 }
+
+export function formatScore(score: number): string {
+  return score.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+}

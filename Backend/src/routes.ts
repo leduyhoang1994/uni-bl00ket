@@ -151,14 +151,14 @@ const models: TsoaRoute.Models = {
         "type": {"dataType":"nestedObjectLiteral","nestedProperties":{"data":{"dataType":"nestedObjectLiteral","nestedProperties":{"hostId":{"dataType":"string","required":true}},"required":true},"code":{"dataType":"double","required":true},"success":{"dataType":"boolean","required":true}},"validators":{}},
     },
     // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
-    "PersonalResult": {
-        "dataType": "refAlias",
-        "type": {"dataType":"nestedObjectLiteral","nestedProperties":{"accuracy":{"dataType":"nestedObjectLiteral","nestedProperties":{"percent":{"dataType":"double","required":true},"total":{"dataType":"double","required":true},"corrects":{"dataType":"double","required":true}},"required":true},"rank":{"dataType":"double","required":true},"score":{"dataType":"double","required":true}},"validators":{}},
-    },
-    // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
     "Player": {
         "dataType": "refAlias",
         "type": {"dataType":"nestedObjectLiteral","nestedProperties":{"score":{"dataType":"double"},"meta":{"dataType":"string"},"socketId":{"dataType":"string","required":true},"avatar":{"dataType":"string","required":true},"username":{"dataType":"string","required":true},"id":{"dataType":"string","required":true}},"validators":{}},
+    },
+    // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+    "PersonalResult": {
+        "dataType": "refAlias",
+        "type": {"dataType":"nestedObjectLiteral","nestedProperties":{"userInfo":{"ref":"Player"},"accuracy":{"dataType":"nestedObjectLiteral","nestedProperties":{"percent":{"dataType":"double","required":true},"total":{"dataType":"double","required":true},"corrects":{"dataType":"double","required":true}},"required":true},"rank":{"dataType":"double","required":true},"score":{"dataType":"double","required":true}},"validators":{}},
     },
     // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
     "HostInfo": {

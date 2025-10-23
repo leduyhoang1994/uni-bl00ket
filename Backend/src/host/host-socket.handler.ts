@@ -269,10 +269,6 @@ export default class HostSocketHandler {
         break;
       case HostEvent.ScoreUpdated:
         await this.updateLeaderboard(args[0]);
-        const score = args[0];
-        if (score > 100000) {
-          await this.endGame();
-        }
         break;
       case HostEvent.EndGame:
         await this.endGame();

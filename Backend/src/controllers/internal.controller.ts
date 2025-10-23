@@ -92,6 +92,7 @@ export class InternalApiController extends Controller {
         hostId,
         userId
       );
+      hostInfo.personalResult.userInfo = players.find((p) => p.id === userId);
     }
     if (options.activitiesBoard) {
       hostInfo.activitiesBoard = await hostRepository.getActivitiesBoard(
@@ -103,7 +104,9 @@ export class InternalApiController extends Controller {
     }
 
     if (options.questions && hostInfo.gameId) {
-      const questions = await GameQuestionRepo.getGameQuestions(hostInfo.gameId);
+      const questions = await GameQuestionRepo.getGameQuestions(
+        hostInfo.gameId
+      );
 
       hostInfo.questions = questions;
     }

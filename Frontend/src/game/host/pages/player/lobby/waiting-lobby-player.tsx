@@ -71,7 +71,7 @@ function WaitingLobbyPlayer() {
     <>
       <div className="waiting-lobby-player">
         <div className="waiting-lobby-player__header">
-          <div className="waiting-lobby-player__header-second">Pre-Class</div>
+          <div className="waiting-lobby-player__header-second"></div>
           <div className="waiting-lobby-player__header-first">
             {hostInfo?.startTime && (
               <CountdownTimer targetTimestamp={hostInfo.startTime} />

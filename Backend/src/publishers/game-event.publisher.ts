@@ -2,6 +2,7 @@ import { HostLeaderboard } from "@Common/types/host.type";
 import KafkaClient from "../utils/kafka.client";
 import logger from "../utils/logger";
 import {KafkaTopics} from "../types/topics.type";
+import { isLocalEnvironment } from "../utils/util";
 
 export class GameEventPublisherPublisher {
     private static instance: GameEventPublisherPublisher;
@@ -13,6 +14,10 @@ export class GameEventPublisherPublisher {
     }
 
     static getInstance(): GameEventPublisherPublisher {
+        if (isLocalEnvironment()) {
+            throw new Error("GameEventPublisherPublisher should not be used in local environment");
+        }
+        
         if (!GameEventPublisherPublisher.instance) {
             GameEventPublisherPublisher.instance = new GameEventPublisherPublisher();
         }

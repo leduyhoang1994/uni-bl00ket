@@ -580,8 +580,41 @@
 				],
 				"type": "object"
 			},
+			"Player": {
+				"properties": {
+					"score": {
+						"type": "number",
+						"format": "double"
+					},
+					"meta": {
+						"type": "string"
+					},
+					"socketId": {
+						"type": "string"
+					},
+					"avatar": {
+						"type": "string"
+					},
+					"username": {
+						"type": "string"
+					},
+					"id": {
+						"type": "string"
+					}
+				},
+				"required": [
+					"socketId",
+					"avatar",
+					"username",
+					"id"
+				],
+				"type": "object"
+			},
 			"PersonalResult": {
 				"properties": {
+					"userInfo": {
+						"$ref": "#/components/schemas/Player"
+					},
 					"accuracy": {
 						"properties": {
 							"percent": {
@@ -617,36 +650,6 @@
 					"accuracy",
 					"rank",
 					"score"
-				],
-				"type": "object"
-			},
-			"Player": {
-				"properties": {
-					"score": {
-						"type": "number",
-						"format": "double"
-					},
-					"meta": {
-						"type": "string"
-					},
-					"socketId": {
-						"type": "string"
-					},
-					"avatar": {
-						"type": "string"
-					},
-					"username": {
-						"type": "string"
-					},
-					"id": {
-						"type": "string"
-					}
-				},
-				"required": [
-					"socketId",
-					"avatar",
-					"username",
-					"id"
 				],
 				"type": "object"
 			},

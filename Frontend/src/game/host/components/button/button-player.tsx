@@ -1,3 +1,5 @@
+import { formatScore } from "@/game/common/utils/utils";
+
 export default function ButtonPlayer({ userNumber = 1, score = 0, name = "", avatar = "/images/avatar/blook-penguin.svg" }) {
   let numberText = "st";
   if (userNumber == 2) {
@@ -20,7 +22,7 @@ export default function ButtonPlayer({ userNumber = 1, score = 0, name = "", ava
           <img src={avatar} alt="" />
         </div>
         <div className="button-player__user-name change-to-period">{name}</div>
-        <div className="button-player__user-money change-to-period">${score}</div>
+        <div className="button-player__user-money change-to-period">$ {formatScore(score)}</div>
       </button>
     </div>
   );

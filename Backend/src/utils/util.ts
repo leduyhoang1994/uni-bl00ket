@@ -11,3 +11,20 @@ export function getJoinUrl(hostId: string, gameId?: string) {
 
   return url;
 }
+
+export enum Environment {
+  Local = "local",
+  Development = "development",
+  Staging = "staging",
+  Production = "production",
+}
+export function getEnvironment(): Environment {
+  const env = process.env.ENVIRONMENT || "production";
+  return env as Environment;
+}
+export function isProductionEnvironment(): boolean {
+  return getEnvironment() === Environment.Production;
+}
+export function isLocalEnvironment(): boolean {
+  return getEnvironment() === Environment.Local;
+}

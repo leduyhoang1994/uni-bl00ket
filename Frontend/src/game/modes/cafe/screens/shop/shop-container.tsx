@@ -3,6 +3,7 @@ import CafeGameStore from "@/game/modes/cafe/store";
 import ButtonCafeGame from "@/game/modes/cafe/components/button-cafe-game/button-cafe-game";
 import { useLayoutEffect } from "react";
 import { getCafeControllerInstance } from "../../cafe-controller.singleton";
+import { formatScore } from "@/game/common/utils/utils";
 
 export default function ShopContainer() {
   const {
@@ -54,7 +55,7 @@ export default function ShopContainer() {
             <div>Nâng cấp</div>
           </div>
           <div className="cafe-game__shop-header-curtain-money">
-            <div>{`$${cafeBalance}`}</div>
+            <div>{`$${formatScore(cafeBalance)}`}</div>
           </div>
         </div>
       </div>

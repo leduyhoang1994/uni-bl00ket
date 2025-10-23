@@ -4,6 +4,7 @@ import ButtonCafeGame from "@/game/modes/cafe/components/button-cafe-game/button
 import AbilitiesItem from "./components/abilities-item";
 import { REQUIRE_PLAYER_ABILITES } from "@/game/modes/cafe/model";
 import { useLayoutEffect } from "react";
+import { formatScore } from "@/game/common/utils/utils";
 
 export default function AbilitiesContainer() {
   const {
@@ -59,7 +60,7 @@ export default function AbilitiesContainer() {
             <div>Kỹ năng</div>
           </div>
           <div className="cafe-game__abilities-header-curtain-money">
-            <div>{`$${cafeBalance}`}</div>
+            <div>{`$${formatScore(cafeBalance)}`}</div>
           </div>
         </div>
       </div>

@@ -1,3 +1,5 @@
+import { formatScore } from "@/game/common/utils/utils";
+
 export default function ShopItem({
   name = "Toast",
   priceSell = 0,
@@ -29,8 +31,8 @@ export default function ShopItem({
     ? rewardPrices[currentIndexLevel + 1]
     : rewardPrices[currentIndexLevel];
 
-  const description = `$${currentReward} ${nextReward ? "→" : ""} ${
-    "$" + nextReward
+  const description = `$${formatScore(currentReward)} ${formatScore(nextReward) ? "→" : ""} ${
+    "$" + formatScore(nextReward)
   }`;
   const max = currentIndexLevel === rewardPrices.length - 1;
 
@@ -44,7 +46,7 @@ export default function ShopItem({
       <div className="cafe-game__shop-item-content">
         <div>{name}</div>
         <div>{description}</div>
-        <div>{max ? "MAX" : `$${priceSell}`}</div>
+        <div>{max ? "MAX" : `$${formatScore(priceSell)}`}</div>
       </div>
       <div className="cafe-game__shop-item-img">
         <img src={`${plateLevelArr[currentIndexLevel]}`} alt="" />

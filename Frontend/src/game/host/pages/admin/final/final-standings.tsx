@@ -28,7 +28,7 @@ export default function FinalStandings() {
   return (
     <div className="final-standings">
       <div className="final-standings__header">
-        <div className="final-standings__header-first">Pre-Class</div>
+        <div className="final-standings__header-first"></div>
         <div className="final-standings__header-second">Trò chơi kết thúc</div>
         <div></div>
         {/* <Link

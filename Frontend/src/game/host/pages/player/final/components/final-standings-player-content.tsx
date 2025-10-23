@@ -5,7 +5,7 @@ import FinalStandingsPlayerBoard, {
 import { useLayoutEffect, useState } from "react";
 import { HostLeaderboardItem, PersonalResult } from "@common/types/host.type";
 import HostController from "@/game/host/controller";
-import { numberToOrder } from "@/game/common/utils/utils";
+import { formatScore, numberToOrder } from "@/game/common/utils/utils";
 import HostStore from "@/game/host/store";
 import RenderIf from "@/game/common/utils/condition-render";
 
@@ -14,8 +14,6 @@ export default function FinalStandingsPlayerContent() {
   const [finalStandings, setFinalStandings] = useState<HostLeaderboardItem[]>(
     []
   );
-  const { userInfo } = HostStore();
-
   const [personalResult, setPersonalResult] = useState<PersonalResult | null>(
     null
   );
@@ -41,24 +39,23 @@ export default function FinalStandingsPlayerContent() {
   }, []);
 
   const order = numberToOrder(personalResult?.rank || 0);
+  console.log(personalResult);
 
   return (
     <div className="final-standings-player__body-content">
       <div className="final-standings-player__body-content-rank">
-        <div>{order.numb}</div>
-        <div>{order.text}</div>
-        <div>Place</div>
+        <div className="coiny-text">Xếp hạng {order.numb}</div>
       </div>
       <div className="final-standings-player__body-content-image">
-        <RenderIf condition={userInfo?.avatar}>
-          <img src={userInfo?.avatar || ""} alt="" />
+        <RenderIf condition={personalResult?.userInfo?.avatar}>
+          <img src={personalResult?.userInfo?.avatar || ""} alt="" />
         </RenderIf>
       </div>
       <div className="final-standings-player__body-content-cheer">
-        You Can Do It
+        <div className="coiny-text">Bạn làm rất tốt</div>
       </div>
       <div className="final-standings-player__body-content-score">
-        Score: {personalResult?.score || 0}
+        Điểm: {formatScore(personalResult?.score || 0)}
       </div>
       <div className="final-standings-player__body-content-score-details">
         {finalStandings.map((value: HostLeaderboardItem, index: number) => {
@@ -94,7 +91,7 @@ export default function FinalStandingsPlayerContent() {
       </div>
       <div className="final-standings-player__body-content-accuracy">
         <div className="final-standings-player__body-content-accuracy-column">
-          <div>Accuracy:</div>
+          <div>Chính xác:</div>
           <div>
             {personalResult?.accuracy.corrects} /{" "}
             {personalResult?.accuracy.total}

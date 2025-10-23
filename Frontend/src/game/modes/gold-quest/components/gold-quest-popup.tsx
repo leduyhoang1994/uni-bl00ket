@@ -5,7 +5,7 @@ export default function GoldQuestPopup({ userAvatarSteal = '', userNameSteal = '
         <article className="gold-quest__popup-article">
           <figure className="gold-quest__popup-message">
             <img src={userAvatarSteal} alt="user target" />
-            <strong>{userNameSteal} just took {gold} gold from you!</strong>
+            <strong>{userNameSteal} đã cướp {gold} vàng từ bạn!</strong>
           </figure>
           <footer className="gold-quest__popup-footer">
             <button onClick={onExits} type="button" className="gold-quest__popup-button">OK</button>

@@ -1,3 +1,4 @@
+import { formatScore } from "@/game/common/utils/utils";
 import HostStore from "@/game/host/store";
 
 export default function ShowTotalMoney() {
@@ -6,7 +7,7 @@ export default function ShowTotalMoney() {
 
   return (
     <div className="show-total-money">
-      <div className="show-total-money__content change-to-period">${highest}</div>
+      <div className="show-total-money__content change-to-period">$ {formatScore(highest)}</div>
     </div>
   );
 }

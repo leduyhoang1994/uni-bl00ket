@@ -64,7 +64,7 @@ export default function ChoosePlayerTarget({
         />
       </div>
       <div className="choose-player-target__text">
-        Choose a Player to Target
+        Chọn một người chơi mục tiêu
       </div>
       <div className="choose-player-target__cover-enemy">
         {players.map((player) => {

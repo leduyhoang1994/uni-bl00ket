@@ -65,37 +65,10 @@
 
   &__body-content-rank {
     display: flex;
-
-    > :first-child {
-      z-index: 2;
-      margin-top: 15px;
-      margin-bottom: 20px;
-      color: #3a3a3a;
-      font-size: 58px;
-      font-family: var(--font-titan);
-      text-align: center;
-    }
-
-    > :nth-child(2) {
-      z-index: 2;
-      margin-top: 15px;
-      width: 22px;
-      color: #3a3a3a;
-      font-size: 32px;
-      font-family: var(--font-titan);
-      text-align: left;
-    }
-
-    > :last-child {
-      z-index: 2;
-      margin-top: 15px;
-      margin-bottom: 20px;
-      margin-left: 35px;
-      color: #3a3a3a;
-      font-size: 58px;
-      font-family: var(--font-titan);
-      text-align: center;
-    }
+    margin-top: 15px;
+    color: #3a3a3a;
+    font-size: 58px;
+    font-family: var(--font-coiny);
   }
 
   &__body-content-image {

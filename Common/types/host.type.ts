@@ -46,6 +46,7 @@ export type PersonalResult = {
     total: number;
     percent: number;
   };
+  userInfo?: Player;
 };
 
 export type HostLeaderboardItem = {

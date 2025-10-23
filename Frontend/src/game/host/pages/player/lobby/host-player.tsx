@@ -75,7 +75,7 @@ export default function HostPlayer() {
           {!changeStateAvatar ? "Tham gia trò chơi" : "Chọn nhân vật"}
         </div>
         <div className="host-player__header-third">
-          <a href="">Tổng quan</a>
+          
         </div>
       </div>
       <div className="host-player__body" style={{ overflowY: "auto" }}>

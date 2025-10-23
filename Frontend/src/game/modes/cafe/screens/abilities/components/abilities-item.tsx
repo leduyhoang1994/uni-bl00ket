@@ -1,3 +1,5 @@
+import { formatScore } from "@/game/common/utils/utils";
+
 export default function AbilitiesItem({
   name = "Paycheck Bonus",
   description = "",
@@ -19,7 +21,7 @@ export default function AbilitiesItem({
       <div className="cafe-game__abilities-item-content">
         <div>{name}</div>
         <div>{description}</div>
-        <div>{`$${priceSell}`}</div>
+        <div>{`$${formatScore(priceSell)}`}</div>
       </div>
       <div className="cafe-game__abilities-item-img">
         <div>

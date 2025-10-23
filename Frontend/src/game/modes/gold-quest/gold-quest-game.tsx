@@ -300,10 +300,10 @@ export default function GoldQuest() {
             <article className="gold-quest__content-title">
               <div>
                 <RenderIf condition={!showPageTargetUser}>
-                  <h1>{!isAnimating ? 'Choose a Chest!' : 'Click any where to go next'}</h1>
+                  <h1>{!isAnimating ? 'Hãy chọn một rương!' : 'Click bất cứ đâu để tiếp tục'}</h1>
                 </RenderIf>
                 <RenderIf condition={showPageTargetUser}>
-                  <h1>Choose a player to take from</h1>
+                  <h1>Chọn một người chơi để cướp</h1>
                 </RenderIf>
               </div>
             </article>
@@ -346,7 +346,7 @@ export default function GoldQuest() {
                 <section className="gold-quest__button-next">
                   <article className="gold-quest__content-title" onClick={() => resetStatePerRound()}>
                     <div>
-                      <h1>Next</h1>
+                      <h1>Tiếp tục</h1>
                     </div>
                   </article>
                 </section>

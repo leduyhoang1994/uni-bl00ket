@@ -1,5 +1,6 @@
 import type { HostLeaderboardItem } from "@common/types/host.type";
 import { FinalStandingsPrizeRank } from "./final-standings-prize";
+import { formatScore } from "@/game/common/utils/utils";
 
 type RankDetails = {
   stateImg: string,
@@ -38,7 +39,7 @@ export default function FinalStandingsPrizeV2(
               prizeObj = RANK_CONFIG[FinalStandingsPrizeRank.THIRD]
             }
             const userName = item.username;
-            const score = item.score;
+            const score = formatScore(item.score);
 
             return (
               <div className={`final-standings__ranking-prize ${prizeObj.orderClass}`} key={index}>
