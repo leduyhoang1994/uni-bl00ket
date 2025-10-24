@@ -202,14 +202,15 @@ export default class HostRepository {
   public async end(hostId?: string) {
     const client = RedisClient.getClient();
     hostId = hostId || this.hostId;
+    logger.info(`[Host - end] hostId: ${hostId}`);
 
     await client.hset(
       RedisHostKey.getHostKey(hostId),
       "state",
       HostState.Ended
     );
-
     try {
+      logger.info(`[Host - end - getLeaderboard] hostId: ${hostId}`);
       const rawLeaderboard = await this.getLeaderboard(hostId);
       const players = await this.getPlayers(hostId);
       const leaderBoard = rawLeaderboard.map((item) => {

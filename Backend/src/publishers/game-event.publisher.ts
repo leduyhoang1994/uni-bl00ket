@@ -41,7 +41,10 @@ export class GameEventPublisherPublisher {
                 value: JSON.stringify(leaderboard),
                 timestamp: Date.now().toString(),
             };
-
+            logger.info(
+                {hostId},
+                `[Kafka] Published leaderboard for host ${hostId}, message: ${JSON.stringify(message)}`
+            );
             for (let attempt = 1; attempt <= maxRetries; attempt++) {
                 try {
                     await producer.send({

@@ -87,14 +87,15 @@ export default class WorkerController {
   }
 
   public async scheduleEnd(hostId: string, delay: number) {
+    logger.info(`[Worker - scheduleEnd] hostId: ${hostId}, delay: ${delay}`);
     const jobId = `end-${hostId}`;
     const job =  await this.hostTimerQueue?.getJob(jobId);
 
     if (job) {
+      logger.info(`[Worker - scheduleEnd - job remove] hostId: ${hostId}, delay: ${delay}`);
       await job.remove();
     }
 
-    logger.info(`[Worker - scheduleEnd] hostId: ${hostId}, delay: ${delay}`);
     await this.hostTimerQueue?.add(
       WorkerController.HOST_END_JOB,
       { hostId },
