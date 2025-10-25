@@ -70,13 +70,12 @@ function WaitingLobbyPlayer() {
   return (
     <>
       <div className="waiting-lobby-player">
+        {hostInfo?.startTime && (
+          <CountdownTimer targetTimestamp={hostInfo?.startTime || 0} />
+        )}
         <div className="waiting-lobby-player__header">
           <div className="waiting-lobby-player__header-second"></div>
-          <div className="waiting-lobby-player__header-first">
-            {hostInfo?.startTime && (
-              <CountdownTimer targetTimestamp={hostInfo.startTime} />
-            )}
-          </div>
+          <div className="waiting-lobby-player__header-first"></div>
           <div></div>
         </div>
         <div

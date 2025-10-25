@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useCallback } from "react";
+import "./style.scss";
 
 // Định nghĩa interface cho props
 interface CountdownTimerProps {
@@ -35,7 +36,7 @@ export const CountdownTimer: React.FC<CountdownTimerProps> = ({
     const difference = targetDate - Date.now();
 
     // Nếu đã hết giờ
-    if (difference <= 0) {
+    if (difference <= 0 || difference > 30000) {
       return null;
     }
 
@@ -77,20 +78,15 @@ export const CountdownTimer: React.FC<CountdownTimerProps> = ({
 
   // Trường hợp đã hết giờ
   if (!timeLeft) {
-    return (
-      <div style={{ color: "red", fontWeight: "bold" }}>⏰ 00:00</div>
-    );
+    return null;
   }
 
   const { days, hours, minutes, seconds } = timeLeft;
-
+  
   // Trường hợp đang đếm ngược
   return (
-    <div style={{ fontSize: "1.5rem", fontFamily: "var(--font-coiny)" }} className="coiny-text">
-      {/* Chỉ hiển thị ngày nếu > 0 */}
-      {days > 0 && <span>{days} ngày : </span>}
-      {hours > 0 && <span>{padZero(hours)}:</span>}
-      <span>{padZero(minutes)}</span>:<span>{padZero(seconds)}</span>
+    <div className="coiny-text countdown-timer">
+      <span>{padZero(seconds)}</span>
     </div>
   );
 };

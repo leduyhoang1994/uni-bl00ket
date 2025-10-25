@@ -107,11 +107,10 @@ export default function PlayerInGame() {
 
   return (
     <div className="game-container-react">
-      {hostInfo?.endTime && (
-        <div className="game-tag">
-          <CountdownTimer targetTimestamp={hostInfo.endTime} />
-        </div>
-      )}
+      {
+        hostInfo?.endTime && (<CountdownTimer targetTimestamp={hostInfo?.endTime || 0} />)
+      }
+
       <Suspense fallback={<div>Loading . . .</div>}>
         <RenderIf condition={loaded && gameMode === GameMode.Cafe}>
           <Cafe />

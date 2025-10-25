@@ -10,7 +10,6 @@ import tokenRequire from "../../../components/token-require.hoc";
 import { GenUrl, UrlGenerator } from "@/game/common/utils/utils";
 import PopupCopyLink from "../../../components/popup/popup-copy-link";
 import { HostState } from "@common/constants/host.constant";
-import CountdownTimer from "@/game/common/components/countdown/CountdownTimer";
 
 function HostLobby() {
   const { setLobbyPlayers, lobbyPlayers, hostInfo, setHostInfo } = HostStore();
@@ -92,9 +91,6 @@ function HostLobby() {
         <div className="body-background-wrapper">
           <div className="body-background"></div>
         </div>
-        {hostInfo?.startTime && (
-          <CountdownTimer targetTimestamp={hostInfo.startTime} />
-        )}
         <div className="host-creator__body-content">
           <div className="host-creator__body-content-player">
             <div>

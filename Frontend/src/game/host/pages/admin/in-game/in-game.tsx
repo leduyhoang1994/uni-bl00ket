@@ -12,7 +12,6 @@ import { useCallback, useLayoutEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router";
 import { HostState } from "@common/constants/host.constant";
 import { UrlGenerator } from "@/game/common/utils/utils";
-import CountdownTimer from "@/game/common/components/countdown/CountdownTimer";
 
 export default function InGame() {
   const { hostId } = useParams();
@@ -95,9 +94,7 @@ export default function InGame() {
       <div className="waiting-action-creator__header">
         <div className="waiting-action-creator__header-first">PreClass</div>
         <div className="waiting-action-creator__header-second">
-          {hostInfo?.endTime && (
-            <CountdownTimer targetTimestamp={hostInfo.endTime} />
-          )}
+          
         </div>
         <div className="waiting-action-creator__header-third">
           <div>ID: {hostId}</div>
