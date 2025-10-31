@@ -72,7 +72,7 @@ export const getHostInfo = async (hostId, token) => {
     }
   );
   
-  return response?.data.data.hostInfo;
+  return response?.data?.data?.hostInfo;
 };
 
 export function generateRandomText(sizeInBytes) {
