@@ -6,6 +6,7 @@ class BotInfo {
     events: [],
     errors: [],
     connectedBots: 0,
+    errorBots: 0,
   };
 
   top5ExecutionTimes = [];

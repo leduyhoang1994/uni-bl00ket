@@ -89,6 +89,7 @@ const drawBotFrame = () => {
     `Host Number: ${botData.hostNumber}`,
     `Bots per Host: ${botData.botsPerHost}`,
     `Connected Bots: ${botData.connectedBots}`,
+    `Error Bots: ${botData.errorBots}`,
   ];
 
   bots.put({ x: 2, y: 1, newLine: true, wrap: true }, botLines.join("\n"));

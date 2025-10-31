@@ -46,7 +46,10 @@ async function createBot(hostId, id) {
   const token = await authUser(botName, hostId);
 
   if (!token) {
-    botInfo.addError(`Bot ${botName} failed to authenticate for host ${hostId}`);
+    botInfo.addError(
+      `Bot ${botName} failed to authenticate for host ${hostId}`
+    );
+    botInfo.data.errorBots += 1;
     return;
   }
 
@@ -67,7 +70,10 @@ async function createBot(hostId, id) {
     botInfo.data.connectedBots += 1;
     const hostInfo = await getHostInfo(hostId, token);
     if (!hostInfo) {
-      botInfo.addError(`Bot ${botName} failed to get host info for host ${hostId}`);
+      botInfo.addError(
+        `Bot ${botName} failed to get host info for host ${hostId}`
+      );
+      botInfo.data.errorBots += 1;
       return;
     }
 
