@@ -58,7 +58,7 @@ export const authUser = async (name, hostId) => {
     avatar: "https://game.uniclass.vn/images/cafe-game/customers/chick.svg",
   });
 
-  return response.data.data.token;
+  return response?.data.data.token;
 };
 
 export const getHostInfo = async (hostId, token) => {
@@ -71,7 +71,8 @@ export const getHostInfo = async (hostId, token) => {
       },
     }
   );
-  return response.data.data.hostInfo;
+  
+  return response?.data.data.hostInfo;
 };
 
 export function generateRandomText(sizeInBytes) {
