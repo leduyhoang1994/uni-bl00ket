@@ -5,6 +5,14 @@ import logger from "../utils/logger";
 import { HOST_COMMANDS, HostEvent } from "@Common/constants/event.constant";
 import { GameEventType, HostState } from "@Common/constants/host.constant";
 import { GameEvent } from "@Common/types/host.type";
+import leaderboardThrottler from "../utils/throttle";
+
+const requireInGame = [
+  HostEvent.SaveGame,
+  HostEvent.ScoreUpdated,
+  HostEvent.GameEvent,
+  HostEvent.SaveActivity,
+];
 
 export default class HostSocketHandler {
   private hostId: string;
@@ -170,7 +178,9 @@ export default class HostSocketHandler {
       };
     });
 
-    await this.hostSocket?.emitLeaderBoardUpdated(leaderBoard);
+    leaderboardThrottler.schedule(this.hostId, async () => {      
+      await this.hostSocket?.emitLeaderBoardUpdated(leaderBoard);
+    });
   }
 
   public async endGame() {
@@ -257,6 +267,14 @@ export default class HostSocketHandler {
       return;
     }
 
+    if (requireInGame.includes(eventName)) {
+      const isInGame = await this.hostRepo.isInGame(this.hostId);
+
+      if (!isInGame) {
+        return;
+      }
+    }
+
     switch (eventName) {
       case HostEvent.LobbyStart:
         await this.start();
@@ -272,9 +290,6 @@ export default class HostSocketHandler {
         break;
       case HostEvent.EndGame:
         await this.endGame();
-        break;
-      case HostEvent.SaveActivity:
-        await this.saveActivity(args[0]);
         break;
       case HostEvent.SaveActivity:
         await this.saveActivity(args[0]);

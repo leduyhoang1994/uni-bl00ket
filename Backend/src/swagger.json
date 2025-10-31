@@ -832,6 +832,9 @@
 					},
 					"meta": {
 						"type": "string"
+					},
+					"reuseUser": {
+						"type": "boolean"
 					}
 				},
 				"required": [

@@ -20,6 +20,7 @@ import { JWT_SECRET } from "../servers/api.server";
 import { AuthenticatedRequest } from "../types/http.type";
 import JsonResponse, { ResponseType } from "../utils/response";
 import GameQuestionRepo from "../game/game-quesion.repo";
+import { hashUsername } from "../utils/util";
 
 interface CreateHostBody {
   hostInfo: HostInfo;
@@ -35,6 +36,7 @@ interface GenTokenBody {
   hostId: string;
   avatar?: string;
   meta?: string;
+  reuseUser?: boolean;
 }
 
 interface GetPlayersBody {
@@ -78,7 +80,8 @@ export class InternalApiController extends Controller {
       hostId,
       leaderboardCount
     );
-    const players = await hostRepository.getPlayers();
+    const playerIds = finalStandings.map((item) => item.playerId);
+    const players = await hostRepository.getPlayersByIds(playerIds);
 
     finalStandings = finalStandings.map((item) => {
       const player = players.find((p) => p.id === item.playerId);
@@ -124,14 +127,14 @@ export class InternalApiController extends Controller {
   ): Promise<ResponseType<{ token: string }>> {
     const { username, hostId, avatar, meta } = body;
     const controller = new HostRepository(hostId);
+    const userId = hashUsername(username);
 
-    if (await controller.checkPlayerNameExisted(hostId, username)) {
+    if (!body.reuseUser && await controller.checkPlayerNameExisted(hostId, userId)) {
       this.setStatus(400);
       // Khi throw một Error, tsoa middleware sẽ bắt và trả về response lỗi
       throw new Error("Username already existed");
     }
-
-    const userId = randomUUID();
+    
     const token = jwt.sign(
       { id: userId, username, avatar, meta } as Player,
       JWT_SECRET

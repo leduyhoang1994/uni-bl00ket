@@ -60,6 +60,10 @@ export default class HostRepository {
   }
 
   public async getPlayersByIds(ids: Array<string>) {
+    if (ids.length === 0) {
+      return [];
+    }
+
     const client = RedisClient.getClient();
     const players = await client.hmget(
       RedisHostKey.getPlayersKey(this.hostId),
@@ -141,6 +145,20 @@ export default class HostRepository {
     };
   }
 
+  public async getHostState(hostId: string) {
+    const client = RedisClient.getClient();
+    const state = await client.hget(
+      RedisHostKey.getHostKey(hostId),
+      "state"
+    );
+
+    return state as HostState;
+  }
+
+  public async isInGame(hostId: string) {
+    return await this.getHostState(hostId) === HostState.InGame;
+  }
+
   public async getGameData(hostId: string, userId: string) {
     const client = RedisClient.getClient();
     const gameData = await client.hget(
@@ -218,7 +236,10 @@ export default class HostRepository {
         return { ...item, meta: player?.meta };
       });
 
-      GameEventPublisherPublisher.getInstance().publishLeaderboard(hostId, leaderBoard);
+      GameEventPublisherPublisher.getInstance().publishLeaderboard(
+        hostId,
+        leaderBoard
+      );
     } catch (error) {
       logger.debug("Publish leaderboard error:", error);
     }
@@ -312,10 +333,9 @@ export default class HostRepository {
     );
   }
 
-  public async checkPlayerNameExisted(hostId: string, username: string) {
-    const players = await this.getPlayers();
-    if (!players) return false;
-    return players.some((player) => player.username === username);
+  public async checkPlayerNameExisted(hostId: string, userId: string) {
+    const players = await this.getPlayersByIds([userId]);
+    return players.some((player) => player.id === userId);
   }
 
   public async setStartTime(time: number) {

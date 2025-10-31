@@ -205,6 +205,7 @@ const models: TsoaRoute.Models = {
             "hostId": {"dataType":"string","required":true},
             "avatar": {"dataType":"string"},
             "meta": {"dataType":"string"},
+            "reuseUser": {"dataType":"boolean"},
         },
         "additionalProperties": false,
     },

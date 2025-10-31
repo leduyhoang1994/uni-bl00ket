@@ -1,3 +1,5 @@
+import crypto from "crypto";
+
 export function getFrontendDomain() {
   return process.env.FRONTEND_DOMAIN || "https://game.uniclass.vn";
 }
@@ -27,4 +29,7 @@ export function isProductionEnvironment(): boolean {
 }
 export function isLocalEnvironment(): boolean {
   return getEnvironment() === Environment.Local;
+}
+export function hashUsername(username: string): string {
+  return crypto.createHash("sha256").update(username).digest("hex");
 }
