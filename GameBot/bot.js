@@ -59,13 +59,18 @@ async function createBot(hostId, id) {
   });
 
   socketClient.on("connect", async () => {
+    if (!token) {
+      botInfo.addError(`Bot ${botName} has no token for host ${hostId}`);
+      return;
+    }
+
     botInfo.data.connectedBots += 1;
     const hostInfo = await getHostInfo(hostId, token);
     if (!hostInfo) {
       botInfo.addError(`Bot ${botName} failed to get host info for host ${hostId}`);
       return;
     }
-    
+
     const isInGame = hostInfo.state === "in-game";
 
     botInfo.addEvent(`Bot ${botName} connected to host ${hostId}`);
