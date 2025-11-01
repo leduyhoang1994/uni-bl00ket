@@ -24,8 +24,8 @@ const padZero = (num: number): string => num.toString().padStart(2, "0");
  * Component đếm ngược thời gian
  */
 export const CountdownTimer: React.FC<CountdownTimerProps> = ({
-  targetTimestamp,
-}) => {
+                                                                targetTimestamp,
+                                                              }) => {
   /**
    * Hàm tính toán thời gian còn lại.
    * Sử dụng useCallback để tối ưu, chỉ tạo lại hàm khi targetTimestamp thay đổi.
@@ -34,7 +34,6 @@ export const CountdownTimer: React.FC<CountdownTimerProps> = ({
     // Chuyển timestamp (giây) sang mili-giây
     const targetDate = targetTimestamp * 1000;
     const difference = targetDate - Date.now();
-
     // Nếu đã hết giờ
     if (difference <= 0 || difference > 30000) {
       return null;
@@ -51,28 +50,24 @@ export const CountdownTimer: React.FC<CountdownTimerProps> = ({
 
   // State lưu trữ thời gian còn lại
   const [timeLeft, setTimeLeft] = useState<TimeLeft | null>(
-    calculateTimeLeft()
+      calculateTimeLeft()
   );
 
-  // Effect để cập nhật đồng hồ mỗi giây
   useEffect(() => {
-    // Cập nhật thời gian ngay lập tức khi component mount
+    // cập nhật ngay khi mount
     setTimeLeft(calculateTimeLeft());
 
-    // Đặt một interval để cập nhật mỗi giây
     const timer = setInterval(() => {
       const newTimeLeft = calculateTimeLeft();
       setTimeLeft(newTimeLeft);
 
-      // Nếu hết giờ, xóa interval
-      if (!newTimeLeft) {
-        clearInterval(timer);
-      }
-    }, 1000); // 1 giây
+      // chỉ dừng khi thực sự hết giờ (difference <= 0)
+      const targetDate = targetTimestamp * 1000;
+      if (Date.now() >= targetDate) clearInterval(timer);
+    }, 1000);
 
-    // Cleanup: Xóa interval khi component unmount
     return () => clearInterval(timer);
-  }, [calculateTimeLeft]); // Phụ thuộc vào hàm calculateTimeLeft
+  }, [calculateTimeLeft, targetTimestamp]);
 
   // --- Render ---
 
@@ -82,12 +77,12 @@ export const CountdownTimer: React.FC<CountdownTimerProps> = ({
   }
 
   const { days, hours, minutes, seconds } = timeLeft;
-  
+
   // Trường hợp đang đếm ngược
   return (
-    <div className="coiny-text countdown-timer">
-      <span>{padZero(seconds)}</span>
-    </div>
+      <div className="coiny-text countdown-timer">
+        <span>{padZero(seconds)}</span>
+      </div>
   );
 };
 
