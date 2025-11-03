@@ -153,6 +153,7 @@ export class ExternalController extends Controller {
     for (let i = 0; i < hostIds.length; i++) {
       const hostId = hostIds[i];
       let targetTime = now;
+      logger.info(`[stopHosts] hostId: ${hostId}, body.schedules: ${body.schedules}`);
 
       if (Array.isArray(body.schedules)) {
         targetTime = body.schedules[i] || now;
@@ -161,6 +162,7 @@ export class ExternalController extends Controller {
       if (typeof body.schedules === "number") {
         targetTime = body.schedules;
       }
+      logger.info(`[stopHosts] hostId: ${hostId}, targetTime: ${targetTime}`);
 
       await HostRepository.setEndTime(hostId, targetTime);
 
